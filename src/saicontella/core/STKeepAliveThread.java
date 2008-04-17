@@ -18,20 +18,22 @@ import org.apache.commons.logging.LogFactory;
 
 public class STKeepAliveThread extends Thread {
 
-    private LoginResponseWrapper proxyResult;
+    private LoginResponseWrapper proxyResponse;
     private static Log logger = LogFactory.getLog("saicontella/core/STKeepAliveThread");
 
-    public STKeepAliveThread(LoginResponseWrapper proxyResult) {
+    public STKeepAliveThread(LoginResponseWrapper proxyResponse) {
         super(STLibrary.STConstants.KEEP_ALIVE_THR_NAME);
-        this.proxyResult = proxyResult;
+        this.proxyResponse = proxyResponse;
     }
 
     public void run() {
         // infinite loop connection towards web service
         while (true) {
             try {
-                proxyResult.setStatus(ResponseSTATUS.VALID);
-                logger.debug("User sessionId: " + proxyResult.getSessionId() + " status: " + proxyResult.getStatus().toString());
+                proxyResponse.setStatus(ResponseSTATUS.VALID);
+                logger.debug("User sessionId: " + proxyResponse.getSessionId() + " status: " + proxyResponse.getStatus().toString());
+                STLibrary.getInstance().reachAllOnlinePeers(proxyResponse, STLibrary.STConstants.p2pAppId);
+                STLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
                 sleep((int)(STLibrary.STConstants.KEEP_ALIVE_THR_SECS * 1000));
             } catch (Exception e) {
                 e.printStackTrace();

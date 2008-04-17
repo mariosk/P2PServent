@@ -14,6 +14,7 @@ import phex.gui.tabs.FWTab;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.utils.DirectoryOnlyFileFilter;
 import phex.utils.Localizer;
+import phex.host.Host;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -144,6 +145,19 @@ public class STMainForm extends JFrame {
 
     private STMainForm stMainForm;
 
+    public void disconnectFromHosts() {
+        ArrayList<Host> hosts = this.networkTab.getAllHosts();
+        if (hosts == null)
+            return;
+        for (int i = 0; i < hosts.size(); i++) {
+            this.networkTab.disconnectFromHost((Host)hosts.get(i));
+        }        
+    }
+
+    public ArrayList<Host> getPeersListData() {
+        return this.networkTab.getAllHosts();    
+    }
+
     public void drawMenus() {
         ClickMenuActionHandler menuHandler = new ClickMenuActionHandler(this);
 
@@ -216,6 +230,7 @@ public class STMainForm extends JFrame {
 
         stMainForm = this;
         this.sLibrary = sLibrary;
+        this.sLibrary.setSTMainForm(this);
 
         $$$setupUI$$$();
 
@@ -507,7 +522,7 @@ public class STMainForm extends JFrame {
                 listFriends.addListSelectionListener(clickListHandler);
                 if (stMainForm.networkTab == null)
                     return;
-                stMainForm.peersListData = stMainForm.networkTab.getAllHosts();
+                //stMainForm.peersListData = stMainForm.networkTab.getAllHosts();
                 stMainForm.friendsListData = new Vector();
                 ArrayList friends = sLibrary.getSTConfiguration().getMyFriends();
                 for (int i = 0; i < friends.size(); i++) {

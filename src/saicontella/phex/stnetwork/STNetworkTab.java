@@ -109,7 +109,6 @@ public class STNetworkTab extends FWTab
     private JLabel catcherStatLabel;
     //private JLabel gWebCacheStatLabel;
 
-
     public STNetworkTab( )
     {
         super( MainFrame.NETWORK_TAB_ID, Localizer.getString( "GnutellaNet"),
@@ -121,6 +120,11 @@ public class STNetworkTab extends FWTab
         hostsContainer = hostMgr.getNetworkHostsContainer();
 
         Servent.getInstance().getEventService().processAnnotations( this );
+    }
+
+    public void disconnectFromHost(Host host)
+    {
+        hostMgr.removeNetworkHost(host);    
     }
 
     public void initComponent( DGuiSettings guiSettings )
@@ -316,8 +320,8 @@ public class STNetworkTab extends FWTab
         dSettings.getTableList().getTableList().add( dTable );
     }
 
-    public Vector getAllHosts() {
-        Vector allHosts = new Vector();
+    public ArrayList<Host> getAllHosts() {
+        ArrayList<Host> allHosts = new ArrayList();
         int rows = networkTable.getRowCount();
         int[] viewRows = new int[rows];
         for (int i = 0; i < rows; i++) {
@@ -330,7 +334,7 @@ public class STNetworkTab extends FWTab
         int[] modelRows = networkTable.convertRowIndicesToModel( viewRows );
         Host[] hosts = hostsContainer.getNetworkHostsAt( modelRows );
         for (int i = 0; i < hosts.length; i++) {
-            allHosts.add(hosts[i].getHostAddress().getIpAddress());
+            allHosts.add(hosts[i]);
         }
         return allHosts;
     }

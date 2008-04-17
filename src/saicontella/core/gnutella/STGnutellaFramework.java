@@ -31,9 +31,12 @@ import phex.utils.Localizer;
 import phex.utils.SystemProperties;
 import phex.query.Search;
 import phex.query.SearchContainer;
+import phex.host.Host;
+import phex.host.HostStatus;
 
 import java.io.File;
 import java.util.Vector;
+import java.util.ArrayList;
 
 import saicontella.core.*;
 import saicontella.core.webservices.ActiveSessionMiniWrapper;
@@ -67,22 +70,28 @@ public class STGnutellaFramework {
             
             // According to GregorK this will work only until the FirewallCheckTimer kicks in. The workaround is:
             // http://www.gnutellaforums.com/help-support/79786-lan-dowload-waiting-ignored-candidate.html#post303417
-            ConnectionPrefs.HasConnectedIncomming.set(true);
+            ConnectionPrefs.HasConnectedIncomming.set(false);
             ConnectionPrefs.AutoConnectOnStartup.set(false);
+
             NetworkPrefs.CurrentNetwork.set(SAICON_NETWORK);
             MessagePrefs.UseExtendedOriginIpAddress.set(true);
 
-            ConnectionPrefs.ForceToBeUltrapeer.set(true);            
+            ConnectionPrefs.ForceToBeUltrapeer.set(true);
+            ConnectionPrefs.AllowToBecomeUP.set(true);
+            ConnectionPrefs.AcceptDeflateConnection.set(true);
+            
             NetworkPrefs.ListeningPort.set(sLibrary.getSTConfiguration().getListenPort());
             NetworkPrefs.MaxConcurrentConnectAttempts.set(sLibrary.getSTConfiguration().getMaxConnections());
             NetworkPrefs.AllowChatConnection.set(true);
-            NetworkPrefs.TcpConnectTimeout.set(sLibrary.getSTConfiguration().getConnTimeout());
-            //ConnectionPrefs.AcceptDeflateConnection.set(true);
+            NetworkPrefs.TcpConnectTimeout.set(sLibrary.getSTConfiguration().getConnTimeout() * 1000);
+            //NetworkPrefs.ConnectedToLAN.set(false);
+
             DownloadPrefs.DestinationDirectory.set(sLibrary.getSTConfiguration().getCompleteFolder());
             DownloadPrefs.IncompleteDirectory.set(sLibrary.getSTConfiguration().getInCompleteFolder());
             DownloadPrefs.MaxDownloadsPerIP.set(sLibrary.getSTConfiguration().getMaxDownload());
-            UploadPrefs.MaxUploadsPerIP.set(sLibrary.getSTConfiguration().getMaxUpload());
 
+            UploadPrefs.MaxUploadsPerIP.set(sLibrary.getSTConfiguration().getMaxUpload());
+            
             ProxyPrefs.ForcedIp.set("");
             ProxyPrefs.save(true);
             
@@ -90,7 +99,7 @@ public class STGnutellaFramework {
             Localizer.initialize( InterfacePrefs.LocaleName.get() );
             ThreadTracking.initialize();            
             this.servent = Servent.getInstance();
-            
+
             // initializations that need the servent instance here...
             if (!sLibrary.getSTConfiguration().getListenAddress().equals("*")) {
                 IpAddress localAddress = AddressUtils.parseAndValidateAddress(sLibrary.getSTConfiguration().getListenAddress(), true).getIpAddress();
@@ -98,6 +107,7 @@ public class STGnutellaFramework {
                 serventAddr.setForcedHostIP(localAddress);
                 ProxyPrefs.ForcedIp.set(sLibrary.getSTConfiguration().getListenAddress());
             }
+
             this.servent.setOnlineStatus(OnlineStatus.ONLINE);                       
             ManagerController.initializeManagers();
             this.servent.start();
@@ -126,6 +136,29 @@ public class STGnutellaFramework {
         }       
     }
 
+    private boolean isIpAddressConnected(String remoteIpAddress)
+    {
+        try {
+            Thread.sleep(2000);
+        }
+        catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        ArrayList<Host> peersHostArray = STLibrary.getInstance().getPeersFromHostsTable();
+        if (peersHostArray == null)
+            return false;
+        for (int i = 0; i < peersHostArray.size(); i++) {
+            Host host = (Host)peersHostArray.get(i);
+            if (remoteIpAddress.equals(host.getHostAddress().getIpAddress().toString())) {
+                if (host.getStatus() == HostStatus.CONNECTED
+                 || host.getStatus() == HostStatus.ACCEPTING
+                 || host.getStatus() == HostStatus.CONNECTING)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public void connectToPeers(Vector peersList)
     {
         try {
@@ -136,6 +169,8 @@ public class STGnutellaFramework {
             }
             for (int i = 0; i < peersList.size(); i++) {
                 String remoteIPAddress = ((ActiveSessionMiniWrapper)peersList.get(i)).getIp();
+                if (isIpAddressConnected(remoteIPAddress))
+                    continue;
                 int remotePort = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort().intValue();
                 this.connectToPeer(remoteIPAddress, remotePort);                
             }
@@ -165,7 +200,8 @@ public class STGnutellaFramework {
         try {
             logger.info("Disconnecting from peers...");
             PhexCorePrefs.save(true);
-            this.getServent().stop();
+            //this.getServent().stop();
+            STLibrary.getInstance().disconnectFromPeers();
         } 
         catch (Exception ex) {
             ex.printStackTrace();            

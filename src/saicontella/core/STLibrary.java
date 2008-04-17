@@ -10,19 +10,11 @@ package saicontella.core;
 
 import saicontella.core.gnutella.*;
 import saicontella.core.webservices.*;
-import saicontella.phex.stlibrary.STLibraryTab;
 
-import java.nio.*;
-import javax.xml.ws.*;
 import javax.swing.*;
-import java.rmi.*;
 import java.util.*;
 import java.awt.*;
-import java.io.File;
 
-import phex.share.ShareFile;
-import phex.share.SharedFilesService;
-import phex.share.FileRescanRunner;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -84,6 +76,8 @@ public class STLibrary extends Component {
     private LoginResponseWrapper webserviceResult;
     private STKeepAliveThread keepAliveThread;
     private ActiveSessionMiniWrapper[] arrayOfPeers;
+    private UserAuthenticationImplPortBindingStub webServiceProxy;
+    private STMainForm stMainForm;
 
     public static STLibrary getInstance() {
         if (sLibrary == null) {
@@ -91,6 +85,18 @@ public class STLibrary extends Component {
             gnuTellaFramework = new STGnutellaFramework(sLibrary);
         }
         return sLibrary;
+    }
+
+    public void setSTMainForm(STMainForm stMainForm) {
+        this.stMainForm = stMainForm;            
+    }
+
+    public void disconnectFromPeers() {
+        this.stMainForm.disconnectFromHosts();
+    }
+    
+    public ArrayList getPeersFromHostsTable() {
+        return this.stMainForm.getPeersListData();
     }
 
     public ImageIcon resizeMyImageIcon(ImageIcon imageIcon, int width, int height) {
@@ -137,11 +143,19 @@ public class STLibrary extends Component {
         logger.info(STConstants.P2PSERVENT_BAR);
         logger.info("Copyright Saicon @2008");
         logger.info(STConstants.P2PSERVENT_BAR);
+        try {
+            webServiceProxy = new UserAuthenticationImplPortBindingStub();
+            webServiceProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
+        }
+        catch (Exception ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+        }
     }
 
     public boolean STLoginUser() {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
-        this.webserviceResult = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getWebServiceEndpoint(), STConstants.p2pAppId, confObject.getListenPort());
+        this.webserviceResult = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), STConstants.p2pAppId, confObject.getListenPort());
         if (this.webserviceResult != null) {
             if (this.keepAliveThread == null) {
                 this.keepAliveThread = new STKeepAliveThread(this.webserviceResult);
@@ -158,6 +172,7 @@ public class STLibrary extends Component {
             this.keepAliveThread = null;
         }
         this.STLogoutUser(this.getSTConfiguration().getWebServiceEndpoint());
+        this.getGnutellaFramework().disconnectFromPeers();
     }
 
     /* DEPRECATED
@@ -207,11 +222,35 @@ public class STLibrary extends Component {
         return list; 
     }
 
+    public void reachAllOnlinePeers(LoginResponseWrapper response, String applicationId) {
+        try {
+            ActiveSessionsResponseWrapper activeSessions = this.webServiceProxy.activeSessionsSerialized(response.getSessionId(), applicationId);
+            if (activeSessions.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
+                logger.debug("activeSessions ERROR String: " + response.getErrorMessage());
+                this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                ActiveSessionMiniWrapper[] array = activeSessions.getActiveSessions();
+                if (array != null) {
+                    this.arrayOfPeers = array;
+                    for (int i=0; i<array.length; i++) {
+                        logger.debug(array[i].getUsername() + "," + array[i].getStatus() + "," + array[i].getIp() + "," + array[i].getPort() + "," + array[i].hashCode());
+                    }
+                }
+                else {
+                    this.arrayOfPeers = null;
+                }
+            }
+        }
+        catch (Exception ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+
     // Calling the UserAuthentication web service: http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl
-    public LoginResponseWrapper STLoginUser(String userName, String passWord, String endPoint, String applicationId, int port) {
+    public LoginResponseWrapper STLoginUser(String userName, String passWord, String applicationId, int port) {
     	try {
-            UserAuthenticationImplPortBindingStub proxy = new UserAuthenticationImplPortBindingStub();
-            proxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, endPoint);
         	// Password will be clear text.    		    		
         	/*
 			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
@@ -220,45 +259,29 @@ public class STLibrary extends Component {
 			byte[] hash = digest.digest();			
         	*/
 
-            LoginResponseWrapper result = proxy.login(userName, passWord, applicationId, port);
+            LoginResponseWrapper response = this.webServiceProxy.login(userName, passWord, applicationId, port);
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
-			logger.debug("getStatus: " + result.getStatus().getValue());
-			if (result.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
-                this.fireMessageBox(result.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                logger.error("ERROR String: " + result.getErrorMessage());
+			logger.debug("getStatus: " + response.getStatus().getValue());
+			if (response.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
+                this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                logger.error("ERROR String: " + response.getErrorMessage());
                 return null;
             }
 			else {
                 this.fireMessageBox("Connected!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                logger.debug("getClientDownloadLocation: " + result.getClientDownloadLocation());
-				logger.debug("getCountryId: " + result.getCountryId());
-				logger.debug("getCountryName: " + result.getCountryName());
-				logger.debug("getFirstName: " + result.getFirstName());
-				logger.debug("getLastName: " + result.getLastName());
-				logger.debug("getLatestClientVersion: " + result.getLatestClientVersion());
-				logger.debug("getSessionId: " + result.getSessionId());
-				logger.debug("getUserId: " + result.getUserId());
-				logger.debug("getAvailableCredits: " + result.getAvailableCredits());
-                ActiveSessionsResponseWrapper activeSessions = proxy.activeSessionsSerialized(result.getSessionId(), applicationId);                
-				if (activeSessions.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
-					logger.debug("activeSessions ERROR String: " + result.getErrorMessage());
-                    this.fireMessageBox(result.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-				else {
-                    ActiveSessionMiniWrapper[] array = activeSessions.getActiveSessions();
-                    if (array != null) {
-                        this.arrayOfPeers = array;
-                        for (int i=0; i<array.length; i++) {
-                            logger.debug(array[i].getUsername() + "," + array[i].getStatus() + "," + array[i].getIp() + "," + array[i].getPort() + "," + array[i].hashCode());
-                        }
-                    }
-                    else {
-                        this.arrayOfPeers = null;                        
-                    }
-                }
-			}
-            return result;
+                logger.debug("getClientDownloadLocation: " + response.getClientDownloadLocation());
+				logger.debug("getCountryId: " + response.getCountryId());
+				logger.debug("getCountryName: " + response.getCountryName());
+				logger.debug("getFirstName: " + response.getFirstName());
+				logger.debug("getLastName: " + response.getLastName());
+				logger.debug("getLatestClientVersion: " + response.getLatestClientVersion());
+				logger.debug("getSessionId: " + response.getSessionId());
+				logger.debug("getUserId: " + response.getUserId());
+				logger.debug("getAvailableCredits: " + response.getAvailableCredits());
+                this.reachAllOnlinePeers(response, applicationId);
+            }
+            return response;
           }
           catch(Exception ex) {
             logger.error("Exception: " + ex.getMessage());
