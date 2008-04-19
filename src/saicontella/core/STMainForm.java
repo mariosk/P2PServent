@@ -145,6 +145,21 @@ public class STMainForm extends JFrame {
 
     private STMainForm stMainForm;
 
+    public void disableTabs() {
+        this.mainTabbedPanel.setEnabledAt(STMainForm.NETWORK_TAB_INDEX, false);
+        this.mainTabbedPanel.setEnabledAt(STMainForm.SEARCH_TAB_INDEX, false);
+        this.mainTabbedPanel.setEnabledAt(STMainForm.DOWNLOAD_TAB_INDEX, false);
+        this.mainTabbedPanel.setEnabledAt(STMainForm.UPLOAD_TAB_INDEX, false);
+        this.mainTabbedPanel.setEnabledAt(STMainForm.LIBRARY_TAB_INDEX, false);
+        this.mainTabbedPanel.setEnabledAt(STMainForm.FRIENDS_TAB_INDEX, false);
+        this.mainTabbedPanel.setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
+    }
+
+    public void disableMenus() {
+        this.friendsMenu.setEnabled(false);
+        this.toolsMenuSharedFolders.setEnabled(false);
+    }
+
     public void disconnectFromHosts() {
         ArrayList<Host> hosts = this.networkTab.getAllHosts();
         if (hosts == null)
@@ -605,8 +620,19 @@ public class STMainForm extends JFrame {
         this.autoConnectCheckBox.setSelected(sLibrary.getSTConfiguration().getAutoConnect());
         this.completeDownloadFolderTextBox.setText(sLibrary.getSTConfiguration().getCompleteFolder());
         this.incompleteDownloadFolderTextBox.setText(sLibrary.getSTConfiguration().getInCompleteFolder());
-        this.downloadRatioTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getMaxDownload()));
-        this.uploadRatioTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getMaxUpload()));
+        
+        if (sLibrary.getSTConfiguration().getMaxDownload() == 1000)
+            this.downloadRatioTextBox.setText("Unlimited");
+        else
+            this.downloadRatioTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getMaxDownload()));
+        this.downloadRatioTextBox.setEnabled(false);
+
+        if (sLibrary.getSTConfiguration().getMaxUpload() == 1000)
+            this.uploadRatioTextBox.setText("Unlimited");
+        else
+            this.uploadRatioTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getMaxUpload()));
+        this.uploadRatioTextBox.setEnabled(false);
+
         this.completeDownloadFolderBrowseButton.setName("completeDownloadFolderBrowseButton");
         this.incompleteDownloadFolderBrowseButton.setName("incompleteDownloadFolderBrowseButton");
         this.adsServerTextBox.setText(sLibrary.getSTConfiguration().getAdsServer());
@@ -747,8 +773,13 @@ public class STMainForm extends JFrame {
                     STLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
                     this.mainForm.fileMenuDisconnect.setEnabled(true);
                     this.mainForm.fileMenuConnect.setEnabled(false);
-                    // TO-DO: if this user has administrative rights then show the administrator's dialog
-                    this.mainForm.fileMenuAdmin.setVisible(true);
+                    if (STLibrary.getInstance().isCurrentUserAdministrator())
+                        this.mainForm.fileMenuAdmin.setVisible(true);
+                    if (STLibrary.getInstance().isCurrentUserBanned()) {
+                        sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        this.mainForm.disableMenus();
+                        this.mainForm.disableTabs();
+                    }
                 }
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_DISCONNECT)) {
                 STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
@@ -759,7 +790,7 @@ public class STMainForm extends JFrame {
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_ADMINISTRATOR)) {
                 STAdminDialog adminDlg = new STAdminDialog();
                 adminDlg.setTitle("Administration");
-                GUIUtils.centerAndSizeWindow(adminDlg, 7, this.mainForm.getHeight());
+                GUIUtils.centerAndSizeWindow(adminDlg, 3, 7);
                 adminDlg.pack();
                 adminDlg.setVisible(true);                                                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_EXIT)) {
@@ -823,8 +854,8 @@ public class STMainForm extends JFrame {
                 sLibrary.getSTConfiguration().setAutoConnect(String.valueOf(this.mainForm.autoConnectCheckBox.isSelected()));
                 sLibrary.getSTConfiguration().setCompleteFolder(this.mainForm.completeDownloadFolderTextBox.getText());
                 sLibrary.getSTConfiguration().setInCompleteFolder(this.mainForm.incompleteDownloadFolderTextBox.getText());
-                sLibrary.getSTConfiguration().setMaxDownload(Integer.parseInt(this.mainForm.downloadRatioTextBox.getText()));
-                sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));
+                //sLibrary.getSTConfiguration().setMaxDownload(Integer.parseInt(this.mainForm.downloadRatioTextBox.getText()));
+                //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));
                 sLibrary.getSTConfiguration().setAdsServer(this.mainForm.adsServerTextBox.getText());
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);

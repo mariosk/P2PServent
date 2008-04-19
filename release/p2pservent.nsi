@@ -4,7 +4,7 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "0.83"
+  !define VERSION "v0.9"
   !define RELEASE_DIR "C:\DISK_F\SAICON\P2PServent\release"
   !define SRC_DIR "C:\DISK_F\SAICON\P2PServent"
 
@@ -105,7 +105,7 @@ CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall P2PServent ${VERSION}.lnk" 
 ;Store installation folder
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\P2PServent_${VERSION}" "" "$INSTDIR"
 ;Store uninstall infos folder
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}" "DisplayName" "P2PServent ${VERSION}@ (remove only)"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}" "DisplayName" "P2PServent ${VERSION} (remove only)"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}" "UninstallString" '"$INSTDIR\uninst.exe"'
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"

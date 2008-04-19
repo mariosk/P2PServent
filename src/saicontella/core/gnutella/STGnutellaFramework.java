@@ -39,12 +39,12 @@ import java.util.Vector;
 import java.util.ArrayList;
 
 import saicontella.core.*;
-import saicontella.core.webservices.ActiveSessionMiniWrapper;
+import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
 
 import javax.swing.*;
 
 public class STGnutellaFramework {
-    private static Log logger = LogFactory.getLog("saicontella/core/gnutella/STGnutellaFramework");
+    private static Log logger = LogFactory.getLog("saicontella.core.gnutella.STGnutellaFramework");
     private static String SAICON_NETWORK = "SaiconNetwork";   
     private Servent servent;
     
@@ -134,6 +134,16 @@ public class STGnutellaFramework {
             ex.printStackTrace();
         	System.exit(-1);
         }       
+    }
+
+    public void setMaxUpload()
+    {
+        UploadPrefs.MaxUploadsPerIP.set(STLibrary.getInstance().getSTConfiguration().getMaxUpload());
+    }
+
+    public void setMaxDownload()
+    {
+        DownloadPrefs.MaxDownloadsPerIP.set(STLibrary.getInstance().getSTConfiguration().getMaxDownload());
     }
 
     private boolean isIpAddressConnected(String remoteIpAddress)

@@ -1,71 +1,71 @@
 /**
- * BaseResponse.java
+ * UserSettingsWrapper.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package saicontella.core.webservices;
+package saicontella.core.webservices.authentication;
 
-public abstract class BaseResponse  implements java.io.Serializable {
-    private java.lang.String errorMessage;
+public class UserSettingsWrapper  implements java.io.Serializable {
+    private java.lang.String attribute;
 
-    private saicontella.core.webservices.ResponseSTATUS status;
+    private java.lang.String value;
 
-    public BaseResponse() {
+    public UserSettingsWrapper() {
     }
 
-    public BaseResponse(
-           java.lang.String errorMessage,
-           saicontella.core.webservices.ResponseSTATUS status) {
-           this.errorMessage = errorMessage;
-           this.status = status;
-    }
-
-
-    /**
-     * Gets the errorMessage value for this BaseResponse.
-     * 
-     * @return errorMessage
-     */
-    public java.lang.String getErrorMessage() {
-        return errorMessage;
+    public UserSettingsWrapper(
+           java.lang.String attribute,
+           java.lang.String value) {
+           this.attribute = attribute;
+           this.value = value;
     }
 
 
     /**
-     * Sets the errorMessage value for this BaseResponse.
+     * Gets the attribute value for this UserSettingsWrapper.
      * 
-     * @param errorMessage
+     * @return attribute
      */
-    public void setErrorMessage(java.lang.String errorMessage) {
-        this.errorMessage = errorMessage;
+    public java.lang.String getAttribute() {
+        return attribute;
     }
 
 
     /**
-     * Gets the status value for this BaseResponse.
+     * Sets the attribute value for this UserSettingsWrapper.
      * 
-     * @return status
+     * @param attribute
      */
-    public saicontella.core.webservices.ResponseSTATUS getStatus() {
-        return status;
+    public void setAttribute(java.lang.String attribute) {
+        this.attribute = attribute;
     }
 
 
     /**
-     * Sets the status value for this BaseResponse.
+     * Gets the value value for this UserSettingsWrapper.
      * 
-     * @param status
+     * @return value
      */
-    public void setStatus(saicontella.core.webservices.ResponseSTATUS status) {
-        this.status = status;
+    public java.lang.String getValue() {
+        return value;
+    }
+
+
+    /**
+     * Sets the value value for this UserSettingsWrapper.
+     * 
+     * @param value
+     */
+    public void setValue(java.lang.String value) {
+        this.value = value;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof BaseResponse)) return false;
-        BaseResponse other = (BaseResponse) obj;
+        if (!(obj instanceof UserSettingsWrapper)) return false;
+        UserSettingsWrapper other = (UserSettingsWrapper) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -74,12 +74,12 @@ public abstract class BaseResponse  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.errorMessage==null && other.getErrorMessage()==null) || 
-             (this.errorMessage!=null &&
-              this.errorMessage.equals(other.getErrorMessage()))) &&
-            ((this.status==null && other.getStatus()==null) || 
-             (this.status!=null &&
-              this.status.equals(other.getStatus())));
+            ((this.attribute==null && other.getAttribute()==null) || 
+             (this.attribute!=null &&
+              this.attribute.equals(other.getAttribute()))) &&
+            ((this.value==null && other.getValue()==null) || 
+             (this.value!=null &&
+              this.value.equals(other.getValue())));
         __equalsCalc = null;
         return _equals;
     }
@@ -91,11 +91,11 @@ public abstract class BaseResponse  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getErrorMessage() != null) {
-            _hashCode += getErrorMessage().hashCode();
+        if (getAttribute() != null) {
+            _hashCode += getAttribute().hashCode();
         }
-        if (getStatus() != null) {
-            _hashCode += getStatus().hashCode();
+        if (getValue() != null) {
+            _hashCode += getValue().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -103,21 +103,21 @@ public abstract class BaseResponse  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(BaseResponse.class, true);
+        new org.apache.axis.description.TypeDesc(UserSettingsWrapper.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "baseResponse"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userSettingsWrapper"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("errorMessage");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "errorMessage"));
+        elemField.setFieldName("attribute");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "attribute"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("status");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "status"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "responseSTATUS"));
+        elemField.setFieldName("value");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "value"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

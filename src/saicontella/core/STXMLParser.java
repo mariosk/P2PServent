@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class STXMLParser extends DefaultHandler {
 
-    private static Log logger = LogFactory.getLog("saicontella/core/STXMLParser");
+    private static Log logger = LogFactory.getLog("saicontella.core.STXMLParser");
     private STConfiguration tmpConfiguration;
     private ArrayList<STFolder> sharedFolderList;
     private int sharedFolderIndex = 0;
@@ -96,8 +96,8 @@ public class STXMLParser extends DefaultHandler {
         logger.debug("\tAuto Connect: " + this.tmpConfiguration.getAutoConnect());
         logger.debug("\tComplete Folder: " + this.tmpConfiguration.getCompleteFolder());
         logger.debug("\tInComplete Folder: " + this.tmpConfiguration.getInCompleteFolder());
-        logger.debug("\tRatio Max Download: " + this.tmpConfiguration.getMaxDownload());
-        logger.debug("\tRatio Max Upload: " + this.tmpConfiguration.getMaxUpload());
+        //logger.debug("\tRatio Max Download: " + this.tmpConfiguration.getMaxDownload());
+        //logger.debug("\tRatio Max Upload: " + this.tmpConfiguration.getMaxUpload());
         logger.debug("\tShared Folders:");
         ArrayList folders = this.tmpConfiguration.getFolders();
         for (int i=0; i < folders.size(); i++) {
@@ -194,11 +194,13 @@ public class STXMLParser extends DefaultHandler {
         else if (qName.equalsIgnoreCase("folders")) {           
             tmpConfiguration.setCompleteFolder(attributes.getValue("complete"));
             tmpConfiguration.setInCompleteFolder(attributes.getValue("incomplete"));
-        }        
+        }
+/*
         else if (qName.equalsIgnoreCase("ratio")) {           
             tmpConfiguration.setMaxDownload(Integer.parseInt(attributes.getValue("maxDownload")));
             tmpConfiguration.setMaxUpload(Integer.parseInt(attributes.getValue("maxUpload")));
         }
+*/        
         else if (qName.equalsIgnoreCase("friend")) {           
             STFriend myFriend = new STFriend(attributes.getValue("name"));
             myFriend.setIPAddress(attributes.getValue("ipaddress"));            

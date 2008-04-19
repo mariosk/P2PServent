@@ -5,10 +5,10 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package saicontella.core.webservices;
+package saicontella.core.webservices.authentication;
 
-public class ActiveSessionsResponseWrapper  extends saicontella.core.webservices.BaseResponse  implements java.io.Serializable {
-    private saicontella.core.webservices.ActiveSessionMiniWrapper[] activeSessions;
+public class ActiveSessionsResponseWrapper  extends saicontella.core.webservices.authentication.BaseResponse  implements java.io.Serializable {
+    private saicontella.core.webservices.authentication.ActiveSessionMiniWrapper[] activeSessions;
 
     private java.lang.String activeSessionsEncoded;
 
@@ -17,8 +17,8 @@ public class ActiveSessionsResponseWrapper  extends saicontella.core.webservices
 
     public ActiveSessionsResponseWrapper(
            java.lang.String errorMessage,
-           saicontella.core.webservices.ResponseSTATUS status,
-           saicontella.core.webservices.ActiveSessionMiniWrapper[] activeSessions,
+           saicontella.core.webservices.authentication.ResponseSTATUS status,
+           saicontella.core.webservices.authentication.ActiveSessionMiniWrapper[] activeSessions,
            java.lang.String activeSessionsEncoded) {
         super(
             errorMessage,
@@ -33,7 +33,7 @@ public class ActiveSessionsResponseWrapper  extends saicontella.core.webservices
      * 
      * @return activeSessions
      */
-    public saicontella.core.webservices.ActiveSessionMiniWrapper[] getActiveSessions() {
+    public saicontella.core.webservices.authentication.ActiveSessionMiniWrapper[] getActiveSessions() {
         return activeSessions;
     }
 
@@ -43,15 +43,15 @@ public class ActiveSessionsResponseWrapper  extends saicontella.core.webservices
      * 
      * @param activeSessions
      */
-    public void setActiveSessions(saicontella.core.webservices.ActiveSessionMiniWrapper[] activeSessions) {
+    public void setActiveSessions(saicontella.core.webservices.authentication.ActiveSessionMiniWrapper[] activeSessions) {
         this.activeSessions = activeSessions;
     }
 
-    public saicontella.core.webservices.ActiveSessionMiniWrapper getActiveSessions(int i) {
+    public saicontella.core.webservices.authentication.ActiveSessionMiniWrapper getActiveSessions(int i) {
         return this.activeSessions[i];
     }
 
-    public void setActiveSessions(int i, saicontella.core.webservices.ActiveSessionMiniWrapper _value) {
+    public void setActiveSessions(int i, saicontella.core.webservices.authentication.ActiveSessionMiniWrapper _value) {
         this.activeSessions[i] = _value;
     }
 

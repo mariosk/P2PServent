@@ -8,10 +8,8 @@ package saicontella.core;
  * March 2008
  */
 
-import saicontella.core.webservices.ResponseSTATUS;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -22,7 +20,7 @@ import java.io.File;
 import java.awt.*;
 
 public class STAdsDownloader extends Thread {
-    private static Log logger = LogFactory.getLog("saicontella/core/STAdsDownloader");
+    private static Log logger = LogFactory.getLog("saicontella.core.STAdsDownloader");
     private GetMethod method;
     private HttpClient client;
     private STMainForm mainForm;

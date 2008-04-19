@@ -9,19 +9,36 @@ package saicontella.core;
  */
 
 import saicontella.core.gnutella.*;
-import saicontella.core.webservices.*;
+import saicontella.core.webservices.admin.*;
+
+import saicontella.core.webservices.authentication.LoginResponseWrapper;
+import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
+import saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub;
+import saicontella.core.webservices.authentication.ActiveSessionsResponseWrapper;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.List;
 import java.awt.*;
+import java.rmi.RemoteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class STLibrary extends Component {
 
     public interface STConstants
     {
+        // UserAuthenticationSettings (START)
+        public static final String ADMINISTRATOR = "administrator";
+        public static final String BANNED = "banned";
+        public static final String SHARED_GB = "share-gigabytes";
+        public static final String DOWNLOAD_GB = "download-gigabytes";
+        public static final String TRUE = "true";
+        public static final String FALSE = "false";        
+        // UserAuthenticationSettings (STOP)
+        public static final String ADMIN_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserServerAdmin?wsdl";
         public static final String ADS_USER_AGENT = "SaiconTella/v1.0 (compatible; MSIE 7.0; Windows NT 6.0";
         public static final int ADS_WEB_SERVER_TIMEOUT = 5; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
@@ -69,14 +86,22 @@ public class STLibrary extends Component {
         public static final String HELP_MENU_ABOUT = "About";        
     }
 
-    private static Log logger = LogFactory.getLog("saicontella/core/STLibrary");
+    private static Log logger = LogFactory.getLog("saicontella.core.STLibrary");
     private STConfiguration confObject;
     private static STGnutellaFramework gnuTellaFramework;
     private static STLibrary sLibrary;
-    private LoginResponseWrapper webserviceResult;
     private STKeepAliveThread keepAliveThread;
+
+    // UserAuthentication web service
+    private saicontella.core.webservices.authentication.UserSettingsWrapper[] webserviceAuthSettings;
+    private LoginResponseWrapper webserviceAuthResponse;
     private ActiveSessionMiniWrapper[] arrayOfPeers;
-    private UserAuthenticationImplPortBindingStub webServiceProxy;
+    private UserAuthenticationImplPortBindingStub webServiceAuthProxy;
+
+    // UserServerAdmin web service
+    private ServerAdminResponseWrapper adminResponse;
+    private UserServerAdminImplPortBindingStub webServiceAdminProxy;
+
     private STMainForm stMainForm;
 
     public static STLibrary getInstance() {
@@ -85,6 +110,10 @@ public class STLibrary extends Component {
             gnuTellaFramework = new STGnutellaFramework(sLibrary);
         }
         return sLibrary;
+    }
+
+    public saicontella.core.webservices.authentication.UserSettingsWrapper[] getCurrentUserSettings() {
+        return this.webserviceAuthSettings;    
     }
 
     public void setSTMainForm(STMainForm stMainForm) {
@@ -112,8 +141,8 @@ public class STLibrary extends Component {
         this.getSTConfiguration().setListenPort("6346");
         this.getSTConfiguration().setWebServiceEndpoint("http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl");
         this.getSTConfiguration().setMaxConnections("5");
-        this.getSTConfiguration().setMaxDownload(100);
-        this.getSTConfiguration().setMaxUpload(100);
+        this.getSTConfiguration().setMaxDownload(0);
+        this.getSTConfiguration().setMaxUpload(0);
         this.getSTConfiguration().setConnTimeout("30");
         // workaround for testing with virtual friends...
         STFriend mariosk1 = new STFriend("mariosk1");
@@ -144,8 +173,10 @@ public class STLibrary extends Component {
         logger.info("Copyright Saicon @2008");
         logger.info(STConstants.P2PSERVENT_BAR);
         try {
-            webServiceProxy = new UserAuthenticationImplPortBindingStub();
-            webServiceProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
+            this.webServiceAuthProxy = new UserAuthenticationImplPortBindingStub();
+            this.webServiceAuthProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
+            this.webServiceAdminProxy = new UserServerAdminImplPortBindingStub();
+            this.webServiceAdminProxy._setProperty(UserServerAdminImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, STConstants.ADMIN_WS_ENDPOINT);
         }
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
@@ -155,10 +186,10 @@ public class STLibrary extends Component {
 
     public boolean STLoginUser() {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
-        this.webserviceResult = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), STConstants.p2pAppId, confObject.getListenPort());
-        if (this.webserviceResult != null) {
+        this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
+        if (this.webserviceAuthResponse != null) {
             if (this.keepAliveThread == null) {
-                this.keepAliveThread = new STKeepAliveThread(this.webserviceResult);
+                this.keepAliveThread = new STKeepAliveThread(this.webserviceAuthResponse);
                 this.keepAliveThread.start();
                 return true;
             }
@@ -222,10 +253,10 @@ public class STLibrary extends Component {
         return list; 
     }
 
-    public void reachAllOnlinePeers(LoginResponseWrapper response, String applicationId) {
+    public void reachAllOnlinePeers(LoginResponseWrapper response) {
         try {
-            ActiveSessionsResponseWrapper activeSessions = this.webServiceProxy.activeSessionsSerialized(response.getSessionId(), applicationId);
-            if (activeSessions.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
+            ActiveSessionsResponseWrapper activeSessions = this.webServiceAuthProxy.activeSessionsSerialized(response.getSessionId(), STConstants.p2pAppId);
+            if (activeSessions.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 logger.debug("activeSessions ERROR String: " + response.getErrorMessage());
                 this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -249,7 +280,7 @@ public class STLibrary extends Component {
     }
 
     // Calling the UserAuthentication web service: http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl
-    public LoginResponseWrapper STLoginUser(String userName, String passWord, String applicationId, int port) {
+    public LoginResponseWrapper STLoginUser(String userName, String passWord, int port) {
     	try {
         	// Password will be clear text.    		    		
         	/*
@@ -258,12 +289,13 @@ public class STLibrary extends Component {
 			digest.update(input);
 			byte[] hash = digest.digest();			
         	*/
+           
+            LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
 
-            LoginResponseWrapper response = this.webServiceProxy.login(userName, passWord, applicationId, port);
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
-			if (response.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
+			if (response.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 logger.error("ERROR String: " + response.getErrorMessage());
                 return null;
@@ -279,8 +311,73 @@ public class STLibrary extends Component {
 				logger.debug("getSessionId: " + response.getSessionId());
 				logger.debug("getUserId: " + response.getUserId());
 				logger.debug("getAvailableCredits: " + response.getAvailableCredits());
-                this.reachAllOnlinePeers(response, applicationId);
+                this.reachAllOnlinePeers(response);
+
+                if (this.confObject.getAccountName().equals(STConstants.ADMINISTRATOR)) {
+                    UserSettingsWrapper[] settings = new UserSettingsWrapper[4];
+                    settings[0] = new UserSettingsWrapper(STConstants.ADMINISTRATOR, "true");
+                    settings[1] = new UserSettingsWrapper(STConstants.BANNED, "false");
+                    settings[2] = new UserSettingsWrapper(STConstants.SHARED_GB, "6");
+                    settings[3] = new UserSettingsWrapper(STConstants.DOWNLOAD_GB, "6");
+                    this.webServiceAdminProxy.setUserSettings(response.getUserId(), STConstants.p2pAppId, settings);
+                }
+                
+                this.webserviceAuthSettings = this.webServiceAuthProxy.fetchUserSettings(response.getSessionId(), response.getUserId(), STConstants.p2pAppId);
+                if (this.webserviceAuthSettings != null) {
+                    for (int i = 0; i < this.webserviceAuthSettings.length; i++) {
+                        logger.debug("getAttribute[" + i + "]: " + this.webserviceAuthSettings[i].getAttribute());
+                        logger.debug("getValue[" + i + "]: " + this.webserviceAuthSettings[i].getValue());
+                    }
+                }
+
+                if (this.getCurrentGBytesToShare() == 6)
+                    this.confObject.setMaxUpload(1000); // unlimited
+                else
+                    this.confObject.setMaxUpload(this.getCurrentGBytesToShare());
+                if (this.getCurrentGBytesToDownload() == 6) // unlimited
+                    this.confObject.setMaxDownload(1000);
+                else
+                    this.confObject.setMaxDownload(this.getCurrentGBytesToDownload());
+                this.getGnutellaFramework().setMaxUpload();
+                this.getGnutellaFramework().setMaxDownload();
+
+                this.stMainForm.initializeToolsTabValues();
             }
+            //ADMIN SERVICE TESTS (START)
+            // Searching for a username...
+            /*
+            UserListingsWrapper user = this.webServiceAdminProxy.searchUsers("marios", "", "");
+            UserInfoWrapper[] users = user.getUserListings();
+            for (int i = 0; i < users.length; i++) {
+                logger.debug("userId = " + users[i].getUserId());                
+            }
+            */
+            
+            //UserInfoWrapper[] users = this.webServiceAdminProxy.listUsers();
+
+            // ADDING A NEW USER IN USER SERVER
+            /*
+            CountryInfoWrapper[] infoWrapperList = this.webServiceAdminProxy.listCountries();
+            CountryInfoWrapper country = null;
+            RegisterResponseWrapper wrapper;
+
+            for (CountryInfoWrapper countryInfoWrapper : infoWrapperList) {
+                if ("GR".equalsIgnoreCase(countryInfoWrapper.getCode())) {
+                    country = countryInfoWrapper;
+                    break;
+                }
+            }
+
+            XMLGregorianCalendarImpl calendar = new XMLGregorianCalendarImpl();
+            calendar.setDay(24);
+            calendar.setMonth(2);
+            calendar.setYear(1978);
+
+            wrapper = webServiceAdminProxy.register("mariosk78", "mariosk1978", "MariosK", "MariosK", calendar.toGregorianCalendar(), country.getId(), UUID.randomUUID().toString());
+            */
+                        
+            //ActiveSessionWrapper[] list = this.webServiceAdminProxy.listActiveSessions();
+            //ADMIN SERVICE TESTS (STOP)
             return response;
           }
           catch(Exception ex) {
@@ -290,26 +387,169 @@ public class STLibrary extends Component {
           return null;
     }
 
+    public UserSettingsWrapper[] getUserSettings(String userId) {
+        try {
+            UserSettingsWrapper[] settings = this.webServiceAdminProxy.fetchUserSettings(userId, STConstants.p2pAppId);
+            return settings;
+        }
+        catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;        
+    }
+
+    public void setUserSettings(String userId, saicontella.core.webservices.admin.UserSettingsWrapper[] settings) {
+        try {
+            this.webServiceAdminProxy.setUserSettings(userId, STConstants.p2pAppId, settings);
+        }
+        catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public ArrayList<String[]> getUserIds(String userName) {
+        UserListingsWrapper user = null;
+        ArrayList<String[]> userIds = null;
+        try {
+            logger.debug("Searching userName = " + userName);
+            user = this.webServiceAdminProxy.searchUsers(userName, "", "");
+            if (user != null) {
+                UserInfoWrapper[] users = user.getUserListings();
+                userIds = new ArrayList(users.length); 
+                for (int i = 0; i < users.length; i++) {
+                    logger.debug("userName = " + users[i].getUserName() + " userId = " + users[i].getUserId());
+                    String[] values = new String[2];
+                    values[0] = users[i].getUserName();
+                    values[1] = users[i].getUserId();
+                    userIds.add(values);
+                }
+                return userIds;
+            }
+        } catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+        return null;
+    }
+
+    // UserAuthentication web service settings (START)
+    private String getSettingsAuthValue(String setting) {
+        if (this.webserviceAuthSettings != null) {
+            for (int i = 0; i < this.webserviceAuthSettings.length; i++) {
+                if (this.webserviceAuthSettings[i].getAttribute().equals(setting))
+                    return this.webserviceAuthSettings[i].getValue();
+            }
+        }
+        return null;
+    }
+
+    private boolean getBooleanAuthSetting(String setting) {
+        String value = this.getSettingsAuthValue(setting);
+        if (value != null) {
+            if (value.equals(STConstants.TRUE)) {
+                return true;
+            }
+            else if (value.equals(STConstants.FALSE)) {
+                return false;            
+            }
+        }
+        return false;
+    }
+
+    private int getIntegerAuthSetting(String setting) {
+        String value = this.getSettingsAuthValue(setting);
+        if (value != null) {
+            Integer intValue = new Integer(value);
+            return intValue.intValue();
+        }
+        return -1;
+    }
+
+    public boolean isCurrentUserAdministrator() {
+        return getBooleanAuthSetting(STConstants.ADMINISTRATOR);
+    }
+
+    public boolean isCurrentUserBanned() {
+        return getBooleanAuthSetting(STConstants.BANNED);
+    }
+
+    public int getCurrentGBytesToShare() {
+        return getIntegerAuthSetting(STConstants.SHARED_GB);
+    }
+
+    public int getCurrentGBytesToDownload() {
+        return getIntegerAuthSetting(STConstants.DOWNLOAD_GB);
+    }
+    // UserAuthentication web service settings (STOP)
+
+    // UserServerAdmin web service settings (START)
+    private String getSettingsAdminValue(saicontella.core.webservices.admin.UserSettingsWrapper[] settings, String setting) {
+        if (settings != null) {
+            for (int i = 0; i < settings.length; i++) {
+                if (settings[i].getAttribute().equals(setting))
+                    return settings[i].getValue();
+            }
+        }
+        return null;
+    }
+
+    private boolean getBooleanAdminSetting(saicontella.core.webservices.admin.UserSettingsWrapper[] settings, String setting) {
+        String value = this.getSettingsAdminValue(settings, setting);
+        if (value != null) {
+            if (value.equals(STConstants.TRUE)) {
+                return true;
+            }
+            else if (value.equals(STConstants.FALSE)) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private int getIntegerAdminSetting(saicontella.core.webservices.admin.UserSettingsWrapper[] settings, String setting) {
+        String value = this.getSettingsAdminValue(settings, setting);
+        if (value != null) {
+            Integer intValue = new Integer(value);
+            return intValue.intValue();
+        }
+        return -1;
+    }
+
+    public boolean isUserBanned(saicontella.core.webservices.admin.UserSettingsWrapper[] settings) {
+        return getBooleanAdminSetting(settings, STConstants.BANNED);
+    }
+
+    public int getGBytesToShare(saicontella.core.webservices.admin.UserSettingsWrapper[] settings) {
+        return getIntegerAdminSetting(settings, STConstants.SHARED_GB);
+    }
+
+    public int getGBytesToDownload(saicontella.core.webservices.admin.UserSettingsWrapper[] settings) {
+        return getIntegerAdminSetting(settings, STConstants.DOWNLOAD_GB);
+    }    
+    // UserAuthentication web service settings (STOP)
+    
     // Calling the UserAuthentication web service: http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl
     public void STLogoutUser(String endPoint) {
     	try {
             UserAuthenticationImplPortBindingStub proxy = new UserAuthenticationImplPortBindingStub();
             proxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
-            if (this.webserviceResult == null)
+            if (this.webserviceAuthResponse == null)
                 return;
 
-            if (this.webserviceResult.getSessionId() != null && this.webserviceResult.getUserId() != null) {
-                LoginResponseWrapper result = proxy.loggoff(this.webserviceResult.getSessionId(), this.webserviceResult.getUserId());
+            if (this.webserviceAuthResponse.getSessionId() != null && this.webserviceAuthResponse.getUserId() != null) {
+                LoginResponseWrapper result = proxy.loggoff(this.webserviceAuthResponse.getSessionId(), this.webserviceAuthResponse.getUserId());
                 logger.debug("FirstName: " + result.getFirstName());
                 logger.debug("getStatus: " + result.getStatus().getValue());
-                if (result.getStatus() == saicontella.core.webservices.ResponseSTATUS.ERROR) {
+                if (result.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                     this.fireMessageBox(result.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     logger.error("ERROR String: " + result.getErrorMessage());
                 }
                 else {
                     this.fireMessageBox("Disconnected!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    this.webserviceResult = null;
+                    this.webserviceAuthResponse = null;
                 }
             }
             else {

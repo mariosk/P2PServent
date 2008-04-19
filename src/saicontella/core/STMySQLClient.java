@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 public class STMySQLClient {
     
     private Connection conn = null;
-    private static Log logger = LogFactory.getLog("saicontella/core/STMySQLClient");
+    private static Log logger = LogFactory.getLog("saicontella.core.STMySQLClient");
     
     public STMySQLClient(String database, String server, String username, String password) {               
 

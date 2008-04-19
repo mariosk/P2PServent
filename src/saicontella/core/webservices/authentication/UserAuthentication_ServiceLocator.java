@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package saicontella.core.webservices;
+package saicontella.core.webservices.authentication;
 
-public class UserAuthentication_ServiceLocator extends org.apache.axis.client.Service implements saicontella.core.webservices.UserAuthentication_Service {
+public class UserAuthentication_ServiceLocator extends org.apache.axis.client.Service implements saicontella.core.webservices.authentication.UserAuthentication_Service {
 
     public UserAuthentication_ServiceLocator() {
     }
@@ -39,7 +39,7 @@ public class UserAuthentication_ServiceLocator extends org.apache.axis.client.Se
         UserAuthenticationImplPortWSDDServiceName = name;
     }
 
-    public saicontella.core.webservices.UserAuthentication_PortType getUserAuthenticationImplPort() throws javax.xml.rpc.ServiceException {
+    public saicontella.core.webservices.authentication.UserAuthentication_PortType getUserAuthenticationImplPort() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(UserAuthenticationImplPort_address);
@@ -50,9 +50,9 @@ public class UserAuthentication_ServiceLocator extends org.apache.axis.client.Se
         return getUserAuthenticationImplPort(endpoint);
     }
 
-    public saicontella.core.webservices.UserAuthentication_PortType getUserAuthenticationImplPort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public saicontella.core.webservices.authentication.UserAuthentication_PortType getUserAuthenticationImplPort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            saicontella.core.webservices.UserAuthenticationImplPortBindingStub _stub = new saicontella.core.webservices.UserAuthenticationImplPortBindingStub(portAddress, this);
+            saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub _stub = new saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub(portAddress, this);
             _stub.setPortName(getUserAuthenticationImplPortWSDDServiceName());
             return _stub;
         }
@@ -72,8 +72,8 @@ public class UserAuthentication_ServiceLocator extends org.apache.axis.client.Se
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (saicontella.core.webservices.UserAuthentication_PortType.class.isAssignableFrom(serviceEndpointInterface)) {
-                saicontella.core.webservices.UserAuthenticationImplPortBindingStub _stub = new saicontella.core.webservices.UserAuthenticationImplPortBindingStub(new java.net.URL(UserAuthenticationImplPort_address), this);
+            if (saicontella.core.webservices.authentication.UserAuthentication_PortType.class.isAssignableFrom(serviceEndpointInterface)) {
+                saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub _stub = new saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub(new java.net.URL(UserAuthenticationImplPort_address), this);
                 _stub.setPortName(getUserAuthenticationImplPortWSDDServiceName());
                 return _stub;
             }

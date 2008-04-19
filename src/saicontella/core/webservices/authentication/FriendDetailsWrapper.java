@@ -1,78 +1,78 @@
 /**
- * ActiveSessionMiniWrapper.java
+ * FriendDetailsWrapper.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package saicontella.core.webservices;
+package saicontella.core.webservices.authentication;
 
-public class ActiveSessionMiniWrapper  implements java.io.Serializable {
-    private java.lang.String ip;
+public class FriendDetailsWrapper  implements java.io.Serializable {
+    private java.lang.String friendId;
 
-    private java.lang.Integer port;
+    private java.lang.String friendName;
 
     private java.lang.Integer status;
 
-    private java.lang.String username;
+    private java.lang.String userId;
 
-    public ActiveSessionMiniWrapper() {
+    public FriendDetailsWrapper() {
     }
 
-    public ActiveSessionMiniWrapper(
-           java.lang.String ip,
-           java.lang.Integer port,
+    public FriendDetailsWrapper(
+           java.lang.String friendId,
+           java.lang.String friendName,
            java.lang.Integer status,
-           java.lang.String username) {
-           this.ip = ip;
-           this.port = port;
+           java.lang.String userId) {
+           this.friendId = friendId;
+           this.friendName = friendName;
            this.status = status;
-           this.username = username;
+           this.userId = userId;
     }
 
 
     /**
-     * Gets the ip value for this ActiveSessionMiniWrapper.
+     * Gets the friendId value for this FriendDetailsWrapper.
      * 
-     * @return ip
+     * @return friendId
      */
-    public java.lang.String getIp() {
-        return ip;
+    public java.lang.String getFriendId() {
+        return friendId;
     }
 
 
     /**
-     * Sets the ip value for this ActiveSessionMiniWrapper.
+     * Sets the friendId value for this FriendDetailsWrapper.
      * 
-     * @param ip
+     * @param friendId
      */
-    public void setIp(java.lang.String ip) {
-        this.ip = ip;
+    public void setFriendId(java.lang.String friendId) {
+        this.friendId = friendId;
     }
 
 
     /**
-     * Gets the port value for this ActiveSessionMiniWrapper.
+     * Gets the friendName value for this FriendDetailsWrapper.
      * 
-     * @return port
+     * @return friendName
      */
-    public java.lang.Integer getPort() {
-        return port;
+    public java.lang.String getFriendName() {
+        return friendName;
     }
 
 
     /**
-     * Sets the port value for this ActiveSessionMiniWrapper.
+     * Sets the friendName value for this FriendDetailsWrapper.
      * 
-     * @param port
+     * @param friendName
      */
-    public void setPort(java.lang.Integer port) {
-        this.port = port;
+    public void setFriendName(java.lang.String friendName) {
+        this.friendName = friendName;
     }
 
 
     /**
-     * Gets the status value for this ActiveSessionMiniWrapper.
+     * Gets the status value for this FriendDetailsWrapper.
      * 
      * @return status
      */
@@ -82,7 +82,7 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
 
 
     /**
-     * Sets the status value for this ActiveSessionMiniWrapper.
+     * Sets the status value for this FriendDetailsWrapper.
      * 
      * @param status
      */
@@ -92,28 +92,28 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
 
 
     /**
-     * Gets the username value for this ActiveSessionMiniWrapper.
+     * Gets the userId value for this FriendDetailsWrapper.
      * 
-     * @return username
+     * @return userId
      */
-    public java.lang.String getUsername() {
-        return username;
+    public java.lang.String getUserId() {
+        return userId;
     }
 
 
     /**
-     * Sets the username value for this ActiveSessionMiniWrapper.
+     * Sets the userId value for this FriendDetailsWrapper.
      * 
-     * @param username
+     * @param userId
      */
-    public void setUsername(java.lang.String username) {
-        this.username = username;
+    public void setUserId(java.lang.String userId) {
+        this.userId = userId;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof ActiveSessionMiniWrapper)) return false;
-        ActiveSessionMiniWrapper other = (ActiveSessionMiniWrapper) obj;
+        if (!(obj instanceof FriendDetailsWrapper)) return false;
+        FriendDetailsWrapper other = (FriendDetailsWrapper) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -122,18 +122,18 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.ip==null && other.getIp()==null) || 
-             (this.ip!=null &&
-              this.ip.equals(other.getIp()))) &&
-            ((this.port==null && other.getPort()==null) || 
-             (this.port!=null &&
-              this.port.equals(other.getPort()))) &&
+            ((this.friendId==null && other.getFriendId()==null) || 
+             (this.friendId!=null &&
+              this.friendId.equals(other.getFriendId()))) &&
+            ((this.friendName==null && other.getFriendName()==null) || 
+             (this.friendName!=null &&
+              this.friendName.equals(other.getFriendName()))) &&
             ((this.status==null && other.getStatus()==null) || 
              (this.status!=null &&
               this.status.equals(other.getStatus()))) &&
-            ((this.username==null && other.getUsername()==null) || 
-             (this.username!=null &&
-              this.username.equals(other.getUsername())));
+            ((this.userId==null && other.getUserId()==null) || 
+             (this.userId!=null &&
+              this.userId.equals(other.getUserId())));
         __equalsCalc = null;
         return _equals;
     }
@@ -145,17 +145,17 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getIp() != null) {
-            _hashCode += getIp().hashCode();
+        if (getFriendId() != null) {
+            _hashCode += getFriendId().hashCode();
         }
-        if (getPort() != null) {
-            _hashCode += getPort().hashCode();
+        if (getFriendName() != null) {
+            _hashCode += getFriendName().hashCode();
         }
         if (getStatus() != null) {
             _hashCode += getStatus().hashCode();
         }
-        if (getUsername() != null) {
-            _hashCode += getUsername().hashCode();
+        if (getUserId() != null) {
+            _hashCode += getUserId().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -163,21 +163,21 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(ActiveSessionMiniWrapper.class, true);
+        new org.apache.axis.description.TypeDesc(FriendDetailsWrapper.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "activeSessionMiniWrapper"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "friendDetailsWrapper"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("ip");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "ip"));
+        elemField.setFieldName("friendId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "friendId"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("port");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "port"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setFieldName("friendName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "friendName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
@@ -189,8 +189,8 @@ public class ActiveSessionMiniWrapper  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("username");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "username"));
+        elemField.setFieldName("userId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "userId"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

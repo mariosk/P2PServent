@@ -498,7 +498,7 @@ public class STLibraryTab extends FWTab
 
     private class MouseHandler extends MouseAdapter implements MouseListener
     {
-        private Log logger = LogFactory.getLog("saicontella/phex/stlibrary/STLibraryTab/MouseHandler");
+        private Log logger = LogFactory.getLog("saicontella.phex.stlibrary.STLibraryTab.MouseHandler");
         
         /**
          * {@inheritDoc}

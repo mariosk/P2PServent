@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class STResources {
     
     private static ResourceBundle stResources = null;
-    private static Log logger = LogFactory.getLog("saicontella/core/STResources");
+    private static Log logger = LogFactory.getLog("saicontella.core.STResources");
 
     static
     {

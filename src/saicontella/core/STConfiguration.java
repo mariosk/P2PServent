@@ -214,8 +214,9 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("\t<folders complete=\"" + this.getCompleteFolder() +"\" incomplete=\"" + this.getInCompleteFolder() + "\"/>");
         buffer.append("\n");
-        buffer.append("\t<ratio maxDownload=\"" + this.getMaxDownload() +"\" maxUpload=\"" + this.getMaxUpload() + "\"/>");
-        buffer.append("\n");
+        //maxUpload and maxDownload is controlled by adminPanel from now on.        
+        //buffer.append("\t<ratio maxDownload=\"" + this.getMaxDownload() +"\" maxUpload=\"" + this.getMaxUpload() + "\"/>");
+        //buffer.append("\n");
 
         buffer.append("\t<myFriends>");
         buffer.append("\n");

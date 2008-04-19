@@ -60,7 +60,7 @@ import saicontella.core.STLibrary;
 
 public class STLibraryTreePane extends JPanel
 {
-    private static Log logger = LogFactory.getLog("phex/stlibrary/STLibraryTreePane");
+    private static Log logger = LogFactory.getLog("saicontella.phex.stLibrary.STLibraryTreePane");
     private Component parent;
     private SharingTreeModel sharingTreeModel;
     private JTree mainTree;

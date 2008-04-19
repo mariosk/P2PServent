@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package saicontella.core.webservices;
+package saicontella.core.webservices.authentication;
 
-public class LoginResponseWrapper  extends saicontella.core.webservices.BaseResponse  implements java.io.Serializable {
+public class LoginResponseWrapper  extends saicontella.core.webservices.authentication.BaseResponse  implements java.io.Serializable {
     private float availableCredits;
 
     private java.lang.String clientDownloadLocation;
@@ -35,7 +35,7 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.BaseResp
 
     public LoginResponseWrapper(
            java.lang.String errorMessage,
-           saicontella.core.webservices.ResponseSTATUS status,
+           saicontella.core.webservices.authentication.ResponseSTATUS status,
            float availableCredits,
            java.lang.String clientDownloadLocation,
            java.lang.String countryId,
