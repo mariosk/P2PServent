@@ -100,6 +100,8 @@ public class STMainForm extends JFrame {
     private JLabel adsServerLabel;
     private JLabel IncompleteDownloadFolderLabel;
     private JLabel imageLabel;
+    private JTextField textField1;
+    private JButton button1;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;

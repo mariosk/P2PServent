@@ -30,7 +30,7 @@ import phex.gui.common.FWElegantPanel;
 import phex.gui.common.GUIUtils;
 import phex.gui.common.GUIRegistry;
 import phex.gui.tabs.FWTab;
-import phex.gui.tabs.search.SearchResultsDataModel;
+
 import phex.query.Search;
 import phex.query.SearchContainer;
 import phex.rules.SearchFilterRules;
@@ -42,6 +42,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STMainForm;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
+import saicontella.phex.stsearch.filterpanel.STSearchFilterPanel;
 
 /**
  *
@@ -66,6 +67,7 @@ public class STSearchTab extends FWTab
     
     private JPanel lowerRightPanel;
     private PanelBuilder lowerRightBuilder;
+    private STSearchFilterPanel searchFilterPanel;
     private STSearchControlPanel searchControlPanel;
     private STSearchResultsPanel searchResultPanel;
     
@@ -92,13 +94,11 @@ public class STSearchTab extends FWTab
         {
             isSearchListVisible = guiSettings.isSearchListVisible();
         }
-        boolean isFilterPanelVisible = false;
-        /*
+        boolean isFilterPanelVisible = true;
         if ( guiSettings != null && guiSettings.isSetSearchFilterPanelVisible() )
         {
             isFilterPanelVisible = guiSettings.isSearchFilterPanelVisible();
         }
-        */
         
         ToggleSearchFilterAction filterPanelToggleAction = 
             new ToggleSearchFilterAction( isFilterPanelVisible );
@@ -155,6 +155,8 @@ public class STSearchTab extends FWTab
             "fill:d:grow", // columns
             "p, fill:d:grow"); //rows
         lowerRightBuilder = new PanelBuilder( lowerRightLayout, lowerRightPanel );
+        searchFilterPanel = new STSearchFilterPanel( this, filterRules );
+        lowerRightBuilder.add( searchFilterPanel, cc.xy( 1, 1  ) );
         
         searchResultPanel = new STSearchResultsPanel( this );
         searchResultPanel.initializeComponent( guiSettings );
@@ -173,6 +175,7 @@ public class STSearchTab extends FWTab
         searchListSplitPane.setDividerSize( 4 );
         searchListSplitPane.setOneTouchExpandable( false );
                 
+        
         setSearchButtonBarVisible( isSearchBarVisible );
         setSearchListVisible( isSearchListVisible );
         setFilterPanelVisible( isFilterPanelVisible );
@@ -191,6 +194,7 @@ public class STSearchTab extends FWTab
         {
             
             lowerRightPanel.removeAll();
+            lowerRightBuilder.add( searchFilterPanel, cc.xy( 1, 1  ) );
             lowerRightBuilder.add( searchResultPanel, cc.xy( 1, 2 ) );
         }
         else
@@ -254,6 +258,7 @@ public class STSearchTab extends FWTab
         }
         searchResultPanel.setDisplayedSearch( displayedDataModel );
         searchListPanel.setDisplayedSearch( displayedDataModel );
+        searchFilterPanel.setDisplayedSearch( displayedDataModel );
         searchControlPanel.setDisplayedSearch( displayedDataModel );
         refreshTabActions();
     }
@@ -271,6 +276,7 @@ public class STSearchTab extends FWTab
     {
         super.appendDGuiSettings( dSettings );
         dSettings.setSearchBarVisible( searchButtonBar != null );
+        dSettings.setSearchFilterPanelVisible( searchFilterPanel.getParent() != null );
         dSettings.setSearchListVisible( searchListSplitPane.getParent() != null );
         searchListPanel.appendDGuiSettings( dSettings );
         searchResultPanel.appendDGuiSettings( dSettings );
@@ -289,7 +295,7 @@ public class STSearchTab extends FWTab
         {
             setDisplayedSearch( null );
         }
-        SearchResultsDataModel.unregisterSearch(search);
+        STSearchResultsDataModel.unregisterSearch(search);
     }
     
     /////////////////////// Start Tab Actions///////////////////////////////////

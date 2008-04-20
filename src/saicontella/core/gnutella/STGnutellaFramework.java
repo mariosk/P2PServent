@@ -84,7 +84,6 @@ public class STGnutellaFramework {
             NetworkPrefs.MaxConcurrentConnectAttempts.set(sLibrary.getSTConfiguration().getMaxConnections());
             NetworkPrefs.AllowChatConnection.set(true);
             NetworkPrefs.TcpConnectTimeout.set(sLibrary.getSTConfiguration().getConnTimeout() * 1000);
-            //NetworkPrefs.ConnectedToLAN.set(false);
 
             DownloadPrefs.DestinationDirectory.set(sLibrary.getSTConfiguration().getCompleteFolder());
             DownloadPrefs.IncompleteDirectory.set(sLibrary.getSTConfiguration().getInCompleteFolder());
@@ -111,7 +110,7 @@ public class STGnutellaFramework {
             this.servent.setOnlineStatus(OnlineStatus.ONLINE);                       
             ManagerController.initializeManagers();
             this.servent.start();
-
+            
             try
             {
                 GUIRegistry.getInstance().initialize();

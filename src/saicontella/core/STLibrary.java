@@ -10,11 +10,9 @@ package saicontella.core;
 
 import saicontella.core.gnutella.*;
 import saicontella.core.webservices.admin.*;
+import saicontella.core.webservices.admin.UserSettingsWrapper;
 
-import saicontella.core.webservices.authentication.LoginResponseWrapper;
-import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
-import saicontella.core.webservices.authentication.UserAuthenticationImplPortBindingStub;
-import saicontella.core.webservices.authentication.ActiveSessionsResponseWrapper;
+import saicontella.core.webservices.authentication.*;
 
 import javax.swing.*;
 import java.util.*;
@@ -112,18 +110,39 @@ public class STLibrary extends Component {
         return sLibrary;
     }
 
-    public saicontella.core.webservices.authentication.UserSettingsWrapper[] getCurrentUserSettings() {
-        return this.webserviceAuthSettings;    
+    public STLibrary() {
+        STXMLParser xmlParser = new STXMLParser();
+        confObject = xmlParser.readConfigurationFile();
+        if (confObject == null) {
+            confObject = new STConfiguration();            
+            this.initDefaultSTConfiguration();
+        }
+        //STMySQLClient dbClient = new STMySQLClient("mysql", Configuration.getAccountServer(), Configuration.getAccountName(), "");
+    	logger.info(STConstants.P2PSERVENT_BAR);
+        logger.info(STConstants.P2PSERVENT_VERSION);
+        logger.info(STConstants.P2PSERVENT_BAR);
+        logger.info("Copyright Saicon @2008");
+        logger.info(STConstants.P2PSERVENT_BAR);
+        try {
+            this.webServiceAuthProxy = new UserAuthenticationImplPortBindingStub();
+            this.webServiceAuthProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
+            this.webServiceAdminProxy = new UserServerAdminImplPortBindingStub();
+            this.webServiceAdminProxy._setProperty(UserServerAdminImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, STConstants.ADMIN_WS_ENDPOINT);
+        }
+        catch (Exception ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+        }
     }
 
     public void setSTMainForm(STMainForm stMainForm) {
-        this.stMainForm = stMainForm;            
+        this.stMainForm = stMainForm;
     }
 
     public void disconnectFromPeers() {
         this.stMainForm.disconnectFromHosts();
     }
-    
+
     public ArrayList getPeersFromHostsTable() {
         return this.stMainForm.getPeersListData();
     }
@@ -158,30 +177,9 @@ public class STLibrary extends Component {
         mariosk4.setIPAddress("192.168.178.40");
         this.getSTConfiguration().addFriend(mariosk4);
     }
-    
-    public STLibrary() {
-        STXMLParser xmlParser = new STXMLParser();
-        confObject = xmlParser.readConfigurationFile();
-        if (confObject == null) {
-            confObject = new STConfiguration();            
-            this.initDefaultSTConfiguration();
-        }
-        //STMySQLClient dbClient = new STMySQLClient("mysql", Configuration.getAccountServer(), Configuration.getAccountName(), "");
-    	logger.info(STConstants.P2PSERVENT_BAR);
-        logger.info(STConstants.P2PSERVENT_VERSION);
-        logger.info(STConstants.P2PSERVENT_BAR);
-        logger.info("Copyright Saicon @2008");
-        logger.info(STConstants.P2PSERVENT_BAR);
-        try {
-            this.webServiceAuthProxy = new UserAuthenticationImplPortBindingStub();
-            this.webServiceAuthProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
-            this.webServiceAdminProxy = new UserServerAdminImplPortBindingStub();
-            this.webServiceAdminProxy._setProperty(UserServerAdminImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, STConstants.ADMIN_WS_ENDPOINT);
-        }
-        catch (Exception ex) {
-            logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
-        }
+
+    public void searchForACandidateFriend() {
+            
     }
 
     public boolean STLoginUser() {
@@ -312,6 +310,16 @@ public class STLibrary extends Component {
 				logger.debug("getUserId: " + response.getUserId());
 				logger.debug("getAvailableCredits: " + response.getAvailableCredits());
                 this.reachAllOnlinePeers(response);
+
+                /*
+                this.webServiceAuthProxy.addFriend(response.getSessionId(), "1");
+                FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "marios");
+                if (friends != null) {
+                    for (int i = 0; i < friends.length; i++) {
+                        logger.debug("friend[" + i + "]: " + friends[i].getFriendId() + " " + friends[i].getFriendName() + " " + friends[i].getStatus() + " " + friends[i].getUserId());
+                    }
+                }
+                */
 
                 if (this.confObject.getAccountName().equals(STConstants.ADMINISTRATOR)) {
                     UserSettingsWrapper[] settings = new UserSettingsWrapper[4];
