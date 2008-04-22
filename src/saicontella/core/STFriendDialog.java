@@ -73,7 +73,7 @@ public class STFriendDialog extends JDialog {
         STLibraryTab parentObj = (STLibraryTab) this.parent;
         if (action instanceof AddFriendAction) {
             //STLibrary.getInstance().fireMessageBox("add!", "add", JOptionPane.WARNING_MESSAGE);
-            STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());
+            STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());            
             if (!parentObj.addFriendInFriendsList(friend))
                 return;
         } else if (action instanceof STLibraryTab.DelFriendAction) {

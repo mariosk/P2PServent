@@ -218,9 +218,11 @@ public class STConfiguration {
         //buffer.append("\t<ratio maxDownload=\"" + this.getMaxDownload() +"\" maxUpload=\"" + this.getMaxUpload() + "\"/>");
         //buffer.append("\n");
 
+        // since myFriends are stored in the database through web services there is no reason of storing them locally as well.
+        ArrayList friends = null;
         buffer.append("\t<myFriends>");
         buffer.append("\n");
-        ArrayList friends = this.getMyFriends();
+        friends = this.getMyFriends();
         for (int i = 0; i < friends.size(); i++) {
             STFriend friend = (STFriend)friends.get(i);
             buffer.append("\t\t<friend name=\"" + friend.getFriendName() + "\" ipaddress=\"" + friend.getIPAddress() + "\"/>");
@@ -231,7 +233,6 @@ public class STConfiguration {
 
         buffer.append("\t<sharedFolders>");
         buffer.append("\n");
-
         ArrayList folders = this.getFolders();
         for (int i = 0; i < folders.size(); i++) {
             STFolder folder = (STFolder)folders.get(i);
@@ -241,9 +242,11 @@ public class STConfiguration {
             STFileName[] files = folder.getFiles();
             for (int f = 0; f < friends.size(); f++) {
                 STFriend friend = (STFriend) friends.get(f);
-                friendsList += friend.getFriendName();
-                if (f < friends.size() - 1)
-                    friendsList += ",";
+                if (friend != null) {
+                    friendsList += friend.getFriendName();
+                    if (f < friends.size() - 1)
+                        friendsList += ",";
+                }
             }
             buffer.append("\t\t<folder name=\"" + folder.getFolderName() + "\" access=\"" + value + "\" friends=\"" + friendsList + "\">");
             buffer.append("\n");            

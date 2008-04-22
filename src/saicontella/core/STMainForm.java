@@ -65,7 +65,6 @@ public class STMainForm extends JFrame {
     private JList listFriends;
     private JList listAllPeers;
     private JButton buttonAddFriend;
-    private JButton saveFriendsButton;
     private JTextField passwordTextBox;
     private JTextField listenPortTextBox;
     private JTextField addressTextBox;
@@ -100,8 +99,8 @@ public class STMainForm extends JFrame {
     private JLabel adsServerLabel;
     private JLabel IncompleteDownloadFolderLabel;
     private JLabel imageLabel;
-    private JTextField textField1;
-    private JButton button1;
+    private JTextField textFieldSearchFriend;
+    private JButton buttonSearchFriend;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -142,9 +141,9 @@ public class STMainForm extends JFrame {
     private ImageIcon myAdminIcon;
     private ImageIcon myExitIcon;
 
-    private Vector peersListData;
+    private String[] listFriendIds;
+    private Vector allPeersData;
     private Vector friendsListData;
-
     private STMainForm stMainForm;
 
     public void disableTabs() {
@@ -178,6 +177,7 @@ public class STMainForm extends JFrame {
     public void drawMenus() {
         ClickMenuActionHandler menuHandler = new ClickMenuActionHandler(this);
 
+        this.stMainForm = this;
         this.mainMenuBar = new JMenuBar();
         this.setJMenuBar(this.mainMenuBar);
 
@@ -245,7 +245,6 @@ public class STMainForm extends JFrame {
     public STMainForm(STLibrary sLibrary, DGuiSettings guiSettings) {
         super();
 
-        stMainForm = this;
         this.sLibrary = sLibrary;
         this.sLibrary.setSTMainForm(this);
 
@@ -282,9 +281,8 @@ public class STMainForm extends JFrame {
             sLibrary.getGnutellaFramework().getServent().getEventService().processAnnotations(this);
 
         mainTabbedPanel.addChangeListener(new ChangeActionHandler());
-        ClickButtonActionHandler clickActionHandler = new ClickButtonActionHandler(this);
+        ClickButtonActionHandler clickActionHandler = new ClickButtonActionHandler();
         this.buttonAddFriend.addActionListener(clickActionHandler);
-        this.saveFriendsButton.addActionListener(clickActionHandler);
         this.saveSettingsButton.addActionListener(clickActionHandler);
         this.completeDownloadFolderBrowseButton.addActionListener(new SetCompleteDownloadDirectoryListener());
         this.incompleteDownloadFolderBrowseButton.addActionListener(new SetIncompleteDownloadDirectoryListener());
@@ -307,6 +305,25 @@ public class STMainForm extends JFrame {
                 }
             }
         }
+        buttonSearchFriend.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String[]> listOfUserIds = null;
+                if (textFieldSearchFriend.getText().equals("*"))
+                    listOfUserIds = STLibrary.getInstance().getCandidateFriends(textFieldSearchFriend.getText(), "", "");
+                else
+                    listOfUserIds = STLibrary.getInstance().getCandidateFriends("", "", "");
+                if (listOfUserIds != null) {
+                    listAllPeers.removeAll();
+                    allPeersData = new Vector(listOfUserIds.size());
+                    listFriendIds = new String[listOfUserIds.size()];
+                    for (int i = 0; i < listOfUserIds.size(); i++) {
+                        allPeersData.add(listOfUserIds.get(i)[0]);
+                        listFriendIds[i] = listOfUserIds.get(i)[1];
+                    }
+                    listAllPeers.setListData(allPeersData);
+                }
+            }
+        });
     }
 
     public JLabel getImageLabel() {
@@ -510,10 +527,6 @@ public class STMainForm extends JFrame {
         myFriendsTab.add(scrollPane2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         listFriends = new JList();
         scrollPane2.setViewportView(listFriends);
-        saveFriendsButton = new JButton();
-        saveFriendsButton.setEnabled(true);
-        saveFriendsButton.setText("Save");
-        myFriendsTab.add(saveFriendsButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         imageLabel = new JLabel();
         imageLabel.setText("Advertisement here...");
         outerPanel.add(imageLabel, BorderLayout.SOUTH);
@@ -533,23 +546,33 @@ public class STMainForm extends JFrame {
             JPanel currentPanel = (JPanel) tabbedPane.getSelectedComponent();
             if (currentPanel == null)
                 return;
-            if (currentPanel.equals(stMainForm.myFriendsTab)) {
+            if (currentPanel.equals(myFriendsTab)) {
                 ClickListActionHandler clickListHandler = new ClickListActionHandler();
                 listAllPeers.addListSelectionListener(clickListHandler);
                 listFriends.addListSelectionListener(clickListHandler);
-                if (stMainForm.networkTab == null)
+                if (networkTab == null)
                     return;
-                //stMainForm.peersListData = stMainForm.networkTab.getAllHosts();
-                stMainForm.friendsListData = new Vector();
+                //Retrieving here the list of the added friends...
+                Vector[] myFriendsList = STLibrary.getInstance().getMyFriendsList();
+                if (myFriendsList != null) {
+                    friendsListData = myFriendsList[0];
+                    listFriendIds = new String[myFriendsList[1].size()];
+                    for (int i = 0; i < myFriendsList[1].size(); i++) {
+                        listFriendIds[i] = myFriendsList[1].get(i).toString();
+                    }                     
+                }
+                /*
+                friendsListData = new Vector();
                 ArrayList friends = sLibrary.getSTConfiguration().getMyFriends();
                 for (int i = 0; i < friends.size(); i++) {
                     STFriend friend = (STFriend) friends.get(i);
-                    stMainForm.friendsListData.add(friend.getFriendName());
+                    friendsListData.add(friend.getFriendName());
                 }
-                if (stMainForm.peersListData != null)
-                    stMainForm.listAllPeers.setListData(stMainForm.peersListData);
-                if (stMainForm.friendsListData != null)
-                    stMainForm.listFriends.setListData(stMainForm.friendsListData);
+                */
+                if (allPeersData != null)
+                    listAllPeers.setListData(allPeersData);
+                if (friendsListData != null)
+                    listFriends.setListData(friendsListData);
             }
         }
     }
@@ -559,19 +582,19 @@ public class STMainForm extends JFrame {
         public void valueChanged(ListSelectionEvent e) {
             if (e.getSource() instanceof JList) {
                 JList currentList = (JList) e.getSource();
-                if (currentList == stMainForm.listAllPeers) {
-                    stMainForm.buttonAddFriend.setEnabled(true);
-                    stMainForm.buttonAddFriend.setText(STLibrary.STConstants.PEER_SELECTED);
-                    stMainForm.listFriends.clearSelection();
-                } else if (currentList == stMainForm.listFriends) {
-                    stMainForm.buttonAddFriend.setEnabled(true);
-                    stMainForm.buttonAddFriend.setText(STLibrary.STConstants.FRIEND_SELECTED);
-                    stMainForm.listAllPeers.clearSelection();
+                if (currentList == listAllPeers) {
+                    buttonAddFriend.setEnabled(true);
+                    buttonAddFriend.setText(STLibrary.STConstants.PEER_SELECTED);
+                    listFriends.clearSelection();
+                } else if (currentList == listFriends) {
+                    buttonAddFriend.setEnabled(true);
+                    buttonAddFriend.setText(STLibrary.STConstants.FRIEND_SELECTED);
+                    listAllPeers.clearSelection();
                 } else {
-                    stMainForm.buttonAddFriend.setEnabled(false);
-                    stMainForm.buttonAddFriend.setText(STLibrary.STConstants.NO_LIST_SELECTED);
-                    stMainForm.listFriends.clearSelection();
-                    stMainForm.listAllPeers.clearSelection();
+                    buttonAddFriend.setEnabled(false);
+                    buttonAddFriend.setText(STLibrary.STConstants.NO_LIST_SELECTED);
+                    listFriends.clearSelection();
+                    listAllPeers.clearSelection();
                 }
             }
         }
@@ -816,49 +839,74 @@ public class STMainForm extends JFrame {
     public JTabbedPane getMainTabbedPanel() {
         return this.mainTabbedPanel;
     }
-    
-    private class ClickButtonActionHandler implements ActionListener {
-        private STMainForm mainForm;
 
-        public ClickButtonActionHandler(STMainForm mainForm) {
-            this.mainForm = mainForm;
+    private void saveFriendsListInXML() {
+        sLibrary.getSTConfiguration().getMyFriends().clear();
+        for (int i = 0; i < friendsListData.size(); i++) {
+            Object o = friendsListData.get(i);
+            STFriend friend = new STFriend(o.toString());
+            String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
+            if (friendIpAddress != null)
+                friend.setIPAddress(friendIpAddress);
+            sLibrary.getSTConfiguration().addFriend(friend);
         }
+        sLibrary.getSTConfiguration().saveXMLFile();
+    }
 
+    // LEFT JList: listAllPeers, DATA: allPeersData
+    // RIGHT JList: listFriends, DATA: friendsListData 
+    private class ClickButtonActionHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JButton sourceObject = (JButton) e.getSource();
+            // Removing a friend...
             if (sourceObject.getText().equals(STLibrary.STConstants.FRIEND_SELECTED)) {
-                this.mainForm.friendsListData.remove(this.mainForm.listFriends.getSelectedIndex());
-                this.mainForm.listFriends.setListData(this.mainForm.friendsListData);
+                // get the selected index from the RIGHT JList (listFriends)
+                int index = listFriends.getSelectedIndex();
+                if (index < 0) {
+                    STLibrary.getInstance().fireMessageBox("Please select a friend to remove!", "Error", JOptionPane.ERROR);
+                    return;
+                }
+                // removing the selected friend from that JList
+                friendsListData.remove(index);
+                // setting the new list data
+                listFriends.setListData(friendsListData);
+                // removing the friend through the web service
+                STLibrary.getInstance().removeFriendFromList(listFriendIds[index]);
+                saveFriendsListInXML();
+            // Adding a friend...
             } else if (sourceObject.getText().equals(STLibrary.STConstants.PEER_SELECTED)) {
-                this.mainForm.friendsListData.add(this.mainForm.listAllPeers.getSelectedValue().toString());
-                this.mainForm.listFriends.setListData(this.mainForm.friendsListData);
-                this.mainForm.peersListData.remove(this.mainForm.listAllPeers.getSelectedIndex());
-                this.mainForm.listAllPeers.setListData(this.mainForm.peersListData);
+                // get the selected index from the LEFT JList (listAllPeers)
+                int index = listAllPeers.getSelectedIndex();
+                if (index < 0) {
+                    STLibrary.getInstance().fireMessageBox("Please select a friend to add!", "Error", JOptionPane.ERROR);
+                    return;
+                }
+                String friendName = listAllPeers.getSelectedValue().toString();
+                // removing the selected friend from that JList
+                allPeersData.remove(index);
+                listAllPeers.setListData(allPeersData);
+                // adding the selected friend from that JList to the right JList
+                friendsListData.add(friendName);
+                listFriends.setListData(friendsListData);
+                // adding the friend through the web service
+                STLibrary.getInstance().addFriendInList(listFriendIds[index]);
+                saveFriendsListInXML();
             } else if (sourceObject.getText().equals("Save")) {
-                sLibrary.getSTConfiguration().getMyFriends().clear();
-                for (int i = 0; i < this.mainForm.friendsListData.size(); i++) {
-                    Object o = this.mainForm.friendsListData.get(i);
-                    STFriend friend = new STFriend(o.toString());
-                    String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
-                    if (friendIpAddress != null)
-                        friend.setIPAddress(friendIpAddress);
-                    sLibrary.getSTConfiguration().addFriend(friend);
-                }                
-                sLibrary.getSTConfiguration().saveXMLFile();
+                // saveFriendsListInXML();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
             } else if (sourceObject.getText().equals("Save Settings")) {
-                sLibrary.getSTConfiguration().setWebServiceAccount(this.mainForm.userTextBox.getText());
-                sLibrary.getSTConfiguration().setWebServicePassword(this.mainForm.passwordTextBox.getText());
-                sLibrary.getSTConfiguration().setListenPort(this.mainForm.listenPortTextBox.getText());
-                sLibrary.getSTConfiguration().setListenAddress(this.mainForm.addressTextBox.getText());
-                sLibrary.getSTConfiguration().setConnTimeout(this.mainForm.connectionTimeoutTextBox.getText());
-                sLibrary.getSTConfiguration().setMaxConnections(this.mainForm.maximumConnectionsTextFBox.getText());
-                sLibrary.getSTConfiguration().setAutoConnect(String.valueOf(this.mainForm.autoConnectCheckBox.isSelected()));
-                sLibrary.getSTConfiguration().setCompleteFolder(this.mainForm.completeDownloadFolderTextBox.getText());
-                sLibrary.getSTConfiguration().setInCompleteFolder(this.mainForm.incompleteDownloadFolderTextBox.getText());
+                sLibrary.getSTConfiguration().setWebServiceAccount(userTextBox.getText());
+                sLibrary.getSTConfiguration().setWebServicePassword(passwordTextBox.getText());
+                sLibrary.getSTConfiguration().setListenPort(listenPortTextBox.getText());
+                sLibrary.getSTConfiguration().setListenAddress(addressTextBox.getText());
+                sLibrary.getSTConfiguration().setConnTimeout(connectionTimeoutTextBox.getText());
+                sLibrary.getSTConfiguration().setMaxConnections(maximumConnectionsTextFBox.getText());
+                sLibrary.getSTConfiguration().setAutoConnect(String.valueOf(autoConnectCheckBox.isSelected()));
+                sLibrary.getSTConfiguration().setCompleteFolder(completeDownloadFolderTextBox.getText());
+                sLibrary.getSTConfiguration().setInCompleteFolder(incompleteDownloadFolderTextBox.getText());
                 //sLibrary.getSTConfiguration().setMaxDownload(Integer.parseInt(this.mainForm.downloadRatioTextBox.getText()));
                 //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));
-                sLibrary.getSTConfiguration().setAdsServer(this.mainForm.adsServerTextBox.getText());
+                sLibrary.getSTConfiguration().setAdsServer(adsServerTextBox.getText());
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
             }

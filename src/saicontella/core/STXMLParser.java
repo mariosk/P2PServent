@@ -107,7 +107,8 @@ public class STXMLParser extends DefaultHandler {
             ArrayList friends = folder.getFriends();
             for (int k = 0; k < friends.size(); k++) {
                 STFriend friend = (STFriend) friends.get(k);
-                logger.debug("\t\t\tFriend: " + friend.getFriendName());
+                if (friend != null)
+                    logger.debug("\t\t\tFriend: " + friend.getFriendName());
             }
             STFileName[] files = folder.getFiles();
             for (int j = 0; j < files.length; j++) {

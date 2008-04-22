@@ -60,7 +60,7 @@ public class STAdminDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         buttonSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ArrayList<String[]> listOfUserIds = STLibrary.getInstance().getUserIds(textFieldSearch.getText());
+                ArrayList<String[]> listOfUserIds = STLibrary.getInstance().getUserIds(textFieldSearch.getText(), "", "");
                 if (listOfUserIds != null) {
                     userNamesFoundList.removeAll();
                     String[] listData = new String[listOfUserIds.size()];

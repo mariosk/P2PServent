@@ -13,16 +13,21 @@ import saicontella.core.webservices.admin.*;
 import saicontella.core.webservices.admin.UserSettingsWrapper;
 
 import saicontella.core.webservices.authentication.*;
+import saicontella.core.webservices.authentication.LoginResponseWrapper;
+import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
+import saicontella.core.webservices.authentication.ActiveSessionsResponseWrapper;
+import saicontella.core.webservices.authentication.BaseResponse;
+import saicontella.core.webservices.authentication.ResponseSTATUS;
+import saicontella.core.webservices.authentication.FriendDetailsWrapper;
+import saicontella.core.webservices.admin.UserInfoWrapper;
 
 import javax.swing.*;
 import java.util.*;
-import java.util.List;
 import java.awt.*;
 import java.rmi.RemoteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class STLibrary extends Component {
 
@@ -164,6 +169,7 @@ public class STLibrary extends Component {
         this.getSTConfiguration().setMaxUpload(0);
         this.getSTConfiguration().setConnTimeout("30");
         // workaround for testing with virtual friends...
+        /*
         STFriend mariosk1 = new STFriend("mariosk1");
         mariosk1.setIPAddress("192.168.178.10");
         this.getSTConfiguration().addFriend(mariosk1);
@@ -176,6 +182,7 @@ public class STLibrary extends Component {
         STFriend mariosk4 = new STFriend("mariosk4");
         mariosk4.setIPAddress("192.168.178.40");
         this.getSTConfiguration().addFriend(mariosk4);
+        */
     }
 
     public void searchForACandidateFriend() {
@@ -417,12 +424,12 @@ public class STLibrary extends Component {
         }
     }
 
-    public ArrayList<String[]> getUserIds(String userName) {
+    public ArrayList<String[]> getUserIds(String userName, String firstName, String lastName) {
         UserListingsWrapper user = null;
         ArrayList<String[]> userIds = null;
         try {
             logger.debug("Searching userName = " + userName);
-            user = this.webServiceAdminProxy.searchUsers(userName, "", "");
+            user = this.webServiceAdminProxy.searchUsers(userName, firstName, lastName);
             if (user != null) {
                 UserInfoWrapper[] users = user.getUserListings();
                 userIds = new ArrayList(users.length); 
@@ -442,6 +449,96 @@ public class STLibrary extends Component {
         return null;
     }
 
+    public Vector[] getMyFriendsList() {
+        Vector[] myFriendsListData = null;
+        try {
+            logger.debug("Retrieving all friends...");
+            FriendDetailsWrapper[] myFriends= this.webServiceAuthProxy.searchFriend(this.webserviceAuthResponse.getSessionId(), "");
+            if (myFriends != null) {
+                myFriendsListData = new Vector[2];
+                myFriendsListData[0] = new Vector();
+                myFriendsListData[1] = new Vector();
+                for (int i = 0; i < myFriends.length; i++) {
+                    logger.debug("friend[" + i + "]: " + myFriends[i].getFriendId() + " " + myFriends[i].getFriendName() + " " + myFriends[i].getStatus() + " " + myFriends[i].getUserId());
+                    myFriendsListData[0].add(myFriends[i].getFriendName());
+                    myFriendsListData[1].add(myFriends[i].getFriendId());                    
+                }
+                return myFriendsListData;
+            }
+        } catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return myFriendsListData;
+    }
+
+    public void addFriendInList(String userId) {
+        try {
+            logger.debug("Adding a friend with userId = " + userId);
+            BaseResponse response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
+            if (response != null) {
+                if (response.getStatus() == ResponseSTATUS.ERROR) {
+                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    this.fireMessageBox("Friend added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else {
+                this.fireMessageBox("Friend added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);                
+            }
+        } catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void removeFriendFromList(String userId) {
+        try {
+            logger.debug("Removing a friend with userId = " + userId);
+            BaseResponse response = this.webServiceAuthProxy.removeFriend(this.webserviceAuthResponse.getSessionId(), userId);
+            if (response != null) {
+                if (response.getStatus() == ResponseSTATUS.ERROR) {
+                    this.fireMessageBox(response.getErrorMessage(), "Error removing friend", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    this.fireMessageBox("Friend removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else {
+                this.fireMessageBox("Friend removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);                
+            }
+        } catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public ArrayList<String[]> getCandidateFriends(String userName, String firstName, String lastName) {
+        ArrayList<String[]> userIds = null;
+        try {
+            logger.debug("Searching candidate friend = " + userName);
+            saicontella.core.webservices.authentication.UserInfoWrapper[] friends = null;
+            friends = this.webServiceAuthProxy.searchCandidateFriend(this.webserviceAuthResponse.getSessionId(), userName, firstName, lastName);
+
+            if (friends != null) {
+                userIds = new ArrayList(friends.length);
+                for (int i = 0; i < friends.length; i++) {
+                    logger.debug("userName = " + friends[i].getUserName() + " userId = " + friends[i].getUserId());
+                    String[] values = new String[2];
+                    values[0] = friends[i].getUserName();
+                    values[1] = friends[i].getUserId();
+                    userIds.add(values);
+                }
+                return userIds;
+            }
+        } catch (RemoteException ex) {
+            logger.error("Exception: " + ex.getMessage());
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
     // UserAuthentication web service settings (START)
     private String getSettingsAuthValue(String setting) {
         if (this.webserviceAuthSettings != null) {

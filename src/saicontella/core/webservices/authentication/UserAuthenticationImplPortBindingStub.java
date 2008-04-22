@@ -16,7 +16,7 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[12];
+        _operations = new org.apache.axis.description.OperationDesc[13];
         _initOperationDesc1();
         _initOperationDesc2();
     }
@@ -229,6 +229,27 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[11] = oper;
 
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("searchCandidateFriend");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "sessionId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "userName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "firstName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "lastName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userInfoWrapper"));
+        oper.setReturnClass(saicontella.core.webservices.authentication.UserInfoWrapper[].class);
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[12] = oper;
+
     }
 
     public UserAuthenticationImplPortBindingStub() throws org.apache.axis.AxisFault {
@@ -308,6 +329,13 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
             cachedSerClasses.add(cls);
             cachedSerFactories.add(enumsf);
             cachedDeserFactories.add(enumdf);
+
+            qName = new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userInfoWrapper");
+            cachedSerQNames.add(qName);
+            cls = saicontella.core.webservices.authentication.UserInfoWrapper.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userRegistrationsWrapper");
             cachedSerQNames.add(qName);
@@ -790,6 +818,40 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
                 return (saicontella.core.webservices.authentication.FriendDetailsWrapper[]) _resp;
             } catch (java.lang.Exception _exception) {
                 return (saicontella.core.webservices.authentication.FriendDetailsWrapper[]) org.apache.axis.utils.JavaUtils.convert(_resp, saicontella.core.webservices.authentication.FriendDetailsWrapper[].class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public saicontella.core.webservices.authentication.UserInfoWrapper[] searchCandidateFriend(java.lang.String sessionId, java.lang.String userName, java.lang.String firstName, java.lang.String lastName) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[12]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "searchCandidateFriend"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {sessionId, userName, firstName, lastName});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (saicontella.core.webservices.authentication.UserInfoWrapper[]) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (saicontella.core.webservices.authentication.UserInfoWrapper[]) org.apache.axis.utils.JavaUtils.convert(_resp, saicontella.core.webservices.authentication.UserInfoWrapper[].class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {
