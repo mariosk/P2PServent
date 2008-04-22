@@ -243,6 +243,8 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "lastName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "limit"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+        oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userInfoWrapper"));
         oper.setReturnClass(saicontella.core.webservices.authentication.UserInfoWrapper[].class);
         oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
@@ -825,7 +827,7 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
 }
     }
 
-    public saicontella.core.webservices.authentication.UserInfoWrapper[] searchCandidateFriend(java.lang.String sessionId, java.lang.String userName, java.lang.String firstName, java.lang.String lastName) throws java.rmi.RemoteException {
+    public saicontella.core.webservices.authentication.UserInfoWrapper[] searchCandidateFriend(java.lang.String sessionId, java.lang.String userName, java.lang.String firstName, java.lang.String lastName, int limit) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -841,7 +843,7 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {sessionId, userName, firstName, lastName});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {sessionId, userName, firstName, lastName, new java.lang.Integer(limit)});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;

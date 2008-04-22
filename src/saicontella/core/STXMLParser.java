@@ -179,7 +179,8 @@ public class STXMLParser extends DefaultHandler {
         else if (qName.equalsIgnoreCase("webservice")) {
             tmpConfiguration.setWebServiceAccount(attributes.getValue("name"));
             tmpConfiguration.setWebServicePassword(attributes.getValue("password"));
-            tmpConfiguration.setWebServiceEndpoint(attributes.getValue("wsdl"));            
+            tmpConfiguration.setWebServiceEndpoint(attributes.getValue("wsdl"));
+            tmpConfiguration.setMaxSearchFriendsLimit(attributes.getValue("maxFriendsLimit"));
         }
         else if (qName.equalsIgnoreCase("account")) {
             tmpConfiguration.setAccountName(attributes.getValue("name"));

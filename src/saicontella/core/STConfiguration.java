@@ -33,6 +33,7 @@ public class STConfiguration {
     private String webServiceEndpoint;
     private String webServiceAccount;
     private String webServicePassword;
+    private int maxSearchFriendsLimit;
     
     public STConfiguration()
     {
@@ -52,6 +53,15 @@ public class STConfiguration {
     }
     public String getWebServiceAccount() {
         return this.webServiceAccount;
+    }
+
+    public void setMaxSearchFriendsLimit(String value) {
+        if (value == null)
+            return;
+        this.maxSearchFriendsLimit = new Integer(value).intValue();
+    }
+    public int getMaxSearchFriendsLimit() {
+        return this.maxSearchFriendsLimit;
     }
 
     public void setWebServicePassword(String value) {
@@ -205,7 +215,7 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("\t<!-- webService endpoint -->");
         buffer.append("\n");
-        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getWebServicePassword() + "\" wsdl=\"" + this.getWebServiceEndpoint() + "\"/>");
+        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getWebServicePassword() + "\" wsdl=\"" + this.getWebServiceEndpoint() + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
         buffer.append("\n");
         buffer.append("\t<!-- gnutella servent -->");
         buffer.append("\n");

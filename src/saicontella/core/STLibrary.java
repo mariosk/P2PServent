@@ -204,8 +204,13 @@ public class STLibrary extends Component {
 
     public void STLogoutUser() {
         if (this.keepAliveThread != null) {
-            this.keepAliveThread.stop();
-            this.keepAliveThread = null;
+            try {
+                this.keepAliveThread.stop();
+                this.keepAliveThread = null;
+            }
+            catch (Exception ex) {
+                logger.error(ex.getMessage());    
+            }
         }
         this.STLogoutUser(this.getSTConfiguration().getWebServiceEndpoint());
         this.getGnutellaFramework().disconnectFromPeers();
@@ -460,6 +465,8 @@ public class STLibrary extends Component {
                 myFriendsListData[1] = new Vector();
                 for (int i = 0; i < myFriends.length; i++) {
                     logger.debug("friend[" + i + "]: " + myFriends[i].getFriendId() + " " + myFriends[i].getFriendName() + " " + myFriends[i].getStatus() + " " + myFriends[i].getUserId());
+                    if (this.getSTConfiguration().getAccountName().equals(myFriends[i].getFriendName()))
+                        continue;
                     myFriendsListData[0].add(myFriends[i].getFriendName());
                     myFriendsListData[1].add(myFriends[i].getFriendId());                    
                 }
@@ -519,7 +526,7 @@ public class STLibrary extends Component {
         try {
             logger.debug("Searching candidate friend = " + userName);
             saicontella.core.webservices.authentication.UserInfoWrapper[] friends = null;
-            friends = this.webServiceAuthProxy.searchCandidateFriend(this.webserviceAuthResponse.getSessionId(), userName, firstName, lastName);
+            friends = this.webServiceAuthProxy.searchCandidateFriend(this.webserviceAuthResponse.getSessionId(), userName, firstName, lastName, this.getSTConfiguration().getMaxSearchFriendsLimit());
 
             if (friends != null) {
                 userIds = new ArrayList(friends.length);

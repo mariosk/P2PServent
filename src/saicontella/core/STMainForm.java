@@ -101,6 +101,7 @@ public class STMainForm extends JFrame {
     private JLabel imageLabel;
     private JTextField textFieldSearchFriend;
     private JButton buttonSearchFriend;
+    private JTextField maxFriendsLimitTextBox;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -635,6 +636,7 @@ public class STMainForm extends JFrame {
     }
 
     public void initializeToolsTabValues() {
+        this.maxFriendsLimitTextBox.setText(new Integer(sLibrary.getSTConfiguration().getMaxSearchFriendsLimit()).toString());
         this.userTextBox.setText(sLibrary.getSTConfiguration().getWebServiceAccount());
         this.passwordTextBox.setText(sLibrary.getSTConfiguration().getWebServicePassword());
         this.WSDLTextFBox.setText(sLibrary.getSTConfiguration().getWebServiceEndpoint());
@@ -895,6 +897,7 @@ public class STMainForm extends JFrame {
                 // saveFriendsListInXML();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
             } else if (sourceObject.getText().equals("Save Settings")) {
+                sLibrary.getSTConfiguration().setMaxSearchFriendsLimit(maxFriendsLimitTextBox.getText());                
                 sLibrary.getSTConfiguration().setWebServiceAccount(userTextBox.getText());
                 sLibrary.getSTConfiguration().setWebServicePassword(passwordTextBox.getText());
                 sLibrary.getSTConfiguration().setListenPort(listenPortTextBox.getText());
