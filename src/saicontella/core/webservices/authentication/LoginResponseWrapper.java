@@ -16,6 +16,8 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
 
     private java.lang.String countryName;
 
+    private java.lang.String emailAddress;
+
     private java.lang.String firstName;
 
     private java.lang.String lastName;
@@ -40,6 +42,7 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
            java.lang.String clientDownloadLocation,
            java.lang.String countryId,
            java.lang.String countryName,
+           java.lang.String emailAddress,
            java.lang.String firstName,
            java.lang.String lastName,
            java.util.Calendar lastPurchase,
@@ -54,6 +57,7 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
         this.clientDownloadLocation = clientDownloadLocation;
         this.countryId = countryId;
         this.countryName = countryName;
+        this.emailAddress = emailAddress;
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastPurchase = lastPurchase;
@@ -141,6 +145,26 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
      */
     public void setCountryName(java.lang.String countryName) {
         this.countryName = countryName;
+    }
+
+
+    /**
+     * Gets the emailAddress value for this LoginResponseWrapper.
+     * 
+     * @return emailAddress
+     */
+    public java.lang.String getEmailAddress() {
+        return emailAddress;
+    }
+
+
+    /**
+     * Sets the emailAddress value for this LoginResponseWrapper.
+     * 
+     * @param emailAddress
+     */
+    public void setEmailAddress(java.lang.String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
 
@@ -305,6 +329,9 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
             ((this.countryName==null && other.getCountryName()==null) || 
              (this.countryName!=null &&
               this.countryName.equals(other.getCountryName()))) &&
+            ((this.emailAddress==null && other.getEmailAddress()==null) || 
+             (this.emailAddress!=null &&
+              this.emailAddress.equals(other.getEmailAddress()))) &&
             ((this.firstName==null && other.getFirstName()==null) || 
              (this.firstName!=null &&
               this.firstName.equals(other.getFirstName()))) &&
@@ -346,6 +373,9 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
         }
         if (getCountryName() != null) {
             _hashCode += getCountryName().hashCode();
+        }
+        if (getEmailAddress() != null) {
+            _hashCode += getEmailAddress().hashCode();
         }
         if (getFirstName() != null) {
             _hashCode += getFirstName().hashCode();
@@ -401,6 +431,13 @@ public class LoginResponseWrapper  extends saicontella.core.webservices.authenti
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("countryName");
         elemField.setXmlName(new javax.xml.namespace.QName("", "countryName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("emailAddress");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "emailAddress"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

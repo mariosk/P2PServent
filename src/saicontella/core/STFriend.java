@@ -13,6 +13,7 @@ import saicontella.core.STLibrary.STConstants.*;
 public class STFriend {
     
     private String friendName;
+    private String friendId;
     private StatusEnumerator status;
     private String IPAddress;
     private int portNumber;
@@ -37,6 +38,15 @@ public class STFriend {
     public void setIPAddress(String IPAddress)
     {
         this.IPAddress = IPAddress;
+    }
+
+    public String getFriendId()
+    {
+        return this.friendId;
+    }
+    public void setFriendId(String friendId)
+    {
+        this.friendId = friendId;
     }
 
     public void setStatus(String statusStr)

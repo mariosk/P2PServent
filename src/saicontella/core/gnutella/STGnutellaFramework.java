@@ -232,7 +232,7 @@ public class STGnutellaFramework {
     }
 
     public String getIpAddressFromFriendName(String name) {
-        logger.info("Mapping ip address with friend-name taken from the web service...");
+        logger.info("Mapping ip address with friend-name " + name + " taken from the web service...");
         Vector peersList = STLibrary.getInstance().getPeersList();
         if (peersList != null) {
             for (int i = 0; i < peersList.size(); i++) {

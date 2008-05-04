@@ -122,6 +122,7 @@ public class STXMLParser extends DefaultHandler {
             STFriend friend = (STFriend) myFriends.get(i);
             logger.debug("\tmyFriend name: " + friend.getFriendName());
             logger.debug("\tmyFriend IpAddress: " + friend.getIPAddress());
+            logger.debug("\tmyFriend IpAddress: " + friend.getFriendId());
         }
         logger.debug("Ads Server IP Address: " + this.tmpConfiguration.getAdsServer());
         logger.debug("end of configuration");
@@ -205,7 +206,8 @@ public class STXMLParser extends DefaultHandler {
 */        
         else if (qName.equalsIgnoreCase("friend")) {           
             STFriend myFriend = new STFriend(attributes.getValue("name"));
-            myFriend.setIPAddress(attributes.getValue("ipaddress"));            
+            myFriend.setIPAddress(attributes.getValue("ipaddress"));
+            myFriend.setFriendId(attributes.getValue("friendid"));            
             this.myFriendsList.add(myFriend);
         }
         else if (qName.equalsIgnoreCase("ads")) {           

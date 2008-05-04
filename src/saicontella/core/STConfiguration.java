@@ -235,7 +235,7 @@ public class STConfiguration {
         friends = this.getMyFriends();
         for (int i = 0; i < friends.size(); i++) {
             STFriend friend = (STFriend)friends.get(i);
-            buffer.append("\t\t<friend name=\"" + friend.getFriendName() + "\" ipaddress=\"" + friend.getIPAddress() + "\"/>");
+            buffer.append("\t\t<friend name=\"" + friend.getFriendName() + "\" ipaddress=\"" + friend.getIPAddress() + "\" friendid=\"" + friend.getFriendId() + "\"/>");
             buffer.append("\n");
         }
         buffer.append("\t</myFriends>");
@@ -286,4 +286,15 @@ public class STConfiguration {
             ie.printStackTrace();
         }
     }
+
+    public String getUserIdFromFriendName(String name) {
+        for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getMyFriends().size(); i++) {
+            String friendId = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendId();
+            String friendName = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendName();
+            if (friendName.equals(name))
+                return friendId;
+        }
+        return null;
+    }
+    
 }

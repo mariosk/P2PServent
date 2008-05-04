@@ -142,9 +142,12 @@ public class STMainForm extends JFrame {
     private ImageIcon myAdminIcon;
     private ImageIcon myExitIcon;
 
-    private String[] listFriendIds;
-    private Vector allPeersData;
-    private Vector friendsListData;
+    // allPeersData[0] => friend names from search result
+    // allPeersData[1] => friends ids from search result  
+    private Vector[] allPeersData;
+    // friendsListData[0] => friends names
+    // friendsListData[1] => friends ids
+    private Vector[] friendsListData;
     private STMainForm stMainForm;
 
     public void disableTabs() {
@@ -317,13 +320,13 @@ public class STMainForm extends JFrame {
                     listOfUserIds = STLibrary.getInstance().getCandidateFriends("", "", "");
                 if (listOfUserIds != null) {
                     listAllPeers.removeAll();
-                    allPeersData = new Vector(listOfUserIds.size());
-                    listFriendIds = new String[listOfUserIds.size()];
+                    allPeersData[0] = new Vector(listOfUserIds.size());
+                    allPeersData[1] = new Vector(listOfUserIds.size());
                     for (int i = 0; i < listOfUserIds.size(); i++) {
-                        allPeersData.add(listOfUserIds.get(i)[0]);
-                        listFriendIds[i] = listOfUserIds.get(i)[1];
+                        allPeersData[0].add(listOfUserIds.get(i)[0]);
+                        allPeersData[1].add(listOfUserIds.get(i)[1]);
                     }
-                    listAllPeers.setListData(allPeersData);
+                    listAllPeers.setListData(allPeersData[0]);
                 }
             }
         });
@@ -555,27 +558,19 @@ public class STMainForm extends JFrame {
                 listFriends.addListSelectionListener(clickListHandler);
                 if (networkTab == null)
                     return;
-                //Retrieving here the list of the added friends...
+                //Retrieving here the list of the added friends from the configuration file saicontella.xml...
                 Vector[] myFriendsList = STLibrary.getInstance().getMyFriendsList();
                 if (myFriendsList != null) {
-                    friendsListData = myFriendsList[0];
-                    listFriendIds = new String[myFriendsList[1].size()];
-                    for (int i = 0; i < myFriendsList[1].size(); i++) {
-                        listFriendIds[i] = myFriendsList[1].get(i).toString();
-                    }                     
+                    friendsListData = new Vector[2];
+                    friendsListData[0] = myFriendsList[0];
+                    friendsListData[1] = myFriendsList[1];
                 }
-                /*
-                friendsListData = new Vector();
-                ArrayList friends = sLibrary.getSTConfiguration().getMyFriends();
-                for (int i = 0; i < friends.size(); i++) {
-                    STFriend friend = (STFriend) friends.get(i);
-                    friendsListData.add(friend.getFriendName());
-                }
-                */
-                if (allPeersData != null)
-                    listAllPeers.setListData(allPeersData);
-                if (friendsListData != null)
-                    listFriends.setListData(friendsListData);
+                if (allPeersData == null)
+                    allPeersData = new Vector[2];                
+                if (allPeersData[0] != null)
+                    listAllPeers.setListData(allPeersData[0]);
+                if (friendsListData[0] != null)
+                    listFriends.setListData(friendsListData[0]);
             }
         }
     }
@@ -846,12 +841,15 @@ public class STMainForm extends JFrame {
 
     private void saveFriendsListInXML() {
         sLibrary.getSTConfiguration().getMyFriends().clear();
-        for (int i = 0; i < friendsListData.size(); i++) {
-            Object o = friendsListData.get(i);
-            STFriend friend = new STFriend(o.toString());
+        for (int i = 0; i < friendsListData[0].size(); i++) {
+            Object friendName = friendsListData[0].get(i);
+            Object friendId = friendsListData[1].get(i); 
+            STFriend friend = new STFriend(friendName.toString());
             String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
             if (friendIpAddress != null)
                 friend.setIPAddress(friendIpAddress);
+            if (friendId != null)
+                friend.setFriendId(friendId.toString());                      
             sLibrary.getSTConfiguration().addFriend(friend);
         }
         sLibrary.getSTConfiguration().saveXMLFile();
@@ -865,35 +863,53 @@ public class STMainForm extends JFrame {
             // Removing a friend...
             if (sourceObject.getText().equals(STLibrary.STConstants.FRIEND_SELECTED)) {
                 // get the selected index from the RIGHT JList (listFriends)
-                int index = listFriends.getSelectedIndex();
-                if (index < 0) {
-                    STLibrary.getInstance().fireMessageBox("Please select a friend to remove!", "Error", JOptionPane.ERROR);
+                Object[] friendNames = listFriends.getSelectedValues();
+                if (friendNames == null) {
+                    STLibrary.getInstance().fireMessageBox("Please select at leaset one friend to remove!", "Error", JOptionPane.ERROR);
                     return;
                 }
+                int[] indices = listFriends.getSelectedIndices();
                 // removing the selected friend from that JList
-                friendsListData.remove(index);
-                // setting the new list data
-                listFriends.setListData(friendsListData);
-                // removing the friend through the web service
-                STLibrary.getInstance().removeFriendFromList(listFriendIds[index]);
+                Vector[] tmpFriendsList = new Vector[2];
+                tmpFriendsList[0] = new Vector();
+                tmpFriendsList[1] = new Vector();
+                for (int i = 0; i < friendsListData[0].size(); i++) {
+                    tmpFriendsList[0].add(i, friendsListData[0].get(i));
+                    tmpFriendsList[1].add(i, friendsListData[1].get(i));
+                }
+                for (int i = 0; i < indices.length; i++) {
+                    // removing the friend through the web service
+                    if (STLibrary.getInstance().removeFriendFromList(tmpFriendsList[0].get(indices[i]).toString(), tmpFriendsList[1].get(indices[i]).toString())) {
+                        // each time we remove an entry from the vector the capacity changes...
+                        // so removing always position 0 is a solution...
+                        friendsListData[0].remove(indices[0]);
+                        friendsListData[1].remove(indices[0]);
+                        // setting the new list data
+                        listFriends.setListData(friendsListData[0]);
+                    }
+                }
                 saveFriendsListInXML();
             // Adding a friend...
             } else if (sourceObject.getText().equals(STLibrary.STConstants.PEER_SELECTED)) {
                 // get the selected index from the LEFT JList (listAllPeers)
-                int index = listAllPeers.getSelectedIndex();
-                if (index < 0) {
-                    STLibrary.getInstance().fireMessageBox("Please select a friend to add!", "Error", JOptionPane.ERROR);
+                Object[] friendNames = listAllPeers.getSelectedValues();
+                if (friendNames == null) {
+                    STLibrary.getInstance().fireMessageBox("Please select at least one friend to add!", "Error", JOptionPane.ERROR);
                     return;
                 }
-                String friendName = listAllPeers.getSelectedValue().toString();
-                // removing the selected friend from that JList
-                allPeersData.remove(index);
-                listAllPeers.setListData(allPeersData);
-                // adding the selected friend from that JList to the right JList
-                friendsListData.add(friendName);
-                listFriends.setListData(friendsListData);
-                // adding the friend through the web service
-                STLibrary.getInstance().addFriendInList(listFriendIds[index]);
+                int[] indices = listAllPeers.getSelectedIndices();
+                // adding the selected friends from the left JList to the right JList
+                for (int i = 0; i < indices.length; i++) {
+                    if (STLibrary.getInstance().isFriendAlreadyInList(friendNames[i].toString(), friendsListData[0])) {
+                        continue;
+                    }
+                    friendsListData[0].add(allPeersData[0].get(indices[i]));
+                    friendsListData[1].add(allPeersData[1].get(indices[i]));
+                    // adding the friend through the web service
+                    STLibrary.getInstance().addFriendInList(allPeersData[0].get(indices[i]).toString(), allPeersData[1].get(indices[i]).toString());                                    
+                }
+                listFriends.setListData(friendsListData[0]);
+                // saveFriendsListInXML should be called before addFriendsInList
                 saveFriendsListInXML();
             } else if (sourceObject.getText().equals("Save")) {
                 // saveFriendsListInXML();

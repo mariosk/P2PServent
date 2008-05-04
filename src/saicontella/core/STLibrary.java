@@ -479,48 +479,60 @@ public class STLibrary extends Component {
         return myFriendsListData;
     }
 
-    public void addFriendInList(String userId) {
+    public boolean isFriendAlreadyInList(String friendName, Vector list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).toString().equals(friendName))
+                return true;
+        }
+        return false;
+    }
+    
+    public void addFriendInList(String friendName, String userId) {
         try {
-            logger.debug("Adding a friend with userId = " + userId);
+            logger.debug("Adding a friend " + friendName + " with userId = " + userId);
             BaseResponse response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend", JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    this.fireMessageBox("Friend added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else {
-                this.fireMessageBox("Friend added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);                
+                this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), "Error in friend " + friendName, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void removeFriendFromList(String userId) {
+    public boolean removeFriendFromList(String friendName, String userId) {
+        boolean errorFound = false;
         try {
-            logger.debug("Removing a friend with userId = " + userId);
+            logger.debug("Removing friend " + friendName + " with userId = " + userId);
             BaseResponse response = this.webServiceAuthProxy.removeFriend(this.webserviceAuthResponse.getSessionId(), userId);
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(response.getErrorMessage(), "Error removing friend", JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox(response.getErrorMessage(), "Error removing friend " + friendName, JOptionPane.ERROR_MESSAGE);
+                    errorFound = true;
                 }
                 else {
-                    this.fireMessageBox("Friend removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.fireMessageBox("Friend '" + friendName + "' removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else {
-                this.fireMessageBox("Friend removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);                
+                this.fireMessageBox("Friend '" + friendName + "' removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RemoteException ex) {
+            errorFound = true;
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), "Error in friend " + friendName, JOptionPane.ERROR_MESSAGE);
         }
+        return (!errorFound);
     }
-    
+   
     public ArrayList<String[]> getCandidateFriends(String userName, String firstName, String lastName) {
         ArrayList<String[]> userIds = null;
         try {
