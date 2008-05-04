@@ -172,6 +172,8 @@ public class STMainForm extends JFrame {
     }
 
     public ArrayList<Host> getPeersListData() {
+        if (this.networkTab == null)
+            return null;
         return this.networkTab.getAllHosts();    
     }
 
@@ -309,7 +311,7 @@ public class STMainForm extends JFrame {
         buttonSearchFriend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String[]> listOfUserIds = null;
-                if (textFieldSearchFriend.getText().equals("*"))
+                if (!textFieldSearchFriend.getText().trim().equals(""))
                     listOfUserIds = STLibrary.getInstance().getCandidateFriends(textFieldSearchFriend.getText(), "", "");
                 else
                     listOfUserIds = STLibrary.getInstance().getCandidateFriends("", "", "");

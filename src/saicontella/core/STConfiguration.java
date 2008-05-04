@@ -8,9 +8,7 @@ package saicontella.core;
  * February 2008
  */
 
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -207,6 +205,8 @@ public class STConfiguration {
 
     public void saveXMLFile(String filename) {
         StringBuffer buffer = new StringBuffer();
+        buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        buffer.append("\n");
         buffer.append("<configuration>");
         buffer.append("\n");
         buffer.append("\t<!-- mySQL server -->");
@@ -275,10 +275,10 @@ public class STConfiguration {
         buffer.append("</configuration>");
 
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(filename + ".tmp"));
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename + ".tmp"), "UTF8"));
             out.write(buffer.toString());
             out.close();
-            BufferedWriter outNew = new BufferedWriter(new FileWriter(filename));
+            Writer outNew = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF8"));
             outNew.write(buffer.toString());
             outNew.close();
         }
