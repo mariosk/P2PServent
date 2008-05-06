@@ -24,18 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -73,6 +62,7 @@ import phex.utils.URLUtil;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import saicontella.phex.stdownload.STSWDownloadTableModel;
+import saicontella.core.STResources;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -123,13 +113,13 @@ public class STSWDownloadTab extends FWTab
         Dimension dim = new Dimension( 400, 300 );
         downloadTablePanel.setPreferredSize( dim );
         downloadDetails.setPreferredSize( dim );
-        dim = new Dimension( 0, 0 );
+        dim = new Dimension( 0, 0 );        
         downloadTablePanel.setMinimumSize( dim );
         downloadDetails.setMinimumSize( dim );
 
 
         JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, downloadTablePanel,
-            downloadDetails );
+            null );
         splitPane.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0) );
         splitPane.setDividerSize( 4 );
         splitPane.setOneTouchExpandable( false );
@@ -415,7 +405,7 @@ public class STSWDownloadTab extends FWTab
     {
         StopDownloadAction()
         {
-            super( Localizer.getString( "StopDownload" ),
+            super( "Pause",
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.StopDownload"),
                 Localizer.getString( "TTTStopDownload" ) );
             refreshActionState();

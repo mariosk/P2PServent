@@ -28,11 +28,12 @@ import phex.host.HostInfo;
 import phex.host.NetworkHostsContainer;
 import phex.servent.Servent;
 import phex.utils.Localizer;
+import saicontella.core.STLibrary;
 
 public class STNetworkTableModel extends FWSortableTableModel
 {
     public static final int HOST_MODEL_INDEX = 0;
-//dsz    public static final int VENDOR_MODEL_INDEX = 1;
+//    public static final int VENDOR_MODEL_INDEX = 1;
     public static final int TYPE_MODEL_INDEX = 1;
     public static final int MODE_MODEL_INDEX = 2;
     public static final int RECEIVED_DROPPED_MODEL_INDEX = 3;
@@ -41,6 +42,7 @@ public class STNetworkTableModel extends FWSortableTableModel
     public static final int QRT_MODEL_INDEX = 6;
     public static final int UPTIME_MODEL_INDEX = 7;
     public static final int STATUS_MODEL_INDEX = 8;
+    public static final int USER_NAME_INDEX = 9;
 
     /**
      * The unique column id is not allowed to ever change over Phex releases. It
@@ -48,7 +50,7 @@ public class STNetworkTableModel extends FWSortableTableModel
      * the identifier field of the TableColumn.
      */
     private static final Integer HOST_COLUMN_ID = Integer.valueOf( 1001 );
-//dsz    private static final Integer VENDOR_COLUMN_ID = Integer.valueOf( 1002 );
+//    private static final Integer VENDOR_COLUMN_ID = Integer.valueOf( 1002 );
     private static final Integer TYPE_COLUMN_ID = Integer.valueOf( 1002 );
     private static final Integer RECEIVED_DROPPED_COLUMN_ID = Integer.valueOf( 1003 );
     private static final Integer SENT_QUEUED_COLUMN_ID = Integer.valueOf( 1004 );
@@ -57,6 +59,7 @@ public class STNetworkTableModel extends FWSortableTableModel
     private static final Integer STATUS_COLUMN_ID = Integer.valueOf( 1008 );
     private static final Integer MODE_COLUMN_ID = Integer.valueOf( 1009 );
     private static final Integer QRT_COLUMN_ID = Integer.valueOf( 1010 );
+    private static final Integer USER_COLUMN_ID = Integer.valueOf( 1011 );
 
     /**
      * Column ids ordered according to its corresponding model index
@@ -64,7 +67,7 @@ public class STNetworkTableModel extends FWSortableTableModel
     private static final Integer[] COLUMN_IDS = new Integer[]
     {
         HOST_COLUMN_ID,
-//dsz        VENDOR_COLUMN_ID,
+//        VENDOR_COLUMN_ID,
         TYPE_COLUMN_ID,
         MODE_COLUMN_ID,
         RECEIVED_DROPPED_COLUMN_ID,
@@ -72,7 +75,8 @@ public class STNetworkTableModel extends FWSortableTableModel
         SHARED_COLUMN_ID,
         QRT_COLUMN_ID,
         UPTIME_COLUMN_ID,
-        STATUS_COLUMN_ID
+        STATUS_COLUMN_ID,
+        USER_COLUMN_ID,
     };
 
     private static final String[] tableColumns;
@@ -83,7 +87,7 @@ public class STNetworkTableModel extends FWSortableTableModel
         tableColumns = new String[]
         {
             Localizer.getString( "RemoteHost" ),
-//dsz            Localizer.getString( "Vendor" ),
+//            Localizer.getString( "Vendor" ),
             Localizer.getString( "Type" ),
             Localizer.getString( "Mode" ),
             Localizer.getString( "ReceivedDropped" ),
@@ -91,12 +95,14 @@ public class STNetworkTableModel extends FWSortableTableModel
             Localizer.getString( "Shared" ),
             Localizer.getString( "QRT" ),
             Localizer.getString( "Uptime" ),
-            Localizer.getString( "Status" )
+            Localizer.getString( "Status" ),
+            Localizer.getString( "User" )    
         };
 
         tableClasses = new Class[]
         {
              HostAddressCellRenderer.class,
+//             String.class,
              String.class,
              String.class,
              String.class,
@@ -137,8 +143,8 @@ public class STNetworkTableModel extends FWSortableTableModel
             case HOST_MODEL_INDEX:
                 return host.getHostAddress();
 
-//dsz            case VENDOR_MODEL_INDEX:
-//dsz                return host.getVendor();
+//            case VENDOR_MODEL_INDEX:
+//                return host.getVendor();
 
             case TYPE_MODEL_INDEX:
                 switch ( host.getType() )
@@ -207,6 +213,9 @@ public class STNetworkTableModel extends FWSortableTableModel
 
             case STATUS_MODEL_INDEX:
                 return HostInfo.getHostStatusString(host);
+
+            case USER_NAME_INDEX:
+                return STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddress(host.getHostAddress().getIpAddress());
         }
         return "";
     }

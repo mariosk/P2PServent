@@ -14,10 +14,10 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="4d93" binding="settingsTab" layout-manager="GridLayoutManager" row-count="14" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="4d93" binding="mySettingsTab" layout-manager="GridLayoutManager" row-count="14" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Settings"/>
+              <tabbedpane title="mySettings"/>
             </constraints>
             <properties/>
             <border type="none"/>

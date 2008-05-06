@@ -70,7 +70,7 @@ public class STUploadTab extends FWTab
 
     private FWTable uploadTable;
     private JScrollPane uploadTableScrollPane;
-    private UploadFilesTableModel uploadModel;
+    private STUploadFilesTableModel uploadModel;
     private JPopupMenu uploadPopup;
 
     public STUploadTab( )
@@ -101,7 +101,7 @@ public class STUploadTab extends FWTab
         
         MouseHandler mouseHandler = new MouseHandler();
         
-        uploadModel = new UploadFilesTableModel( uploadManager );
+        uploadModel = new STUploadFilesTableModel( uploadManager );
         uploadTable = new FWTable( new FWSortedTableModel( uploadModel ) );
         GUIUtils.updateTableFromDGuiSettings( guiSettings, uploadTable, 
             UPLOAD_TABLE_IDENTIFIER );
@@ -140,9 +140,9 @@ public class STUploadTab extends FWTab
         uploadToolbar.addSeparator();
         uploadPopup.addSeparator();
         
-//dsz        action = new AddToFavoritesAction();
-//dsz        addTabAction( action );
-//dsz        uploadPopup.add( action );
+//        action = new AddToFavoritesAction();
+//        addTabAction( action );
+//        uploadPopup.add( action );
 
         action = new ChatToHostAction();
         addTabAction( action );
@@ -381,7 +381,7 @@ public class STUploadTab extends FWTab
         }
     }
 
-/*//dsz
+/*
     private class AddToFavoritesAction extends FWAction
     {
         public AddToFavoritesAction()
@@ -416,8 +416,7 @@ public class STUploadTab extends FWTab
             }
         }
     }
-//dsz*/
-
+*/
     class ClearUploadsAction extends FWAction
     {
         ClearUploadsAction()

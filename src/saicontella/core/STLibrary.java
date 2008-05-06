@@ -25,9 +25,18 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.rmi.RemoteException;
+import java.io.FileOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import phex.gui.common.GUIUtils;
 
 public class STLibrary extends Component {
 
@@ -100,6 +109,7 @@ public class STLibrary extends Component {
     private LoginResponseWrapper webserviceAuthResponse;
     private ActiveSessionMiniWrapper[] arrayOfPeers;
     private UserAuthenticationImplPortBindingStub webServiceAuthProxy;
+    private ClientApplicationVersionResponseWrapper webServiceAuthVersion; 
 
     // UserServerAdmin web service
     private ServerAdminResponseWrapper adminResponse;
@@ -165,9 +175,10 @@ public class STLibrary extends Component {
         this.getSTConfiguration().setListenPort("6346");
         this.getSTConfiguration().setWebServiceEndpoint("http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl");
         this.getSTConfiguration().setMaxConnections("5");
-        this.getSTConfiguration().setMaxDownload(0);
-        this.getSTConfiguration().setMaxUpload(0);
+        this.getSTConfiguration().setMaxDownload(1);
+        this.getSTConfiguration().setMaxUpload(1);
         this.getSTConfiguration().setConnTimeout("30");
+        this.getSTConfiguration().setMaxSearchFriendsLimit("1000");
         // workaround for testing with virtual friends...
         /*
         STFriend mariosk1 = new STFriend("mariosk1");
@@ -185,13 +196,89 @@ public class STLibrary extends Component {
         */
     }
 
-    public void searchForACandidateFriend() {
-            
+    public boolean retrieveFromWebServer(String absPathObject, String absPathOutput) {
+        boolean status = true;
+        FileOutputStream fos = null;
+        GetMethod method = new GetMethod();
+        HttpClient client = new HttpClient();
+
+        try {
+          method.setURI(new URI(absPathObject, true));
+          int returnCode = client.executeMethod(method);
+
+          if(returnCode != HttpStatus.SC_OK) {            
+            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status code: " + returnCode, "ERROR", JOptionPane.ERROR_MESSAGE);
+            status = false;
+            return status;
+          }
+
+          //logger.error(method.getResponseBodyAsString());
+
+          byte[] binaryData = method.getResponseBody();
+          fos = new FileOutputStream(new File(absPathOutput));
+          fos.write(binaryData);
+
+        }
+        catch (HttpException he)
+        {
+            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status: " + he.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            status = false;
+        }
+        catch (IOException ie)
+        {
+            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status: " + ie.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            status = false;
+        }
+        finally
+        {
+          method.releaseConnection();
+          if(fos != null) try { fos.close(); } catch (Exception fe) {}
+        }
+
+        return status;
+    }
+
+    public void updateP2PServent(boolean autoCheck) {
+        if (!STLibrary.getInstance().isTheSameAppVersion()) {
+            // a newer version is identified
+            STAppUpdateDialog updateDlg = new STAppUpdateDialog();
+            updateDlg.setTitle("Updating P2PServent");
+            GUIUtils.centerAndSizeWindow(updateDlg, 3, 7);
+            updateDlg.pack();
+            updateDlg.setVisible(true);
+        }
+        else {
+            if (!autoCheck)
+                STLibrary.getInstance().fireMessageBox("There are no new updates!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public boolean downloadNewerVersion() {
+        return this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl(), "P2PServent_"+this.getNewerVersion()+".exe");
+    }
+
+    public String getNewerVersion() {
+        return this.webServiceAuthVersion.getVersion();    
+    }
+
+    public boolean isTheSameAppVersion() {
+        if (this.webServiceAuthVersion == null) {
+            STLibrary.getInstance().fireMessageBox("You need to login as a valid user first!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        }
+        return this.webServiceAuthVersion.getVersion().equals(STResources.getStr("Application.version"));
     }
 
     public boolean STLoginUser() {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
         this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
+        try {
+            this.webServiceAuthVersion = this.webServiceAuthProxy.checkForNewerApplication(STConstants.p2pAppId, ReleaseType.BETA);
+        }
+        catch (Exception ex) {
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         if (this.webserviceAuthResponse != null) {
             if (this.keepAliveThread == null) {
                 this.keepAliveThread = new STKeepAliveThread(this.webserviceAuthResponse);
@@ -300,8 +387,7 @@ public class STLibrary extends Component {
 			byte[] hash = digest.digest();			
         	*/
            
-            LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
-
+            LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);                        
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());

@@ -4,9 +4,9 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "v0.93"
-  !define RELEASE_DIR "C:\DISK_F\SAICON\P2PServent\release"
-  !define SRC_DIR "C:\DISK_F\SAICON\P2PServent"
+  !define VERSION "v0.94"
+  !define RELEASE_DIR "F:\SAICON\P2PServent\release"
+  !define SRC_DIR "F:\SAICON\P2PServent"
 
 ;Name and file
   Name "P2PServent ${VERSION}"

@@ -34,49 +34,17 @@ public class STAdsDownloader extends Thread {
         this.mainForm = mainForm;
     }
 
-    private void retrieveFromWebServer(String absPathObject, String adImageName) {
-
-        FileOutputStream fos = null;
-
-        try {
-
-          method.setURI(new URI(absPathObject, true));
-          int returnCode = client.executeMethod(method);
-
-          if(returnCode != HttpStatus.SC_OK) {
-            logger.error("Unable to fetch: " + absPathObject + ", status code: " + returnCode);
-            return;
-          }
-
-          //logger.error(method.getResponseBodyAsString());
-
-          byte[] imageData = method.getResponseBody();
-          fos = new FileOutputStream(new File(adImageName));
-          fos.write(imageData);
-
+    private void fetchImage(String absPathObject, String adImageName) {
+        if (STLibrary.getInstance().retrieveFromWebServer(absPathObject, adImageName)) {
+            final ImageIcon imageIcon = new ImageIcon("adImage.gif");
+            Image image = imageIcon.getImage();
+            final Dimension dimension = new Dimension(100, 100);
+            final double height = dimension.getHeight();
+            final double width = (height / imageIcon.getIconHeight()) * imageIcon.getIconWidth();
+            image = image.getScaledInstance((int)width, (int)height, Image.SCALE_SMOOTH);
+            final ImageIcon finalIcon = new ImageIcon(image);
+            this.mainForm.getImageLabel().setIcon(finalIcon);
         }
-        catch (HttpException he)
-        {
-          logger.error(he);
-        }
-        catch (IOException ie)
-        {
-          logger.error(ie);
-        }
-        finally
-        {
-          method.releaseConnection();
-          if(fos != null) try { fos.close(); } catch (Exception fe) {}
-        }
-
-        final ImageIcon imageIcon = new ImageIcon("adImage.gif");
-		Image image = imageIcon.getImage();
-		final Dimension dimension = new Dimension(100, 100);
-		final double height = dimension.getHeight();
-		final double width = (height / imageIcon.getIconHeight()) * imageIcon.getIconWidth();
-		image = image.getScaledInstance((int)width, (int)height, Image.SCALE_SMOOTH);
-		final ImageIcon finalIcon = new ImageIcon(image);
-		this.mainForm.getImageLabel().setIcon(finalIcon);
     }
 
     public void run() {
@@ -84,7 +52,7 @@ public class STAdsDownloader extends Thread {
         while (true) {
             try {
                 String urlPath = STLibrary.getInstance().getSTConfiguration().getAdsServer();
-                this.retrieveFromWebServer(urlPath, "adImage.gif");
+                this.fetchImage(urlPath, "adImage.gif");
                 sleep((int)(STLibrary.STConstants.ADS_THR_SECS * 1000));
             } catch (Exception e) {
                 e.printStackTrace();

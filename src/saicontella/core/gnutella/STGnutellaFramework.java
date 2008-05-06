@@ -193,8 +193,8 @@ public class STGnutellaFramework {
     public void connectToPeer(String remoteIPAddress, int remotePort)
     {
         try {
-            logger.info("Starting remote connection to: " + remoteIPAddress);            
-	        DestAddress remoteAddress = PresentationManager.getInstance().createHostAddress(remoteIPAddress, remotePort);
+            logger.info("Starting remote connection to: " + remoteIPAddress + " port: " + remotePort);            
+	        DestAddress remoteAddress = PresentationManager.getInstance().createHostAddress(remoteIPAddress+":"+remotePort, remotePort);
 	        OutgoingConnectionDispatcher.dispatchConnectToHost(remoteAddress, this.servent);           
             logger.info("Connected to : " + remoteIPAddress);            
         } 

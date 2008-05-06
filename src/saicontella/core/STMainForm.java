@@ -59,7 +59,7 @@ public class STMainForm extends JFrame {
 
     private SearchContainer searchContainer;
     private JTabbedPane mainTabbedPanel;
-    private JPanel settingsTab;
+    private JPanel mySettingsTab;
     private JTextField userTextBox;
     private JPanel myFriendsTab;
     private JList listFriends;
@@ -181,7 +181,7 @@ public class STMainForm extends JFrame {
     }
 
     public void drawMenus() {
-        ClickMenuActionHandler menuHandler = new ClickMenuActionHandler(this);
+        ClickMenuActionHandler menuHandler = new ClickMenuActionHandler();
 
         this.stMainForm = this;
         this.mainMenuBar = new JMenuBar();
@@ -265,6 +265,17 @@ public class STMainForm extends JFrame {
                     this.sLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
                     this.fileMenuDisconnect.setEnabled(true);
                     this.fileMenuConnect.setEnabled(false);
+                    if (STLibrary.getInstance().isCurrentUserAdministrator())
+                        stMainForm.fileMenuAdmin.setVisible(true);
+                    if (STLibrary.getInstance().isCurrentUserBanned()) {
+                        sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
+                        STLibrary.getInstance().STLogoutUser();                                                
+                        System.exit(-1);
+                        stMainForm.disableMenus();
+                        stMainForm.disableTabs();
+                    }                    
+                    STLibrary.getInstance().updateP2PServent(false);
                 }
             }
             this.setTitle(STLibrary.STConstants.P2PSERVENT_VERSION + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
@@ -313,6 +324,7 @@ public class STMainForm extends JFrame {
         }
         buttonSearchFriend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 ArrayList<String[]> listOfUserIds = null;
                 if (!textFieldSearchFriend.getText().trim().equals(""))
                     listOfUserIds = STLibrary.getInstance().getCandidateFriends(textFieldSearchFriend.getText(), "", "");
@@ -328,6 +340,7 @@ public class STMainForm extends JFrame {
                     }
                     listAllPeers.setListData(allPeersData[0]);
                 }
+                stMainForm.setCursor(Cursor.getDefaultCursor());
             }
         });
     }
@@ -349,42 +362,42 @@ public class STMainForm extends JFrame {
         mainTabbedPanel = new JTabbedPane();
         mainTabbedPanel.setTabLayoutPolicy(1);
         outerPanel.add(mainTabbedPanel, BorderLayout.CENTER);
-        settingsTab = new JPanel();
-        settingsTab.setLayout(new GridLayoutManager(14, 12, new Insets(0, 0, 0, 0), -1, -1));
-        mainTabbedPanel.addTab("Settings", settingsTab);
+        mySettingsTab = new JPanel();
+        mySettingsTab.setLayout(new GridLayoutManager(14, 12, new Insets(0, 0, 0, 0), -1, -1));
+        mainTabbedPanel.addTab("Settings", mySettingsTab);
         final Spacer spacer1 = new Spacer();
-        settingsTab.add(spacer1, new GridConstraints(0, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer1, new GridConstraints(0, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
-        settingsTab.add(spacer2, new GridConstraints(13, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(100, 14), null, 0, false));
+        mySettingsTab.add(spacer2, new GridConstraints(13, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(100, 14), null, 0, false));
         final Spacer spacer3 = new Spacer();
-        settingsTab.add(spacer3, new GridConstraints(1, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer3, new GridConstraints(1, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
-        settingsTab.add(spacer4, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer4, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
-        settingsTab.add(spacer5, new GridConstraints(3, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer5, new GridConstraints(3, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();
-        settingsTab.add(spacer6, new GridConstraints(4, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer6, new GridConstraints(4, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer7 = new Spacer();
-        settingsTab.add(spacer7, new GridConstraints(0, 10, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer7, new GridConstraints(0, 10, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer8 = new Spacer();
-        settingsTab.add(spacer8, new GridConstraints(0, 9, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer8, new GridConstraints(0, 9, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer9 = new Spacer();
-        settingsTab.add(spacer9, new GridConstraints(2, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer9, new GridConstraints(2, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer10 = new Spacer();
-        settingsTab.add(spacer10, new GridConstraints(3, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer10, new GridConstraints(3, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer11 = new Spacer();
-        settingsTab.add(spacer11, new GridConstraints(4, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer11, new GridConstraints(4, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer12 = new Spacer();
-        settingsTab.add(spacer12, new GridConstraints(7, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer12, new GridConstraints(7, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer13 = new Spacer();
-        settingsTab.add(spacer13, new GridConstraints(8, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer13, new GridConstraints(8, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer14 = new Spacer();
-        settingsTab.add(spacer14, new GridConstraints(9, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer14, new GridConstraints(9, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer15 = new Spacer();
-        settingsTab.add(spacer15, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mySettingsTab.add(spacer15, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         WebServicesPanel = new JPanel();
         WebServicesPanel.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
-        settingsTab.add(WebServicesPanel, new GridConstraints(0, 0, 2, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mySettingsTab.add(WebServicesPanel, new GridConstraints(0, 0, 2, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         WebServicesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Web Services"));
         UserLabel = new JLabel();
         UserLabel.setText("User:");
@@ -415,7 +428,7 @@ public class STMainForm extends JFrame {
         WebServicesPanel.add(spacer17, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         ServentPanel = new JPanel();
         ServentPanel.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
-        settingsTab.add(ServentPanel, new GridConstraints(2, 0, 5, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mySettingsTab.add(ServentPanel, new GridConstraints(2, 0, 5, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ServentPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Servent"));
         ListenPortLabel = new JLabel();
         ListenPortLabel.setText("Listen port:");
@@ -460,7 +473,7 @@ public class STMainForm extends JFrame {
         ServentPanel.add(autoConnectCheckBox, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         SharedFoldersPanel = new JPanel();
         SharedFoldersPanel.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
-        settingsTab.add(SharedFoldersPanel, new GridConstraints(7, 0, 5, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mySettingsTab.add(SharedFoldersPanel, new GridConstraints(7, 0, 5, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         SharedFoldersPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Shared Folders"));
         completeDownloadFolderTextBox = new JTextField();
         completeDownloadFolderTextBox.setEditable(false);
@@ -517,7 +530,7 @@ public class STMainForm extends JFrame {
         saveSettingsButton.setText("Save Settings");
         saveSettingsButton.setMnemonic('S');
         saveSettingsButton.setDisplayedMnemonicIndex(0);
-        settingsTab.add(saveSettingsButton, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(100, 25), new Dimension(100, -1), 0, false));
+        mySettingsTab.add(saveSettingsButton, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(100, 25), new Dimension(100, -1), 0, false));
         myFriendsTab = new JPanel();
         myFriendsTab.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainTabbedPanel.addTab("myFriends", myFriendsTab);
@@ -735,7 +748,7 @@ public class STMainForm extends JFrame {
         this.mainTabbedPanel.setIconAt(LIBRARY_TAB_INDEX, mySharesIcon);
 
         //  Settings Tab
-        this.mainTabbedPanel.add(settingsTab, SETTINGS_TAB_INDEX);
+        this.mainTabbedPanel.add(mySettingsTab, SETTINGS_TAB_INDEX);
         this.mainTabbedPanel.setTitleAt(SETTINGS_TAB_INDEX, "mySettings");
         this.mainTabbedPanel.setIconAt(SETTINGS_TAB_INDEX, mySettingsIcon);
 
@@ -783,34 +796,36 @@ public class STMainForm extends JFrame {
 
     private class ClickMenuActionHandler implements ActionListener {
 
-        private STMainForm mainForm;
-
-        public ClickMenuActionHandler(STMainForm mainForm) {
-            this.mainForm = mainForm;
-        }
-
         public void actionPerformed(ActionEvent e) {
             JMenuItem sourceObject = (JMenuItem) e.getSource();
             if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_CONNECT)) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 boolean connected = STLibrary.getInstance().STLoginUser();
+                stMainForm.setCursor(Cursor.getDefaultCursor());
                 if (connected) {
                     STLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
-                    this.mainForm.fileMenuDisconnect.setEnabled(true);
-                    this.mainForm.fileMenuConnect.setEnabled(false);
+                    stMainForm.fileMenuDisconnect.setEnabled(true);
+                    stMainForm.fileMenuConnect.setEnabled(false);
                     if (STLibrary.getInstance().isCurrentUserAdministrator())
-                        this.mainForm.fileMenuAdmin.setVisible(true);
+                        stMainForm.fileMenuAdmin.setVisible(true);
                     if (STLibrary.getInstance().isCurrentUserBanned()) {
                         sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        this.mainForm.disableMenus();
-                        this.mainForm.disableTabs();
+                        STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
+                        STLibrary.getInstance().STLogoutUser();                        
+                        System.exit(-1);
+                        stMainForm.disableMenus();
+                        stMainForm.disableTabs();
                     }
+                    STLibrary.getInstance().updateP2PServent(false);
                 }
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_DISCONNECT)) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
                 STLibrary.getInstance().STLogoutUser();
-                this.mainForm.fileMenuDisconnect.setEnabled(false);
-                this.mainForm.fileMenuConnect.setEnabled(true);
-                this.mainForm.fileMenuAdmin.setVisible(false);
+                stMainForm.setCursor(Cursor.getDefaultCursor());
+                stMainForm.fileMenuDisconnect.setEnabled(false);
+                stMainForm.fileMenuConnect.setEnabled(true);
+                stMainForm.fileMenuAdmin.setVisible(false);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_ADMINISTRATOR)) {
                 STAdminDialog adminDlg = new STAdminDialog();
                 adminDlg.setTitle("Administration");
@@ -822,15 +837,17 @@ public class STMainForm extends JFrame {
                 STLibrary.getInstance().STLogoutUser();
                 System.exit(0);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_ADD)) {
-                this.mainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_SEARCH)) {
-                this.mainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_DELETE)) {
-                this.mainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_SETTINGS)) {
-                this.mainForm.mainTabbedPanel.setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_SHARED_FOLDERS)) {
-                this.mainForm.mainTabbedPanel.setSelectedIndex(STMainForm.LIBRARY_TAB_INDEX);
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.LIBRARY_TAB_INDEX);
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_UPDATES)) {
+                STLibrary.getInstance().updateP2PServent(true);                
             }
         }
     }
@@ -862,9 +879,11 @@ public class STMainForm extends JFrame {
             JButton sourceObject = (JButton) e.getSource();
             // Removing a friend...
             if (sourceObject.getText().equals(STLibrary.STConstants.FRIEND_SELECTED)) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 // get the selected index from the RIGHT JList (listFriends)
                 Object[] friendNames = listFriends.getSelectedValues();
                 if (friendNames == null) {
+                    stMainForm.setCursor(Cursor.getDefaultCursor());
                     STLibrary.getInstance().fireMessageBox("Please select at leaset one friend to remove!", "Error", JOptionPane.ERROR);
                     return;
                 }
@@ -889,11 +908,14 @@ public class STMainForm extends JFrame {
                     }
                 }
                 saveFriendsListInXML();
+                stMainForm.setCursor(Cursor.getDefaultCursor());
             // Adding a friend...
             } else if (sourceObject.getText().equals(STLibrary.STConstants.PEER_SELECTED)) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 // get the selected index from the LEFT JList (listAllPeers)
                 Object[] friendNames = listAllPeers.getSelectedValues();
                 if (friendNames == null) {
+                    stMainForm.setCursor(Cursor.getDefaultCursor());
                     STLibrary.getInstance().fireMessageBox("Please select at least one friend to add!", "Error", JOptionPane.ERROR);
                     return;
                 }
@@ -911,6 +933,7 @@ public class STMainForm extends JFrame {
                 listFriends.setListData(friendsListData[0]);
                 // saveFriendsListInXML should be called before addFriendsInList
                 saveFriendsListInXML();
+                stMainForm.setCursor(Cursor.getDefaultCursor());
             } else if (sourceObject.getText().equals("Save")) {
                 // saveFriendsListInXML();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
