@@ -8,17 +8,18 @@ package saicontella.phex.stlibrary;
  * February 2008
  */
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
+import java.util.ArrayList;
 import java.io.File;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -61,6 +62,7 @@ import org.bushe.swing.event.annotation.EventTopicSubscriber;
 public class STLibraryTab extends FWTab
 {
     private static final String SHARED_FILES_TABLE_IDENTIFIER = "SharedFilesTable";
+    private static Log logger = LogFactory.getLog("saicontella.phex.STLibraryTab");
     
     private STLibraryTreePane libraryTreePane;
 
@@ -72,13 +74,17 @@ public class STLibraryTab extends FWTab
 
     private JScrollPane sharedFilesTableScrollPane;
 
-    private Vector friendsVector;
-    private JList friendsList;
+    private Object[] friendsCheckBoxes;
+    private ArrayList myFriendsList;
+    private JLabel friendsStatusLabel;
+    private STLibraryFriendsList friendsList;    
     private int selectedFolderIndex;
     private JScrollPane friendsScrollPane;
 
     private SharedFilesTableModel sharedFilesModel;
 
+    private PanelBuilder tabBuilder;
+    private CellConstraints cc;
     private STMainForm mainForm;
     private STLibraryTab thisObject;
 
@@ -107,8 +113,8 @@ public class STLibraryTab extends FWTab
         return this.friendsList;
     }
 
-    public Vector getFriendsVector() {
-        return this.friendsVector;    
+    public Object[] getFriendsCheckBoxes() {
+        return this.friendsCheckBoxes;
     }
 
     private void applyIpSystemRulesLists(int folderIndex)
@@ -139,61 +145,84 @@ public class STLibraryTab extends FWTab
         }
     }
 
+    private void selectCheckBoxWithName(String name) {
+        for (int i = 0; i < friendsCheckBoxes.length; i++) {
+            JCheckBox box = (JCheckBox)friendsCheckBoxes[i];
+            if (box.getText().equalsIgnoreCase(name))
+                box.setSelected(true);            
+        }
+    }
+
+    private void updateFriendsStatusLabel(STFolder folder) {
+        if (folder.getFriends().size() == 0)
+            this.friendsStatusLabel.setText("The folder " + folder.getFolderName() + " is opened to all users");
+        else
+            this.friendsStatusLabel.setText("The folder " + folder.getFolderName() + " is limited to your selected friends");
+    }
+    
     public void fillFriedsList(int folderIndex) {
-        clearFriendsList();
+        clearFriendsList();        
         if (folderIndex < 0)
             return;
         STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(folderIndex);
         for (int i = 0; i < folder.getFriends().size(); i++) {
             STFriend friend = (STFriend) folder.getFriends().get(i);
-            friendsVector.add(friend.getFriendName());
+            selectCheckBoxWithName(friend.getFriendName());            
         }
-        friendsList.setListData(friendsVector);
+        updateFriendsStatusLabel(folder);
+        friendsList.setListData(friendsCheckBoxes);
         friendsList.repaint();
         applyIpSystemRulesLists(folderIndex);        
     }
     
     public void clearFriendsList() {
-        friendsVector.clear();
-        friendsList.setListData(friendsVector);
-        friendsList.repaint();
-    }
-
-    public boolean addFriendInFriendsList(STFriend friend) {
-        for (int i = 0; i < friendsVector.size(); i++) {
-            String insertedFriend = (String) friendsVector.get(i);
-            if (friend.getFriendName().equalsIgnoreCase(insertedFriend)) {
-                STLibrary.getInstance().fireMessageBox("You have already added this friend!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
+        for (int i = 0; i < friendsCheckBoxes.length; i++) {
+            JCheckBox box = (JCheckBox)friendsCheckBoxes[i];
+            box.setSelected(false);            
         }
-
-        friendsVector.add(friend.getFriendName());
-        friendsList.setListData(friendsVector);
+        friendsList.setListData(friendsCheckBoxes);
         friendsList.repaint();
-        STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(this.selectedFolderIndex);
-        folder.addFriend(friend);
-        this.applyIpSystemRulesLists(this.selectedFolderIndex);       
-        STLibrary.getInstance().getSTConfiguration().saveXMLFile();
-        return true;
     }
 
-    public void deleteFriendInFriendsList(int index) {
-        friendsVector.remove(index);
-        friendsList.setListData(friendsVector);
-        friendsList.repaint();
-        STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(this.selectedFolderIndex);
-        folder.getFriends().remove(index);
-        this.applyIpSystemRulesLists(this.selectedFolderIndex);
-        STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+    public boolean addFriendInFriendsList(String name) {
+        try {
+            STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(this.selectedFolderIndex);
+            folder.addFriend(new STFriend(name));
+            this.applyIpSystemRulesLists(this.selectedFolderIndex);
+            STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+            updateFriendsStatusLabel(folder);
+            return true;
+        }
+        catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }                
+        return false;
+    }
+
+    public void deleteFriendInFriendsList(String name) {
+        try {            
+            STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(this.selectedFolderIndex);
+            for (int i = 0; i < folder.getFriends().size(); i++) {
+                if (((STFriend)folder.getFriends().get(i)).getFriendName().equals(name)) {
+                    folder.getFriends().remove(i);
+                    break;
+                }
+            }
+            updateFriendsStatusLabel(folder);
+            this.applyIpSystemRulesLists(this.selectedFolderIndex);
+            STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+        }
+        catch (Exception ex) {
+            logger.error(ex.getMessage());    
+        }
     }
 
     public void initComponent(DGuiSettings guiSettings)
     {
-        CellConstraints cc = new CellConstraints();
+        cc = new CellConstraints();
         FormLayout tabLayout = new FormLayout("2dlu, fill:d:grow, 2dlu", // columns
             "2dlu, fill:p:grow, 2dlu"); //rows
-        PanelBuilder tabBuilder = new PanelBuilder(tabLayout, this);
+        tabBuilder = new PanelBuilder(tabLayout, this);
         JPanel contentPanel = new JPanel();
         FWElegantPanel elegantPanel = new FWElegantPanel( Localizer.getString("Library"),
             contentPanel );
@@ -230,16 +259,34 @@ public class STLibraryTab extends FWTab
         fileTablePopup.addAction( action );
         libraryTreePane.appendPopupAction( action );
 
+        /*
         action = getTabAction( ADD_FRIEND_ACTION_KEY );
         fileTablePopup.addAction( action );
         libraryTreePane.appendPopupAction( action );
 
         action = getTabAction( DEL_FRIEND_ACTION_KEY );
         fileTablePopup.addAction( action );
-        libraryTreePane.appendPopupAction( action );        
+        libraryTreePane.appendPopupAction( action );
+        */
     }
-    
-    private JPanel createTablePanel(DGuiSettings guiSettings, 
+
+    public void updateMyFriendsList() {
+        this.myFriendsList = STLibrary.getInstance().getSTConfiguration().getMyFriends();
+        if (friendsCheckBoxes != null) {
+            friendsList.removeAll();
+            friendsList.revalidate();
+        }
+
+        friendsCheckBoxes = new Object[this.myFriendsList.size()];
+        for (int i = 0; i < this.myFriendsList.size(); i++) {
+            friendsCheckBoxes[i] = new JCheckBox(((STFriend)this.myFriendsList.get(i)).getFriendName());
+        }
+        friendsList = new STLibraryFriendsList(this);
+        friendsList.setListData(friendsCheckBoxes);
+        friendsList.repaint();
+    }
+
+    private JPanel createTablePanel(DGuiSettings guiSettings,
         MouseHandler mouseHandler )
     {
         JPanel panel = new JPanel();
@@ -275,11 +322,16 @@ public class STLibraryTab extends FWTab
         // adding in col: 1, row: 3
         tabBuilder.add(shareToolbar, cc.xy(1, 3));
 
-        friendsVector = new Vector();
-        friendsList = new JList(friendsVector);
+        this.updateMyFriendsList();
+        this.friendsStatusLabel = new JLabel("");
+        Font bold = new Font("Arial", Font.BOLD, 12);
+        this.friendsStatusLabel.setFont(bold);
+
         friendsScrollPane = new JScrollPane(friendsList);
         // adding in col: 2, row: 1
         tabBuilder.add(friendsScrollPane, cc.xy(2, 1));
+        // adding in col: 2, row: 3
+        tabBuilder.add(this.friendsStatusLabel, cc.xy(2, 3));
 
         FWAction action;
 
@@ -287,6 +339,7 @@ public class STLibraryTab extends FWTab
         addTabAction( RESCAN_ACTION_KEY, action );
         shareToolbar.addAction( action );
 
+        /*
         action = new AddFriendAction();
         addTabAction( ADD_FRIEND_ACTION_KEY, action );
         shareToolbar.addAction( action );
@@ -294,7 +347,8 @@ public class STLibraryTab extends FWTab
         action = new DelFriendAction();
         addTabAction( DEL_FRIEND_ACTION_KEY, action );
         shareToolbar.addAction( action );
-
+        */
+        
         return panel;
     }
 
@@ -365,16 +419,20 @@ public class STLibraryTab extends FWTab
                 return;
             }
             // Deleting a friend from the list of the added already friends inside the friendsList
+            /*
             Vector data = friendsVector;
             if (data == null || data.size() == 0) {            
                 STLibrary.getInstance().fireMessageBox("There are no friends to delete!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            */
+            /*
             STFriendDialog friendDlg = new STFriendDialog(thisObject, this, friendsVector);
             friendDlg.setTitle("Deleting a friend...");
             GUIUtils.centerAndSizeWindow(friendDlg, 7, getHeight());
             friendDlg.pack();
             friendDlg.setVisible(true);
+            */
         }
 
         /**
@@ -407,11 +465,13 @@ public class STLibraryTab extends FWTab
                 STLibrary.getInstance().fireMessageBox("There are no friends to add!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            /*
             STFriendDialog friendDlg = new STFriendDialog(thisObject, this, STLibrary.getInstance().getSTConfiguration().getMyFriendsVectorData());
             friendDlg.setTitle("Adding a friend...");
             GUIUtils.centerAndSizeWindow(friendDlg, 7, getHeight());
             friendDlg.pack();
-            friendDlg.setVisible(true);                                               
+            friendDlg.setVisible(true);
+            */                                                           
         }
 
         /**
@@ -484,7 +544,7 @@ public class STLibraryTab extends FWTab
                                 selectedFolderIndex = -1;
                         // then fill data..
                         sharedFilesModel.setDisplayDirectory( 
-                            ((LibraryNode)lastPathComponent).getSystemFile() );                                                
+                            ((LibraryNode)lastPathComponent).getSystemFile() );
                     }
                     else
                     {

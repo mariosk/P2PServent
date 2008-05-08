@@ -74,12 +74,12 @@ public class STFriendDialog extends JDialog {
         if (action instanceof AddFriendAction) {
             //STLibrary.getInstance().fireMessageBox("add!", "add", JOptionPane.WARNING_MESSAGE);
             STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());            
-            if (!parentObj.addFriendInFriendsList(friend))
-                return;
+            //if (!parentObj.addFriendInFriendsList(friend))
+                //return;
         } else if (action instanceof STLibraryTab.DelFriendAction) {
             //STLibrary.getInstance().fireMessageBox("delete!", "delete", JOptionPane.WARNING_MESSAGE);
             int index = this.friendsList.getSelectedIndex();
-            parentObj.deleteFriendInFriendsList(index);
+            //parentObj.deleteFriendInFriendsList(index);
         }
         dispose();
     }

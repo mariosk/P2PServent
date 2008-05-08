@@ -52,7 +52,7 @@ public class STGnutellaFramework {
     	return this.servent;
     }
 
-    public STGnutellaFramework(STLibrary sLibrary) {
+    public STGnutellaFramework(STLibrary sLibrary, boolean restart) {
         try {
             // This is the server side (Gnutella context listens local IP interface and port 6347)
             logger.info("Starting server side of gnutella servent");
@@ -109,7 +109,10 @@ public class STGnutellaFramework {
 
             this.servent.setOnlineStatus(OnlineStatus.ONLINE);                       
             ManagerController.initializeManagers();
-            this.servent.start();
+            if (restart)
+                this.servent.restartServer();
+            else
+                this.servent.start();
             
             try
             {

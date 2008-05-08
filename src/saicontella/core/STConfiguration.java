@@ -153,6 +153,18 @@ public class STConfiguration {
         return this.maxUpload;
     }
 
+    public Vector[] getMyFriendsAndIdsVectorData() {
+        Vector[] data = new Vector[2];
+        data[0] = new Vector();
+        data[1] = new Vector();
+        for (int i = 0; i < this.myFriends.size(); i++) {
+            STFriend friend = (STFriend) this.myFriends.get(i);
+            data[0].add(friend.getFriendName());
+            data[1].add(friend.getFriendId());
+        }
+        return data;
+    }
+
     public Vector getMyFriendsVectorData() {
         Vector data = new Vector();
         for (int i = 0; i < this.myFriends.size(); i++) {

@@ -37,6 +37,10 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.GUIUtils;
+import java.net.URL;
+import java.net.MalformedURLException;
+import org.jdesktop.jdic.desktop.Desktop;
+import org.jdesktop.jdic.desktop.DesktopException;
 
 public class STLibrary extends Component {
 
@@ -116,11 +120,12 @@ public class STLibrary extends Component {
     private UserServerAdminImplPortBindingStub webServiceAdminProxy;
 
     private STMainForm stMainForm;
+    public static boolean restart = false; 
 
     public static STLibrary getInstance() {
         if (sLibrary == null) {
             sLibrary = new STLibrary();
-            gnuTellaFramework = new STGnutellaFramework(sLibrary);
+            gnuTellaFramework = new STGnutellaFramework(sLibrary, restart);
         }
         return sLibrary;
     }
@@ -147,6 +152,28 @@ public class STLibrary extends Component {
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
             this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+
+    public void removePhexFile(String filename) {
+        File f = new File(filename);
+        if (f.exists())
+            f.delete();
+    }
+    
+    public void reInitializeSTLibrary() {
+        try {
+            this.stMainForm.dispose();
+            restart = true;
+            sLibrary = null;
+            sLibrary = STLibrary.getInstance();
+            STMainForm mainFrame = new STMainForm(sLibrary, null);
+            mainFrame.createUIComponents();
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setVisible(true);
+            restart = false;
+        } catch (Exception e) {
+            this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);  
         }
     }
 
@@ -254,7 +281,7 @@ public class STLibrary extends Component {
     }
     
     public boolean downloadNewerVersion() {
-        return this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl(), "P2PServent_"+this.getNewerVersion()+".exe");
+        return this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl(), "../P2PServent_"+this.getNewerVersion()+".exe");
     }
 
     public String getNewerVersion() {
@@ -271,8 +298,8 @@ public class STLibrary extends Component {
 
     public boolean STLoginUser() {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
-        this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
         try {
+            this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
             this.webServiceAuthVersion = this.webServiceAuthProxy.checkForNewerApplication(STConstants.p2pAppId, ReleaseType.BETA);
         }
         catch (Exception ex) {
@@ -387,7 +414,16 @@ public class STLibrary extends Component {
 			byte[] hash = digest.digest();			
         	*/
            
-            LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);                        
+            LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
+            /*
+            try {
+                Desktop.browse(new URL("http://www.gamersuniverse.com/igamer"));                                
+            } catch(MalformedURLException e) {
+                e.printStackTrace();
+            } catch (DesktopException e) {
+                e.printStackTrace();
+            }
+            */
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
@@ -786,4 +822,7 @@ public class STLibrary extends Component {
         return null;
     }
 
+    public boolean isConnected() {
+        return (this.webserviceAuthResponse != null);
+    }
 }

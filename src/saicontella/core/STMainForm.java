@@ -324,6 +324,10 @@ public class STMainForm extends JFrame {
         }
         buttonSearchFriend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if (!STLibrary.getInstance().isConnected()) {
+                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 ArrayList<String[]> listOfUserIds = null;
                 if (!textFieldSearchFriend.getText().trim().equals(""))
@@ -565,14 +569,17 @@ public class STMainForm extends JFrame {
             JPanel currentPanel = (JPanel) tabbedPane.getSelectedComponent();
             if (currentPanel == null)
                 return;
-            if (currentPanel.equals(myFriendsTab)) {
+            if (currentPanel.equals(libraryTab)) {
+                libraryTab.updateMyFriendsList();
+            }
+            else if (currentPanel.equals(myFriendsTab)) {
                 ClickListActionHandler clickListHandler = new ClickListActionHandler();
                 listAllPeers.addListSelectionListener(clickListHandler);
                 listFriends.addListSelectionListener(clickListHandler);
                 if (networkTab == null)
                     return;
                 //Retrieving here the list of the added friends from the configuration file saicontella.xml...
-                Vector[] myFriendsList = STLibrary.getInstance().getMyFriendsList();
+                Vector[] myFriendsList = STLibrary.getInstance().getSTConfiguration().getMyFriendsAndIdsVectorData();
                 if (myFriendsList != null) {
                     friendsListData = new Vector[2];
                     friendsListData[0] = myFriendsList[0];
@@ -879,6 +886,10 @@ public class STMainForm extends JFrame {
             JButton sourceObject = (JButton) e.getSource();
             // Removing a friend...
             if (sourceObject.getText().equals(STLibrary.STConstants.FRIEND_SELECTED)) {
+                if (!STLibrary.getInstance().isConnected()) {
+                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }                
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 // get the selected index from the RIGHT JList (listFriends)
                 Object[] friendNames = listFriends.getSelectedValues();
@@ -911,6 +922,10 @@ public class STMainForm extends JFrame {
                 stMainForm.setCursor(Cursor.getDefaultCursor());
             // Adding a friend...
             } else if (sourceObject.getText().equals(STLibrary.STConstants.PEER_SELECTED)) {
+                if (!STLibrary.getInstance().isConnected()) {
+                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }                
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 // get the selected index from the LEFT JList (listAllPeers)
                 Object[] friendNames = listAllPeers.getSelectedValues();
@@ -953,6 +968,7 @@ public class STMainForm extends JFrame {
                 sLibrary.getSTConfiguration().setAdsServer(adsServerTextBox.getText());
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.reInitializeSTLibrary();                
             }
         }
     }

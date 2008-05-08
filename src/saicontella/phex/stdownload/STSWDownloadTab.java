@@ -41,13 +41,7 @@ import phex.gui.actions.BanHostActionUtils;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.FWToggleAction;
 import phex.gui.actions.GUIActionPerformer;
-import phex.gui.common.BrowserLauncher;
-import phex.gui.common.FWElegantPanel;
-import phex.gui.common.FWMenu;
-import phex.gui.common.GUIRegistry;
-import phex.gui.common.GUIUtils;
-import phex.gui.common.IconPack;
-import phex.gui.common.MainFrame;
+import phex.gui.common.*;
 import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.dialogs.DownloadConfigDialog;
@@ -63,11 +57,15 @@ import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import saicontella.phex.stdownload.STSWDownloadTableModel;
 import saicontella.core.STResources;
+import saicontella.core.STLibrary;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.looks.Options;
+import java.io.File;
+import org.jdesktop.jdic.desktop.Desktop;
+import org.jdesktop.jdic.desktop.DesktopException;
 
 public class STSWDownloadTab extends FWTab
 {
@@ -169,6 +167,11 @@ public class STSWDownloadTab extends FWTab
         downloadTableScrollPane.addMouseListener( mouseHandler );
         tabBuilder.add( downloadTableScrollPane, cc.xy( 1, 1 ) );
 
+        FWToolBar fileToolbar = new FWToolBar( JToolBar.HORIZONTAL );
+        fileToolbar.setBorderPainted( false );
+        fileToolbar.setFloatable( false );
+        tabBuilder.add( fileToolbar, cc.xy( 1, 3 ) );
+
         downloadPopup = new JPopupMenu();
 
         FWAction startDownloadAction = new StartDownloadAction();
@@ -186,6 +189,11 @@ public class STSWDownloadTab extends FWTab
         downloadTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
             .put( (KeyStroke)removeDownloadAction.getValue(
             FWAction.ACCELERATOR_KEY), removeDownloadAction );
+
+        FWAction action = new GeneratePreviewAction();
+        addTabAction( action );
+        fileToolbar.addAction( action );
+        downloadPopup.add( action );
 
         FWElegantPanel elegantPanel = new FWElegantPanel( Localizer.getString("DownloadFiles"),
             downloadTablePanel );
@@ -459,6 +467,80 @@ public class STSWDownloadTab extends FWTab
             setEnabled( state );
         }
     }
+
+    class GeneratePreviewAction extends FWAction
+    {
+        GeneratePreviewAction ( )
+        {
+            super( Localizer.getString( "DownloadTab_PreviewDownload" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.Preview"),
+                Localizer.getString( "DownloadTab_TTTPreviewDownload" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            try
+            {
+                final SWDownloadFile file = getSelectedDownloadFile();
+                if ( file == null ) return;
+                Runnable runner = new Runnable()
+                {
+                    public void run()
+                    {
+                        try {
+                            File previewFile = file.getPreviewFile();
+                            Desktop.open(previewFile);
+                        } catch (DesktopException e) {
+                            STLibrary.getInstance().fireMessageBox(e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);                            
+                        }
+
+                        /*
+                        try
+                        {
+                            File previewFile = file.getPreviewFile();
+                            SystemShellExecute.launchFile( previewFile );
+                        }
+                        catch ( Throwable th )
+                        {
+                            NLogger.error( GeneratePreviewAction.class, th, th);
+                        }
+                        */
+                    }
+                };
+                ThreadPool.getInstance().addJob(runner, "GenerateDownloadPreview" );
+            }
+            catch ( Throwable th )
+            {
+                NLogger.error( GeneratePreviewAction.class, th, th);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void refreshActionState()
+        {
+            try
+            {
+                SWDownloadFile file = getSelectedDownloadFile();
+                if ( file == null )
+                {
+                    // no file, no do
+                    setEnabled ( false );
+                }
+                else
+                {
+                    setEnabled( file.isPreviewPossible() );
+                }
+            }
+            catch ( Throwable th )
+            {
+                NLogger.error( GeneratePreviewAction.class, th, th);
+            }
+        }
+    }    
 
     /**
      * Removes a download from the list.
