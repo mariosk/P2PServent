@@ -4,7 +4,7 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "v0.95"
+  !define VERSION "v0.96"
   !define RELEASE_DIR "F:\SAICON\P2PServent\release"
   !define SRC_DIR "F:\SAICON\P2PServent"
 
@@ -95,6 +95,9 @@ File "${SRC_DIR}\lib\mailapi.jar"
 File "${SRC_DIR}\lib\MRJAdapter.jar"
 File "${SRC_DIR}\lib\svnphex.jar"
 File "${SRC_DIR}\lib\wsdl4j-1.5.1.jar"
+File "${SRC_DIR}\lib\jdic.jar"
+File "${SRC_DIR}\lib\jdic.dll"
+File "${SRC_DIR}\lib\jdic_stub.jar"
 
 SetOutPath "$INSTDIR"
 
@@ -141,6 +144,9 @@ Delete "$INSTDIR\lib\mailapi.jar"
 Delete "$INSTDIR\lib\MRJAdapter.jar"
 Delete "$INSTDIR\lib\svnphex.jar"
 Delete "$INSTDIR\lib\wsdl4j-1.5.1.jar"
+Delete "${SRC_DIR}\lib\jdic.jar"
+Delete "${SRC_DIR}\lib\jdic.dll"
+Delete "${SRC_DIR}\lib\jdic_stub.jar"
 
 Delete "$INSTDIR\images\About.png"
 Delete "$INSTDIR\images\Add_user.png"

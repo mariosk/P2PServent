@@ -280,8 +280,7 @@ public class STLibraryTab extends FWTab
         friendsCheckBoxes = new Object[this.myFriendsList.size()];
         for (int i = 0; i < this.myFriendsList.size(); i++) {
             friendsCheckBoxes[i] = new JCheckBox(((STFriend)this.myFriendsList.get(i)).getFriendName());
-        }
-        friendsList = new STLibraryFriendsList(this);
+        }        
         friendsList.setListData(friendsCheckBoxes);
         friendsList.repaint();
     }
@@ -322,6 +321,7 @@ public class STLibraryTab extends FWTab
         // adding in col: 1, row: 3
         tabBuilder.add(shareToolbar, cc.xy(1, 3));
 
+        friendsList = new STLibraryFriendsList(this);
         this.updateMyFriendsList();
         this.friendsStatusLabel = new JLabel("");
         Font bold = new Font("Arial", Font.BOLD, 12);
