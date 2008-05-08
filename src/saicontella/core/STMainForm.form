@@ -2,571 +2,622 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="saicontella.core.STMainForm">
   <grid id="19c3b" binding="outerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="109" y="474" width="776" height="532"/>
+      <xy x="151" y="624" width="3242" height="592"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-16777216"/>
+    </properties>
     <border type="none"/>
     <children>
-      <tabbedpane id="dc30a" binding="mainTabbedPanel">
-        <constraints border-constraint="Center"/>
+      <grid id="4c651" binding="tabsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
         <properties>
-          <tabLayoutPolicy value="1"/>
+          <background color="-16777216"/>
+        </properties>
+        <border type="none" title-position="3"/>
+        <children>
+          <tabbedpane id="dc30a" binding="mainTabbedPanel">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-16777216"/>
+              <tabLayoutPolicy value="1"/>
+              <tabPlacement value="1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="4d93" binding="mySettingsTab" layout-manager="GridLayoutManager" row-count="14" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="mySettings"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <hspacer id="a711d">
+                    <constraints>
+                      <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <vspacer id="76433">
+                    <constraints>
+                      <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="14"/>
+                      </grid>
+                    </constraints>
+                  </vspacer>
+                  <hspacer id="2ccf9">
+                    <constraints>
+                      <grid row="1" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="b882b">
+                    <constraints>
+                      <grid row="2" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="b7f71">
+                    <constraints>
+                      <grid row="3" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="8d97d">
+                    <constraints>
+                      <grid row="4" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="73357">
+                    <constraints>
+                      <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="5ffca">
+                    <constraints>
+                      <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="a03f3">
+                    <constraints>
+                      <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="e01cc">
+                    <constraints>
+                      <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="5fc5">
+                    <constraints>
+                      <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="9ada2">
+                    <constraints>
+                      <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="628bf">
+                    <constraints>
+                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="9ff66">
+                    <constraints>
+                      <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="26c43">
+                    <constraints>
+                      <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <grid id="c305c" binding="WebServicesPanel" layout-manager="GridLayoutManager" row-count="4" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-16777216"/>
+                      <foreground color="-1"/>
+                    </properties>
+                    <border type="line" title="Web Services">
+                      <title-color color="-1"/>
+                      <color color="-1"/>
+                    </border>
+                    <children>
+                      <component id="4eecc" class="javax.swing.JLabel" binding="UserLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="60203"/>
+                          <text value="&amp;User:"/>
+                        </properties>
+                      </component>
+                      <component id="3c041" class="javax.swing.JTextField" binding="userTextBox">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="200" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="9bceb" class="javax.swing.JLabel" binding="PasswordLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="2e42"/>
+                          <text value="&amp;Password:"/>
+                        </properties>
+                      </component>
+                      <component id="b3f89" class="javax.swing.JLabel" binding="wsdlLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="f8449"/>
+                          <text value="&amp;WSDL:"/>
+                        </properties>
+                      </component>
+                      <component id="10135" class="javax.swing.JTextField" binding="passwordTextBox">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="200" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="88918" class="javax.swing.JTextField" binding="WSDLTextFBox">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
+                      </component>
+                      <hspacer id="7c916">
+                        <constraints>
+                          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <hspacer id="157df">
+                        <constraints>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <component id="b01f0" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="56efc"/>
+                          <text value="M&amp;ax size of Friends to search:"/>
+                        </properties>
+                      </component>
+                      <component id="6f90d" class="javax.swing.JTextField" binding="maxFriendsLimitTextBox">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <hspacer id="eacc0">
+                        <constraints>
+                          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <hspacer id="35728">
+                        <constraints>
+                          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                    </children>
+                  </grid>
+                  <grid id="2acf7" binding="ServentPanel" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="2" column="0" row-span="5" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="line" title="Servent">
+                      <title-color color="-1"/>
+                      <color color="-1"/>
+                    </border>
+                    <children>
+                      <component id="8dcd6" class="javax.swing.JLabel" binding="ListenPortLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="56efc"/>
+                          <text value="&amp;Listen port:"/>
+                        </properties>
+                      </component>
+                      <component id="b3ef1" class="javax.swing.JTextField" binding="listenPortTextBox">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="b905d" class="javax.swing.JLabel" binding="AddressLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="7ed7b"/>
+                          <text value="&amp;Address:"/>
+                        </properties>
+                      </component>
+                      <component id="aba39" class="javax.swing.JTextField" binding="addressTextBox">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="180" height="20"/>
+                            <maximum-size width="190" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="3927a" class="javax.swing.JLabel" binding="ConnectionTimeoutLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="77ddf"/>
+                          <text value="&amp;Connection timeout:"/>
+                        </properties>
+                      </component>
+                      <component id="9f0c9" class="javax.swing.JLabel" binding="maximumConnectionsLabel" default-binding="true">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="769c6"/>
+                          <text value="&amp;Maximum Connections:"/>
+                        </properties>
+                      </component>
+                      <component id="b6c7a" class="javax.swing.JLabel" binding="autoConnectLabel" default-binding="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="146" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value="Au&amp;to Connect:"/>
+                        </properties>
+                      </component>
+                      <component id="a684c" class="javax.swing.JTextField" binding="connectionTimeoutTextBox">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="f0f95" class="javax.swing.JTextField" binding="maximumConnectionsTextFBox">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="100" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <hspacer id="5bf03">
+                        <constraints>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <hspacer id="9e379">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <component id="dd178" class="javax.swing.JCheckBox" binding="autoConnectCheckBox">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <selected value="true"/>
+                          <text value="Enable"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="d4183" binding="SharedFoldersPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="7" column="0" row-span="5" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font style="1"/>
+                    </properties>
+                    <border type="line" title="Shared Folders">
+                      <font/>
+                      <title-color color="-1"/>
+                      <color color="-1"/>
+                    </border>
+                    <children>
+                      <component id="cf603" class="javax.swing.JTextField" binding="completeDownloadFolderTextBox">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="274" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
+                      </component>
+                      <component id="3b909" class="javax.swing.JTextField" binding="uploadRatioTextBox">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="274" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="57fb8" class="javax.swing.JTextField" binding="adsServerTextBox">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="274" height="20"/>
+                            <maximum-size width="400" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="4137a" class="javax.swing.JLabel" binding="CompleteDownloadFolderLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="148" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="2ae02"/>
+                          <text value="Complete &amp;download folder:"/>
+                        </properties>
+                      </component>
+                      <component id="25b0d" class="javax.swing.JLabel" binding="DownloadRatioLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="148" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="7876d"/>
+                          <text value="Download &amp;ratio:"/>
+                        </properties>
+                      </component>
+                      <component id="2a74f" class="javax.swing.JLabel" binding="UploadRatioLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="148" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="dd1ce"/>
+                          <text value="Upl&amp;oad ratio:"/>
+                        </properties>
+                      </component>
+                      <component id="fff8f" class="javax.swing.JLabel" binding="adsServerLabel" default-binding="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="148" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="c3260"/>
+                          <text value="Ads S&amp;erver:"/>
+                        </properties>
+                      </component>
+                      <component id="1c392" class="javax.swing.JTextField" binding="incompleteDownloadFolderTextBox">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="274" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
+                      </component>
+                      <component id="9674b" class="javax.swing.JLabel" binding="IncompleteDownloadFolderLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="148" height="14"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelFor value="ca466"/>
+                          <text value="&amp;Incomplete download folder:"/>
+                        </properties>
+                      </component>
+                      <component id="abe78" class="javax.swing.JTextField" binding="downloadRatioTextBox">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+                            <preferred-size width="274" height="20"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="4c203" class="javax.swing.JButton" binding="incompleteDownloadFolderBrowseButton">
+                        <constraints>
+                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="100" height="25"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="true"/>
+                          <text value="&amp;Browse"/>
+                        </properties>
+                      </component>
+                      <component id="29ce8" class="javax.swing.JButton" binding="completeDownloadFolderBrowseButton">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="100" height="25"/>
+                            <maximum-size width="100" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="true"/>
+                          <text value="Bro&amp;wse"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <component id="7f412" class="javax.swing.JButton" binding="saveSettingsButton">
+                    <constraints>
+                      <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="25"/>
+                        <maximum-size width="100" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <enabled value="true"/>
+                      <text value="&amp;Save Settings"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="fc1f0" binding="myFriendsTab" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="myFriends"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <scrollpane id="c40fb">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="7df86" class="javax.swing.JList" binding="listAllPeers">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <scrollpane id="b2f6a">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="decd8" class="javax.swing.JList" binding="listFriends">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <component id="bbf5c" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="friend name:"/>
+                    </properties>
+                  </component>
+                  <component id="86a6a" class="javax.swing.JTextField" binding="textFieldSearchFriend">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <hspacer id="f81b6">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <component id="641c0" class="javax.swing.JButton" binding="buttonSearchFriend">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Search"/>
+                    </properties>
+                  </component>
+                  <component id="ea2f2" class="javax.swing.JButton" binding="buttonAddFriend">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <enabled value="false"/>
+                      <text value="Select either a peer or a friend"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </tabbedpane>
+        </children>
+      </grid>
+      <grid id="63f4a" binding="imagesPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-16777216"/>
+          <enabled value="true"/>
+          <foreground color="-3355444"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="4d93" binding="mySettingsTab" layout-manager="GridLayoutManager" row-count="14" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <tabbedpane title="mySettings"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <hspacer id="a711d">
-                <constraints>
-                  <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <vspacer id="76433">
-                <constraints>
-                  <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                    <preferred-size width="100" height="14"/>
-                  </grid>
-                </constraints>
-              </vspacer>
-              <hspacer id="2ccf9">
-                <constraints>
-                  <grid row="1" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="b882b">
-                <constraints>
-                  <grid row="2" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="b7f71">
-                <constraints>
-                  <grid row="3" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="8d97d">
-                <constraints>
-                  <grid row="4" column="11" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="73357">
-                <constraints>
-                  <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="5ffca">
-                <constraints>
-                  <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="a03f3">
-                <constraints>
-                  <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="e01cc">
-                <constraints>
-                  <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="5fc5">
-                <constraints>
-                  <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="9ada2">
-                <constraints>
-                  <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="628bf">
-                <constraints>
-                  <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="9ff66">
-                <constraints>
-                  <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="26c43">
-                <constraints>
-                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <grid id="c305c" binding="WebServicesPanel" layout-manager="GridLayoutManager" row-count="4" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="line" title="Web Services"/>
-                <children>
-                  <component id="4eecc" class="javax.swing.JLabel" binding="UserLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="60203"/>
-                      <text value="&amp;User:"/>
-                    </properties>
-                  </component>
-                  <component id="3c041" class="javax.swing.JTextField" binding="userTextBox">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="200" height="20"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="9bceb" class="javax.swing.JLabel" binding="PasswordLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="2e42"/>
-                      <text value="&amp;Password:"/>
-                    </properties>
-                  </component>
-                  <component id="b3f89" class="javax.swing.JLabel" binding="wsdlLabel">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="f8449"/>
-                      <text value="&amp;WSDL:"/>
-                    </properties>
-                  </component>
-                  <component id="10135" class="javax.swing.JTextField" binding="passwordTextBox">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="200" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="88918" class="javax.swing.JTextField" binding="WSDLTextFBox">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <editable value="false"/>
-                    </properties>
-                  </component>
-                  <hspacer id="7c916">
-                    <constraints>
-                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="157df">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <component id="b01f0" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="56efc"/>
-                      <text value="M&amp;ax size of Friends to search:"/>
-                    </properties>
-                  </component>
-                  <component id="6f90d" class="javax.swing.JTextField" binding="maxFriendsLimitTextBox">
-                    <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <hspacer id="eacc0">
-                    <constraints>
-                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="35728">
-                    <constraints>
-                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                </children>
-              </grid>
-              <grid id="2acf7" binding="ServentPanel" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="2" column="0" row-span="5" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="line" title="Servent"/>
-                <children>
-                  <component id="8dcd6" class="javax.swing.JLabel" binding="ListenPortLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="56efc"/>
-                      <text value="&amp;Listen port:"/>
-                    </properties>
-                  </component>
-                  <component id="b3ef1" class="javax.swing.JTextField" binding="listenPortTextBox">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="b905d" class="javax.swing.JLabel" binding="AddressLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="7ed7b"/>
-                      <text value="&amp;Address:"/>
-                    </properties>
-                  </component>
-                  <component id="aba39" class="javax.swing.JTextField" binding="addressTextBox">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="180" height="20"/>
-                        <maximum-size width="190" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="3927a" class="javax.swing.JLabel" binding="ConnectionTimeoutLabel">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="77ddf"/>
-                      <text value="&amp;Connection timeout:"/>
-                    </properties>
-                  </component>
-                  <component id="9f0c9" class="javax.swing.JLabel" binding="maximumConnectionsLabel" default-binding="true">
-                    <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="769c6"/>
-                      <text value="&amp;Maximum Connections:"/>
-                    </properties>
-                  </component>
-                  <component id="b6c7a" class="javax.swing.JLabel" binding="autoConnectLabel" default-binding="true">
-                    <constraints>
-                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="146" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <text value="Au&amp;to Connect:"/>
-                    </properties>
-                  </component>
-                  <component id="a684c" class="javax.swing.JTextField" binding="connectionTimeoutTextBox">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="f0f95" class="javax.swing.JTextField" binding="maximumConnectionsTextFBox">
-                    <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="100" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <hspacer id="5bf03">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="9e379">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <component id="dd178" class="javax.swing.JCheckBox" binding="autoConnectCheckBox">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <selected value="true"/>
-                      <text value="Enable"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="d4183" binding="SharedFoldersPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="7" column="0" row-span="5" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="line" title="Shared Folders"/>
-                <children>
-                  <component id="cf603" class="javax.swing.JTextField" binding="completeDownloadFolderTextBox">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="274" height="20"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <editable value="false"/>
-                    </properties>
-                  </component>
-                  <component id="3b909" class="javax.swing.JTextField" binding="uploadRatioTextBox">
-                    <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="274" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="57fb8" class="javax.swing.JTextField" binding="adsServerTextBox">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="274" height="20"/>
-                        <maximum-size width="190" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="4137a" class="javax.swing.JLabel" binding="CompleteDownloadFolderLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="148" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="2ae02"/>
-                      <text value="Complete &amp;download folder:"/>
-                    </properties>
-                  </component>
-                  <component id="25b0d" class="javax.swing.JLabel" binding="DownloadRatioLabel">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="148" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="7876d"/>
-                      <text value="Download &amp;ratio:"/>
-                    </properties>
-                  </component>
-                  <component id="2a74f" class="javax.swing.JLabel" binding="UploadRatioLabel">
-                    <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="148" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="dd1ce"/>
-                      <text value="Upl&amp;oad ratio:"/>
-                    </properties>
-                  </component>
-                  <component id="fff8f" class="javax.swing.JLabel" binding="adsServerLabel" default-binding="true">
-                    <constraints>
-                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="148" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="c3260"/>
-                      <text value="Ads S&amp;erver:"/>
-                    </properties>
-                  </component>
-                  <component id="1c392" class="javax.swing.JTextField" binding="incompleteDownloadFolderTextBox">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="274" height="20"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <editable value="false"/>
-                    </properties>
-                  </component>
-                  <component id="9674b" class="javax.swing.JLabel" binding="IncompleteDownloadFolderLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="148" height="14"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <labelFor value="ca466"/>
-                      <text value="&amp;Incomplete download folder:"/>
-                    </properties>
-                  </component>
-                  <component id="abe78" class="javax.swing.JTextField" binding="downloadRatioTextBox">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
-                        <preferred-size width="274" height="20"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="4c203" class="javax.swing.JButton" binding="incompleteDownloadFolderBrowseButton">
-                    <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="100" height="25"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <enabled value="true"/>
-                      <text value="&amp;Browse"/>
-                    </properties>
-                  </component>
-                  <component id="29ce8" class="javax.swing.JButton" binding="completeDownloadFolderBrowseButton">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="100" height="25"/>
-                        <maximum-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <enabled value="true"/>
-                      <text value="Bro&amp;wse"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <component id="7f412" class="javax.swing.JButton" binding="saveSettingsButton">
-                <constraints>
-                  <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="100" height="25"/>
-                    <maximum-size width="100" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <enabled value="true"/>
-                  <text value="&amp;Save Settings"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="fc1f0" binding="myFriendsTab" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <tabbedpane title="myFriends"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <scrollpane id="c40fb">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="7df86" class="javax.swing.JList" binding="listAllPeers">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                </children>
-              </scrollpane>
-              <scrollpane id="b2f6a">
-                <constraints>
-                  <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="decd8" class="javax.swing.JList" binding="listFriends">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                </children>
-              </scrollpane>
-              <component id="bbf5c" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="friend name:"/>
-                </properties>
-              </component>
-              <component id="86a6a" class="javax.swing.JTextField" binding="textFieldSearchFriend">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <hspacer id="f81b6">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <component id="641c0" class="javax.swing.JButton" binding="buttonSearchFriend">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Search"/>
-                </properties>
-              </component>
-              <component id="ea2f2" class="javax.swing.JButton" binding="buttonAddFriend">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <enabled value="false"/>
-                  <text value="Select either a peer or a friend"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
+          <component id="7764f" class="javax.swing.JLabel" binding="myLogoImageLabel">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="1b2a8" class="javax.swing.JLabel" binding="myAdsImageLabel">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
         </children>
-      </tabbedpane>
-      <component id="d114f" class="javax.swing.JLabel" binding="imageLabel">
-        <constraints border-constraint="South"/>
-        <properties>
-          <text value="Advertisement here..."/>
-        </properties>
-      </component>
+      </grid>
     </children>
   </grid>
 </form>

@@ -98,10 +98,13 @@ public class STMainForm extends JFrame {
     private JLabel UploadRatioLabel;
     private JLabel adsServerLabel;
     private JLabel IncompleteDownloadFolderLabel;
-    private JLabel imageLabel;
     private JTextField textFieldSearchFriend;
     private JButton buttonSearchFriend;
     private JTextField maxFriendsLimitTextBox;
+    private JPanel tabsPanel;
+    private JPanel imagesPanel;
+    private JLabel myAdsImageLabel;
+    private JLabel myLogoImageLabel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -184,7 +187,7 @@ public class STMainForm extends JFrame {
         ClickMenuActionHandler menuHandler = new ClickMenuActionHandler();
 
         this.stMainForm = this;
-        this.mainMenuBar = new JMenuBar();
+        this.mainMenuBar = new JMenuBar();        
         this.setJMenuBar(this.mainMenuBar);
 
         // Instantiating the File Menu
@@ -197,7 +200,6 @@ public class STMainForm extends JFrame {
         // Draw the order of the JMenuItems
         fileMenu.add(fileMenuConnect);
         fileMenu.add(fileMenuDisconnect);
-        fileMenu.addSeparator();
         fileMenu.add(fileMenuAdmin);
         fileMenuAdmin.setVisible(false);        
         fileMenu.add(fileMenuExit);
@@ -253,11 +255,67 @@ public class STMainForm extends JFrame {
 
         this.sLibrary = sLibrary;
         this.sLibrary.setSTMainForm(this);
+        
+        UIDefaults uiDefaults = UIManager.getDefaults();                        
+        uiDefaults.put("Menu.background", Color.BLACK);
+        uiDefaults.put("Menu.foreground", Color.WHITE);
+        uiDefaults.put("Menu.selectionBackground", Color.GRAY);
 
+        uiDefaults.put("MenuBar.background", Color.BLACK);
+        uiDefaults.put("MenuBar.foreground", Color.WHITE);
+        uiDefaults.put("MenuBar.selectionBackground", Color.GRAY);
+
+        uiDefaults.put("MenuItem.background", Color.BLACK);
+        uiDefaults.put("MenuItem.foreground", Color.WHITE);
+        uiDefaults.put("MenuItem.selectionBackground", Color.GRAY);
+
+        uiDefaults.put("TextField.selectionBackground", Color.BLACK);
+        uiDefaults.put("TextField.highlight", Color.BLACK);
+        uiDefaults.put("Tree.selectionForeground", Color.BLACK);
+        uiDefaults.put("Tree.selectionBackground", Color.BLACK);
+        uiDefaults.put("List.selectionBackground", Color.BLACK);
+        uiDefaults.put("ComboBox.selectionBackground", Color.BLACK);
+
+        uiDefaults.put("TabbedPane.background", Color.BLACK);
+        uiDefaults.put("TabbedPane.foreground", Color.WHITE);
+        uiDefaults.put("TabbedPane.selectHighlight", Color.GRAY);
+        uiDefaults.put("TabbedPane.selected", Color.BLACK);
+        uiDefaults.put("TabbedPane.shadow", Color.RED);
+        uiDefaults.put("TabbedPane.borderHighlightColor", Color.RED);
+
+        uiDefaults.put("Label.background", Color.BLACK);
+        uiDefaults.put("Label.foreground", Color.GRAY);        
+        uiDefaults.put("Panel.background", Color.BLACK);
+        uiDefaults.put("Panel.foreground", Color.GRAY);
+
+        // Phex Colors
+        uiDefaults.put("activeCaptionBorder", Color.BLACK);
+        uiDefaults.put("info", Color.GRAY);
+        PhexColors.updateColors();
+
+        PhexColors.activatePhexColors4P2PServent();
+        
         $$$setupUI$$$();
 
         this.drawMenus();
 
+        /*
+        ArrayList<Object> gradients = new ArrayList<Object>(5);
+        gradients.add(0.28f);
+        gradients.add(0.00f);
+        gradients.add(new Color(0x33FF00));
+        gradients.add(new Color(0x33CC00));
+        gradients.add(new Color(0x339900));
+        UIManager.put("Button.gradient", gradients);
+        UIManager.put("CheckBox.gradient", gradients);
+        UIManager.put("CheckBoxMenuItem.gradient", gradients);
+        UIManager.put("MenuBar.gradient", gradients);
+        UIManager.put("ScrollBar.gradient", gradients);
+        UIManager.put("RadioButton.gradient", gradients);
+        */
+        
+        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getStr("myLogoImage")));
+        
         if (this.sLibrary.getSTConfiguration() != null) {
             if (this.sLibrary.getSTConfiguration().getAutoConnect()) {
                 boolean connected = STLibrary.getInstance().STLoginUser();
@@ -285,12 +343,6 @@ public class STMainForm extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowHandler());
 
-        //DesktopIndicator indicator = GUIRegistry.getInstance().getDesktopIndicator();
-        // if sys tray supported
-        //if (indicator != null) {
-        //indicator.addDesktopIndicatorListener(new DesktopIndicatorHandler());
-        //}
-
         pack();
         initFrameSize();
 
@@ -305,13 +357,7 @@ public class STMainForm extends JFrame {
         this.incompleteDownloadFolderBrowseButton.addActionListener(new SetIncompleteDownloadDirectoryListener());
 
         final ImageIcon imageIcon = new ImageIcon("adImage.gif");
-        Image image = imageIcon.getImage();
-        final Dimension dimension = new Dimension(100, 100);
-        final double height = dimension.getHeight();
-        final double width = (height / imageIcon.getIconHeight()) * imageIcon.getIconWidth();
-        image = image.getScaledInstance((int) width, (int) height, Image.SCALE_SMOOTH);
-        final ImageIcon finalIcon = new ImageIcon(image);
-        this.getImageLabel().setIcon(finalIcon);
+        this.getAdImageLabel().setIcon(imageIcon);
 
         if (sLibrary.getSTConfiguration() != null) {
             String adsServer = sLibrary.getSTConfiguration().getAdsServer();
@@ -349,10 +395,11 @@ public class STMainForm extends JFrame {
         });
     }
 
-    public JLabel getImageLabel() {
-        return this.imageLabel;
-    }
 
+    public JLabel getAdImageLabel() {
+        return this.myAdsImageLabel;
+    }
+    
     /**
      * Method generated by IntelliJ IDEA GUI Designer
      * >>> IMPORTANT!! <<<
@@ -549,10 +596,7 @@ public class STMainForm extends JFrame {
         final JScrollPane scrollPane2 = new JScrollPane();
         myFriendsTab.add(scrollPane2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         listFriends = new JList();
-        scrollPane2.setViewportView(listFriends);
-        imageLabel = new JLabel();
-        imageLabel.setText("Advertisement here...");
-        outerPanel.add(imageLabel, BorderLayout.SOUTH);
+        scrollPane2.setViewportView(listFriends);        
     }
 
     /**
@@ -619,10 +663,11 @@ public class STMainForm extends JFrame {
     }
 
     private void initFrameSize() {
-        GUIUtils.centerAndSizeWindow(this, 7, 8);
+        GUIUtils.centerAndSizeWindow(this, 7, 10);
         if (guiSettings == null) {
             return;
         }
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle bounds = getBounds();
         if (guiSettings.isSetWindowWidth()) {
@@ -703,6 +748,7 @@ public class STMainForm extends JFrame {
             myDisconnectIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myDisconnectIcon.ico")), 15, 15);
             myAdminIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myAdminIcon.ico")), 15, 15);            
             myExitIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myExitIcon.ico")), 15, 15);
+                    
             this.setIconImage(myApplicationIcon.getImage());
             this.fileMenuConnect.setIcon(myConnectIcon);
             this.fileMenuDisconnect.setIcon(myDisconnectIcon);

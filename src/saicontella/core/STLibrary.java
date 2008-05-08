@@ -206,6 +206,8 @@ public class STLibrary extends Component {
         this.getSTConfiguration().setMaxUpload(1);
         this.getSTConfiguration().setConnTimeout("30");
         this.getSTConfiguration().setMaxSearchFriendsLimit("1000");
+        this.getSTConfiguration().setAdsServer("http://www.gamersuniverse.com/p2pservent/molto.png");
+
         // workaround for testing with virtual friends...
         /*
         STFriend mariosk1 = new STFriend("mariosk1");

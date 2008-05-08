@@ -37,13 +37,7 @@ public class STAdsDownloader extends Thread {
     private void fetchImage(String absPathObject, String adImageName) {
         if (STLibrary.getInstance().retrieveFromWebServer(absPathObject, adImageName)) {
             final ImageIcon imageIcon = new ImageIcon("adImage.gif");
-            Image image = imageIcon.getImage();
-            final Dimension dimension = new Dimension(100, 100);
-            final double height = dimension.getHeight();
-            final double width = (height / imageIcon.getIconHeight()) * imageIcon.getIconWidth();
-            image = image.getScaledInstance((int)width, (int)height, Image.SCALE_SMOOTH);
-            final ImageIcon finalIcon = new ImageIcon(image);
-            this.mainForm.getImageLabel().setIcon(finalIcon);
+            this.mainForm.getAdImageLabel().setIcon(imageIcon);
         }
     }
 

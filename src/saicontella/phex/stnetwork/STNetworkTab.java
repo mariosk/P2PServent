@@ -8,11 +8,7 @@ package saicontella.phex.stnetwork;
  * February 2008
  */
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FontMetrics;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -26,21 +22,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import javax.swing.AbstractAction;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -57,12 +39,7 @@ import phex.event.ChangeEvent;
 import phex.event.PhexEventTopics;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
-import phex.gui.common.FWElegantPanel;
-import phex.gui.common.FWPopupMenu;
-import phex.gui.common.GUIRegistry;
-import phex.gui.common.GUIUtils;
-import phex.gui.common.IconPack;
-import phex.gui.common.MainFrame;
+import phex.gui.common.*;
 import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.prefs.NetworkTabPrefs;
@@ -70,6 +47,8 @@ import phex.gui.prefs.PhexGuiPrefs;
 import phex.gui.tabs.FWTab;
 import phex.gui.tabs.network.NetworkRowRenderer;
 import saicontella.phex.stnetwork.STNetworkTableModel;
+import saicontella.core.STResources;
+import saicontella.core.STRoundJButton;
 import phex.host.CaughtHostsContainer;
 import phex.host.Host;
 import phex.host.HostManager;
@@ -135,11 +114,14 @@ public class STNetworkTab extends FWTab
             "2dlu, fill:d:grow, 4dlu, d, 2dlu"); //rows
         PanelBuilder contentBuilder = new PanelBuilder( layout, this );
 
-
         //JPanel upperPanel = new FormDebugPanel();
+
         JPanel upperPanel = new JPanel( );
         FWElegantPanel upperElegantPanel = new FWElegantPanel( Localizer.getString("Connections"),
             upperPanel );
+        upperElegantPanel.setBackground(Color.BLACK);
+        upperElegantPanel.setForeground(Color.GRAY);
+
         layout = new FormLayout(
             "0dlu, d, 2dlu, d, 10dlu:grow, d, 2dlu, d, 2dlu, d, 0dlu", // columns
             "fill:d:grow, 3dlu, p"); //rows
@@ -196,7 +178,7 @@ public class STNetworkTab extends FWTab
             }
             });
         upperBuilder.add( myIPLabel, cc.xy( 4, 3 ) );
-
+        
         label = new JLabel( Localizer.getString( "ConnectTo" )
             + Localizer.getChar( "ColonSign" ) );
         upperBuilder.add( label, cc.xy( 6, 3 ) );
@@ -216,11 +198,11 @@ public class STNetworkTab extends FWTab
         keymap.addActionForKeyStroke( KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
             connectToHostHandler );
         GUIUtils.assignKeymapToComboBoxEditor( keymap, connectToComboBox );
-        connectToComboBox.setSelectedItem( "" );
+        connectToComboBox.setSelectedItem( "" );        
         connectToComboBox.setPrototypeDisplayValue("123.123.123.123:12345");
         upperBuilder.add( connectToComboBox, cc.xy( 8, 3 ) );
 
-        JButton connectHostButton = new JButton( Localizer.getString( "Connect" ) );
+        JButton connectHostButton = new JButton( Localizer.getString( "Connect" ) );        
         connectHostButton.addActionListener( connectToHostHandler );
         upperBuilder.add( connectHostButton, cc.xy( 10, 3 ) );
 
@@ -240,6 +222,11 @@ public class STNetworkTab extends FWTab
         PanelBuilder cacheStatusBuilder = new PanelBuilder( layout, cacheStatusPanel );
         lowerBuilder.add( cacheStatusPanel, cc.xy( 3, 1 ) );
 
+        JButton igamerButton = new JButton("");
+        igamerButton.setIcon(new ImageIcon(STResources.getStr("myIGamersImage")));
+        //igamerButton.addActionListener( connectToHostHandler );
+        //cacheStatusBuilder.add( igamerButton, cc.xy( 3, 2 ) );
+        
         contentBuilder.add( upperElegantPanel, cc.xy( 2, 2 ) );
         contentBuilder.add( lowerPanel, cc.xy( 2, 4 ) );
 
