@@ -6,6 +6,7 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <classPath>lib\activation.jar</classPath>
 <classPath>lib\axis.jar</classPath>
 <classPath>lib\commons-collections-3.2.jar</classPath>
@@ -15,6 +16,8 @@
 <classPath>lib\forms-1.1.0.jar</classPath>
 <classPath>lib\forms_rt.jar</classPath>
 <classPath>lib\jaxrpc.jar</classPath>
+<classPath>lib\jdic.jar</classPath>
+<classPath>lib\jdic_stub.jar</classPath>
 <classPath>lib\log4j.jar</classPath>
 <classPath>lib\looks-2.1.4.jar</classPath>
 <classPath>lib\mailapi.jar</classPath>
