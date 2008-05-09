@@ -4,7 +4,7 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "v0.97"
+  !define VERSION "v0.98"
   !define RELEASE_DIR "F:\SAICON\P2PServent\release"
   !define SRC_DIR "F:\SAICON\P2PServent"
 
@@ -77,6 +77,7 @@ File "${SRC_DIR}\images\View_users.png"
 File "${SRC_DIR}\images\ViewlFolder.png"
 File "${SRC_DIR}\images\GamersLogo.png"
 File "${SRC_DIR}\images\igamerbtn.gif"
+File "${SRC_DIR}\images\exitbtn.gif"
 File "${SRC_DIR}\images\mydownloads.gif"
 File "${SRC_DIR}\images\myfriends.gif"
 File "${SRC_DIR}\images\mypeers.gif"
@@ -177,6 +178,7 @@ Delete "$INSTDIR\images\View_users.png"
 Delete "$INSTDIR\images\ViewlFolder.png"
 Delete "${SRC_DIR}\images\GamersLogo.png"
 Delete "${SRC_DIR}\images\igamerbtn.gif"
+Delete "${SRC_DIR}\images\exitbtn.gif"
 Delete "${SRC_DIR}\images\mydownloads.gif"
 Delete "${SRC_DIR}\images\myfriends.gif"
 Delete "${SRC_DIR}\images\mypeers.gif"

@@ -18,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.awt.*;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 public class STAdsDownloader extends Thread {
     private static Log logger = LogFactory.getLog("saicontella.core.STAdsDownloader");
@@ -34,11 +36,15 @@ public class STAdsDownloader extends Thread {
         this.mainForm = mainForm;
     }
 
-    private void fetchImage(String absPathObject, String adImageName) {
-        if (STLibrary.getInstance().retrieveFromWebServer(absPathObject, adImageName)) {
-            final ImageIcon imageIcon = new ImageIcon("adImage.gif");
-            this.mainForm.getAdImageLabel().setIcon(imageIcon);
+    private void fetchImage(String absPathObject) {        
+        ImageIcon imageIcon = null;
+        try {
+            imageIcon = new ImageIcon(new URL(absPathObject));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+        this.mainForm.getAdImageLabel().setIcon(imageIcon);
+        this.mainForm.getAdImageLabel().repaint();
     }
 
     public void run() {
@@ -46,7 +52,7 @@ public class STAdsDownloader extends Thread {
         while (true) {
             try {
                 String urlPath = STLibrary.getInstance().getSTConfiguration().getAdsServer();
-                this.fetchImage(urlPath, "adImage.gif");
+                this.fetchImage(urlPath);
                 sleep((int)(STLibrary.STConstants.ADS_THR_SECS * 1000));
             } catch (Exception e) {
                 e.printStackTrace();

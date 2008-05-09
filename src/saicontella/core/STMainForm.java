@@ -288,6 +288,14 @@ public class STMainForm extends JFrame {
         uiDefaults.put("Panel.background", Color.BLACK);
         uiDefaults.put("Panel.foreground", Color.GRAY);
 
+        uiDefaults.put("OptionPane.background", Color.BLACK);
+        uiDefaults.put("OptionPane.foreground", Color.GRAY);
+
+        uiDefaults.put("OptionPane.errorDialog.titlePane.foreground", Color.GRAY);
+        uiDefaults.put("OptionPane.messageForeground", Color.GRAY);
+        uiDefaults.put("OptionPane.questionDialog.titlePane.foreground", Color.GRAY);
+        uiDefaults.put("OptionPane.warningDialog.titlePane.foreground", Color.GRAY);
+        
         // Phex Colors
         uiDefaults.put("activeCaptionBorder", Color.BLACK);
         uiDefaults.put("info", Color.GRAY);
@@ -333,7 +341,7 @@ public class STMainForm extends JFrame {
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
                     }                    
-                    STLibrary.getInstance().updateP2PServent(false);
+                    STLibrary.getInstance().updateP2PServent(true);
                 }
             }
             this.setTitle(STLibrary.STConstants.P2PSERVENT_VERSION + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
@@ -355,9 +363,6 @@ public class STMainForm extends JFrame {
         this.saveSettingsButton.addActionListener(clickActionHandler);
         this.completeDownloadFolderBrowseButton.addActionListener(new SetCompleteDownloadDirectoryListener());
         this.incompleteDownloadFolderBrowseButton.addActionListener(new SetIncompleteDownloadDirectoryListener());
-
-        final ImageIcon imageIcon = new ImageIcon("adImage.gif");
-        this.getAdImageLabel().setIcon(imageIcon);
 
         if (sLibrary.getSTConfiguration() != null) {
             String adsServer = sLibrary.getSTConfiguration().getAdsServer();
@@ -609,6 +614,7 @@ public class STMainForm extends JFrame {
     private class ChangeActionHandler implements ChangeListener {
 
         public void stateChanged(ChangeEvent e) {
+            boolean retrievedFromWS = false;
             JTabbedPane tabbedPane = (JTabbedPane) e.getSource();
             JPanel currentPanel = (JPanel) tabbedPane.getSelectedComponent();
             if (currentPanel == null)
@@ -622,8 +628,16 @@ public class STMainForm extends JFrame {
                 listFriends.addListSelectionListener(clickListHandler);
                 if (networkTab == null)
                     return;
-                //Retrieving here the list of the added friends from the configuration file saicontella.xml...
-                Vector[] myFriendsList = STLibrary.getInstance().getSTConfiguration().getMyFriendsAndIdsVectorData();
+                //Retrieving here the list of the added friends from the configuration
+                // file saicontella.xml if the user is not connected yet
+                Vector[] myFriendsList = null;
+                if (STLibrary.getInstance().isConnected()) {
+                    myFriendsList = STLibrary.getInstance().getMyFriendsList();
+                    retrievedFromWS = true;
+                }
+                else {
+                    myFriendsList = STLibrary.getInstance().getSTConfiguration().getMyFriendsAndIdsVectorData();
+                }                 
                 if (myFriendsList != null) {
                     friendsListData = new Vector[2];
                     friendsListData[0] = myFriendsList[0];
@@ -635,6 +649,7 @@ public class STMainForm extends JFrame {
                     listAllPeers.setListData(allPeersData[0]);
                 if (friendsListData[0] != null)
                     listFriends.setListData(friendsListData[0]);
+                if (retrievedFromWS) saveFriendsListInXML();
             }
         }
     }
@@ -869,7 +884,7 @@ public class STMainForm extends JFrame {
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
                     }
-                    STLibrary.getInstance().updateP2PServent(false);
+                    STLibrary.getInstance().updateP2PServent(true);
                 }
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_DISCONNECT)) {
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -900,7 +915,7 @@ public class STMainForm extends JFrame {
             } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_SHARED_FOLDERS)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.LIBRARY_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_UPDATES)) {
-                STLibrary.getInstance().updateP2PServent(true);                
+                STLibrary.getInstance().updateP2PServent(false);                
             }
         }
     }

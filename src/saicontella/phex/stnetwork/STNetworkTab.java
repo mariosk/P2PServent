@@ -20,15 +20,17 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.net.MalformedURLException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.text.Keymap;
+import javax.print.DocFlavor;
 
 import org.bushe.swing.event.annotation.EventTopicSubscriber;
+import org.jdesktop.jdic.desktop.DesktopException;
 
 import phex.common.address.DefaultDestAddress;
 import phex.common.address.DestAddress;
@@ -49,6 +51,7 @@ import phex.gui.tabs.network.NetworkRowRenderer;
 import saicontella.phex.stnetwork.STNetworkTableModel;
 import saicontella.core.STResources;
 import saicontella.core.STRoundJButton;
+import saicontella.core.STLibrary;
 import phex.host.CaughtHostsContainer;
 import phex.host.Host;
 import phex.host.HostManager;
@@ -59,9 +62,15 @@ import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 
+import java.net.URL;
+import java.net.MalformedURLException;
+import org.jdesktop.jdic.desktop.Desktop;
+import org.jdesktop.jdic.desktop.DesktopException;
+
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.debug.FormDebugPanel;
 
 /**
  * The NetworkTab Panel.
@@ -109,9 +118,11 @@ public class STNetworkTab extends FWTab
     public void initComponent( DGuiSettings guiSettings )
     {
         CellConstraints cc = new CellConstraints();
+
         FormLayout layout = new FormLayout(
             "2dlu, fill:d:grow, 2dlu", // columns
             "2dlu, fill:d:grow, 4dlu, d, 2dlu"); //rows
+
         PanelBuilder contentBuilder = new PanelBuilder( layout, this );
 
         //JPanel upperPanel = new FormDebugPanel();
@@ -124,7 +135,8 @@ public class STNetworkTab extends FWTab
 
         layout = new FormLayout(
             "0dlu, d, 2dlu, d, 10dlu:grow, d, 2dlu, d, 2dlu, d, 0dlu", // columns
-            "fill:d:grow, 3dlu, p"); //rows
+            "fill:d:grow, 3dlu, p"); // 3 rows
+        
         PanelBuilder upperBuilder = new PanelBuilder( layout, upperPanel );
 
         networkModel = new STNetworkTableModel( hostMgr.getNetworkHostsContainer() );
@@ -205,7 +217,7 @@ public class STNetworkTab extends FWTab
         JButton connectHostButton = new JButton( Localizer.getString( "Connect" ) );        
         connectHostButton.addActionListener( connectToHostHandler );
         upperBuilder.add( connectHostButton, cc.xy( 10, 3 ) );
-
+        
         /////////////////////////// Lower Panel ////////////////////////////////
 
         JPanel lowerPanel = new JPanel();
@@ -217,15 +229,25 @@ public class STNetworkTab extends FWTab
 
         JPanel cacheStatusPanel = new JPanel( );
         layout = new FormLayout(
-            "8dlu, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
-            "p, 3dlu, p, 3dlu, p, 3dlu, bottom:p:grow"); //rows
+            //"8dlu, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
+            "right:d, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
+            //"0dlu, d, 2dlu, d, 10dlu:grow, d, 2dlu, d, 2dlu, d, 0dlu", // columns
+            "fill:d:grow, 3dlu, p"); // 3 rows
+
         PanelBuilder cacheStatusBuilder = new PanelBuilder( layout, cacheStatusPanel );
         lowerBuilder.add( cacheStatusPanel, cc.xy( 3, 1 ) );
 
         JButton igamerButton = new JButton("");
         igamerButton.setIcon(new ImageIcon(STResources.getStr("myIGamersImage")));
-        //igamerButton.addActionListener( connectToHostHandler );
-        //cacheStatusBuilder.add( igamerButton, cc.xy( 3, 2 ) );
+        ConnectToIGamersHandler igamersHandler = new ConnectToIGamersHandler();
+        igamerButton.addActionListener( igamersHandler );
+        cacheStatusBuilder.add( igamerButton, cc.xy( 1, 3 ) );
+
+        JButton exitButton = new JButton("");
+        exitButton.setIcon(new ImageIcon(STResources.getStr("myExitImage")));
+        ExitHandler exitHandler = new ExitHandler();
+        exitButton.addActionListener( exitHandler );
+        cacheStatusBuilder.add( exitButton, cc.xy( 6, 3) );
         
         contentBuilder.add( upperElegantPanel, cc.xy( 2, 2 ) );
         contentBuilder.add( lowerPanel, cc.xy( 2, 4 ) );
@@ -466,6 +488,33 @@ public class STNetworkTab extends FWTab
         }
     }
 
+    private class ConnectToIGamersHandler extends AbstractAction implements ActionListener
+    {
+        public void actionPerformed( ActionEvent e )
+        {
+            try {
+                String urlString = "http://www.gamersuniverse.com/igamer/users/p2p_login.php?username="
+                        + STLibrary.getInstance().getSTConfiguration().getWebServiceAccount()
+                        + "&password=" + STLibrary.getInstance().getSTConfiguration().getWebServicePassword();
+                Desktop.browse(new URL(urlString));
+            } catch(MalformedURLException ex) {
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (DesktopException ex) {
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private class ExitHandler extends AbstractAction implements ActionListener
+    {
+        public void actionPerformed( ActionEvent e )
+        {
+            STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
+            STLibrary.getInstance().STLogoutUser();
+            System.exit(0);            
+        }
+    }
+    
     private class ConnectToHostHandler extends AbstractAction implements ActionListener
     {
         public void actionPerformed( ActionEvent e )

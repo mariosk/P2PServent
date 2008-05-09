@@ -25,9 +25,7 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.rmi.RemoteException;
-import java.io.FileOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,10 +35,6 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.GUIUtils;
-import java.net.URL;
-import java.net.MalformedURLException;
-import org.jdesktop.jdic.desktop.Desktop;
-import org.jdesktop.jdic.desktop.DesktopException;
 
 public class STLibrary extends Component {
 
@@ -225,8 +219,9 @@ public class STLibrary extends Component {
         */
     }
 
-    public boolean retrieveFromWebServer(String absPathObject, String absPathOutput) {
+    public byte[] retrieveFromWebServer(String absPathObject) {
         boolean status = true;
+        byte[] binaryData = null;
         FileOutputStream fos = null;
         GetMethod method = new GetMethod();
         HttpClient client = new HttpClient();
@@ -238,15 +233,12 @@ public class STLibrary extends Component {
           if(returnCode != HttpStatus.SC_OK) {            
             this.fireMessageBox("Unable to fetch: " + absPathObject + ", status code: " + returnCode, "ERROR", JOptionPane.ERROR_MESSAGE);
             status = false;
-            return status;
+            return binaryData;
           }
 
           //logger.error(method.getResponseBodyAsString());
 
-          byte[] binaryData = method.getResponseBody();
-          fos = new FileOutputStream(new File(absPathOutput));
-          fos.write(binaryData);
-
+          binaryData = method.getResponseBody();
         }
         catch (HttpException he)
         {
@@ -264,7 +256,7 @@ public class STLibrary extends Component {
           if(fos != null) try { fos.close(); } catch (Exception fe) {}
         }
 
-        return status;
+        return binaryData;
     }
 
     public void updateP2PServent(boolean autoCheck) {
@@ -283,7 +275,23 @@ public class STLibrary extends Component {
     }
     
     public boolean downloadNewerVersion() {
-        return this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl(), "../P2PServent_"+this.getNewerVersion()+".exe");
+        String filename = "../P2PServent_"+this.getNewerVersion()+".exe";
+        byte[] data = this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl());
+        if (data != null) {
+            OutputStream bos = null;
+            try {
+                bos = new FileOutputStream(filename);
+                bos.write(data) ;
+                bos.close() ;
+                bos = null;
+            }
+            catch (Exception e) {
+                this.fireMessageBox(e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            return true;            
+        }
+        return false;
     }
 
     public String getNewerVersion() {
@@ -417,15 +425,6 @@ public class STLibrary extends Component {
         	*/
            
             LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
-            /*
-            try {
-                Desktop.browse(new URL("http://www.gamersuniverse.com/igamer"));                                
-            } catch(MalformedURLException e) {
-                e.printStackTrace();
-            } catch (DesktopException e) {
-                e.printStackTrace();
-            }
-            */
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
