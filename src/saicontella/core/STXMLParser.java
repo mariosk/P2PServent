@@ -86,7 +86,7 @@ public class STXMLParser extends DefaultHandler {
         logger.debug("start of configuration");
         logger.debug("\tAccount Name: " + this.tmpConfiguration.getAccountName());
         logger.debug("\tAccount Server: " + this.tmpConfiguration.getAccountServer());
-        logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword() + ", Endpoint: " + this.tmpConfiguration.getWebServiceEndpoint());
+        logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword());
         logger.debug("\tListen Port: " + this.tmpConfiguration.getListenPort());
         if (this.tmpConfiguration.getListenAddress() != null)
             logger.debug("\tListen Address: " + this.tmpConfiguration.getListenAddress());
@@ -123,8 +123,7 @@ public class STXMLParser extends DefaultHandler {
             logger.debug("\tmyFriend name: " + friend.getFriendName());
             logger.debug("\tmyFriend IpAddress: " + friend.getIPAddress());
             logger.debug("\tmyFriend IpAddress: " + friend.getFriendId());
-        }
-        logger.debug("Ads Server IP Address: " + this.tmpConfiguration.getAdsServer());
+        }        
         logger.debug("end of configuration");
     }
 
@@ -179,8 +178,7 @@ public class STXMLParser extends DefaultHandler {
         }        
         else if (qName.equalsIgnoreCase("webservice")) {
             tmpConfiguration.setWebServiceAccount(attributes.getValue("name"));
-            tmpConfiguration.setWebServicePassword(attributes.getValue("password"));
-            tmpConfiguration.setWebServiceEndpoint(attributes.getValue("wsdl"));
+            tmpConfiguration.setWebServicePassword(attributes.getValue("password"));            
             tmpConfiguration.setMaxSearchFriendsLimit(attributes.getValue("maxFriendsLimit"));
         }
         else if (qName.equalsIgnoreCase("account")) {
@@ -209,9 +207,6 @@ public class STXMLParser extends DefaultHandler {
             myFriend.setIPAddress(attributes.getValue("ipaddress"));
             myFriend.setFriendId(attributes.getValue("friendid"));            
             this.myFriendsList.add(myFriend);
-        }
-        else if (qName.equalsIgnoreCase("ads")) {           
-            tmpConfiguration.setAdsServer(attributes.getValue("server"));
         }
     }
 	

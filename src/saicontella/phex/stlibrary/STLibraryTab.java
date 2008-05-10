@@ -154,10 +154,13 @@ public class STLibraryTab extends FWTab
     }
 
     private void updateFriendsStatusLabel(STFolder folder) {
-        if (folder.getFriends().size() == 0)
-            this.friendsStatusLabel.setText("The folder " + folder.getFolderName() + " is opened to all users");
-        else
-            this.friendsStatusLabel.setText("The folder " + folder.getFolderName() + " is limited to your selected friends");
+        if (folder.getFriends().size() == 0) {
+            this.friendsStatusLabel.setText("The folder is opened to all users");
+        }
+        else {
+            this.friendsStatusLabel.setText("The folder is limited to your selected friends");
+        }
+        this.friendsStatusLabel.setToolTipText("Folder: " + folder.getFolderName());
     }
     
     public void fillFriedsList(int folderIndex) {
@@ -231,15 +234,16 @@ public class STLibraryTab extends FWTab
         FormLayout contentLayout = new FormLayout("fill:d:grow", // columns
             "fill:d:grow"); //rows
         PanelBuilder contentBuilder = new PanelBuilder(contentLayout, contentPanel);
-        
-        
+                
         MouseHandler mouseHandler = new MouseHandler();
 
         libraryTreePane = new STLibraryTreePane( this );
         libraryTreePane.addTreeSelectionListener(
             new SelectionHandler() );
         JPanel tablePanel = createTablePanel( guiSettings, mouseHandler );
-
+        JButton dummyButton = new JButton("");
+        tablePanel.setBackground(dummyButton.getBackground());
+        
         JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
             libraryTreePane, tablePanel );
         splitPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -250,7 +254,7 @@ public class STLibraryTab extends FWTab
         sharedFilesLabel = new JLabel( " " );
         sharedFilesLabel.setHorizontalAlignment( JLabel.RIGHT );
         elegantPanel.addHeaderPanelComponent(sharedFilesLabel, BorderLayout.EAST );
-        
+
         fileTablePopup = new FWPopupMenu();
         
         FWAction action;
@@ -294,7 +298,8 @@ public class STLibraryTab extends FWTab
             //"fill:d:grow, 1dlu, p"); //rows
         // 4 columns x 4 rows of 100 pixels each ;)
         //FormLayout layout = new FormLayout("100px, 100px, 100px, 100px", "100px, 100px, 100px, 100px");
-        FormLayout layout = new FormLayout("fill:d:grow, fill:d:grow", "fill:d:grow, 1dlu, p");
+         FormLayout layout = new FormLayout("fill:d:grow, fill:d:grow", // columns
+         "fill:d:grow, 1dlu, p, p"); // rows
 
         PanelBuilder tabBuilder = new PanelBuilder(layout, panel);
         
@@ -323,9 +328,7 @@ public class STLibraryTab extends FWTab
 
         friendsList = new STLibraryFriendsList(this);
         this.updateMyFriendsList();
-        this.friendsStatusLabel = new JLabel("");
-        Font bold = new Font("Arial", Font.BOLD, 12);
-        this.friendsStatusLabel.setFont(bold);
+        this.friendsStatusLabel = new JLabel("");                        
 
         friendsScrollPane = new JScrollPane(friendsList);
         // adding in col: 2, row: 1

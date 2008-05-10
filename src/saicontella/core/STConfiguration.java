@@ -27,8 +27,6 @@ public class STConfiguration {
     private int maxUpload;
     private ArrayList sharedFolders;
     private ArrayList myFriends;
-    private String adsServer;
-    private String webServiceEndpoint;
     private String webServiceAccount;
     private String webServicePassword;
     private int maxSearchFriendsLimit;
@@ -37,13 +35,6 @@ public class STConfiguration {
     {
         this.sharedFolders = new ArrayList();
         this.myFriends = new ArrayList();
-    }
-
-    public void setWebServiceEndpoint(String value) {
-        this.webServiceEndpoint = value;
-    }
-    public String getWebServiceEndpoint() {
-        return this.webServiceEndpoint;
     }
 
     public void setWebServiceAccount(String value) {
@@ -181,13 +172,6 @@ public class STConfiguration {
         this.myFriends.add(friend);
     }
 
-    public void setAdsServer(String server) {
-        this.adsServer = server;        
-    }   
-    public String getAdsServer() {
-        return this.adsServer;        
-    }
-
     public int getSTFolderIndex(String fName) {
         for (int i = 0; i < this.getFolders().size(); i++) {
             STFolder folder = (STFolder) this.getFolders().get(i);
@@ -227,7 +211,7 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("\t<!-- webService endpoint -->");
         buffer.append("\n");
-        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getWebServicePassword() + "\" wsdl=\"" + this.getWebServiceEndpoint() + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
+        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getWebServicePassword() + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
         buffer.append("\n");
         buffer.append("\t<!-- gnutella servent -->");
         buffer.append("\n");
@@ -280,10 +264,7 @@ public class STConfiguration {
             buffer.append("\n");
         }
         buffer.append("\t</sharedFolders>");
-        buffer.append("\n");
-
-        buffer.append("\t<ads server=\"" + this.getAdsServer() + "\"></ads>");
-        buffer.append("\n");
+        buffer.append("\n");        
         buffer.append("</configuration>");
 
         try {

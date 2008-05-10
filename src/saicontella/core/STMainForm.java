@@ -85,7 +85,6 @@ public class STMainForm extends JFrame {
     private JPanel WebServicesPanel;
     private JLabel UserLabel;
     private JLabel PasswordLabel;
-    private JLabel wsdlLabel;
     private JPanel ServentPanel;
     private JLabel ListenPortLabel;
     private JLabel AddressLabel;
@@ -96,7 +95,6 @@ public class STMainForm extends JFrame {
     private JLabel CompleteDownloadFolderLabel;
     private JLabel DownloadRatioLabel;
     private JLabel UploadRatioLabel;
-    private JLabel adsServerLabel;
     private JLabel IncompleteDownloadFolderLabel;
     private JTextField textFieldSearchFriend;
     private JButton buttonSearchFriend;
@@ -270,10 +268,9 @@ public class STMainForm extends JFrame {
         uiDefaults.put("MenuItem.selectionBackground", Color.GRAY);
 
         uiDefaults.put("TextField.selectionBackground", Color.BLACK);
-        uiDefaults.put("TextField.highlight", Color.BLACK);
-        uiDefaults.put("Tree.selectionForeground", Color.BLACK);
-        uiDefaults.put("Tree.selectionBackground", Color.BLACK);
-        uiDefaults.put("List.selectionBackground", Color.BLACK);
+        uiDefaults.put("TextField.highlight", Color.BLACK);        
+        uiDefaults.put("Tree.selectionBackground", Color.GRAY);
+        uiDefaults.put("List.selectionBackground", Color.GRAY);
         uiDefaults.put("ComboBox.selectionBackground", Color.BLACK);
 
         uiDefaults.put("TabbedPane.background", Color.BLACK);
@@ -284,7 +281,7 @@ public class STMainForm extends JFrame {
         uiDefaults.put("TabbedPane.borderHighlightColor", Color.RED);
 
         uiDefaults.put("Label.background", Color.BLACK);
-        uiDefaults.put("Label.foreground", Color.GRAY);        
+        uiDefaults.put("Label.foreground", Color.GRAY);
         uiDefaults.put("Panel.background", Color.BLACK);
         uiDefaults.put("Panel.foreground", Color.GRAY);
 
@@ -295,7 +292,8 @@ public class STMainForm extends JFrame {
         uiDefaults.put("OptionPane.messageForeground", Color.GRAY);
         uiDefaults.put("OptionPane.questionDialog.titlePane.foreground", Color.GRAY);
         uiDefaults.put("OptionPane.warningDialog.titlePane.foreground", Color.GRAY);
-        
+        uiDefaults.put("ComboBox.selectionBackground", Color.GRAY);
+
         // Phex Colors
         uiDefaults.put("activeCaptionBorder", Color.BLACK);
         uiDefaults.put("info", Color.GRAY);
@@ -344,7 +342,7 @@ public class STMainForm extends JFrame {
                     STLibrary.getInstance().updateP2PServent(true);
                 }
             }
-            this.setTitle(STLibrary.STConstants.P2PSERVENT_VERSION + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
+            this.setTitle(STResources.getStr("Application.name") + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
         }
         this.guiSettings = guiSettings;
 
@@ -364,15 +362,9 @@ public class STMainForm extends JFrame {
         this.completeDownloadFolderBrowseButton.addActionListener(new SetCompleteDownloadDirectoryListener());
         this.incompleteDownloadFolderBrowseButton.addActionListener(new SetIncompleteDownloadDirectoryListener());
 
-        if (sLibrary.getSTConfiguration() != null) {
-            String adsServer = sLibrary.getSTConfiguration().getAdsServer();
-            if (adsServer != null) {
-                if (!adsServer.equals("") && !adsServer.equals("null")) {
-                    STAdsDownloader adsDownloader = new STAdsDownloader(this);
-                    adsDownloader.start();
-                }
-            }
-        }
+        STAdsDownloader adsDownloader = new STAdsDownloader(this);
+        adsDownloader.start();
+                
         buttonSearchFriend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!STLibrary.getInstance().isConnected()) {
@@ -468,11 +460,6 @@ public class STMainForm extends JFrame {
         PasswordLabel.setDisplayedMnemonic('P');
         PasswordLabel.setDisplayedMnemonicIndex(0);
         WebServicesPanel.add(PasswordLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(146, 14), null, 0, false));
-        wsdlLabel = new JLabel();
-        wsdlLabel.setText("WSDL:");
-        wsdlLabel.setDisplayedMnemonic('W');
-        wsdlLabel.setDisplayedMnemonicIndex(0);
-        WebServicesPanel.add(wsdlLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(146, 14), null, 0, false));
         passwordTextBox = new JTextField();
         WebServicesPanel.add(passwordTextBox, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(100, 20), new Dimension(200, -1), 1, false));
         WSDLTextFBox = new JTextField();
@@ -553,11 +540,6 @@ public class STMainForm extends JFrame {
         UploadRatioLabel.setDisplayedMnemonic('O');
         UploadRatioLabel.setDisplayedMnemonicIndex(3);
         SharedFoldersPanel.add(UploadRatioLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(148, 14), null, 0, false));
-        adsServerLabel = new JLabel();
-        adsServerLabel.setText("Ads Server:");
-        adsServerLabel.setDisplayedMnemonic('E');
-        adsServerLabel.setDisplayedMnemonicIndex(5);
-        SharedFoldersPanel.add(adsServerLabel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(148, 14), null, 0, false));
         incompleteDownloadFolderTextBox = new JTextField();
         incompleteDownloadFolderTextBox.setEditable(false);
         SharedFoldersPanel.add(incompleteDownloadFolderTextBox, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(274, 20), null, 1, false));
@@ -592,7 +574,6 @@ public class STMainForm extends JFrame {
         mainTabbedPanel.addTab("myFriends", myFriendsTab);
         buttonAddFriend = new JButton();
         buttonAddFriend.setEnabled(false);
-        buttonAddFriend.setText("Select either a peer or a friend");
         myFriendsTab.add(buttonAddFriend, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         myFriendsTab.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -716,7 +697,6 @@ public class STMainForm extends JFrame {
         this.maxFriendsLimitTextBox.setText(new Integer(sLibrary.getSTConfiguration().getMaxSearchFriendsLimit()).toString());
         this.userTextBox.setText(sLibrary.getSTConfiguration().getWebServiceAccount());
         this.passwordTextBox.setText(sLibrary.getSTConfiguration().getWebServicePassword());
-        this.WSDLTextFBox.setText(sLibrary.getSTConfiguration().getWebServiceEndpoint());
         this.listenPortTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getListenPort()));
         this.addressTextBox.setText(sLibrary.getSTConfiguration().getListenAddress());
         this.connectionTimeoutTextBox.setText(String.valueOf(sLibrary.getSTConfiguration().getConnTimeout()));
@@ -738,8 +718,7 @@ public class STMainForm extends JFrame {
         this.uploadRatioTextBox.setEnabled(false);
 
         this.completeDownloadFolderBrowseButton.setName("completeDownloadFolderBrowseButton");
-        this.incompleteDownloadFolderBrowseButton.setName("incompleteDownloadFolderBrowseButton");
-        this.adsServerTextBox.setText(sLibrary.getSTConfiguration().getAdsServer());
+        this.incompleteDownloadFolderBrowseButton.setName("incompleteDownloadFolderBrowseButton");        
     }
     
     public void createUIComponents() {
@@ -1025,8 +1004,7 @@ public class STMainForm extends JFrame {
                 sLibrary.getSTConfiguration().setCompleteFolder(completeDownloadFolderTextBox.getText());
                 sLibrary.getSTConfiguration().setInCompleteFolder(incompleteDownloadFolderTextBox.getText());
                 //sLibrary.getSTConfiguration().setMaxDownload(Integer.parseInt(this.mainForm.downloadRatioTextBox.getText()));
-                //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));
-                sLibrary.getSTConfiguration().setAdsServer(adsServerTextBox.getText());
+                //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));                
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 sLibrary.reInitializeSTLibrary();                

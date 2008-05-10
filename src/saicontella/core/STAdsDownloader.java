@@ -50,9 +50,8 @@ public class STAdsDownloader extends Thread {
     public void run() {
         // infinite loop connection towards web server
         while (true) {
-            try {
-                String urlPath = STLibrary.getInstance().getSTConfiguration().getAdsServer();
-                this.fetchImage(urlPath);
+            try {                
+                this.fetchImage(STLibrary.STConstants.ADS_WEB_SERVER_URL);
                 sleep((int)(STLibrary.STConstants.ADS_THR_SECS * 1000));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -83,7 +83,7 @@ public class STKeywordSearchBox extends BoxPanel
         
         searchButton = new JButton( Localizer.getString( "SearchTab_StartSearch" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search" ) );
-        searchButton.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        searchButton.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );        
         searchButton.setToolTipText( Localizer.getString( "SearchTab_TTTStartSearch") );
         searchButton.setMargin( GUIUtils.NARROW_BUTTON_INSETS );
         searchButton.addActionListener( submitSearchHandler );

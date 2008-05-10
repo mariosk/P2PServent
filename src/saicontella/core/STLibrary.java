@@ -48,15 +48,16 @@ public class STLibrary extends Component {
         public static final String TRUE = "true";
         public static final String FALSE = "false";        
         // UserAuthenticationSettings (STOP)
+        public static final String AUTH_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl";
         public static final String ADMIN_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserServerAdmin?wsdl";
         public static final String ADS_USER_AGENT = "SaiconTella/v1.0 (compatible; MSIE 7.0; Windows NT 6.0";
-        public static final int ADS_WEB_SERVER_TIMEOUT = 5; // in seconds                
+        public static final String ADS_WEB_SERVER_URL = "http://www.gamersuniverse.com/p2pservent/molto.png";
+        public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
         public static final int KEEP_ALIVE_THR_SECS = 5;               
         public static final int ADS_THR_SECS = 5;                               
         public static final String KEEP_ALIVE_THR_NAME = "KeepAliveToWebService_Thread";
         public static final String ADS_THR_NAME = "Advertisements_Thread";               
-        public static final String P2PSERVENT_VERSION = "SaiconTella P2PServent";
         public static final String P2PSERVENT_BAR = "===========================";               
         public static final String PUBLIC_ACCESS = "public";
         public static final String PRIVATE_ACCESS = "private";
@@ -72,8 +73,8 @@ public class STLibrary extends Component {
         } 
         public static final String p2pAppId = "92e4cace2cab102ba39d8cc01d4f351c";
         public static final String NO_LIST_SELECTED = "Select either a peer or a friend";
-        public static final String PEER_SELECTED = "Add to friends >>>";
-        public static final String FRIEND_SELECTED = "<<<< Remove from friends";
+        public static final String PEER_SELECTED = "Add to friends";
+        public static final String FRIEND_SELECTED = "Remove from friends";
         // JMenus string here...
         public static final String FILE_MENU = "File";
         public static final String FILE_MENU_ADMINISTRATOR = "Administrator";
@@ -133,13 +134,13 @@ public class STLibrary extends Component {
         }
         //STMySQLClient dbClient = new STMySQLClient("mysql", Configuration.getAccountServer(), Configuration.getAccountName(), "");
     	logger.info(STConstants.P2PSERVENT_BAR);
-        logger.info(STConstants.P2PSERVENT_VERSION);
+        logger.info(STResources.getStr("Application.name"));    
         logger.info(STConstants.P2PSERVENT_BAR);
         logger.info("Copyright Saicon @2008");
         logger.info(STConstants.P2PSERVENT_BAR);
         try {
             this.webServiceAuthProxy = new UserAuthenticationImplPortBindingStub();
-            this.webServiceAuthProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, confObject.getWebServiceEndpoint());
+            this.webServiceAuthProxy._setProperty(UserAuthenticationImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, STConstants.AUTH_WS_ENDPOINT);
             this.webServiceAdminProxy = new UserServerAdminImplPortBindingStub();
             this.webServiceAdminProxy._setProperty(UserServerAdminImplPortBindingStub.ENDPOINT_ADDRESS_PROPERTY, STConstants.ADMIN_WS_ENDPOINT);
         }
@@ -193,14 +194,12 @@ public class STLibrary extends Component {
 
     private void initDefaultSTConfiguration() {
         this.getSTConfiguration().setListenAddress("*");
-        this.getSTConfiguration().setListenPort("6346");
-        this.getSTConfiguration().setWebServiceEndpoint("http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl");
+        this.getSTConfiguration().setListenPort("6346");        
         this.getSTConfiguration().setMaxConnections("5");
         this.getSTConfiguration().setMaxDownload(1);
         this.getSTConfiguration().setMaxUpload(1);
         this.getSTConfiguration().setConnTimeout("30");
-        this.getSTConfiguration().setMaxSearchFriendsLimit("1000");
-        this.getSTConfiguration().setAdsServer("http://www.gamersuniverse.com/p2pservent/molto.png");
+        this.getSTConfiguration().setMaxSearchFriendsLimit("1000");        
 
         // workaround for testing with virtual friends...
         /*
@@ -336,7 +335,7 @@ public class STLibrary extends Component {
                 logger.error(ex.getMessage());    
             }
         }
-        this.STLogoutUser(this.getSTConfiguration().getWebServiceEndpoint());
+        this.STLogoutUser(STConstants.AUTH_WS_ENDPOINT);
         this.getGnutellaFramework().disconnectFromPeers();
     }
 
