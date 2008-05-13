@@ -31,6 +31,8 @@ import java.io.File;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.Spacer;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.CellConstraints;
 import saicontella.phex.stsearch.STSearchTab;
 import saicontella.phex.stnetwork.STNetworkTab;
 import saicontella.phex.stdownload.STSWDownloadTab;
@@ -91,11 +93,6 @@ public class STMainForm extends JFrame {
     private JLabel ConnectionTimeoutLabel;
     private JLabel maximumConnectionsLabel;
     private JLabel autoConnectLabel;
-    private JPanel SharedFoldersPanel;
-    private JLabel CompleteDownloadFolderLabel;
-    private JLabel DownloadRatioLabel;
-    private JLabel UploadRatioLabel;
-    private JLabel IncompleteDownloadFolderLabel;
     private JTextField textFieldSearchFriend;
     private JButton buttonSearchFriend;
     private JTextField maxFriendsLimitTextBox;
@@ -103,6 +100,12 @@ public class STMainForm extends JFrame {
     private JPanel imagesPanel;
     private JLabel myAdsImageLabel;
     private JLabel myLogoImageLabel;
+    private JPanel innerSettingsPanel;
+    private JPanel SharedFoldersPanel;
+    private JLabel CompleteDownloadFolderLabel;
+    private JLabel DownloadRatioLabel;
+    private JLabel UploadRatioLabel;
+    private JLabel IncompleteDownloadFolderLabel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -306,6 +309,21 @@ public class STMainForm extends JFrame {
         this.drawMenus();
 
         this.setResizable(false);
+
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        CellConstraints cc = new CellConstraints();
+
+        JPanel emptyPanel = new JPanel();
+        FWElegantPanel settingsElegantPanel = new FWElegantPanel( "Settings", emptyPanel);        
+        FormLayout layout = new FormLayout(
+            "d, fill:d:grow, d, d, d, d", // columns
+            "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow"); //rows
+        this.mySettingsTab.setLayout(layout);
+        this.mySettingsTab.add(settingsElegantPanel, cc.xy(1, 1));
+        this.mySettingsTab.add(innerSettingsPanel, cc.xy(1, 2));
+        this.mySettingsTab.add(buttonsPanel, cc.xy(6, 3));
+        this.mySettingsTab.add(emptyPanel, cc.xy(1, 4));
+        this.mySettingsTab.add(emptyPanel, cc.xy(1, 5));
         
         /*
         ArrayList<Object> gradients = new ArrayList<Object>(5);
