@@ -299,12 +299,14 @@ public class STMainForm extends JFrame {
         uiDefaults.put("info", Color.GRAY);
         PhexColors.updateColors();
 
-        PhexColors.activatePhexColors4P2PServent();
+        //PhexColors.activatePhexColors4P2PServent();
         
         $$$setupUI$$$();
 
         this.drawMenus();
 
+        this.setResizable(false);
+        
         /*
         ArrayList<Object> gradients = new ArrayList<Object>(5);
         gradients.add(0.28f);

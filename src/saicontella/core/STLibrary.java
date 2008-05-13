@@ -51,7 +51,7 @@ public class STLibrary extends Component {
         public static final String AUTH_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl";
         public static final String ADMIN_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserServerAdmin?wsdl";
         public static final String ADS_USER_AGENT = "SaiconTella/v1.0 (compatible; MSIE 7.0; Windows NT 6.0";
-        public static final String ADS_WEB_SERVER_URL = "http://www.gamersuniverse.com/p2pservent/molto.png";
+        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
         public static final int KEEP_ALIVE_THR_SECS = 5;               

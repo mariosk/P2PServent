@@ -1,4 +1,4 @@
-package core.saicontella;
+package saicontella.core;
 
 import java.util.*;
 import javax.swing.*;
