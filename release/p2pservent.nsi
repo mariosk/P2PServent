@@ -4,7 +4,7 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "v0.98"
+  !define VERSION "v0.99"
   !define RELEASE_DIR "F:\SAICON\P2PServent\release"
   !define SRC_DIR "F:\SAICON\P2PServent"
 
