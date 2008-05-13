@@ -41,6 +41,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STMainForm;
+import saicontella.core.STButtonsPanel;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
 import saicontella.phex.stsearch.filterpanel.STSearchFilterPanel;
 
@@ -143,8 +144,8 @@ public class STSearchTab extends FWTab
         
         mainSearchPanel = new JPanel();
         FormLayout lowerLayout = new FormLayout(
-            "p, 1dlu, fill:d:grow", // columns
-            "fill:d:grow"); //rows
+            "p, 1dlu, fill:d:grow, p, p, p", // 6 columns
+            "fill:d:grow, fill:d:grow"); //rows
         PanelBuilder lowerBuilder = new PanelBuilder( lowerLayout, mainSearchPanel );
         searchControlPanel = new STSearchControlPanel( this, searchContainer, filterRules );
         searchControlPanel.setMinimumSize(new Dimension(0,0));
@@ -162,8 +163,11 @@ public class STSearchTab extends FWTab
         searchResultPanel.initializeComponent( guiSettings );
         lowerRightBuilder.add( searchResultPanel, cc.xy( 1, 2 ) );
         
-        lowerBuilder.add( lowerRightPanel, cc.xy( 3, 1  ) );
-        
+        lowerBuilder.add( lowerRightPanel, cc.xywh( 3, 1, 4, 1  ) );
+
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        lowerBuilder.add( buttonsPanel, cc.xy( 6, 2 ) );
+
         Dimension dim = new Dimension( 400, 200 );
         mainSearchPanel.setPreferredSize( dim );
         mainSearchPanel.setMinimumSize( new Dimension( 0, 0 ) );

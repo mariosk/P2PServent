@@ -58,6 +58,7 @@ import phex.xml.sax.gui.DTable;
 import saicontella.phex.stdownload.STSWDownloadTableModel;
 import saicontella.core.STResources;
 import saicontella.core.STLibrary;
+import saicontella.core.STButtonsPanel;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -97,8 +98,8 @@ public class STSWDownloadTab extends FWTab
         MouseHandler mouseHandler = new MouseHandler();
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(
-            "2dlu, fill:d:grow, 2dlu", // columns
-            "2dlu, fill:d:grow, 2dlu"); //rows
+            "2dlu, fill:d:grow, 2dlu, p, p, p", // columns
+            "2dlu, fill:d:grow, fill:d:grow, 2dlu"); //rows
         PanelBuilder tabBuilder = new PanelBuilder( layout, this );
 
         JPanel downloadTablePanel = initDownloadTablePanel( guiSettings, mouseHandler );
@@ -108,7 +109,7 @@ public class STSWDownloadTab extends FWTab
         downloadDetails.setBorder( BorderFactory.createEmptyBorder( 2, 0, 0, 0) );
 
         // Workaround for very strange j2se 1.4 split pane layout behavior
-        Dimension dim = new Dimension( 400, 300 );
+        Dimension dim = new Dimension( 400, 400 );
         downloadTablePanel.setPreferredSize( dim );
         downloadDetails.setPreferredSize( dim );
         dim = new Dimension( 0, 0 );        
@@ -124,7 +125,9 @@ public class STSWDownloadTab extends FWTab
         splitPane.setDividerLocation( 0.5 );
         splitPane.setResizeWeight( 0.5 );
 
-        tabBuilder.add( splitPane, cc.xy( 2, 2 ) );
+        tabBuilder.add( splitPane, cc.xywh( 2, 2, 5, 1 ) );
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        tabBuilder.add( buttonsPanel, cc.xy( 6, 3 ) );
 
         // increase table height a bit to display progress bar string better...
         GUIUtils.adjustTableProgresssBarHeight( downloadTable );

@@ -231,8 +231,9 @@ public class STLibraryTab extends FWTab
             contentPanel );
         tabBuilder.add(elegantPanel, cc.xy(2, 2));
         
-        FormLayout contentLayout = new FormLayout("fill:d:grow", // columns
-            "fill:d:grow"); //rows
+        FormLayout contentLayout = new FormLayout(
+            "fill:d:grow, p, p, p, p, p", // columns
+            "fill:d:grow, fill:d:grow"); //rows
         PanelBuilder contentBuilder = new PanelBuilder(contentLayout, contentPanel);
                 
         MouseHandler mouseHandler = new MouseHandler();
@@ -249,7 +250,10 @@ public class STLibraryTab extends FWTab
         splitPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         splitPane.setDividerSize(4);
         splitPane.setOneTouchExpandable(false);
-        contentBuilder.add(splitPane, cc.xy(1, 1));
+        contentBuilder.add(splitPane, cc.xywh(1, 1, 6, 1));
+
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        contentBuilder.add( buttonsPanel, cc.xy( 6, 2 ) );
 
         sharedFilesLabel = new JLabel( " " );
         sharedFilesLabel.setHorizontalAlignment( JLabel.RIGHT );

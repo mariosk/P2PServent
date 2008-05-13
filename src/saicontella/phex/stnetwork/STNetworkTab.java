@@ -52,6 +52,7 @@ import saicontella.phex.stnetwork.STNetworkTableModel;
 import saicontella.core.STResources;
 import saicontella.core.STRoundJButton;
 import saicontella.core.STLibrary;
+import saicontella.core.STButtonsPanel;
 import phex.host.CaughtHostsContainer;
 import phex.host.Host;
 import phex.host.HostManager;
@@ -227,28 +228,9 @@ public class STNetworkTab extends FWTab
         layout.setColumnGroups( new int[][]{{1, 3}} );
         PanelBuilder lowerBuilder = new PanelBuilder( layout, lowerPanel );
 
-        JPanel cacheStatusPanel = new JPanel( );
-        layout = new FormLayout(
-            //"8dlu, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
-            "right:d, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
-            //"0dlu, d, 2dlu, d, 10dlu:grow, d, 2dlu, d, 2dlu, d, 0dlu", // columns
-            "fill:d:grow, 3dlu, p"); // 3 rows
-
-        PanelBuilder cacheStatusBuilder = new PanelBuilder( layout, cacheStatusPanel );
-        lowerBuilder.add( cacheStatusPanel, cc.xy( 3, 1 ) );
-
-        JButton igamerButton = new JButton("");
-        igamerButton.setIcon(new ImageIcon(STResources.getStr("myIGamersImage")));
-        ConnectToIGamersHandler igamersHandler = new ConnectToIGamersHandler();
-        igamerButton.addActionListener( igamersHandler );
-        cacheStatusBuilder.add( igamerButton, cc.xy( 1, 3 ) );
-
-        JButton exitButton = new JButton("");
-        exitButton.setIcon(new ImageIcon(STResources.getStr("myExitImage")));
-        ExitHandler exitHandler = new ExitHandler();
-        exitButton.addActionListener( exitHandler );
-        cacheStatusBuilder.add( exitButton, cc.xy( 6, 3) );
-        
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        lowerBuilder.add( buttonsPanel, cc.xy( 3, 1 ) );
+       
         contentBuilder.add( upperElegantPanel, cc.xy( 2, 2 ) );
         contentBuilder.add( lowerPanel, cc.xy( 2, 4 ) );
 

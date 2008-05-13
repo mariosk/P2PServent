@@ -59,6 +59,7 @@ import phex.xml.sax.gui.DTable;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STButtonsPanel;
 
 public class STUploadTab extends FWTab
 {
@@ -95,8 +96,8 @@ public class STUploadTab extends FWTab
         tabBuilder.add(banner, cc.xy(2, 2));
         
         FormLayout contentLayout = new FormLayout(
-            "fill:d:grow", // columns
-            "fill:d:grow, 1dlu, p"); //rows
+            "fill:d:grow, p, p, p, p, p", // columns
+            "fill:d:grow, 1dlu, p, fill:d:grow"); //rows
         PanelBuilder contentBuilder = new PanelBuilder(contentLayout, contentPanel);
         
         MouseHandler mouseHandler = new MouseHandler();
@@ -114,7 +115,7 @@ public class STUploadTab extends FWTab
         GUIRegistry.getInstance().getGuiUpdateTimer().addTable( uploadTable );
         uploadTableScrollPane = FWTable.createFWTableScrollPane( uploadTable );
         uploadTableScrollPane.addMouseListener( mouseHandler );
-        contentBuilder.add( uploadTableScrollPane, cc.xy( 1, 1 ) );
+        contentBuilder.add( uploadTableScrollPane, cc.xywh( 1, 1, 6, 1 ) );
 
         // increase table height a bit to display progress bar string better...
         GUIUtils.adjustTableProgresssBarHeight( uploadTable );
@@ -122,7 +123,10 @@ public class STUploadTab extends FWTab
         FWToolBar uploadToolbar = new FWToolBar( JToolBar.HORIZONTAL );
         uploadToolbar.setBorderPainted( false );
         uploadToolbar.setFloatable( false );
-        contentBuilder.add( uploadToolbar, cc.xy( 1, 3 ) );
+        contentBuilder.add( uploadToolbar, cc.xywh( 1, 3, 6, 1 ) );
+
+        STButtonsPanel buttonsPanel = new STButtonsPanel();
+        contentBuilder.add( buttonsPanel, cc.xy( 6, 4 ) );
 
         uploadPopup = new JPopupMenu();
 
