@@ -412,7 +412,7 @@
                   </grid>
                 </children>
               </grid>
-              <grid id="fc1f0" binding="myFriendsTab" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="fc1f0" binding="myFriendsTab" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <tabbedpane title="myFriends"/>
@@ -422,74 +422,124 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <scrollpane id="c40fb">
+                  <grid id="a68b0" binding="innerFriendsPanel" layout-manager="FormLayout">
+                    <rowspec value="center:max(d;4px):noGrow"/>
+                    <rowspec value="top:4dlu:noGrow"/>
+                    <rowspec value="center:d:grow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:d:grow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:d:grow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:d:grow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
+                    <colspec value="left:4dlu:noGrow"/>
+                    <colspec value="fill:max(d;4px):noGrow"/>
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="etched">
+                      <title-color color="-1"/>
+                      <color color="-1"/>
+                    </border>
                     <children>
-                      <component id="7df86" class="javax.swing.JList" binding="listAllPeers">
-                        <constraints/>
+                      <component id="bbf5c" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <forms/>
+                        </constraints>
+                        <properties>
+                          <text value="Friend name:"/>
+                        </properties>
+                      </component>
+                      <component id="ea2f2" class="javax.swing.JButton" binding="buttonAddFriend">
+                        <constraints>
+                          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <minimum-size width="150" height="20"/>
+                            <preferred-size width="150" height="20"/>
+                            <maximum-size width="150" height="20"/>
+                          </grid>
+                          <forms/>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <text value="Select a friend"/>
+                        </properties>
+                      </component>
+                      <scrollpane id="a9a66">
+                        <constraints>
+                          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="c4bcf" class="javax.swing.JList" binding="listFriends">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <scrollpane id="831cf">
+                        <constraints>
+                          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="7df86" class="javax.swing.JList" binding="listAllPeers">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <component id="18e4a" class="javax.swing.JTextField" binding="textFieldSearchFriend">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                          <forms defaultalign-horz="false"/>
+                        </constraints>
                         <properties/>
                       </component>
-                    </children>
-                  </scrollpane>
-                  <scrollpane id="b2f6a">
-                    <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children>
-                      <component id="decd8" class="javax.swing.JList" binding="listFriends">
-                        <constraints/>
-                        <properties/>
+                      <component id="641c0" class="javax.swing.JButton" binding="buttonSearchFriend">
+                        <constraints>
+                          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <forms/>
+                        </constraints>
+                        <properties>
+                          <text value="Search"/>
+                        </properties>
+                      </component>
+                      <component id="78d05" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <forms/>
+                        </constraints>
+                        <properties>
+                          <text value="myFriends"/>
+                        </properties>
                       </component>
                     </children>
-                  </scrollpane>
-                  <component id="bbf5c" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="friend name:"/>
-                    </properties>
-                  </component>
-                  <component id="86a6a" class="javax.swing.JTextField" binding="textFieldSearchFriend">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <hspacer id="f81b6">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <component id="641c0" class="javax.swing.JButton" binding="buttonSearchFriend">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Search"/>
-                    </properties>
-                  </component>
-                  <component id="ea2f2" class="javax.swing.JButton" binding="buttonAddFriend">
-                    <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                        <minimum-size width="150" height="20"/>
-                        <preferred-size width="150" height="20"/>
-                        <maximum-size width="150" height="20"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <text value="Select a friend"/>
-                    </properties>
-                  </component>
+                  </grid>
                 </children>
               </grid>
             </children>

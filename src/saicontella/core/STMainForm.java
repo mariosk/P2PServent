@@ -106,6 +106,7 @@ public class STMainForm extends JFrame {
     private JLabel DownloadRatioLabel;
     private JLabel UploadRatioLabel;
     private JLabel IncompleteDownloadFolderLabel;
+    private JPanel innerFriendsPanel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -310,20 +311,35 @@ public class STMainForm extends JFrame {
 
         this.setResizable(false);
 
-        STButtonsPanel buttonsPanel = new STButtonsPanel();
-        CellConstraints cc = new CellConstraints();
+        STButtonsPanel buttonsPanel1 = new STButtonsPanel();
+        STButtonsPanel buttonsPanel2 = new STButtonsPanel();
+        JPanel emptyPanel1 = new JPanel();
+        JPanel emptyPanel2 = new JPanel();
 
-        JPanel emptyPanel = new JPanel();
-        FWElegantPanel settingsElegantPanel = new FWElegantPanel( "Settings", emptyPanel);        
-        FormLayout layout = new FormLayout(
+        FWElegantPanel settingsElegantPanel = new FWElegantPanel( "Settings", emptyPanel1);
+        CellConstraints ccSettings = new CellConstraints();
+        FormLayout layoutSettings = new FormLayout(
             "d, fill:d:grow, d, d, d, d", // columns
-            "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow"); //rows
-        this.mySettingsTab.setLayout(layout);
-        this.mySettingsTab.add(settingsElegantPanel, cc.xy(1, 1));
-        this.mySettingsTab.add(innerSettingsPanel, cc.xy(1, 2));
-        this.mySettingsTab.add(buttonsPanel, cc.xy(6, 3));
-        this.mySettingsTab.add(emptyPanel, cc.xy(1, 4));
-        this.mySettingsTab.add(emptyPanel, cc.xy(1, 5));
+            "fill:d:grow, fill:d:grow, fill:d:grow, d, d"); //rows
+        this.mySettingsTab.setLayout(layoutSettings);
+        this.mySettingsTab.add(settingsElegantPanel, ccSettings.xy(1, 1));
+        this.mySettingsTab.add(innerSettingsPanel, ccSettings.xy(1, 2));
+        this.mySettingsTab.add(buttonsPanel1, ccSettings.xy(6, 3));
+        this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 4));
+        this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 5));
+
+        FWElegantPanel friendsElegantPanel = new FWElegantPanel( "Friends", emptyPanel2);
+        CellConstraints ccFriends = new CellConstraints();
+        FormLayout layoutFriends = new FormLayout(
+            "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, d, d, d", // columns
+            "d, fill:d:grow, fill:d:grow, d, d"); //rows
+        this.myFriendsTab.setLayout(layoutFriends);
+        this.myFriendsTab.add(friendsElegantPanel, ccFriends.xywh(1, 1, 4, 1));
+        this.myFriendsTab.add(innerFriendsPanel, ccFriends.xywh(1, 2, 4, 2));
+        //this.myFriendsTab.add(innerFriendsPanel, ccFriends.xy(1, 2)); // col:1, row: 2
+        this.myFriendsTab.add(buttonsPanel2, ccFriends.xy(9, 3));
+        this.myFriendsTab.add(emptyPanel2, ccFriends.xy(1, 4));
+        this.myFriendsTab.add(emptyPanel2, ccFriends.xy(1, 5));
         
         /*
         ArrayList<Object> gradients = new ArrayList<Object>(5);
