@@ -43,8 +43,7 @@ public class STAdsDownloader extends Thread {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        this.mainForm.getAdImageLabel().setIcon(imageIcon);
-        this.mainForm.getAdImageLabel().repaint();
+        this.mainForm.setAdImageLabelIcon(imageIcon);        
     }
 
     public void run() {

@@ -18,6 +18,7 @@ public interface UserAuthentication_PortType extends java.rmi.Remote {
     public saicontella.core.webservices.authentication.UserRegistrationsWrapper[] fetchUserPackageRegistrations(java.lang.String sessionId, java.lang.String userId, java.lang.String applicationId) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.UserSettingsWrapper[] fetchUserSettings(java.lang.String sessionId, java.lang.String userId, java.lang.String applicationId) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.FriendActionResponseWrapper addFriend(java.lang.String sessionId, java.lang.String friendId) throws java.rmi.RemoteException;
+    public saicontella.core.webservices.authentication.FriendActionResponseWrapper setFriendshipStatus(java.lang.String sessionId, int friendShipId, saicontella.core.webservices.authentication.FriendshipStatus friendShipStatus) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.FriendActionResponseWrapper removeFriend(java.lang.String sessionId, java.lang.String userId) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.FriendDetailsWrapper[] searchFriend(java.lang.String sessionId, java.lang.String friendName) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.UserInfoWrapper[] searchCandidateFriend(java.lang.String sessionId, java.lang.String userName, java.lang.String firstName, java.lang.String lastName, int limit) throws java.rmi.RemoteException;

@@ -12,6 +12,8 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
 
     private java.lang.String friendName;
 
+    private saicontella.core.webservices.authentication.FriendshipStatus friendshipStatus;
+
     private java.lang.Integer status;
 
     private java.lang.String userId;
@@ -22,10 +24,12 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
     public FriendDetailsWrapper(
            java.lang.String friendId,
            java.lang.String friendName,
+           saicontella.core.webservices.authentication.FriendshipStatus friendshipStatus,
            java.lang.Integer status,
            java.lang.String userId) {
            this.friendId = friendId;
            this.friendName = friendName;
+           this.friendshipStatus = friendshipStatus;
            this.status = status;
            this.userId = userId;
     }
@@ -68,6 +72,26 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
      */
     public void setFriendName(java.lang.String friendName) {
         this.friendName = friendName;
+    }
+
+
+    /**
+     * Gets the friendshipStatus value for this FriendDetailsWrapper.
+     * 
+     * @return friendshipStatus
+     */
+    public saicontella.core.webservices.authentication.FriendshipStatus getFriendshipStatus() {
+        return friendshipStatus;
+    }
+
+
+    /**
+     * Sets the friendshipStatus value for this FriendDetailsWrapper.
+     * 
+     * @param friendshipStatus
+     */
+    public void setFriendshipStatus(saicontella.core.webservices.authentication.FriendshipStatus friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
     }
 
 
@@ -128,6 +152,9 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
             ((this.friendName==null && other.getFriendName()==null) || 
              (this.friendName!=null &&
               this.friendName.equals(other.getFriendName()))) &&
+            ((this.friendshipStatus==null && other.getFriendshipStatus()==null) || 
+             (this.friendshipStatus!=null &&
+              this.friendshipStatus.equals(other.getFriendshipStatus()))) &&
             ((this.status==null && other.getStatus()==null) || 
              (this.status!=null &&
               this.status.equals(other.getStatus()))) &&
@@ -150,6 +177,9 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
         }
         if (getFriendName() != null) {
             _hashCode += getFriendName().hashCode();
+        }
+        if (getFriendshipStatus() != null) {
+            _hashCode += getFriendshipStatus().hashCode();
         }
         if (getStatus() != null) {
             _hashCode += getStatus().hashCode();
@@ -178,6 +208,13 @@ public class FriendDetailsWrapper  implements java.io.Serializable {
         elemField.setFieldName("friendName");
         elemField.setXmlName(new javax.xml.namespace.QName("", "friendName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("friendshipStatus");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "friendshipStatus"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "friendshipStatus"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

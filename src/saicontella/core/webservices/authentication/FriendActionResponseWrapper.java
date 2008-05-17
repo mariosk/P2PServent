@@ -8,15 +8,39 @@
 package saicontella.core.webservices.authentication;
 
 public class FriendActionResponseWrapper  extends saicontella.core.webservices.authentication.BaseResponse  implements java.io.Serializable {
+    private java.lang.Integer friendShipId;
+
     public FriendActionResponseWrapper() {
     }
 
     public FriendActionResponseWrapper(
            java.lang.String errorMessage,
-           saicontella.core.webservices.authentication.ResponseSTATUS status) {
+           saicontella.core.webservices.authentication.ResponseSTATUS status,
+           java.lang.Integer friendShipId) {
         super(
             errorMessage,
             status);
+        this.friendShipId = friendShipId;
+    }
+
+
+    /**
+     * Gets the friendShipId value for this FriendActionResponseWrapper.
+     * 
+     * @return friendShipId
+     */
+    public java.lang.Integer getFriendShipId() {
+        return friendShipId;
+    }
+
+
+    /**
+     * Sets the friendShipId value for this FriendActionResponseWrapper.
+     * 
+     * @param friendShipId
+     */
+    public void setFriendShipId(java.lang.Integer friendShipId) {
+        this.friendShipId = friendShipId;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -30,7 +54,10 @@ public class FriendActionResponseWrapper  extends saicontella.core.webservices.a
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = super.equals(obj);
+        _equals = super.equals(obj) && 
+            ((this.friendShipId==null && other.getFriendShipId()==null) || 
+             (this.friendShipId!=null &&
+              this.friendShipId.equals(other.getFriendShipId())));
         __equalsCalc = null;
         return _equals;
     }
@@ -42,6 +69,9 @@ public class FriendActionResponseWrapper  extends saicontella.core.webservices.a
         }
         __hashCodeCalc = true;
         int _hashCode = super.hashCode();
+        if (getFriendShipId() != null) {
+            _hashCode += getFriendShipId().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -52,6 +82,13 @@ public class FriendActionResponseWrapper  extends saicontella.core.webservices.a
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "friendActionResponseWrapper"));
+        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("friendShipId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "friendShipId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
     }
 
     /**

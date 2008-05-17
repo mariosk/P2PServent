@@ -97,7 +97,6 @@ public class STMainForm extends JFrame {
     private JButton buttonSearchFriend;
     private JTextField maxFriendsLimitTextBox;
     private JPanel tabsPanel;
-    private JPanel imagesPanel;
     private JLabel myAdsImageLabel;
     private JLabel myLogoImageLabel;
     private JPanel innerSettingsPanel;
@@ -107,6 +106,7 @@ public class STMainForm extends JFrame {
     private JLabel UploadRatioLabel;
     private JLabel IncompleteDownloadFolderLabel;
     private JPanel innerFriendsPanel;
+    private JPanel imagesPanel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -309,8 +309,6 @@ public class STMainForm extends JFrame {
 
         this.drawMenus();
 
-        this.setResizable(false);
-
         STButtonsPanel buttonsPanel1 = new STButtonsPanel();
         STButtonsPanel buttonsPanel2 = new STButtonsPanel();
         JPanel emptyPanel1 = new JPanel();
@@ -429,8 +427,14 @@ public class STMainForm extends JFrame {
     }
 
 
-    public JLabel getAdImageLabel() {
-        return this.myAdsImageLabel;
+    public void setAdImageLabelIcon(ImageIcon icon) {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
+        if (h < 600) {            
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
+        }        
+        this.myAdsImageLabel.setIcon(icon);
+        this.myAdsImageLabel.repaint();        
     }
     
     /**
@@ -695,30 +699,23 @@ public class STMainForm extends JFrame {
     }
 
     private void initFrameSize() {
-        GUIUtils.centerAndSizeWindow(this, 7, 10);
-        if (guiSettings == null) {
-            return;
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = (int)(size.getWidth() - 0.25*size.getWidth());
+        if (w < 700)
+            w = 700;
+        double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
+        if (h < 600) {
+            h = 600;
+            this.tabsPanel.setPreferredSize(new Dimension(w, 470));
+            this.myLogoImageLabel.setIcon(STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myLogoImage")), 70, 70));            
         }
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle bounds = getBounds();
-        if (guiSettings.isSetWindowWidth()) {
-            bounds.width = Math.min(screenSize.width, guiSettings.getWindowWidth());
-        }
-        if (guiSettings.isSetWindowHeight()) {
-            bounds.height = Math.min(screenSize.height, guiSettings.getWindowHeight());
-        }
-        if (guiSettings.isSetWindowPosX()) {
-            int posX = guiSettings.getWindowPosX();
-            bounds.x = Math.max(0, Math.min(posX + bounds.width,
-                    (int) screenSize.getWidth()) - bounds.width);
-        }
-        if (guiSettings.isSetWindowPosY()) {
-            int posY = guiSettings.getWindowPosY();
-            bounds.y = Math.max(0, Math.min(posY + bounds.height,
-                    (int) screenSize.getHeight()) - bounds.height);
-        }
-        setBounds(bounds);
+        this.mySettingsTab.setAutoscrolls(true);
+        this.innerSettingsPanel.setAutoscrolls(true);
+        this.tabsPanel.setAutoscrolls(true);
+        this.setSize(w, (int)h);        
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        this.setResizable(false);
     }
 
     public ImageIcon getFriendsAddIcon() {
@@ -988,8 +985,8 @@ public class STMainForm extends JFrame {
                     if (STLibrary.getInstance().removeFriendFromList(tmpFriendsList[0].get(indices[i]).toString(), tmpFriendsList[1].get(indices[i]).toString())) {
                         // each time we remove an entry from the vector the capacity changes...
                         // so removing always position 0 is a solution...
-                        friendsListData[0].remove(indices[0]);
-                        friendsListData[1].remove(indices[0]);
+                        friendsListData[0].remove(indices[i] - i);
+                        friendsListData[1].remove(indices[i] - i);
                         // setting the new list data
                         listFriends.setListData(friendsListData[0]);
                     }

@@ -4,19 +4,19 @@
 
 ;--------------------------------
 ;General
-  !define VERSION "v0.99"
+  !define VERSION "v1.01"
   !define RELEASE_DIR "F:\SAICON\P2PServent\release"
   !define SRC_DIR "F:\SAICON\P2PServent"
 
 ;Name and file
-  Name "P2PServent ${VERSION}"
+  Name "iShare ${VERSION}"
   OutFile "Setup.exe"
   
 ;Default installation folder
-  InstallDir "$PROGRAMFILES\GamersUniverse\P2PServent_${VERSION}"
+  InstallDir "$PROGRAMFILES\GamersUniverse\iShare_${VERSION}"
   
 ;Get installation folder from registry if available
-  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\P2PServent_${VERSION}" ""
+  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\iShare_${VERSION}" ""
   
   !cd ${RELEASE_DIR}
 
@@ -32,7 +32,7 @@
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN "$INSTDIR\P2PServent.exe"
+  !define MUI_FINISHPAGE_RUN "$INSTDIR\iShare.exe"
   !define MUI_FINISHPAGE_LINK "Visit GamersUniverse on the web"
   !define MUI_FINISHPAGE_LINK_LOCATION http://www.gamersuniverse.com
   !define MUI_FINISHPAGE_NOREBOOTSUPPORT
@@ -54,7 +54,7 @@ CRCCheck on
 
 ;--------------------------------
 ;Installer Sections
-Section "P2PServent ${VERSION}" ; (default section)
+Section "iShare ${VERSION}" ; (default section)
 
 SetOutPath "$INSTDIR\images"
 File "${SRC_DIR}\images\About.png"
@@ -87,7 +87,7 @@ File "${SRC_DIR}\images\myshared.gif"
 File "${SRC_DIR}\images\myuploads.gif"
 
 SetOutPath "$INSTDIR"
-File "${RELEASE_DIR}\P2PServent.exe"
+File "${RELEASE_DIR}\iShare.exe"
 
 SetOutPath "$INSTDIR\lib"
 File "${SRC_DIR}\lib\activation.jar"
@@ -112,14 +112,14 @@ File "${SRC_DIR}\lib\jdic_stub.jar"
 SetOutPath "$INSTDIR"
 
 CreateDirectory "$SMPROGRAMS\GamersUniverse"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\P2PServent ${VERSION}.lnk" "$INSTDIR\P2PServent.exe"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall P2PServent ${VERSION}.lnk" "$INSTDIR\uninst.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk" "$INSTDIR\iShare.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk" "$INSTDIR\uninst.exe"
 
 ;Store installation folder
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\P2PServent_${VERSION}" "" "$INSTDIR"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\iShare_${VERSION}" "" "$INSTDIR"
 ;Store uninstall infos folder
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}" "DisplayName" "P2PServent ${VERSION} (remove only)"
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}" "UninstallString" '"$INSTDIR\uninst.exe"'
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}" "DisplayName" "iShare ${VERSION} (remove only)"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}" "UninstallString" '"$INSTDIR\uninst.exe"'
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"
 
@@ -128,16 +128,16 @@ SectionEnd ; end of default section
 Section "Desktop Shortcut"
 
 SetOutPath "$INSTDIR"
-CreateShortCut "$DESKTOP\P2PServent.lnk" "$INSTDIR\P2PServent.exe"
+CreateShortCut "$DESKTOP\iShare.lnk" "$INSTDIR\iShare.exe"
 
 SectionEnd ; end of default section
 
 ; begin uninstall settings/section
-UninstallText "This will uninstall P2PServent from your system"
+UninstallText "This will uninstall iShare from your system"
 
-Section un.P2PServent ${VERSION}
+Section un.iShare ${VERSION}
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
-Delete "$INSTDIR\P2PServent.exe"
+Delete "$INSTDIR\iShare.exe"
 
 Delete "$INSTDIR\lib\activation.jar"
 Delete "$INSTDIR\lib\axis.jar"
@@ -187,13 +187,13 @@ Delete "$INSTDIR\images\mysettings.gif"
 Delete "$INSTDIR\images\myshared.gif"
 Delete "$INSTDIR\images\myuploads.gif"
 
-Delete "$DESKTOP\P2PServent.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\P2PServent ${VERSION}.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\Uninstall P2PServent ${VERSION}.lnk"
+Delete "$DESKTOP\iShare.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk"
 RMDir "$SMPROGRAMS\GamersUniverse"
 
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\P2PServent_${VERSION}"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\P2PServent_${VERSION}"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\iShare_${VERSION}"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}"
 
 RMDir "$INSTDIR\images"
 RMDir "$INSTDIR\lib"
@@ -201,7 +201,7 @@ Delete "$INSTDIR\uninst.exe"
 RMDir "$INSTDIR"
 SectionEnd ; end of uninstall section
 
-Section /o "un.P2PServent User Configuration"
+Section /o "un.iShare User Configuration"
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
 RMDir /r "$INSTDIR"
 SectionEnd ; end of uninstall section

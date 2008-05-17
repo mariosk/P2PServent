@@ -262,7 +262,7 @@ public class STLibrary extends Component {
         if (!STLibrary.getInstance().isTheSameAppVersion()) {
             // a newer version is identified
             STAppUpdateDialog updateDlg = new STAppUpdateDialog();
-            updateDlg.setTitle("Updating P2PServent");
+            updateDlg.setTitle("Updating iShare");
             GUIUtils.centerAndSizeWindow(updateDlg, 3, 7);
             updateDlg.pack();
             updateDlg.setVisible(true);
@@ -272,9 +272,13 @@ public class STLibrary extends Component {
                 STLibrary.getInstance().fireMessageBox("There are no new updates!", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    public String getNewVersionFileName() {
+        return "../iShare_"+this.getNewerVersion()+".exe";
+    }
     
     public boolean downloadNewerVersion() {
-        String filename = "../P2PServent_"+this.getNewerVersion()+".exe";
+        String filename = "../iShare_"+this.getNewerVersion()+".exe";
         byte[] data = this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl());
         if (data != null) {
             OutputStream bos = null;
@@ -300,7 +304,7 @@ public class STLibrary extends Component {
     public boolean isTheSameAppVersion() {
         if (this.webServiceAuthVersion == null) {
             STLibrary.getInstance().fireMessageBox("You need to login as a valid user first!", "Information", JOptionPane.INFORMATION_MESSAGE);
-            return true;
+            return false;
         }
         return this.webServiceAuthVersion.getVersion().equals(STResources.getStr("Application.version"));
     }
@@ -446,7 +450,6 @@ public class STLibrary extends Component {
                 this.reachAllOnlinePeers(response);
 
                 /*
-                this.webServiceAuthProxy.addFriend(response.getSessionId(), "1");
                 FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "marios");
                 if (friends != null) {
                     for (int i = 0; i < friends.length; i++) {
@@ -454,7 +457,7 @@ public class STLibrary extends Component {
                     }
                 }
                 */
-
+                
                 if (this.confObject.getAccountName().equals(STConstants.ADMINISTRATOR)) {
                     UserSettingsWrapper[] settings = new UserSettingsWrapper[4];
                     settings[0] = new UserSettingsWrapper(STConstants.ADMINISTRATOR, "true");
@@ -612,7 +615,7 @@ public class STLibrary extends Component {
     public void addFriendInList(String friendName, String userId) {
         try {
             logger.debug("Adding a friend " + friendName + " with userId = " + userId);
-            BaseResponse response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
+            FriendActionResponseWrapper response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
                     this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);

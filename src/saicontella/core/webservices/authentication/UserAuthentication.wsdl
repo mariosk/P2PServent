@@ -1,1 +1,302 @@
-<?xml version="1.0" encoding="utf-8"?><definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://wsi.server.user.gaming.saicon.gr/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://wsi.server.user.gaming.saicon.gr/" name="UserAuthentication"><types><xsd:schema><xsd:import namespace="http://wsi.server.user.gaming.saicon.gr/" schemaLocation="http://85.17.217.11:8080/UserServer/UserAuthentication?xsd=1"></xsd:import></xsd:schema></types><message name="setStatus"><part name="parameters" element="tns:setStatus"></part></message><message name="setStatusResponse"><part name="parameters" element="tns:setStatusResponse"></part></message><message name="availableCredits"><part name="parameters" element="tns:availableCredits"></part></message><message name="availableCreditsResponse"><part name="parameters" element="tns:availableCreditsResponse"></part></message><message name="login"><part name="parameters" element="tns:login"></part></message><message name="loginResponse"><part name="parameters" element="tns:loginResponse"></part></message><message name="loginExternal"><part name="parameters" element="tns:loginExternal"></part></message><message name="loginExternalResponse"><part name="parameters" element="tns:loginExternalResponse"></part></message><message name="loggoff"><part name="parameters" element="tns:loggoff"></part></message><message name="loggoffResponse"><part name="parameters" element="tns:loggoffResponse"></part></message><message name="activeSessions"><part name="parameters" element="tns:activeSessions"></part></message><message name="activeSessionsResponse"><part name="parameters" element="tns:activeSessionsResponse"></part></message><message name="activeSessionsSerialized"><part name="parameters" element="tns:activeSessionsSerialized"></part></message><message name="activeSessionsSerializedResponse"><part name="parameters" element="tns:activeSessionsSerializedResponse"></part></message><message name="fetchUserPackageRegistrations"><part name="parameters" element="tns:fetchUserPackageRegistrations"></part></message><message name="fetchUserPackageRegistrationsResponse"><part name="parameters" element="tns:fetchUserPackageRegistrationsResponse"></part></message><message name="fetchUserSettings"><part name="parameters" element="tns:fetchUserSettings"></part></message><message name="fetchUserSettingsResponse"><part name="parameters" element="tns:fetchUserSettingsResponse"></part></message><message name="addFriend"><part name="parameters" element="tns:addFriend"></part></message><message name="addFriendResponse"><part name="parameters" element="tns:addFriendResponse"></part></message><message name="removeFriend"><part name="parameters" element="tns:removeFriend"></part></message><message name="removeFriendResponse"><part name="parameters" element="tns:removeFriendResponse"></part></message><message name="searchFriend"><part name="parameters" element="tns:searchFriend"></part></message><message name="searchFriendResponse"><part name="parameters" element="tns:searchFriendResponse"></part></message><message name="searchCandidateFriend"><part name="parameters" element="tns:searchCandidateFriend"></part></message><message name="searchCandidateFriendResponse"><part name="parameters" element="tns:searchCandidateFriendResponse"></part></message><message name="checkForNewerApplication"><part name="parameters" element="tns:checkForNewerApplication"></part></message><message name="checkForNewerApplicationResponse"><part name="parameters" element="tns:checkForNewerApplicationResponse"></part></message><portType name="UserAuthentication"><operation name="setStatus"><input message="tns:setStatus"></input><output message="tns:setStatusResponse"></output></operation><operation name="availableCredits"><input message="tns:availableCredits"></input><output message="tns:availableCreditsResponse"></output></operation><operation name="login"><input message="tns:login"></input><output message="tns:loginResponse"></output></operation><operation name="loginExternal"><input message="tns:loginExternal"></input><output message="tns:loginExternalResponse"></output></operation><operation name="loggoff"><input message="tns:loggoff"></input><output message="tns:loggoffResponse"></output></operation><operation name="activeSessions"><input message="tns:activeSessions"></input><output message="tns:activeSessionsResponse"></output></operation><operation name="activeSessionsSerialized"><input message="tns:activeSessionsSerialized"></input><output message="tns:activeSessionsSerializedResponse"></output></operation><operation name="fetchUserPackageRegistrations"><input message="tns:fetchUserPackageRegistrations"></input><output message="tns:fetchUserPackageRegistrationsResponse"></output></operation><operation name="fetchUserSettings"><input message="tns:fetchUserSettings"></input><output message="tns:fetchUserSettingsResponse"></output></operation><operation name="addFriend"><input message="tns:addFriend"></input><output message="tns:addFriendResponse"></output></operation><operation name="removeFriend"><input message="tns:removeFriend"></input><output message="tns:removeFriendResponse"></output></operation><operation name="searchFriend"><input message="tns:searchFriend"></input><output message="tns:searchFriendResponse"></output></operation><operation name="searchCandidateFriend"><input message="tns:searchCandidateFriend"></input><output message="tns:searchCandidateFriendResponse"></output></operation><operation name="checkForNewerApplication"><input message="tns:checkForNewerApplication"></input><output message="tns:checkForNewerApplicationResponse"></output></operation></portType><binding name="UserAuthenticationImplPortBinding" type="tns:UserAuthentication"><soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding><operation name="setStatus"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="availableCredits"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="login"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="loginExternal"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="loggoff"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="activeSessions"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="activeSessionsSerialized"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="fetchUserPackageRegistrations"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="fetchUserSettings"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="addFriend"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="removeFriend"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="searchFriend"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="searchCandidateFriend"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation><operation name="checkForNewerApplication"><soap:operation soapAction=""></soap:operation><input><soap:body use="literal"></soap:body></input><output><soap:body use="literal"></soap:body></output></operation></binding><service name="UserAuthentication"><port name="UserAuthenticationImplPort" binding="tns:UserAuthenticationImplPortBinding"><soap:address location="http://85.17.217.11:8080/UserServer/UserAuthentication"></soap:address></port></service></definitions>
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.2-06/14/2007 05:26 PM(vivekp)-M1. --><!-- Generated by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.2-06/14/2007 05:26 PM(vivekp)-M1. --><definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://wsi.server.user.gaming.saicon.gr/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://wsi.server.user.gaming.saicon.gr/" name="UserAuthentication">
+<types>
+<xsd:schema>
+<xsd:import namespace="http://wsi.server.user.gaming.saicon.gr/" schemaLocation="http://85.17.217.11:8080/UserServer/UserAuthentication?xsd=1"></xsd:import>
+</xsd:schema>
+</types>
+<message name="setStatus">
+<part name="parameters" element="tns:setStatus"></part>
+</message>
+<message name="setStatusResponse">
+<part name="parameters" element="tns:setStatusResponse"></part>
+</message>
+<message name="availableCredits">
+<part name="parameters" element="tns:availableCredits"></part>
+</message>
+<message name="availableCreditsResponse">
+<part name="parameters" element="tns:availableCreditsResponse"></part>
+</message>
+<message name="login">
+<part name="parameters" element="tns:login"></part>
+</message>
+<message name="loginResponse">
+<part name="parameters" element="tns:loginResponse"></part>
+</message>
+<message name="loginExternal">
+<part name="parameters" element="tns:loginExternal"></part>
+</message>
+<message name="loginExternalResponse">
+<part name="parameters" element="tns:loginExternalResponse"></part>
+</message>
+<message name="loggoff">
+<part name="parameters" element="tns:loggoff"></part>
+</message>
+<message name="loggoffResponse">
+<part name="parameters" element="tns:loggoffResponse"></part>
+</message>
+<message name="activeSessions">
+<part name="parameters" element="tns:activeSessions"></part>
+</message>
+<message name="activeSessionsResponse">
+<part name="parameters" element="tns:activeSessionsResponse"></part>
+</message>
+<message name="activeSessionsSerialized">
+<part name="parameters" element="tns:activeSessionsSerialized"></part>
+</message>
+<message name="activeSessionsSerializedResponse">
+<part name="parameters" element="tns:activeSessionsSerializedResponse"></part>
+</message>
+<message name="fetchUserPackageRegistrations">
+<part name="parameters" element="tns:fetchUserPackageRegistrations"></part>
+</message>
+<message name="fetchUserPackageRegistrationsResponse">
+<part name="parameters" element="tns:fetchUserPackageRegistrationsResponse"></part>
+</message>
+<message name="fetchUserSettings">
+<part name="parameters" element="tns:fetchUserSettings"></part>
+</message>
+<message name="fetchUserSettingsResponse">
+<part name="parameters" element="tns:fetchUserSettingsResponse"></part>
+</message>
+<message name="addFriend">
+<part name="parameters" element="tns:addFriend"></part>
+</message>
+<message name="addFriendResponse">
+<part name="parameters" element="tns:addFriendResponse"></part>
+</message>
+<message name="setFriendshipStatus">
+<part name="parameters" element="tns:setFriendshipStatus"></part>
+</message>
+<message name="setFriendshipStatusResponse">
+<part name="parameters" element="tns:setFriendshipStatusResponse"></part>
+</message>
+<message name="removeFriend">
+<part name="parameters" element="tns:removeFriend"></part>
+</message>
+<message name="removeFriendResponse">
+<part name="parameters" element="tns:removeFriendResponse"></part>
+</message>
+<message name="searchFriend">
+<part name="parameters" element="tns:searchFriend"></part>
+</message>
+<message name="searchFriendResponse">
+<part name="parameters" element="tns:searchFriendResponse"></part>
+</message>
+<message name="searchCandidateFriend">
+<part name="parameters" element="tns:searchCandidateFriend"></part>
+</message>
+<message name="searchCandidateFriendResponse">
+<part name="parameters" element="tns:searchCandidateFriendResponse"></part>
+</message>
+<message name="checkForNewerApplication">
+<part name="parameters" element="tns:checkForNewerApplication"></part>
+</message>
+<message name="checkForNewerApplicationResponse">
+<part name="parameters" element="tns:checkForNewerApplicationResponse"></part>
+</message>
+<portType name="UserAuthentication">
+<operation name="setStatus">
+<input message="tns:setStatus"></input>
+<output message="tns:setStatusResponse"></output>
+</operation>
+<operation name="availableCredits">
+<input message="tns:availableCredits"></input>
+<output message="tns:availableCreditsResponse"></output>
+</operation>
+<operation name="login">
+<input message="tns:login"></input>
+<output message="tns:loginResponse"></output>
+</operation>
+<operation name="loginExternal">
+<input message="tns:loginExternal"></input>
+<output message="tns:loginExternalResponse"></output>
+</operation>
+<operation name="loggoff">
+<input message="tns:loggoff"></input>
+<output message="tns:loggoffResponse"></output>
+</operation>
+<operation name="activeSessions">
+<input message="tns:activeSessions"></input>
+<output message="tns:activeSessionsResponse"></output>
+</operation>
+<operation name="activeSessionsSerialized">
+<input message="tns:activeSessionsSerialized"></input>
+<output message="tns:activeSessionsSerializedResponse"></output>
+</operation>
+<operation name="fetchUserPackageRegistrations">
+<input message="tns:fetchUserPackageRegistrations"></input>
+<output message="tns:fetchUserPackageRegistrationsResponse"></output>
+</operation>
+<operation name="fetchUserSettings">
+<input message="tns:fetchUserSettings"></input>
+<output message="tns:fetchUserSettingsResponse"></output>
+</operation>
+<operation name="addFriend">
+<input message="tns:addFriend"></input>
+<output message="tns:addFriendResponse"></output>
+</operation>
+<operation name="setFriendshipStatus">
+<input message="tns:setFriendshipStatus"></input>
+<output message="tns:setFriendshipStatusResponse"></output>
+</operation>
+<operation name="removeFriend">
+<input message="tns:removeFriend"></input>
+<output message="tns:removeFriendResponse"></output>
+</operation>
+<operation name="searchFriend">
+<input message="tns:searchFriend"></input>
+<output message="tns:searchFriendResponse"></output>
+</operation>
+<operation name="searchCandidateFriend">
+<input message="tns:searchCandidateFriend"></input>
+<output message="tns:searchCandidateFriendResponse"></output>
+</operation>
+<operation name="checkForNewerApplication">
+<input message="tns:checkForNewerApplication"></input>
+<output message="tns:checkForNewerApplicationResponse"></output>
+</operation>
+</portType>
+<binding name="UserAuthenticationImplPortBinding" type="tns:UserAuthentication">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+<operation name="setStatus">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="availableCredits">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="login">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="loginExternal">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="loggoff">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="activeSessions">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="activeSessionsSerialized">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="fetchUserPackageRegistrations">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="fetchUserSettings">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="addFriend">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="setFriendshipStatus">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="removeFriend">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="searchFriend">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="searchCandidateFriend">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="checkForNewerApplication">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+</binding>
+<service name="UserAuthentication">
+<port name="UserAuthenticationImplPort" binding="tns:UserAuthenticationImplPortBinding">
+<soap:address location="http://85.17.217.11:8080/UserServer/UserAuthentication"></soap:address>
+</port>
+</service>
+</definitions>
