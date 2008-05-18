@@ -42,24 +42,20 @@ public class STAppUpdateDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        this.versionsJlabel.setText("New Version:" + STLibrary.getInstance().getNewerVersion());
+        this.versionsJlabel.setText("Latest Version:" + STLibrary.getInstance().getLatestVersion());
     }
 
     private void onOK() {
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        if (STLibrary.getInstance().downloadNewerVersion()) {
-            this.setCursor(Cursor.getDefaultCursor());
-            STLibrary.getInstance().fireMessageBox("The old application will be uninstalled and the new one will be installed right away! Be patient.", "Information", JOptionPane.INFORMATION_MESSAGE);
-            try {
-                Runtime.getRuntime().exec("./uninst.exe");
-                STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
-                STLibrary.getInstance().STLogoutUser();
-                Runtime.getRuntime().exec(STLibrary.getInstance().getNewVersionFileName());
-                System.exit(0);
-            }
-            catch (Exception ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+        try {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
+            STLibrary.getInstance().STLogoutUser();
+            String command = "./iShareUpdater.exe " + "\"" + STLibrary.getInstance().getLatestVersion() + "\"" + " " + "\"" + STLibrary.getInstance().getLatestVersionURL() + "\"" + " " + "\"" + STLibrary.getInstance().getApplicationLocalPath() + "\"";
+            Runtime.getRuntime().exec(command);
+            System.exit(0);
+        }
+        catch (Exception ex) {
+            STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         this.setCursor(Cursor.getDefaultCursor());
         dispose();

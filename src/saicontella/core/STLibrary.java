@@ -263,9 +263,9 @@ public class STLibrary extends Component {
             // a newer version is identified
             STAppUpdateDialog updateDlg = new STAppUpdateDialog();
             updateDlg.setTitle("Updating iShare");
-            GUIUtils.centerAndSizeWindow(updateDlg, 3, 7);
             updateDlg.pack();
-            updateDlg.setVisible(true);
+            updateDlg.setLocationRelativeTo(null);
+            updateDlg.show();
         }
         else {
             if (!autoCheck)
@@ -273,17 +273,27 @@ public class STLibrary extends Component {
         }
     }
 
-    public String getNewVersionFileName() {
-        return "../iShare_"+this.getNewerVersion()+".exe";
+    public String getApplicationLocalPath() {
+        try {
+            File path = new File(".");
+            return path.getCanonicalPath();
+        }
+        catch (Exception ex) {
+            this.fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
+    public String getNewVersionFileName(String version) {
+        return "../iShare_"+version+".exe";
     }
     
-    public boolean downloadNewerVersion() {
-        String filename = "../iShare_"+this.getNewerVersion()+".exe";
-        byte[] data = this.retrieveFromWebServer(this.webServiceAuthVersion.getDownloadUrl());
+    public boolean downloadNewerVersion(String version, String URL) {        
+        byte[] data = this.retrieveFromWebServer(URL);
         if (data != null) {
             OutputStream bos = null;
             try {
-                bos = new FileOutputStream(filename);
+                bos = new FileOutputStream(getNewVersionFileName(version));
                 bos.write(data) ;
                 bos.close() ;
                 bos = null;
@@ -297,8 +307,12 @@ public class STLibrary extends Component {
         return false;
     }
 
-    public String getNewerVersion() {
+    public String getLatestVersion() {
         return this.webServiceAuthVersion.getVersion();    
+    }
+
+    public String getLatestVersionURL() {
+        return this.webServiceAuthVersion.getDownloadUrl();    
     }
 
     public boolean isTheSameAppVersion() {

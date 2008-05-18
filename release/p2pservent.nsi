@@ -10,7 +10,7 @@
 
 ;Name and file
   Name "iShare ${VERSION}"
-  OutFile "Setup.exe"
+  OutFile "iShare_${VERSION}.exe"
   
 ;Default installation folder
   InstallDir "$PROGRAMFILES\GamersUniverse\iShare_${VERSION}"
@@ -88,6 +88,7 @@ File "${SRC_DIR}\images\myuploads.gif"
 
 SetOutPath "$INSTDIR"
 File "${RELEASE_DIR}\iShare.exe"
+File "${RELEASE_DIR}\iShareUpdater.exe"
 
 SetOutPath "$INSTDIR\lib"
 File "${SRC_DIR}\lib\activation.jar"
