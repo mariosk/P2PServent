@@ -43,7 +43,7 @@ public class STAdsDownloader extends Thread {
             imageIconMainForm = new ImageIcon(new URL(STLibrary.STConstants.ADS_WEB_SERVER_URL));
             this.mainForm.setAdImageLabelIcon(imageIconMainForm);            
             imageIconMyFriends = new ImageIcon(new URL(STLibrary.STConstants.ADS_MY_FRIENDS_URL));
-            this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMainForm);
+            this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
