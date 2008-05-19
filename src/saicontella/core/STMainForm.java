@@ -107,6 +107,8 @@ public class STMainForm extends JFrame {
     private JLabel IncompleteDownloadFolderLabel;
     private JPanel innerFriendsPanel;
     private JPanel imagesPanel;
+    private JLabel myFriendsAdsLabel;
+    private JPanel innerAdsPanel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -329,12 +331,12 @@ public class STMainForm extends JFrame {
         FWElegantPanel friendsElegantPanel = new FWElegantPanel( "Friends", emptyPanel2);
         CellConstraints ccFriends = new CellConstraints();
         FormLayout layoutFriends = new FormLayout(
-            "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, d, d, d", // columns
+            "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, d, d, d, d", // columns
             "d, fill:d:grow, fill:d:grow, d, d"); //rows
         this.myFriendsTab.setLayout(layoutFriends);
-        this.myFriendsTab.add(friendsElegantPanel, ccFriends.xywh(1, 1, 4, 1));
-        this.myFriendsTab.add(innerFriendsPanel, ccFriends.xywh(1, 2, 4, 2));
-        //this.myFriendsTab.add(innerFriendsPanel, ccFriends.xy(1, 2)); // col:1, row: 2
+        this.myFriendsTab.add(friendsElegantPanel, ccFriends.xywh(1, 1, 9, 1));
+        this.myFriendsTab.add(innerFriendsPanel, ccFriends.xywh(1, 2, 8, 2));
+        this.myFriendsTab.add(innerAdsPanel, ccFriends.xywh(9, 2, 1, 1));
         this.myFriendsTab.add(buttonsPanel2, ccFriends.xy(9, 3));
         this.myFriendsTab.add(emptyPanel2, ccFriends.xy(1, 4));
         this.myFriendsTab.add(emptyPanel2, ccFriends.xy(1, 5));
@@ -426,6 +428,15 @@ public class STMainForm extends JFrame {
         });
     }
 
+    public void setMyFriendsAdImageLabelIcon(ImageIcon icon) {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
+        if (h < 600) {
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
+        }
+        this.myFriendsAdsLabel.setIcon(icon);
+        this.myFriendsAdsLabel.repaint();
+    }
 
     public void setAdImageLabelIcon(ImageIcon icon) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -898,6 +909,13 @@ public class STMainForm extends JFrame {
                     }
                     STLibrary.getInstance().updateP2PServent(true);
                 }
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_ABOUT)) {
+                STAboutDialog aboutDlg = new STAboutDialog();
+                aboutDlg.setTitle("About");
+                aboutDlg.setSize(400, 400);
+                aboutDlg.setLocationRelativeTo(null);
+                aboutDlg.pack();
+                aboutDlg.setVisible(true);                                                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_DISCONNECT)) {
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
@@ -909,7 +927,7 @@ public class STMainForm extends JFrame {
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_ADMINISTRATOR)) {
                 STAdminDialog adminDlg = new STAdminDialog();
                 adminDlg.setTitle("Administration");
-                GUIUtils.centerAndSizeWindow(adminDlg, 3, 7);
+                adminDlg.setLocationRelativeTo(null);
                 adminDlg.pack();
                 adminDlg.setVisible(true);                                                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_EXIT)) {

@@ -51,7 +51,12 @@ public class STLibrary extends Component {
         public static final String AUTH_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl";
         public static final String ADMIN_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserServerAdmin?wsdl";
         public static final String ADS_USER_AGENT = "SaiconTella/v1.0 (compatible; MSIE 7.0; Windows NT 6.0";
-        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
+        // Advertisement links here...
+        public static final String ADS_MY_FRIENDS_URL = "http://www.gamersuniverse.com/gr/images/community/com_r2_c3.jpg";
+        public static final String ADS_ABOUT_URL1 = "http://85.17.217.5/www/delivery/avw.php?zoneid=40";
+        public static final String ADS_ABOUT_URL2 = "http://85.17.217.5/www/delivery/avw.php?zoneid=41";
+        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=13";        
+        //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
         public static final int KEEP_ALIVE_THR_SECS = 5;               
@@ -464,10 +469,11 @@ public class STLibrary extends Component {
                 this.reachAllOnlinePeers(response);
 
                 /*
-                FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "marios");
+                FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "");
                 if (friends != null) {
                     for (int i = 0; i < friends.length; i++) {
                         logger.debug("friend[" + i + "]: " + friends[i].getFriendId() + " " + friends[i].getFriendName() + " " + friends[i].getStatus() + " " + friends[i].getUserId());
+                        FriendshipStatus status = friends[i].getFriendshipStatus();
                     }
                 }
                 */
