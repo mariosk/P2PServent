@@ -66,6 +66,11 @@ public class STLibrary extends Component {
         public static final String P2PSERVENT_BAR = "===========================";               
         public static final String PUBLIC_ACCESS = "public";
         public static final String PRIVATE_ACCESS = "private";
+
+        public static final int ACCEPTED = 0;
+        public static final int REJECTED = 1;
+        public static final int DENIED = 2;
+
         public static enum AccessEnumerator {
             PUBLIC, 
             PRIVATE,
@@ -82,6 +87,7 @@ public class STLibrary extends Component {
         public static final String FRIEND_SELECTED = "Remove from friends";
         // JMenus string here...
         public static final String FILE_MENU = "File";
+        public static final String FILE_MENU_CONNECTIONS = "Peers";        
         public static final String FILE_MENU_ADMINISTRATOR = "Administrator";
         public static final String FILE_MENU_CONNECT = "Connect";
         public static final String FILE_MENU_DISCONNECT = "Disconnect";
@@ -94,6 +100,8 @@ public class STLibrary extends Component {
         public static final String FRIENDS_MENU_DELETE = "Delete";
         // JMenus string here...
         public static final String TOOLS_MENU = "Tools";
+        public static final String TOOLS_MENU_DOWNLOADS = "Downloads";
+        public static final String TOOLS_MENU_UPLOADS = "Uploads";        
         public static final String TOOLS_MENU_SETTINGS = "Settings";
         public static final String TOOLS_MENU_SHARED_FOLDERS = "Shared folders";
         // JMenus string here...
@@ -359,7 +367,6 @@ public class STLibrary extends Component {
             }
         }
         this.STLogoutUser(STConstants.AUTH_WS_ENDPOINT);
-        this.getGnutellaFramework().disconnectFromPeers();
     }
 
     /* DEPRECATED
@@ -412,6 +419,8 @@ public class STLibrary extends Component {
     public void reachAllOnlinePeers(LoginResponseWrapper response) {
         try {
             ActiveSessionsResponseWrapper activeSessions = this.webServiceAuthProxy.activeSessionsSerialized(response.getSessionId(), STConstants.p2pAppId);
+            if (activeSessions == null)
+                return;
             if (activeSessions.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 logger.debug("activeSessions ERROR String: " + response.getErrorMessage());
                 this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -435,6 +444,36 @@ public class STLibrary extends Component {
         }
     }
 
+    public void setFriendStatus() {
+        try {
+            this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), 12121, FriendshipStatus.ACCEPTED);
+        }
+        catch (Exception ex) {
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            logger.error("ERROR String: " + ex.getMessage());            
+        }
+    }
+
+    public Vector[] fetchPendingFriends() {
+        Vector[] pendingUsers = null;
+        try {
+            saicontella.core.webservices.authentication.UserInfoWrapper[] pendingUsersWrappers = this.webServiceAuthProxy.myPendingFriends(this.webserviceAuthResponse.getSessionId());
+            pendingUsers = new Vector[2];
+            pendingUsers[0] = new Vector();
+            pendingUsers[1] = new Vector();
+            for (int i = 0; i < pendingUsersWrappers.length; i++) {
+                pendingUsers[0].add(pendingUsersWrappers[i].getUserName());
+                pendingUsers[1].add(pendingUsersWrappers[i].getUserId());
+            }
+            return pendingUsers;
+        }
+        catch (Exception ex) {
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            logger.error("ERROR String: " + ex.getMessage());
+            return null;            
+        }
+    }
+    
     // Calling the UserAuthentication web service: http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl
     public LoginResponseWrapper STLoginUser(String userName, String passWord, int port) {
     	try {
@@ -445,8 +484,32 @@ public class STLibrary extends Component {
 			digest.update(input);
 			byte[] hash = digest.digest();			
         	*/
-           
+
+            boolean newPortSet = false;
             LoginResponseWrapper response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
+            while (response.getStatus() == ResponseSTATUS.ERROR && response.getErrorMessage().contains("same IP")) {
+                port++;
+                if (port > 65535) {
+                    this.fireMessageBox("Unfortunately there is a serious problem in port mapping of the iShare. Please contact the systems Administrator.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+                response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
+                newPortSet = true;
+            }
+            if (newPortSet) {
+                this.getSTConfiguration().setListenPort(new Integer(port).toString());
+                this.getSTConfiguration().saveXMLFile();
+                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + "). iShare will be restarted.", "Warning", JOptionPane.WARNING_MESSAGE);
+                sLibrary.STLogoutUser();
+                sLibrary.reInitializeSTLibrary();
+                return null;
+            }
+
+            if (restart)
+                this.getGnutellaFramework().getServent().restartServer();
+            else
+                this.getGnutellaFramework().getServent().start();
+
             logger.debug("USERNAME: " + userName);
 			logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
@@ -466,8 +529,8 @@ public class STLibrary extends Component {
 				logger.debug("getSessionId: " + response.getSessionId());
 				logger.debug("getUserId: " + response.getUserId());
 				logger.debug("getAvailableCredits: " + response.getAvailableCredits());
-                this.reachAllOnlinePeers(response);
-
+                this.reachAllOnlinePeers(response);                
+                
                 /*
                 FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "");
                 if (friends != null) {
@@ -547,7 +610,7 @@ public class STLibrary extends Component {
           }
           catch(Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox("Login failed. Please contact Administrator for more info {" + ex.getMessage() + "}", "Error", JOptionPane.ERROR_MESSAGE);
           }           
           return null;
     }
@@ -636,6 +699,7 @@ public class STLibrary extends Component {
         try {
             logger.debug("Adding a friend " + friendName + " with userId = " + userId);
             FriendActionResponseWrapper response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
+
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
                     this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);
@@ -819,6 +883,9 @@ public class STLibrary extends Component {
                 else {
                     this.fireMessageBox("Disconnected!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     this.webserviceAuthResponse = null;
+                    gnuTellaFramework.disconnectFromPeers();
+                    gnuTellaFramework.getServent().stop();
+
                 }
             }
             else {

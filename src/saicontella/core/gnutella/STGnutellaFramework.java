@@ -109,10 +109,12 @@ public class STGnutellaFramework {
 
             this.servent.setOnlineStatus(OnlineStatus.ONLINE);                       
             ManagerController.initializeManagers();
-            if (restart)
-                this.servent.restartServer();
-            else
-                this.servent.start();
+            if (sLibrary.isConnected()) {
+                if (restart)
+                    this.servent.restartServer();
+                else
+                    this.servent.start();
+            }
             
             try
             {

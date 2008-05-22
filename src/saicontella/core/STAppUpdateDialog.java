@@ -47,8 +47,7 @@ public class STAppUpdateDialog extends JDialog {
 
     private void onOK() {
         try {
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));            
             STLibrary.getInstance().STLogoutUser();
             String command = "./iShareUpdater.exe " + "\"" + STLibrary.getInstance().getLatestVersion() + "\"" + " " + "\"" + STLibrary.getInstance().getLatestVersionURL() + "\"" + " " + "\"" + STLibrary.getInstance().getApplicationLocalPath() + "\"";
             Runtime.getRuntime().exec(command);

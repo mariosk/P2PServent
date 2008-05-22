@@ -108,7 +108,6 @@ public class STSearchControlPanel extends JPanel
         
         keywordSearchBox = new STKeywordSearchBox( this );
         activityBox = new STSearchActivityBox( searchTab, this );
-
         infoBox = new STSearchInfoBox( this );
         
         // get prefered width of all boxes to calc width for all

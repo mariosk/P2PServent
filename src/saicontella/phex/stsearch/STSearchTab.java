@@ -178,8 +178,7 @@ public class STSearchTab extends FWTab
         searchListSplitPane.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0) );
         searchListSplitPane.setDividerSize( 4 );
         searchListSplitPane.setOneTouchExpandable( false );
-                
-        
+
         setSearchButtonBarVisible( isSearchBarVisible );
         setSearchListVisible( isSearchListVisible );
         setFilterPanelVisible( isFilterPanelVisible );

@@ -13,6 +13,9 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.Vector;
@@ -26,16 +29,35 @@ public class STFriendDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JList friendsList;
+    private JRadioButton radioButtonReject;
+    private JRadioButton radioButtonDeny;
+    private JRadioButton radioButtonAccept;
     private Vector friendsListData;
+    private Vector friendsListIds;
     private Component parent;
-    private FWAction action;
+    private int[] friendsListAction;
 
-    public STFriendDialog(Component parent, FWAction action, Vector data) {
-        this.action = action;
+    public STFriendDialog(Component parent, Vector[] data) {
+
+        friendsListAction = new int[data[0].size()];
+        for (int i = 0; i < friendsListAction.length; i++) {
+            friendsListAction[i] = -1;
+        }
         this.parent = parent;
-        this.friendsListData = data;
-        this.friendsList.setListData(data);
+        this.friendsListData = data[0];
+        this.friendsListIds = data[1];        
+        this.friendsList.setListData(this.friendsListData);
         this.friendsList.repaint();
+        this.friendsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.radioButtonAccept.setForeground(Color.GRAY);
+        this.radioButtonReject.setForeground(Color.GRAY);
+        this.radioButtonDeny.setForeground(Color.GRAY);
+        this.radioButtonAccept.setBackground(Color.BLACK);
+        this.radioButtonReject.setBackground(Color.BLACK);
+        this.radioButtonDeny.setBackground(Color.BLACK);
+        this.radioButtonAccept.setEnabled(false);
+        this.radioButtonReject.setEnabled(false);
+        this.radioButtonDeny.setEnabled(false);
 
         setContentPane(contentPane);
         setModal(true);
@@ -67,13 +89,88 @@ public class STFriendDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        friendsList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                radioButtonAccept.setEnabled(true);
+                radioButtonReject.setEnabled(true);
+                radioButtonDeny.setEnabled(true);
+
+                switch (friendsListAction[friendsList.getSelectedIndex()]) {
+                    case STLibrary.STConstants.ACCEPTED:
+                        radioButtonAccept.setSelected(true);
+                        radioButtonReject.setSelected(false);
+                        radioButtonDeny.setSelected(false);
+                        break;
+                    case STLibrary.STConstants.REJECTED:
+                        radioButtonAccept.setSelected(false);
+                        radioButtonReject.setSelected(true);
+                        radioButtonDeny.setSelected(false);
+                        break;
+                    case STLibrary.STConstants.DENIED:
+                        radioButtonAccept.setSelected(false);
+                        radioButtonReject.setSelected(false);
+                        radioButtonDeny.setSelected(true);
+                        break;
+                    default:
+                        radioButtonAccept.setSelected(false);
+                        radioButtonReject.setSelected(false);
+                        radioButtonDeny.setSelected(false);                        
+                }                
+            }
+        });
+        radioButtonAccept.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (radioButtonAccept.isSelected()) {
+                    if (friendsList.getSelectedIndex() >= 0)
+                        friendsListAction[friendsList.getSelectedIndex()] = STLibrary.STConstants.ACCEPTED;
+                    radioButtonReject.setSelected(false);
+                    radioButtonDeny.setSelected(false);
+                }
+            }
+        });
+        radioButtonReject.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (radioButtonReject.isSelected()) {
+                    if (friendsList.getSelectedIndex() >= 0)
+                        friendsListAction[friendsList.getSelectedIndex()] = STLibrary.STConstants.REJECTED;
+                    radioButtonAccept.setSelected(false);
+                    radioButtonDeny.setSelected(false);
+                }
+            }
+        });
+        radioButtonDeny.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (radioButtonDeny.isSelected()) {                    
+                    if (friendsList.getSelectedIndex() >= 0)
+                        friendsListAction[friendsList.getSelectedIndex()] = STLibrary.STConstants.DENIED;
+                    radioButtonReject.setSelected(false);
+                    radioButtonAccept.setSelected(false);
+                }
+            }
+        });        
     }
 
     private void onOK() {
-        STLibraryTab parentObj = (STLibraryTab) this.parent;
+        STMainForm parentObj = (STMainForm) this.parent;
+
+        for (int i = 0; i < friendsListAction.length; i++) {
+            switch (friendsListAction[i]) {                
+                    case STLibrary.STConstants.ACCEPTED:
+                        
+                        break;
+                    case STLibrary.STConstants.REJECTED:
+                        break;
+                    case STLibrary.STConstants.DENIED:
+                        break;
+                    default:
+                }
+
+        }
+
+        /*
         if (action instanceof AddFriendAction) {
             //STLibrary.getInstance().fireMessageBox("add!", "add", JOptionPane.WARNING_MESSAGE);
-            STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());            
+            STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());
             //if (!parentObj.addFriendInFriendsList(friend))
                 //return;
         } else if (action instanceof STLibraryTab.DelFriendAction) {
@@ -81,6 +178,7 @@ public class STFriendDialog extends JDialog {
             int index = this.friendsList.getSelectedIndex();
             //parentObj.deleteFriendInFriendsList(index);
         }
+        */
         dispose();
     }
 

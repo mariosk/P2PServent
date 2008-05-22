@@ -491,7 +491,6 @@ public class STNetworkTab extends FWTab
     {
         public void actionPerformed( ActionEvent e )
         {
-            STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
             STLibrary.getInstance().STLogoutUser();
             System.exit(0);            
         }

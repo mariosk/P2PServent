@@ -23,4 +23,5 @@ public interface UserAuthentication_PortType extends java.rmi.Remote {
     public saicontella.core.webservices.authentication.FriendDetailsWrapper[] searchFriend(java.lang.String sessionId, java.lang.String friendName) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.UserInfoWrapper[] searchCandidateFriend(java.lang.String sessionId, java.lang.String userName, java.lang.String firstName, java.lang.String lastName, int limit) throws java.rmi.RemoteException;
     public saicontella.core.webservices.authentication.ClientApplicationVersionResponseWrapper checkForNewerApplication(java.lang.String applicationId, saicontella.core.webservices.authentication.ReleaseType releaseType) throws java.rmi.RemoteException;
+    public saicontella.core.webservices.authentication.UserInfoWrapper[] myPendingFriends(java.lang.String sessionId) throws java.rmi.RemoteException;
 }

@@ -114,6 +114,7 @@ public class STMainForm extends JFrame {
     private JMenu fileMenu;
     private JMenuItem fileMenuAdmin;
     private JMenuItem fileMenuConnect;
+    private JMenuItem fileMenuConnections;
     private JMenuItem fileMenuDisconnect;
     private JMenuItem fileMenuExit;
     private JMenu friendsMenu;
@@ -122,6 +123,8 @@ public class STMainForm extends JFrame {
     private JMenuItem friendsMenuDelete;
     private JMenu toolsMenu;
     private JMenuItem toolsMenuSettings;
+    private JMenuItem toolsMenuDownloads;
+    private JMenuItem toolsMenuUploads;
     private JMenuItem toolsMenuSharedFolders;
     private JMenu helpMenu;
     private JMenuItem helpMenuUpdates;
@@ -196,6 +199,7 @@ public class STMainForm extends JFrame {
 
         // Instantiating the File Menu
         fileMenu = new JMenu(STLibrary.STConstants.FILE_MENU);
+        fileMenuConnections = new JMenuItem(STLibrary.STConstants.FILE_MENU_CONNECTIONS);
         fileMenuConnect = new JMenuItem(STLibrary.STConstants.FILE_MENU_CONNECT);
         fileMenuDisconnect = new JMenuItem(STLibrary.STConstants.FILE_MENU_DISCONNECT);
         fileMenuDisconnect.setEnabled(false);
@@ -206,8 +210,10 @@ public class STMainForm extends JFrame {
         fileMenu.add(fileMenuDisconnect);
         fileMenu.add(fileMenuAdmin);
         fileMenuAdmin.setVisible(false);        
+        fileMenu.add(fileMenuConnections);
         fileMenu.add(fileMenuExit);
         // Adding the action listeners for each menu item
+        fileMenuConnections.addActionListener(menuHandler);
         fileMenuConnect.addActionListener(menuHandler);
         fileMenuDisconnect.addActionListener(menuHandler);
         fileMenuAdmin.addActionListener(menuHandler);
@@ -232,12 +238,18 @@ public class STMainForm extends JFrame {
         // Instantiating the Tools Menu
         toolsMenu = new JMenu(STLibrary.STConstants.TOOLS_MENU);
         toolsMenuSettings = new JMenuItem(STLibrary.STConstants.TOOLS_MENU_SETTINGS);
+        toolsMenuUploads = new JMenuItem(STLibrary.STConstants.TOOLS_MENU_UPLOADS);
+        toolsMenuDownloads = new JMenuItem(STLibrary.STConstants.TOOLS_MENU_DOWNLOADS);
         toolsMenuSharedFolders = new JMenuItem(STLibrary.STConstants.TOOLS_MENU_SHARED_FOLDERS);
         // Draw the order of the JMenuItems
         toolsMenu.add(toolsMenuSettings);
+        toolsMenu.add(toolsMenuUploads);
+        toolsMenu.add(toolsMenuDownloads);
         toolsMenu.add(toolsMenuSharedFolders);
         // Adding the action listeners for each menu item
         toolsMenuSettings.addActionListener(menuHandler);
+        toolsMenuUploads.addActionListener(menuHandler);
+        toolsMenuDownloads.addActionListener(menuHandler);        
         toolsMenuSharedFolders.addActionListener(menuHandler);
         this.mainMenuBar.add(toolsMenu);
 
@@ -369,8 +381,7 @@ public class STMainForm extends JFrame {
                         stMainForm.fileMenuAdmin.setVisible(true);
                     if (STLibrary.getInstance().isCurrentUserBanned()) {
                         sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
-                        STLibrary.getInstance().STLogoutUser();                                                
+                        STLibrary.getInstance().STLogoutUser();
                         System.exit(-1);
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
@@ -429,11 +440,7 @@ public class STMainForm extends JFrame {
     }
 
     public void setMyFriendsAdImageLabelIcon(ImageIcon icon) {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
-        if (h < 600) {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
-        }
+        icon = STLibrary.getInstance().resizeMyImageIcon(icon, 200, 300);
         this.myFriendsAdsLabel.setIcon(icon);
         this.myFriendsAdsLabel.repaint();
     }
@@ -679,9 +686,22 @@ public class STMainForm extends JFrame {
                     allPeersData = new Vector[2];                
                 if (allPeersData[0] != null)
                     listAllPeers.setListData(allPeersData[0]);
+                if (friendsListData == null)
+                    friendsListData = new Vector[2];                                
                 if (friendsListData[0] != null)
                     listFriends.setListData(friendsListData[0]);
                 if (retrievedFromWS) saveFriendsListInXML();
+
+                // Viewing pending friends...
+                if (sLibrary.isConnected()) {
+                    Vector[] pendingFriends = sLibrary.fetchPendingFriends();
+                    STFriendDialog friendDlg = new STFriendDialog(stMainForm, pendingFriends);
+                    friendDlg.setTitle("Pending friends...");
+                    friendDlg.setLocationRelativeTo(null);                    
+                    friendDlg.pack();
+                    friendDlg.setVisible(true);
+                    friendDlg.setIconImage(myApplicationIcon.getImage());
+                }
             }
         }
     }
@@ -788,6 +808,7 @@ public class STMainForm extends JFrame {
             myExitIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myExitIcon.ico")), 15, 15);
                     
             this.setIconImage(myApplicationIcon.getImage());
+            this.fileMenuConnections.setIcon(myPeersIcon);
             this.fileMenuConnect.setIcon(myConnectIcon);
             this.fileMenuDisconnect.setIcon(myDisconnectIcon);
             this.fileMenuAdmin.setIcon(myAdminIcon);
@@ -796,6 +817,8 @@ public class STMainForm extends JFrame {
             this.friendsMenuDelete.setIcon(myFriendsDeleteIcon);
             this.friendsMenuSearch.setIcon(myFriendsIcon);
             this.toolsMenuSettings.setIcon(mySettingsIcon);
+            this.toolsMenuDownloads.setIcon(myDownloadsIcon);
+            this.toolsMenuUploads.setIcon(myUploadsIcon);
             this.toolsMenuSharedFolders.setIcon(mySharesIcon);
         }
         catch (Exception ex) {
@@ -901,8 +924,7 @@ public class STMainForm extends JFrame {
                         stMainForm.fileMenuAdmin.setVisible(true);
                     if (STLibrary.getInstance().isCurrentUserBanned()) {
                         sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
-                        STLibrary.getInstance().STLogoutUser();                        
+                        STLibrary.getInstance().STLogoutUser();
                         System.exit(-1);
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
@@ -910,15 +932,17 @@ public class STMainForm extends JFrame {
                     STLibrary.getInstance().updateP2PServent(true);
                 }
             } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_ABOUT)) {
+                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 STAboutDialog aboutDlg = new STAboutDialog();
                 aboutDlg.setTitle("About");
                 aboutDlg.setSize(400, 400);
                 aboutDlg.setLocationRelativeTo(null);
                 aboutDlg.pack();
-                aboutDlg.setVisible(true);                                                
+                aboutDlg.setVisible(true);
+                aboutDlg.setIconImage(myApplicationIcon.getImage());
+                stMainForm.setCursor(Cursor.getDefaultCursor());
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_DISCONNECT)) {
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
                 STLibrary.getInstance().STLogoutUser();
                 stMainForm.setCursor(Cursor.getDefaultCursor());
                 stMainForm.fileMenuDisconnect.setEnabled(false);
@@ -929,17 +953,23 @@ public class STMainForm extends JFrame {
                 adminDlg.setTitle("Administration");
                 adminDlg.setLocationRelativeTo(null);
                 adminDlg.pack();
-                adminDlg.setVisible(true);                                                
+                adminDlg.setVisible(true);
+                adminDlg.setIconImage(myApplicationIcon.getImage());
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_EXIT)) {
-                STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
                 STLibrary.getInstance().STLogoutUser();
                 System.exit(0);
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_CONNECTIONS)) {
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.NETWORK_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_ADD)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_SEARCH)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_DELETE)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.FRIENDS_TAB_INDEX);
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_DOWNLOADS)) {
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.DOWNLOAD_TAB_INDEX);
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_UPLOADS)) {
+                stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.UPLOAD_TAB_INDEX);                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_SETTINGS)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.TOOLS_MENU_SHARED_FOLDERS)) {
@@ -956,16 +986,18 @@ public class STMainForm extends JFrame {
 
     private void saveFriendsListInXML() {
         sLibrary.getSTConfiguration().getMyFriends().clear();
-        for (int i = 0; i < friendsListData[0].size(); i++) {
-            Object friendName = friendsListData[0].get(i);
-            Object friendId = friendsListData[1].get(i); 
-            STFriend friend = new STFriend(friendName.toString());
-            String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
-            if (friendIpAddress != null)
-                friend.setIPAddress(friendIpAddress);
-            if (friendId != null)
-                friend.setFriendId(friendId.toString());                      
-            sLibrary.getSTConfiguration().addFriend(friend);
+        if (friendsListData[0] != null) {
+            for (int i = 0; i < friendsListData[0].size(); i++) {
+                Object friendName = friendsListData[0].get(i);
+                Object friendId = friendsListData[1].get(i);
+                STFriend friend = new STFriend(friendName.toString());
+                String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
+                if (friendIpAddress != null)
+                    friend.setIPAddress(friendIpAddress);
+                if (friendId != null)
+                    friend.setFriendId(friendId.toString());
+                sLibrary.getSTConfiguration().addFriend(friend);
+            }
         }
         sLibrary.getSTConfiguration().saveXMLFile();
     }
@@ -1058,6 +1090,7 @@ public class STMainForm extends JFrame {
                 //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));                
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.STLogoutUser();
                 sLibrary.reInitializeSTLibrary();                
             }
         }
@@ -1073,7 +1106,6 @@ public class STMainForm extends JFrame {
         @Override
         public void windowClosing(WindowEvent e) {
             //ExitPhexAction.performCloseGUIAction();
-            STLibrary.getInstance().getGnutellaFramework().disconnectFromPeers();
             STLibrary.getInstance().STLogoutUser();
             System.exit(0);
         }

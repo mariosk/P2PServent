@@ -94,6 +94,12 @@
 <message name="checkForNewerApplicationResponse">
 <part name="parameters" element="tns:checkForNewerApplicationResponse"></part>
 </message>
+<message name="myPendingFriends">
+<part name="parameters" element="tns:myPendingFriends"></part>
+</message>
+<message name="myPendingFriendsResponse">
+<part name="parameters" element="tns:myPendingFriendsResponse"></part>
+</message>
 <portType name="UserAuthentication">
 <operation name="setStatus">
 <input message="tns:setStatus"></input>
@@ -154,6 +160,10 @@
 <operation name="checkForNewerApplication">
 <input message="tns:checkForNewerApplication"></input>
 <output message="tns:checkForNewerApplicationResponse"></output>
+</operation>
+<operation name="myPendingFriends">
+<input message="tns:myPendingFriends"></input>
+<output message="tns:myPendingFriendsResponse"></output>
 </operation>
 </portType>
 <binding name="UserAuthenticationImplPortBinding" type="tns:UserAuthentication">
@@ -285,6 +295,15 @@
 </output>
 </operation>
 <operation name="checkForNewerApplication">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="myPendingFriends">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
