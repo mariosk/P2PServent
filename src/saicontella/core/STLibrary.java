@@ -444,9 +444,41 @@ public class STLibrary extends Component {
         }
     }
 
-    public void setFriendStatus() {
+    public void setFriendStatus(int status, String userId, String friendName) {
         try {
-            this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), 12121, FriendshipStatus.ACCEPTED);
+            if (status < 0)
+                return;
+            
+            FriendActionResponseWrapper response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
+
+            if (response != null) {
+                if (response.getStatus() == ResponseSTATUS.ERROR) {
+                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                else {
+                    if (status == STConstants.ACCEPTED)
+                        this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else {
+                if (status == STConstants.ACCEPTED)
+                    this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            switch (status) {
+                case STConstants.ACCEPTED:
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.ACCEPTED);
+                    break;
+
+                case STConstants.REJECTED:
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.REJECTED);
+                    break;
+
+                case STConstants.DENIED:
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.DENIED);
+                    break;
+            }
         }
         catch (Exception ex) {
             this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -458,6 +490,8 @@ public class STLibrary extends Component {
         Vector[] pendingUsers = null;
         try {
             saicontella.core.webservices.authentication.UserInfoWrapper[] pendingUsersWrappers = this.webServiceAuthProxy.myPendingFriends(this.webserviceAuthResponse.getSessionId());
+            if (pendingUsersWrappers == null)
+                return null;
             pendingUsers = new Vector[2];
             pendingUsers[0] = new Vector();
             pendingUsers[1] = new Vector();
@@ -674,6 +708,8 @@ public class STLibrary extends Component {
                 for (int i = 0; i < myFriends.length; i++) {
                     logger.debug("friend[" + i + "]: " + myFriends[i].getFriendId() + " " + myFriends[i].getFriendName() + " " + myFriends[i].getStatus() + " " + myFriends[i].getUserId());
                     if (this.getSTConfiguration().getAccountName().equals(myFriends[i].getFriendName()))
+                        continue;
+                    if (myFriends[i].getFriendshipStatus() != FriendshipStatus.ACCEPTED && myFriends[i].getFriendshipStatus() != FriendshipStatus.REQUEST)
                         continue;
                     myFriendsListData[0].add(myFriends[i].getFriendName());
                     myFriendsListData[1].add(myFriends[i].getFriendId());                    

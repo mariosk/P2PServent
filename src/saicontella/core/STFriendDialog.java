@@ -152,33 +152,9 @@ public class STFriendDialog extends JDialog {
 
     private void onOK() {
         STMainForm parentObj = (STMainForm) this.parent;
-
         for (int i = 0; i < friendsListAction.length; i++) {
-            switch (friendsListAction[i]) {                
-                    case STLibrary.STConstants.ACCEPTED:
-                        
-                        break;
-                    case STLibrary.STConstants.REJECTED:
-                        break;
-                    case STLibrary.STConstants.DENIED:
-                        break;
-                    default:
-                }
-
+            STLibrary.getInstance().setFriendStatus(friendsListAction[i], friendsListIds.get(i).toString(), friendsListData.get(i).toString());
         }
-
-        /*
-        if (action instanceof AddFriendAction) {
-            //STLibrary.getInstance().fireMessageBox("add!", "add", JOptionPane.WARNING_MESSAGE);
-            STFriend friend = (STFriend) STLibrary.getInstance().getSTFriend(this.friendsList.getSelectedValue().toString(), STLibrary.getInstance().getSTConfiguration().getMyFriends());
-            //if (!parentObj.addFriendInFriendsList(friend))
-                //return;
-        } else if (action instanceof STLibraryTab.DelFriendAction) {
-            //STLibrary.getInstance().fireMessageBox("delete!", "delete", JOptionPane.WARNING_MESSAGE);
-            int index = this.friendsList.getSelectedIndex();
-            //parentObj.deleteFriendInFriendsList(index);
-        }
-        */
         dispose();
     }
 
