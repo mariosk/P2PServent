@@ -27,7 +27,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class STSearchActivityBox extends BoxPanel
+public class STSearchActivityBox extends STBoxPanel
 {
     private static Border ROLLOVER_BUTTON_BORDER = new CompoundBorder( 
         GUIUtils.ROLLOVER_BUTTON_BORDER, new EmptyBorder( 2, 2, 2, 2) );
@@ -63,7 +63,7 @@ public class STSearchActivityBox extends BoxPanel
             Localizer.getString( "SearchTab_KeywordSearch" ), 
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search" ) );
         keywordSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTKeywordSearch") );
-        keywordSearchBtn.setForeground(Color.GRAY);
+        //keywordSearchBtn.setForeground(Color.GRAY);
         
         updateActivityBtnProps( keywordSearchBtn );
         keywordSearchBtn.addActionListener(new ActionListener()
@@ -81,7 +81,7 @@ public class STSearchActivityBox extends BoxPanel
         
         runningSearchActivityP = new JPanel();
         runningSearchActivityP.setOpaque(false);
-        runningSearchActivityP.setForeground(Color.GRAY);
+        //runningSearchActivityP.setForeground(Color.GRAY);
         FormLayout runningLayout = new FormLayout(
             "6dlu, fill:p:grow, 6dlu", // columns
             "2dlu, p, 1dlu, p, 2dlu" ); // rows
@@ -91,7 +91,7 @@ public class STSearchActivityBox extends BoxPanel
         newSearchBtn = new JButton( Localizer.getString( "SearchTab_NewSearch" ),
                     GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search") );
         newSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTNewSearch") );
-        newSearchBtn.setForeground(Color.GRAY);
+        //newSearchBtn.setForeground(Color.GRAY);
         newSearchBtn.addActionListener( 
             searchTab.getTabAction( SearchTab.CREATE_NEW_SEARCH_ACTION ) );
         updateActivityBtnProps( newSearchBtn );
@@ -99,7 +99,7 @@ public class STSearchActivityBox extends BoxPanel
         closeSearchBtn = new JButton( Localizer.getString( "SearchTab_CloseSearch" ), 
                     GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Close") );
         closeSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTCloseSearch") );
-        closeSearchBtn.setForeground(Color.GRAY);
+        //closeSearchBtn.setForeground(Color.GRAY);
         closeSearchBtn.addActionListener( 
             searchTab.getTabAction( SearchTab.CLOSE_SEARCH_ACTION ) );
         updateActivityBtnProps( closeSearchBtn );

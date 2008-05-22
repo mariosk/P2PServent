@@ -169,7 +169,7 @@ public class STLibrary extends Component {
             f.delete();
     }
     
-    public void reInitializeSTLibrary() {
+    public void reInitializeSTLibrary(boolean goToSettings) {
         try {
             this.stMainForm.dispose();
             restart = true;
@@ -179,6 +179,8 @@ public class STLibrary extends Component {
             mainFrame.createUIComponents();
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainFrame.setVisible(true);
+            if (goToSettings)
+                mainFrame.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
             restart = false;
         } catch (Exception e) {
             this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);  
@@ -535,7 +537,7 @@ public class STLibrary extends Component {
                 this.getSTConfiguration().saveXMLFile();
                 this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + "). iShare will be restarted.", "Warning", JOptionPane.WARNING_MESSAGE);
                 sLibrary.STLogoutUser();
-                sLibrary.reInitializeSTLibrary();
+                sLibrary.reInitializeSTLibrary(false);
                 return null;
             }
 

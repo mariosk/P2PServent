@@ -27,7 +27,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
 
-public class STSearchInfoBox extends BoxPanel
+public class STSearchInfoBox extends STBoxPanel
 {
     private final UpdateDisplayActionListener updateDisplayListener;
     private STSearchControlPanel controlPanel;

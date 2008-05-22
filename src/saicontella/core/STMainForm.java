@@ -1091,7 +1091,7 @@ public class STMainForm extends JFrame {
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 sLibrary.STLogoutUser();
-                sLibrary.reInitializeSTLibrary();                
+                sLibrary.reInitializeSTLibrary(false);                
             }
         }
     }
@@ -1116,7 +1116,7 @@ public class STMainForm extends JFrame {
             if (!f.exists()) {
                 //if (UpdatePrefs.ShowConfigWizard.get().booleanValue())
                 STConfigurationWizardDialog dialog = new STConfigurationWizardDialog(stMainForm);
-                dialog.setVisible(true);
+                dialog.setVisible(true);                                
             }
         }
     }

@@ -336,6 +336,12 @@ public class STConfigurationWizardDialog extends JDialog
                     openOptions = goodbyePanel.isOpenOptionsSelected();
                 }
                 closeDialog();
+
+                STLibrary.getInstance().getSTConfiguration().setWebServiceAccount("");
+                STLibrary.getInstance().getSTConfiguration().setWebServicePassword("");
+                STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+                STLibrary.getInstance().reInitializeSTLibrary(openOptions);
+                /*
                 if ( openOptions )
                 {
                     //OptionsDialog dialog = new OptionsDialog( );
@@ -344,7 +350,7 @@ public class STConfigurationWizardDialog extends JDialog
                     mainForm.initializeToolsTabValues();
                     mainForm.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
                 }
-                STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+                */
             }
             catch ( Throwable th )
             {

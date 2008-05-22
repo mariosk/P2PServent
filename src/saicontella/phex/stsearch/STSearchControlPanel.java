@@ -148,7 +148,7 @@ public class STSearchControlPanel extends JPanel
         return dim;
     }
     
-    private void activateSearchBox( BoxPanel boxPanel )
+    private void activateSearchBox( STBoxPanel boxPanel )
     {
         searchBoxContentPanel.removeAll();
         searchBoxContentPanel.add( boxPanel, BorderLayout.CENTER );

@@ -16,14 +16,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/p2pupdater.jsmooth" afterPath="$PROJECT_DIR$/release/p2pupdater.jsmooth" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/p2pservent.nsi" afterPath="$PROJECT_DIR$/release/p2pservent.nsi" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/p2pservent.jsmooth" afterPath="$PROJECT_DIR$/release/p2pservent.jsmooth" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/p2pupdater.jsmooth" afterPath="$PROJECT_DIR$/release/p2pupdater.jsmooth" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STConfigurationWizardDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STConfigurationWizardDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STLibrary.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STLibrary.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/P2PServent.jar" afterPath="$PROJECT_DIR$/release/P2PServent.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STFriendDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STFriendDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/P2PServent.iws" afterPath="$PROJECT_DIR$/P2PServent.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/resources/saicontella.properties" afterPath="$PROJECT_DIR$/src/saicontella/core/resources/saicontella.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchControlPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STMainForm.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STMainForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java" />
     </list>
     <ignored path="P2PServent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,46 +46,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" line="93" class="saicontella.phex.stsearch.STSearchInfoBox" package="saicontella.phex.stsearch">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" line="107" class="saicontella.phex.stsearch.STSearchInfoBox" package="saicontella.phex.stsearch">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" line="135" class="saicontella.phex.stsearch.STSearchInfoBox.UpdateDisplayActionListener" package="saicontella.phex.stsearch">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/saicontella/core/STLibrary.java" line="451" class="saicontella.core.STLibrary" package="saicontella.core">
+      <breakpoint url="file://$PROJECT_DIR$/src/saicontella/core/STLibrary.java" line="453" class="saicontella.core.STLibrary" package="saicontella.core">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -142,7 +106,57 @@
     <favorites_list name="P2PServent" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="STSearchControlPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchControlPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="150" column="38" selection-start="5109" selection-end="5109" vertical-scroll-proportion="0.3682243">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STKeywordSearchBox.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="42" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.42803738">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STBoxPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STBoxPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="176" column="12" selection-start="5136" selection-end="5136" vertical-scroll-proportion="-3.6074767">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STSearchInfoBox.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="39" selection-start="778" selection-end="778" vertical-scroll-proportion="0.33214286">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STSearchActivityBox.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="48" selection-start="2452" selection-end="2452" vertical-scroll-proportion="0.42803738">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -295,6 +309,10 @@
           <option name="myItemId" value="PsiDirectory:F:\SAICON\P2PServent\src\saicontella\core" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="STMainForm" />
+          <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -320,10 +338,6 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:F:\SAICON\P2PServent\src\saicontella\core" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="STFriendDialog" />
-          <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
         </PATH_ELEMENT>
       </PATH>
     </subPane>
@@ -362,21 +376,17 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
+    <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
-      <envs />
-      <method>
-        <option name="Make" value="true" />
-      </method>
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
@@ -407,18 +417,6 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -436,6 +434,22 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
+      <envs />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
       <envs />
       <method>
         <option name="Make" value="true" />
@@ -560,7 +574,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19167177" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22045316" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
@@ -632,62 +646,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/svnphex.jar!/phex/gui/common/table/FWSortedTableModel.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="0" selection-start="3411" selection-end="3411" vertical-scroll-proportion="0.33211008">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="0" selection-start="7645" selection-end="7645" vertical-scroll-proportion="0.33214286">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STKeepAliveThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="71" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.60714287">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STAppUpdateDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="75" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.57247704">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STButtonsPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="0" selection-start="2778" selection-end="2778" vertical-scroll-proportion="1.1607143">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="493" column="0" selection-start="17406" selection-end="17406" vertical-scroll-proportion="0.27184466">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/P2PServent.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="28" selection-start="13669" selection-end="13669" vertical-scroll-proportion="0.33197555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/gnutella/STGnutellaFramework.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="0" selection-start="4917" selection-end="5059" vertical-scroll-proportion="0.76880735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/looks-2.1.4.jar!/com/jgoodies/looks/plastic/ActiveBasicButtonListener.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="561" selection-end="561" vertical-scroll-proportion="0.39464286">
@@ -711,15 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STMainForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="664" column="0" selection-start="41259" selection-end="41259" vertical-scroll-proportion="0.3326923">
-          <folding>
-            <marker date="1211438139781" expanded="true" signature="20444:40716" placeholder="UI Designer generated code" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="189" column="19" selection-start="6858" selection-end="6858" vertical-scroll-proportion="0.27184466">
@@ -739,9 +688,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stwizard/STConfigurationWizardDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="346" column="30" selection-start="11617" selection-end="11617" vertical-scroll-proportion="0.4892857">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STMainForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1093" column="52" selection-start="66674" selection-end="66674" vertical-scroll-proportion="0.36880735">
+          <folding>
+            <marker date="1211484237656" expanded="true" signature="20444:40716" placeholder="UI Designer generated code" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLibrary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="711" column="0" selection-start="32493" selection-end="32493" vertical-scroll-proportion="0.21253072">
+        <state line="539" column="52" selection-start="23787" selection-end="23787" vertical-scroll-proportion="0.36880735">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STDialogBanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="13" selection-start="781" selection-end="781" vertical-scroll-proportion="0.33392859">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/svnphex.jar!/phex/gui/common/BoxPanel.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="153" selection-end="153" vertical-scroll-proportion="0.12142857">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="42" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.42803738">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="150" column="38" selection-start="5109" selection-end="5109" vertical-scroll-proportion="0.3682243">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="39" selection-start="778" selection-end="778" vertical-scroll-proportion="0.33214286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STBoxPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="12" selection-start="5136" selection-end="5136" vertical-scroll-proportion="-3.6074767">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="48" selection-start="2452" selection-end="2452" vertical-scroll-proportion="0.42803738">
           <folding />
         </state>
       </provider>

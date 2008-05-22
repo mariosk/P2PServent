@@ -42,7 +42,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class STKeywordSearchBox extends BoxPanel
+public class STKeywordSearchBox extends STBoxPanel
 {
     private STSearchControlPanel controlPanel;
     

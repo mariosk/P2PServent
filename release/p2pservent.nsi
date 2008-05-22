@@ -13,7 +13,7 @@
   OutFile "iShare_${VERSION}.exe"
   
 ;Default installation folder
-  InstallDir "$PROGRAMFILES\GamersUniverse\iShare_${VERSION}"
+  InstallDir "$PROGRAMFILES\GamersUniverse\iShare"
   
 ;Get installation folder from registry if available
   InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\iShare_${VERSION}" ""
@@ -117,10 +117,10 @@ CreateShortCut "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk" "$INSTDIR\iSha
 CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk" "$INSTDIR\uninst.exe"
 
 ;Store installation folder
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\iShare_${VERSION}" "" "$INSTDIR"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\iShare" "" "$INSTDIR"
 ;Store uninstall infos folder
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}" "DisplayName" "iShare ${VERSION} (remove only)"
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}" "UninstallString" '"$INSTDIR\uninst.exe"'
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare" "DisplayName" "iShare ${VERSION} (remove only)"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare" "UninstallString" '"$INSTDIR\uninst.exe"'
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"
 
@@ -193,8 +193,8 @@ Delete "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk"
 Delete "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk"
 RMDir "$SMPROGRAMS\GamersUniverse"
 
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\iShare_${VERSION}"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\iShare_${VERSION}"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\iShare"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\iShare"
 
 RMDir "$INSTDIR\images"
 RMDir "$INSTDIR\lib"
