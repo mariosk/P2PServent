@@ -151,10 +151,12 @@ public class STFriendDialog extends JDialog {
     }
 
     private void onOK() {
-        STMainForm parentObj = (STMainForm) this.parent;
+        //STMainForm parentObj = (STMainForm) this.parent;
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         for (int i = 0; i < friendsListAction.length; i++) {
-            STLibrary.getInstance().setFriendStatus(friendsListAction[i], friendsListIds.get(i).toString(), friendsListData.get(i).toString());
+            STLibrary.getInstance().setFriendStatus(friendsListAction[i], (Integer)friendsListIds.get(i), friendsListData.get(i).toString());
         }
+        this.setCursor(Cursor.getDefaultCursor());
         dispose();
     }
 

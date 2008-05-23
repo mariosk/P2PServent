@@ -446,39 +446,21 @@ public class STLibrary extends Component {
         }
     }
 
-    public void setFriendStatus(int status, String userId, String friendName) {
+    public void setFriendStatus(int status, Integer friendShipId, String friendName) {
         try {
             if (status < 0)
                 return;
-            
-            FriendActionResponseWrapper response = this.webServiceAuthProxy.addFriend(this.webserviceAuthResponse.getSessionId(), userId);
-
-            if (response != null) {
-                if (response.getStatus() == ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                else {
-                    if (status == STConstants.ACCEPTED)
-                        this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-            else {
-                if (status == STConstants.ACCEPTED)
-                    this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
-            }
-
             switch (status) {
                 case STConstants.ACCEPTED:
-                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.ACCEPTED);
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), friendShipId, FriendshipStatus.ACCEPTED);
                     break;
 
                 case STConstants.REJECTED:
-                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.REJECTED);
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), friendShipId, FriendshipStatus.REJECTED);
                     break;
 
                 case STConstants.DENIED:
-                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), response.getFriendShipId(), FriendshipStatus.DENIED);
+                    this.webServiceAuthProxy.setFriendshipStatus(this.webserviceAuthResponse.getSessionId(), friendShipId, FriendshipStatus.DENIED);
                     break;
             }
         }
@@ -491,15 +473,15 @@ public class STLibrary extends Component {
     public Vector[] fetchPendingFriends() {
         Vector[] pendingUsers = null;
         try {
-            saicontella.core.webservices.authentication.UserInfoWrapper[] pendingUsersWrappers = this.webServiceAuthProxy.myPendingFriends(this.webserviceAuthResponse.getSessionId());
+            FriendDetailsWrapper[] pendingUsersWrappers = this.webServiceAuthProxy.myPendingFriends(this.webserviceAuthResponse.getSessionId());
             if (pendingUsersWrappers == null)
                 return null;
             pendingUsers = new Vector[2];
             pendingUsers[0] = new Vector();
             pendingUsers[1] = new Vector();
             for (int i = 0; i < pendingUsersWrappers.length; i++) {
-                pendingUsers[0].add(pendingUsersWrappers[i].getUserName());
-                pendingUsers[1].add(pendingUsersWrappers[i].getUserId());
+                pendingUsers[0].add(pendingUsersWrappers[i].getFriendName());
+                pendingUsers[1].add(pendingUsersWrappers[i].getFriendShipId());
             }
             return pendingUsers;
         }

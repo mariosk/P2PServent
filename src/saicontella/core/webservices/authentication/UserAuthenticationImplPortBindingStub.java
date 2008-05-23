@@ -289,8 +289,8 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "sessionId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
-        oper.setReturnType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "userInfoWrapper"));
-        oper.setReturnClass(saicontella.core.webservices.authentication.UserInfoWrapper[].class);
+        oper.setReturnType(new javax.xml.namespace.QName("http://wsi.server.user.gaming.saicon.gr/", "friendDetailsWrapper"));
+        oper.setReturnClass(saicontella.core.webservices.authentication.FriendDetailsWrapper[].class);
         oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
@@ -1001,7 +1001,7 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
 }
     }
 
-    public saicontella.core.webservices.authentication.UserInfoWrapper[] myPendingFriends(java.lang.String sessionId) throws java.rmi.RemoteException {
+    public saicontella.core.webservices.authentication.FriendDetailsWrapper[] myPendingFriends(java.lang.String sessionId) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -1025,9 +1025,9 @@ public class UserAuthenticationImplPortBindingStub extends org.apache.axis.clien
         else {
             extractAttachments(_call);
             try {
-                return (saicontella.core.webservices.authentication.UserInfoWrapper[]) _resp;
+                return (saicontella.core.webservices.authentication.FriendDetailsWrapper[]) _resp;
             } catch (java.lang.Exception _exception) {
-                return (saicontella.core.webservices.authentication.UserInfoWrapper[]) org.apache.axis.utils.JavaUtils.convert(_resp, saicontella.core.webservices.authentication.UserInfoWrapper[].class);
+                return (saicontella.core.webservices.authentication.FriendDetailsWrapper[]) org.apache.axis.utils.JavaUtils.convert(_resp, saicontella.core.webservices.authentication.FriendDetailsWrapper[].class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

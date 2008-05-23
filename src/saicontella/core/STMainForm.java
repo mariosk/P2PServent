@@ -39,6 +39,7 @@ import saicontella.phex.stdownload.STSWDownloadTab;
 import saicontella.phex.stupload.STUploadTab;
 import saicontella.phex.stlibrary.STLibraryTab;
 import saicontella.phex.stwizard.STConfigurationWizardDialog;
+import saicontella.phex.STFWElegantPanel;
 
 public class STMainForm extends JFrame {
 
@@ -314,7 +315,7 @@ public class STMainForm extends JFrame {
 
         // Phex Colors
         uiDefaults.put("activeCaptionBorder", Color.BLACK);
-        uiDefaults.put("info", Color.GRAY);
+        uiDefaults.put("info", Color.WHITE);
         PhexColors.updateColors();
 
         //PhexColors.activatePhexColors4P2PServent();
@@ -328,7 +329,7 @@ public class STMainForm extends JFrame {
         JPanel emptyPanel1 = new JPanel();
         JPanel emptyPanel2 = new JPanel();
 
-        FWElegantPanel settingsElegantPanel = new FWElegantPanel( "Settings", emptyPanel1);
+        STFWElegantPanel settingsElegantPanel = new STFWElegantPanel( "Settings", emptyPanel1);
         CellConstraints ccSettings = new CellConstraints();
         FormLayout layoutSettings = new FormLayout(
             "d, fill:d:grow, d, d, d, d", // columns
@@ -340,7 +341,7 @@ public class STMainForm extends JFrame {
         this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 4));
         this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 5));
 
-        FWElegantPanel friendsElegantPanel = new FWElegantPanel( "Friends", emptyPanel2);
+        STFWElegantPanel friendsElegantPanel = new STFWElegantPanel( "Friends", emptyPanel2);
         CellConstraints ccFriends = new CellConstraints();
         FormLayout layoutFriends = new FormLayout(
             "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, d, d, d, d", // columns
@@ -696,11 +697,12 @@ public class STMainForm extends JFrame {
                 if (sLibrary.isConnected()) {
                     Vector[] pendingFriends = sLibrary.fetchPendingFriends();
                     STFriendDialog friendDlg = new STFriendDialog(stMainForm, pendingFriends);
+                    friendDlg.setIconImage(myApplicationIcon.getImage());
                     friendDlg.setTitle("Pending friends...");
                     friendDlg.setLocationRelativeTo(null);                    
                     friendDlg.pack();
                     friendDlg.setVisible(true);
-                    friendDlg.setIconImage(myApplicationIcon.getImage());
+                    stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.NETWORK_TAB_INDEX);
                 }
             }
         }
@@ -865,22 +867,6 @@ public class STMainForm extends JFrame {
         this.mainTabbedPanel.add(mySettingsTab, SETTINGS_TAB_INDEX);
         this.mainTabbedPanel.setTitleAt(SETTINGS_TAB_INDEX, "mySettings");
         this.mainTabbedPanel.setIconAt(SETTINGS_TAB_INDEX, mySettingsIcon);
-
-        /*
-        CellConstraints cc = new CellConstraints();
-        FormLayout tabLayout = new FormLayout("2dlu, fill:d:grow, 2dlu", // columns
-            "0dlu, p, 2dlu, fill:p:grow, 2dlu"); //rows
-        PanelBuilder tabBuilder = new PanelBuilder(tabLayout, this.settingsTab);
-
-        JPanel contentPanel = new JPanel();
-        //FWElegantPanel banner = new FWElegantPanel("Settings", this.settingsBannerPanel);
-        FWElegantPanel banner = new FWElegantPanel("Settings", contentPanel);
-        tabBuilder.add(banner, cc.xy(2, 4));
-        tabBuilder.add(this.WebServicesPanel, cc.xy(2, 12));
-        tabBuilder.add(this.ServentPanel, cc.xy(2, 12));
-        tabBuilder.add(this.SharedFoldersPanel, cc.xy(2, 12));
-        tabBuilder.add(this.saveSettingsButton, cc.xy(2, 12));
-        */
 
         //  myFriends Tab
         this.mainTabbedPanel.add(myFriendsTab, FRIENDS_TAB_INDEX);

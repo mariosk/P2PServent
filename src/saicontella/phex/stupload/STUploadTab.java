@@ -60,6 +60,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STButtonsPanel;
+import saicontella.phex.STFWElegantPanel;
 
 public class STUploadTab extends FWTab
 {
@@ -91,7 +92,7 @@ public class STUploadTab extends FWTab
             "2dlu, fill:p:grow, 2dlu"); //rows
         PanelBuilder tabBuilder = new PanelBuilder(tabLayout, this);
         JPanel contentPanel = new JPanel();
-        FWElegantPanel banner = new FWElegantPanel( Localizer.getString("Uploads"),
+        STFWElegantPanel banner = new STFWElegantPanel( Localizer.getString("Uploads"),
             contentPanel );
         tabBuilder.add(banner, cc.xy(2, 2));
         

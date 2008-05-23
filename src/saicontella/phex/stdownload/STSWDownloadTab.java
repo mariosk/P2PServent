@@ -56,6 +56,7 @@ import phex.utils.URLUtil;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import saicontella.phex.stdownload.STSWDownloadTableModel;
+import saicontella.phex.STFWElegantPanel;
 import saicontella.core.STResources;
 import saicontella.core.STLibrary;
 import saicontella.core.STButtonsPanel;
@@ -198,7 +199,7 @@ public class STSWDownloadTab extends FWTab
         fileToolbar.addAction( action );
         downloadPopup.add( action );
 
-        FWElegantPanel elegantPanel = new FWElegantPanel( Localizer.getString("DownloadFiles"),
+        STFWElegantPanel elegantPanel = new STFWElegantPanel( Localizer.getString("DownloadFiles"),
             downloadTablePanel );
         return elegantPanel;
     }

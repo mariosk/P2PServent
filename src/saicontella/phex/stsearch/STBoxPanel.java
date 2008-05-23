@@ -169,6 +169,7 @@ public class STBoxPanel extends JPanel
             isRollover = false;
             //addMouseListener( this );
             setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            this.setForeground(Color.WHITE);
             initialize();
         }
         

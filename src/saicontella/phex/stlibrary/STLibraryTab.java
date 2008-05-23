@@ -55,6 +55,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.*;
+import saicontella.phex.STFWElegantPanel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bushe.swing.event.annotation.EventTopicSubscriber;
@@ -227,7 +228,7 @@ public class STLibraryTab extends FWTab
             "2dlu, fill:p:grow, 2dlu"); //rows
         tabBuilder = new PanelBuilder(tabLayout, this);
         JPanel contentPanel = new JPanel();
-        FWElegantPanel elegantPanel = new FWElegantPanel( Localizer.getString("Library"),
+        STFWElegantPanel elegantPanel = new STFWElegantPanel( Localizer.getString("Library"),
             contentPanel );
         tabBuilder.add(elegantPanel, cc.xy(2, 2));
         

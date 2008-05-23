@@ -8,10 +8,7 @@ package saicontella.phex.stsearch;
  * February 2008
  */
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -44,6 +41,7 @@ import saicontella.core.STMainForm;
 import saicontella.core.STButtonsPanel;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
 import saicontella.phex.stsearch.filterpanel.STSearchFilterPanel;
+import saicontella.phex.STFWElegantPanel;
 
 /**
  *
@@ -117,9 +115,8 @@ public class STSearchTab extends FWTab
         tabBuilder.add( buttonBarContainer, cc.xy(2, 2) );
         
         contentPanel = new JPanel();
-        FWElegantPanel banner = new FWElegantPanel( Localizer.getString("Search"),
+        STFWElegantPanel banner = new STFWElegantPanel( Localizer.getString("Search"),
             contentPanel );
-        
         tabBuilder.add(banner, cc.xy(2, 4));
         
         JPanel filterTogglePanel = new JPanel( new FlowLayout() );

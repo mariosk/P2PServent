@@ -49,6 +49,7 @@ import phex.gui.prefs.PhexGuiPrefs;
 import phex.gui.tabs.FWTab;
 import phex.gui.tabs.network.NetworkRowRenderer;
 import saicontella.phex.stnetwork.STNetworkTableModel;
+import saicontella.phex.STFWElegantPanel;
 import saicontella.core.STResources;
 import saicontella.core.STRoundJButton;
 import saicontella.core.STLibrary;
@@ -129,7 +130,7 @@ public class STNetworkTab extends FWTab
         //JPanel upperPanel = new FormDebugPanel();
 
         JPanel upperPanel = new JPanel( );
-        FWElegantPanel upperElegantPanel = new FWElegantPanel( Localizer.getString("Connections"),
+        STFWElegantPanel upperElegantPanel = new STFWElegantPanel( Localizer.getString("Connections"),
             upperPanel );
         upperElegantPanel.setBackground(Color.BLACK);
         upperElegantPanel.setForeground(Color.GRAY);
