@@ -53,7 +53,7 @@
                         <children>
                           <component id="8dcd6" class="javax.swing.JLabel" binding="ListenPortLabel">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="146" height="14"/>
                               </grid>
                             </constraints>
@@ -75,7 +75,7 @@
                           </component>
                           <component id="3927a" class="javax.swing.JLabel" binding="ConnectionTimeoutLabel">
                             <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="146" height="14"/>
                               </grid>
                             </constraints>
@@ -196,7 +196,7 @@
                         <children>
                           <component id="4eecc" class="javax.swing.JLabel" binding="UserLabel">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="146" height="14"/>
                               </grid>
                             </constraints>
@@ -218,7 +218,7 @@
                           </component>
                           <component id="9bceb" class="javax.swing.JLabel" binding="PasswordLabel">
                             <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="146" height="14"/>
                               </grid>
                             </constraints>
@@ -275,7 +275,7 @@
                         <children>
                           <component id="1a15e" class="javax.swing.JLabel" binding="CompleteDownloadFolderLabel">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="148" height="14"/>
                               </grid>
                             </constraints>
@@ -286,7 +286,7 @@
                           </component>
                           <component id="32cfb" class="javax.swing.JLabel" binding="IncompleteDownloadFolderLabel">
                             <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="148" height="14"/>
                               </grid>
                             </constraints>
@@ -318,7 +318,7 @@
                           </component>
                           <component id="2ed80" class="javax.swing.JLabel" binding="DownloadRatioLabel">
                             <constraints>
-                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="148" height="14"/>
                               </grid>
                             </constraints>
@@ -340,7 +340,7 @@
                           </component>
                           <component id="1dd4a" class="javax.swing.JLabel" binding="UploadRatioLabel">
                             <constraints>
-                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="148" height="14"/>
                               </grid>
                             </constraints>
