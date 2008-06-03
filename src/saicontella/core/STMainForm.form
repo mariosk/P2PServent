@@ -551,7 +551,13 @@
           </tabbedpane>
         </children>
       </grid>
-      <grid id="552bf" binding="imagesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="552bf" binding="imagesPanel" layout-manager="FormLayout">
+        <rowspec value="center:d:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
         <constraints border-constraint="West"/>
         <properties>
           <background color="-16777216"/>
@@ -561,7 +567,10 @@
         <border type="none"/>
         <children>
           <component id="253df" class="javax.swing.JLabel" binding="myLogoImageLabel">
-            <constraints border-constraint="West"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false"/>
+            </constraints>
             <properties>
               <alignmentX value="1.0"/>
               <horizontalAlignment value="2"/>
@@ -571,13 +580,27 @@
             </properties>
           </component>
           <component id="cdb29" class="javax.swing.JLabel" binding="myAdsImageLabel">
-            <constraints border-constraint="Center"/>
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false"/>
+            </constraints>
             <properties>
               <alignmentX value="0.0"/>
               <alignmentY value="0.0"/>
               <autoscrolls value="false"/>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="dab01" class="javax.swing.JLabel" binding="myIShareLogoLabel">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="4"/>
+              <horizontalTextPosition value="11"/>
               <text value=""/>
             </properties>
           </component>

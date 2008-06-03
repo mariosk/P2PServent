@@ -220,7 +220,7 @@ public class STSearchTreeTableModel extends AbstractTreeTableModel
                 {
                     Object obj = ((SearchResultElement)node).getValue( HOST_MODEL_INDEX );
                     DestAddress address = (DestAddress) obj;
-                    String mappedFriendName = STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddress(address.getIpAddress());
+                    String mappedFriendName = STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddressAndPort(address.getIpAddress(), address.getPort());
                     if (mappedFriendName != null)
                         return mappedFriendName;
                     else

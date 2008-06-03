@@ -8,9 +8,7 @@ package saicontella.phex.stlibrary;
  * March 2008
  */
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -162,7 +160,8 @@ public class STLibraryTreePane extends JPanel
             exploreFolderAction = new ExploreFolderAction();
         }
 
-        fileTreePopup = new FWPopupMenu();
+
+        fileTreePopup = new FWPopupMenu();        
         fileTreePopup.addAction( addShareFolderAction );
         fileTreePopup.addAction( removeShareFolderAction );
 
@@ -490,8 +489,8 @@ public class STLibraryTreePane extends JPanel
 
         private void popupMenu( Component source, int x, int y )
         {
-            refreshActions();
-            fileTreePopup.show( source, x, y );
+            //refreshActions();
+            //fileTreePopup.show( source, x, y );
         }
     }
 }

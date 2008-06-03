@@ -258,14 +258,15 @@ public class STGnutellaFramework {
         return null;
     }
 
-    public String getFriendNameFromIpAddress(IpAddress ip) {
+    public String getFriendNameFromIpAddressAndPort(IpAddress ip, int port) {
         logger.info("Mapping friend name data with ip address taken from the web service...");
         Vector peersList = STLibrary.getInstance().getPeersList();
         if (peersList != null) {
             for (int i = 0; i < peersList.size(); i++) {
                 String ipAddress = ((ActiveSessionMiniWrapper)peersList.get(i)).getIp();
                 String friendName = ((ActiveSessionMiniWrapper)peersList.get(i)).getUsername();
-                if (ipAddress.equals(ip.getFormatedString()))
+                int portNumber = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort().intValue(); 
+                if (ipAddress.equals(ip.getFormatedString()) && port == portNumber)
                     return friendName;
             }
         }

@@ -40,6 +40,7 @@ public class STLibrary extends Component {
 
     public interface STConstants
     {
+        public static final String ISHARE_PASS_PHRASE = "My little baby boy was born in Patras at 23rd of March, 2008";
         // UserAuthenticationSettings (START)
         public static final String ADMINISTRATOR = "administrator";
         public static final String BANNED = "banned";
@@ -55,7 +56,8 @@ public class STLibrary extends Component {
         public static final String ADS_MY_FRIENDS_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=41";
         public static final String ADS_ABOUT_URL1 = "http://85.17.217.5/www/delivery/avw.php?zoneid=42";
         public static final String ADS_ABOUT_URL2 = "http://85.17.217.5/www/delivery/avw.php?zoneid=43";
-        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=26";        
+        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=26";
+        public static final String ISHARE_LOGO_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=44";
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";

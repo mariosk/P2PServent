@@ -215,7 +215,7 @@ public class STNetworkTableModel extends FWSortableTableModel
                 return HostInfo.getHostStatusString(host);
 
             case USER_NAME_INDEX:
-                return STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddress(host.getHostAddress().getIpAddress());
+                return STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddressAndPort(host.getHostAddress().getIpAddress(), host.getHostAddress().getPort());
         }
         return "";
     }

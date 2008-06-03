@@ -39,11 +39,14 @@ public class STAdsDownloader extends Thread {
     private void fetchImages() {        
         ImageIcon imageIconMainForm = null;
         ImageIcon imageIconMyFriends = null;
+        ImageIcon imageIconIShare = null;
         try {
             imageIconMainForm = new ImageIcon(new URL(STLibrary.STConstants.ADS_WEB_SERVER_URL));
-            this.mainForm.setAdImageLabelIcon(imageIconMainForm);            
+            this.mainForm.setAdImageLabelIcon(imageIconMainForm);
             imageIconMyFriends = new ImageIcon(new URL(STLibrary.STConstants.ADS_MY_FRIENDS_URL));
             this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends);
+            imageIconIShare = new ImageIcon(new URL(STLibrary.STConstants.ISHARE_LOGO_URL));
+            this.mainForm.setIShareImageLabelIcon(imageIconIShare);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

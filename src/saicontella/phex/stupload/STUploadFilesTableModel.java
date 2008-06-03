@@ -140,7 +140,7 @@ public class STUploadFilesTableModel extends FWSortableTableModel
                 }
 */
             case FRIEND_MODEL_INDEX:
-                return STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddress(uploadState.getHostAddress().getIpAddress());
+                return STLibrary.getInstance().getGnutellaFramework().getFriendNameFromIpAddressAndPort(uploadState.getHostAddress().getIpAddress(), uploadState.getHostAddress().getPort());
             
             case FILE_MODEL_INDEX:
                 return uploadState.getFileName();

@@ -8,9 +8,15 @@ package saicontella.core;
  * February 2008
  */
 
+import javax.crypto.*;
+import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.security.MessageDigest;
+import java.security.spec.KeySpec;
+import java.security.spec.AlgorithmParameterSpec;
 
 public class STConfiguration {
     
@@ -30,6 +36,15 @@ public class STConfiguration {
     private String webServiceAccount;
     private String webServicePassword;
     private int maxSearchFriendsLimit;
+    protected Cipher ecipher;
+    protected Cipher dcipher;
+    // 8-byte Salt
+    byte[] salt = {
+        (byte)0x9A, (byte)0xB9, (byte)0x8C, (byte)0x23,
+        (byte)0x65, (byte)0x53, (byte)0x3E, (byte)0x30
+    };
+    // Iteration count
+    int iterationCount = 19;
     
     public STConfiguration()
     {
@@ -57,7 +72,7 @@ public class STConfiguration {
         this.webServicePassword = value;
     }
     public String getWebServicePassword() {
-        return this.webServicePassword;
+        return this.getDecryptedPass(this.webServicePassword);                        
     }
     
     public void setCompleteFolder(String fodler) {
@@ -199,6 +214,88 @@ public class STConfiguration {
         this.saveXMLFile(STResources.getStr("Application.configurationFile"));    
     }
 
+    private void InitEncrypter() {
+        try {
+            // Create the key
+            KeySpec keySpec = new PBEKeySpec(STLibrary.STConstants.ISHARE_PASS_PHRASE.toCharArray(), salt, iterationCount);
+            SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
+            ecipher = Cipher.getInstance(key.getAlgorithm());
+            dcipher = Cipher.getInstance(key.getAlgorithm());
+
+            // Prepare the parameter to the ciphers
+            AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, iterationCount);
+
+            // Create the ciphers
+            ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
+            dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
+        } catch (java.security.InvalidAlgorithmParameterException e) {
+        } catch (java.security.spec.InvalidKeySpecException e) {
+        } catch (javax.crypto.NoSuchPaddingException e) {
+        } catch (java.security.NoSuchAlgorithmException e) {
+        } catch (java.security.InvalidKeyException e) {
+        }
+    }
+
+    private String encrypt(String str) {
+        try {
+            // Encode the string into bytes using utf-8
+            byte[] utf8 = str.getBytes("UTF8");
+
+            // Encrypt
+            byte[] enc = ecipher.doFinal(utf8);
+
+            // Encode bytes to base64 to get a string
+            return new sun.misc.BASE64Encoder().encode(enc);
+        } catch (javax.crypto.BadPaddingException e) {
+        } catch (IllegalBlockSizeException e) {
+        } catch (UnsupportedEncodingException e) {
+        } catch (java.io.IOException e) {
+        }
+        return null;
+    }
+
+    public String decrypt(String str) {
+        try {
+            // Decode base64 to get bytes
+            byte[] dec = new sun.misc.BASE64Decoder().decodeBuffer(str);
+
+            // Decrypt
+            byte[] utf8 = dcipher.doFinal(dec);
+
+            // Decode using utf-8
+            return new String(utf8, "UTF8");
+        } catch (javax.crypto.BadPaddingException e) {
+        } catch (IllegalBlockSizeException e) {
+        } catch (UnsupportedEncodingException e) {
+        } catch (java.io.IOException e) {
+        }
+        return null;
+    }
+
+    private String getDecryptedPass(String encryptedText) {
+        try {
+            // Create encrypter/decrypter class
+            this.InitEncrypter();
+            // Decrypt
+            String decrypted = this.decrypt(encryptedText);
+            return decrypted;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    private String getEncryptedPass(String clearText) {
+        try {
+            // Create encrypter/decrypter class
+            this.InitEncrypter();
+            // Encrypt
+            String encrypted = this.encrypt(clearText);
+            return encrypted; 
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public void saveXMLFile(String filename) {
         StringBuffer buffer = new StringBuffer();
         buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -211,7 +308,7 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("\t<!-- webService endpoint -->");
         buffer.append("\n");
-        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getWebServicePassword() + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
+        buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getEncryptedPass(this.webServicePassword) + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
         buffer.append("\n");
         buffer.append("\t<!-- gnutella servent -->");
         buffer.append("\n");
