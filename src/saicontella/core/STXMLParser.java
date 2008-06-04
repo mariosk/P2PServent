@@ -86,7 +86,8 @@ public class STXMLParser extends DefaultHandler {
         logger.debug("start of configuration");
         logger.debug("\tAccount Name: " + this.tmpConfiguration.getAccountName());
         logger.debug("\tAccount Server: " + this.tmpConfiguration.getAccountServer());
-        logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword());
+        //logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword());
+        logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: ********");
         logger.debug("\tListen Port: " + this.tmpConfiguration.getListenPort());
         if (this.tmpConfiguration.getListenAddress() != null)
             logger.debug("\tListen Address: " + this.tmpConfiguration.getListenAddress());

@@ -104,6 +104,7 @@ public class STLibraryTab extends FWTab
         for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getFolders().size(); i++) {
             this.applyIpSystemRulesLists(i);
         }
+        
     }
 
     public void setSelectedFolderIndex(int index) {

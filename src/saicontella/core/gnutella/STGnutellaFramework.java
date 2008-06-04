@@ -58,7 +58,7 @@ public class STGnutellaFramework {
             logger.info("Starting server side of gnutella servent");
 
             // This order of the methods execution should not be changed. It took me so long to figure it out ;)
-            System.setProperty( SystemProperties.PHEX_CONFIG_PATH_SYSPROP, ".\\" );
+            System.setProperty( SystemProperties.PHEX_CONFIG_PATH_SYSPROP, sLibrary.getApplicationLocalPath());
             logger.debug("Phex config dir: " + System.getProperty( SystemProperties.PHEX_CONFIG_PATH_SYSPROP ));
             File oldConfigFile = Environment.getInstance().getPhexConfigFile( EnvironmentConstants.OLD_CONFIG_FILE_NAME );
             logger.debug("Phex config file: " + oldConfigFile);

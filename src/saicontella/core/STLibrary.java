@@ -531,7 +531,7 @@ public class STLibrary extends Component {
                 this.getGnutellaFramework().getServent().start();
 
             logger.debug("USERNAME: " + userName);
-			logger.debug("PASSWORD: " + passWord);
+			//logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
 			if (response.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);

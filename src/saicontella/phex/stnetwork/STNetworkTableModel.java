@@ -96,7 +96,7 @@ public class STNetworkTableModel extends FWSortableTableModel
             Localizer.getString( "QRT" ),
             Localizer.getString( "Uptime" ),
             Localizer.getString( "Status" ),
-            Localizer.getString( "User" )    
+            "User"    
         };
 
         tableClasses = new Class[]
