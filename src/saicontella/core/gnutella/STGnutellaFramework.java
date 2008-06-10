@@ -153,7 +153,7 @@ public class STGnutellaFramework {
     private boolean isIpAddressConnected(String remoteIpAddress)
     {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         }
         catch (Exception ex) {
             logger.error(ex.getMessage());
@@ -236,23 +236,32 @@ public class STGnutellaFramework {
         return null;
     }
 
-    public String getIpAddressFromFriendName(String name) {
+    public Object[] getIpAddressFromFriendName(String name) {
+        Object[] userInfo = new Object[2];
         logger.info("Mapping ip address with friend-name " + name + " taken from the web service...");
         Vector peersList = STLibrary.getInstance().getPeersList();
         if (peersList != null) {
             for (int i = 0; i < peersList.size(); i++) {
                 String ipAddress = ((ActiveSessionMiniWrapper)peersList.get(i)).getIp();
                 String friendName = ((ActiveSessionMiniWrapper)peersList.get(i)).getUsername();
-                if (name.equals(friendName))
-                    return ipAddress;
+                if (name.equals(friendName)) {
+                    Integer port = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort();
+                    userInfo[0] = ipAddress;
+                    userInfo[1] = port;
+                    return userInfo;
+                }
             }
         }
         else {
             for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getMyFriends().size(); i++) {
                 String ipAddress = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getIPAddress();
                 String friendName = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendName();
-                if (friendName.equals(name))
-                    return ipAddress;
+                if (friendName.equals(name)) {
+                    Integer port = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort();
+                    userInfo[0] = ipAddress;
+                    userInfo[1] = port;
+                    return userInfo;
+                }
             }
         }
         return null;

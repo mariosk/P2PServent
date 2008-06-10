@@ -39,6 +39,7 @@ public class STFriendDialog extends JDialog {
 
     public STFriendDialog(Component parent, Vector[] data) {
 
+        super((JFrame)parent);
         friendsListAction = new int[data[0].size()];
         for (int i = 0; i < friendsListAction.length; i++) {
             friendsListAction[i] = -1;

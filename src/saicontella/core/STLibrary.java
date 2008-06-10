@@ -20,6 +20,7 @@ import saicontella.core.webservices.authentication.BaseResponse;
 import saicontella.core.webservices.authentication.ResponseSTATUS;
 import saicontella.core.webservices.authentication.FriendDetailsWrapper;
 import saicontella.core.webservices.admin.UserInfoWrapper;
+import saicontella.phex.stlibrary.STLibraryTab;
 
 import javax.swing.*;
 import java.util.*;
@@ -35,6 +36,9 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.GUIUtils;
+import phex.share.ShareFile;
+import phex.share.FileRescanRunner;
+import phex.share.SharedFilesService;
 
 public class STLibrary extends Component {
 
@@ -61,8 +65,8 @@ public class STLibrary extends Component {
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
-        public static final int KEEP_ALIVE_THR_SECS = 5;               
-        public static final int ADS_THR_SECS = 5;                               
+        public static final int KEEP_ALIVE_THR_SECS = 10;               
+        public static final int ADS_THR_SECS = 10;                               
         public static final String KEEP_ALIVE_THR_NAME = "KeepAliveToWebService_Thread";
         public static final String ADS_THR_NAME = "Advertisements_Thread";               
         public static final String P2PSERVENT_BAR = "===========================";               
@@ -117,6 +121,7 @@ public class STLibrary extends Component {
     private static STGnutellaFramework gnuTellaFramework;
     private static STLibrary sLibrary;
     private STKeepAliveThread keepAliveThread;
+    private ImageIcon myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getStr("myApplicationIcon.ico")), 15, 15);
 
     // UserAuthentication web service
     private saicontella.core.webservices.authentication.UserSettingsWrapper[] webserviceAuthSettings;
@@ -130,7 +135,7 @@ public class STLibrary extends Component {
     private UserServerAdminImplPortBindingStub webServiceAdminProxy;
 
     private STMainForm stMainForm;
-    public static boolean restart = false; 
+    private static boolean restart = false; 
 
     public static STLibrary getInstance() {
         if (sLibrary == null) {
@@ -165,6 +170,13 @@ public class STLibrary extends Component {
         }
     }
 
+    public boolean restartPending() {
+        return this.restart;
+    }
+    public ImageIcon getAppIcon() {
+        return this.myApplicationIcon;
+    }
+    
     public void removePhexFile(String filename) {
         File f = new File(filename);
         if (f.exists())
@@ -177,12 +189,15 @@ public class STLibrary extends Component {
             restart = true;
             sLibrary = null;
             sLibrary = STLibrary.getInstance();
-            STMainForm mainFrame = new STMainForm(sLibrary, null);
-            mainFrame.createUIComponents();
-            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            mainFrame.setVisible(true);
+            STMainForm mainF = new STMainForm(sLibrary, null);
+            if (!mainF.initializedProperly()) {
+                restart = false;
+                return;
+            }                        
+            mainF.createUIComponents();
+            mainF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            
             if (goToSettings)
-                mainFrame.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
+                mainF.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
             restart = false;
         } catch (Exception e) {
             this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);  
@@ -278,7 +293,8 @@ public class STLibrary extends Component {
     public void updateP2PServent(boolean autoCheck) {
         if (!STLibrary.getInstance().isTheSameAppVersion()) {
             // a newer version is identified
-            STAppUpdateDialog updateDlg = new STAppUpdateDialog();
+            this.stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
+            STAppUpdateDialog updateDlg = new STAppUpdateDialog(this.stMainForm);                                    
             updateDlg.setTitle("Updating iShare");
             updateDlg.pack();
             updateDlg.setLocationRelativeTo(null);
@@ -344,6 +360,8 @@ public class STLibrary extends Component {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
         try {
             this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
+            if (this.webserviceAuthResponse == null)
+                return false;
             this.webServiceAuthVersion = this.webServiceAuthProxy.checkForNewerApplication(STConstants.p2pAppId, ReleaseType.BETA);
         }
         catch (Exception ex) {
@@ -363,6 +381,7 @@ public class STLibrary extends Component {
     public void STLogoutUser() {
         if (this.keepAliveThread != null) {
             try {
+                //this.keepAliveThread.stopMyThread();
                 this.keepAliveThread.stop();
                 this.keepAliveThread = null;
             }
@@ -377,12 +396,12 @@ public class STLibrary extends Component {
     public void addFileShares(STLibraryTab libraryTab) {
         SharedFilesService sharedFilesService = this.getGnutellaFramework().getServent().getSharedFilesService();
         FileRescanRunner.rescan(sharedFilesService, true, false);
-        STFolder[] folders = this.getSTConfiguration().getFolders();
-        for (int i=0; i<folders.length; i++) {
-            STFileName[] files = folders[i].getFiles();
-            libraryTab.shareDirHelper(new File(folders[i].getFolderName()));
+        ArrayList<STFolder> folders = this.getSTConfiguration().getFolders();
+        for (int i=0; i<folders.size(); i++) {
+            STFileName[] files = ((STFolder)folders.get(i)).getFiles();
+            //libraryTab.s.shareDirHelper(new File(folders[i].getFolderName()));
             for (int j=0; j<files.length; j++) {
-                File file = new File(folders[i].getFolderName() + "\\" + files[j].getFileName());
+                File file = new File(((STFolder)folders.get(i)).getFolderName() + "\\" + files[j].getFileName());
                 ShareFile shareFile = new ShareFile(file);
                 sharedFilesService.queueUrnCalculation(shareFile);
                 sharedFilesService.addSharedFile(shareFile);
@@ -391,12 +410,14 @@ public class STLibrary extends Component {
     }
     */
 
-    public void fireMessageBox(String message, String title, int icon)
+    public void fireMessageBox(String message, String title, int type)
     {
+        this.stMainForm.setIconImage(this.getAppIcon().getImage());               
+        JOptionPane.setRootFrame(this.stMainForm);
         if (message != null)
-            JOptionPane.showMessageDialog(this, message, title, icon);
+            JOptionPane.showMessageDialog(this, message, title, type);
         else
-            JOptionPane.showMessageDialog(this, "NULL message", title, icon);
+            JOptionPane.showMessageDialog(this, "NULL message", title, type);
     }
       
     public STGnutellaFramework getGnutellaFramework() {
@@ -427,7 +448,7 @@ public class STLibrary extends Component {
                 return;
             if (activeSessions.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 logger.debug("activeSessions ERROR String: " + response.getErrorMessage());
-                this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.fireMessageBox(activeSessions.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 ActiveSessionMiniWrapper[] array = activeSessions.getActiveSessions();
@@ -525,18 +546,13 @@ public class STLibrary extends Component {
                 return null;
             }
 
-            if (restart)
-                this.getGnutellaFramework().getServent().restartServer();
-            else
-                this.getGnutellaFramework().getServent().start();
-
             logger.debug("USERNAME: " + userName);
 			//logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
 			if (response.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 logger.error("ERROR String: " + response.getErrorMessage());
-                return null;
+                return response;
             }
 			else {
                 this.fireMessageBox("Connected!", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -590,6 +606,11 @@ public class STLibrary extends Component {
                 this.getGnutellaFramework().setMaxDownload();
 
                 this.stMainForm.initializeToolsTabValues();
+
+                if (restart)
+                    this.getGnutellaFramework().getServent().restartServer();
+                else
+                    this.getGnutellaFramework().getServent().start();                
             }
             //ADMIN SERVICE TESTS (START)
             // Searching for a username...
@@ -710,6 +731,8 @@ public class STLibrary extends Component {
     }
 
     public boolean isFriendAlreadyInList(String friendName, Vector list) {
+        if (list == null)
+            return false;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(friendName))
                 return true;

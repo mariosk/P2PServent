@@ -9,21 +9,13 @@ package saicontella.phex.stlibrary;
  */
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.io.File;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.*;
 
 import phex.common.QueryRoutingTable;
 import phex.common.ThreadPool;
@@ -31,7 +23,6 @@ import phex.common.format.NumberFormatUtils;
 import phex.event.PhexEventTopics;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
-import phex.gui.common.FWElegantPanel;
 import phex.gui.common.FWPopupMenu;
 import phex.gui.common.FWToolBar;
 import phex.gui.common.GUIRegistry;
@@ -104,6 +95,8 @@ public class STLibraryTab extends FWTab
         for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getFolders().size(); i++) {
             this.applyIpSystemRulesLists(i);
         }
+
+        //STLibrary.getInstance().addFileShares(this);
         
     }
 
@@ -135,13 +128,20 @@ public class STLibraryTab extends FWTab
             PhexSecurityManager.getInstance().removeIpSystemRuleListFromSharedResource(directory);
             for (int i = 0; i < folder.getFriends().size(); i++) {
                 STFriend friend = (STFriend) folder.getFriends().get(i);
-                String friendIpAddress = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
-                if (friendIpAddress == null)
-                    friendIpAddress = friend.getIPAddress();
-                if (friendIpAddress != null) {
-                    if (!friendIpAddress.equalsIgnoreCase("null")) {
-                        PhexSecurityManager.getInstance().addIpSystemRuleListToSharedResource(directory, friendIpAddress);
+                Object[] userInfo = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
+                if (userInfo != null) {
+                    String friendIpAddress = (String)userInfo[0];
+                    int port = ((Integer)userInfo[1]).intValue();
+                    if (friendIpAddress == null)
+                        friendIpAddress = friend.getIPAddress();
+                    if (friendIpAddress != null) {
+                        if (!friendIpAddress.equalsIgnoreCase("null")) {
+                            PhexSecurityManager.getInstance().addIpSystemRuleListToSharedResource(directory, friendIpAddress, port);
+                        }
                     }
+                }
+                else {
+                    PhexSecurityManager.getInstance().addIpSystemRuleListToSharedResource(directory, "127.0.0.1", -1);
                 }
             }
         }
@@ -279,7 +279,13 @@ public class STLibraryTab extends FWTab
         libraryTreePane.appendPopupAction( action );
         */
     }
-
+/*
+    class JCheckBoxChangeListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e)
+        {       
+        }
+    }
+*/
     public void updateMyFriendsList() {
         this.myFriendsList = STLibrary.getInstance().getSTConfiguration().getMyFriends();
         if (friendsCheckBoxes != null) {
@@ -290,6 +296,7 @@ public class STLibraryTab extends FWTab
         friendsCheckBoxes = new Object[this.myFriendsList.size()];
         for (int i = 0; i < this.myFriendsList.size(); i++) {
             friendsCheckBoxes[i] = new JCheckBox(((STFriend)this.myFriendsList.get(i)).getFriendName());
+            //((JCheckBox)friendsCheckBoxes[i]).addChangeListener(new JCheckBoxChangeListener());
         }        
         friendsList.setListData(friendsCheckBoxes);
         friendsList.repaint();

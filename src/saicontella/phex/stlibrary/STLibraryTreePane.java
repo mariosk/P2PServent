@@ -489,7 +489,7 @@ public class STLibraryTreePane extends JPanel
 
         private void popupMenu( Component source, int x, int y )
         {
-            //refreshActions();
+            refreshActions();
             //fileTreePopup.show( source, x, y );
         }
     }

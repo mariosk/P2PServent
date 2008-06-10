@@ -58,9 +58,9 @@ public class STConfigurationWizardDialog extends JDialog
     public STConfigurationWizardDialog(Component parent)
     {
         //super( GUIRegistry.getInstance().getMainFrame(),
-            //STResources.getStr( "ConfigWizard_DialogTitle" ), false );
+        //STResources.getStr( "ConfigWizard_DialogTitle" ), false );
         this.parent = parent;
-        this.setIconImage(new ImageIcon(STResources.getStr( "myApplicationIcon.ico" )).getImage());
+        this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
         currentPage = WELCOME_PAGE;
         prepareComponent();
     }
@@ -338,7 +338,7 @@ public class STConfigurationWizardDialog extends JDialog
                 closeDialog();
 
                 STLibrary.getInstance().getSTConfiguration().setWebServiceAccount("");
-                STLibrary.getInstance().getSTConfiguration().setWebServicePassword("");
+                STLibrary.getInstance().getSTConfiguration().setWebServicePassword(false, "");
                 STLibrary.getInstance().getSTConfiguration().saveXMLFile();
                 STLibrary.getInstance().reInitializeSTLibrary(openOptions);
                 /*

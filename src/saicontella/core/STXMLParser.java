@@ -123,7 +123,8 @@ public class STXMLParser extends DefaultHandler {
             STFriend friend = (STFriend) myFriends.get(i);
             logger.debug("\tmyFriend name: " + friend.getFriendName());
             logger.debug("\tmyFriend IpAddress: " + friend.getIPAddress());
-            logger.debug("\tmyFriend IpAddress: " + friend.getFriendId());
+            logger.debug("\tmyFriend Port: " + friend.getPortNumber());            
+            logger.debug("\tmyFriend Id: " + friend.getFriendId());
         }        
         logger.debug("end of configuration");
     }
@@ -179,7 +180,7 @@ public class STXMLParser extends DefaultHandler {
         }        
         else if (qName.equalsIgnoreCase("webservice")) {
             tmpConfiguration.setWebServiceAccount(attributes.getValue("name"));
-            tmpConfiguration.setWebServicePassword(attributes.getValue("password"));            
+            tmpConfiguration.setWebServicePassword(true, attributes.getValue("password"));            
             tmpConfiguration.setMaxSearchFriendsLimit(attributes.getValue("maxFriendsLimit"));
         }
         else if (qName.equalsIgnoreCase("account")) {
@@ -206,6 +207,9 @@ public class STXMLParser extends DefaultHandler {
         else if (qName.equalsIgnoreCase("friend")) {           
             STFriend myFriend = new STFriend(attributes.getValue("name"));
             myFriend.setIPAddress(attributes.getValue("ipaddress"));
+            String portNum = attributes.getValue("port");
+            Integer port = new Integer(portNum);
+            myFriend.setPortNumber(port.intValue());
             myFriend.setFriendId(attributes.getValue("friendid"));            
             this.myFriendsList.add(myFriend);
         }

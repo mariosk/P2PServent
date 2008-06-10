@@ -11,6 +11,7 @@ package saicontella.phex.stsearch;
 import saicontella.phex.stsearch.STDialogBanner;
 import saicontella.core.STMainForm;
 import saicontella.core.STResources;
+import saicontella.core.STLibrary;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -177,8 +178,7 @@ public class STDownloadConfigDialog extends JDialog
         okBtn.addActionListener(new OkBtnListener());
         JPanel btnPanel = ButtonBarFactory.buildOKCancelBar(okBtn, cancelBtn);
         builder.add(btnPanel, cc.xywh(8, row, 3, 1));
-        this.setIconImage(new ImageIcon(STResources.getStr( "myApplicationIcon.ico" )).getImage());
-
+        this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
         pack();
         setLocationRelativeTo(getParent());
     }

@@ -50,6 +50,8 @@ public class STConfiguration {
     {
         this.sharedFolders = new ArrayList();
         this.myFriends = new ArrayList();
+        // Create encrypter/decrypter class
+        this.InitEncrypter();        
     }
 
     public void setWebServiceAccount(String value) {
@@ -68,11 +70,15 @@ public class STConfiguration {
         return this.maxSearchFriendsLimit;
     }
 
-    public void setWebServicePassword(String value) {
-        this.webServicePassword = value;
+    // the current value is not decrypted at all...
+    public void setWebServicePassword(boolean decryptFirst, String value) {
+        if (decryptFirst)
+            this.webServicePassword = this.getDecryptedPass(value);
+        else
+            this.webServicePassword = value;
     }
     public String getWebServicePassword() {
-        return this.getDecryptedPass(this.webServicePassword);                        
+        return this.webServicePassword;                        
     }
     
     public void setCompleteFolder(String fodler) {
@@ -274,8 +280,6 @@ public class STConfiguration {
 
     private String getDecryptedPass(String encryptedText) {
         try {
-            // Create encrypter/decrypter class
-            this.InitEncrypter();
             // Decrypt
             String decrypted = this.decrypt(encryptedText);
             return decrypted;
@@ -286,8 +290,6 @@ public class STConfiguration {
 
     private String getEncryptedPass(String clearText) {
         try {
-            // Create encrypter/decrypter class
-            this.InitEncrypter();
             // Encrypt
             String encrypted = this.encrypt(clearText);
             return encrypted; 
@@ -328,7 +330,7 @@ public class STConfiguration {
         friends = this.getMyFriends();
         for (int i = 0; i < friends.size(); i++) {
             STFriend friend = (STFriend)friends.get(i);
-            buffer.append("\t\t<friend name=\"" + friend.getFriendName() + "\" ipaddress=\"" + friend.getIPAddress() + "\" friendid=\"" + friend.getFriendId() + "\"/>");
+            buffer.append("\t\t<friend name=\"" + friend.getFriendName() + "\" ipaddress=\"" + friend.getIPAddress() + "\" port=\"" + friend.getPortNumber() + "\" friendid=\"" + friend.getFriendId() + "\"/>");
             buffer.append("\n");
         }
         buffer.append("\t</myFriends>");

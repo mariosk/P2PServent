@@ -54,10 +54,7 @@ import saicontella.core.STResources;
 import saicontella.core.STRoundJButton;
 import saicontella.core.STLibrary;
 import saicontella.core.STButtonsPanel;
-import phex.host.CaughtHostsContainer;
-import phex.host.Host;
-import phex.host.HostManager;
-import phex.host.NetworkHostsContainer;
+import phex.host.*;
 import phex.net.repres.PresentationManager;
 import phex.servent.Servent;
 import phex.utils.Localizer;
@@ -312,7 +309,31 @@ public class STNetworkTab extends FWTab
         dSettings.getTableList().getTableList().add( dTable );
     }
 
-    public ArrayList<Host> getAllHosts() {
+    private void compactHostsEntries(Host[] hosts)
+    {
+        if (hosts == null)
+            return;
+
+        for (int i = 0; i < hosts.length; i++) {
+            for (int j = i+1; j < hosts.length; j++) {
+                try {
+                    if ((hosts[i].getHostAddress().getPort() == hosts[j].getHostAddress().getPort()) &&
+                        (hosts[i].getHostAddress().getIpAddress().getFormatedString().equals(hosts[j].getHostAddress().getIpAddress().getFormatedString())) &&
+                        (hosts[j].isConnected() && hosts[i].isConnected() && hosts[i].isIncomming()))                    
+                    {
+                        hosts[j].disconnect();
+                    }
+                }
+                catch (Exception ex) {                    
+                }
+            }
+        }
+
+        return;
+    }
+    
+    public ArrayList<Host> getAllHosts()
+    {
         ArrayList<Host> allHosts = new ArrayList();
         int rows = networkTable.getRowCount();
         int[] viewRows = new int[rows];
@@ -325,6 +346,7 @@ public class STNetworkTab extends FWTab
         }
         int[] modelRows = networkTable.convertRowIndicesToModel( viewRows );
         Host[] hosts = hostsContainer.getNetworkHostsAt( modelRows );
+        //compactHostsEntries(hosts);
         for (int i = 0; i < hosts.length; i++) {
             allHosts.add(hosts[i]);
         }

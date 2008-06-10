@@ -10,7 +10,8 @@ public class STAppUpdateDialog extends JDialog {
     private JButton buttonCancel;
     private JLabel versionsJlabel;
 
-    public STAppUpdateDialog() {
+    public STAppUpdateDialog(JFrame owner) {
+        super(owner);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -63,12 +64,5 @@ public class STAppUpdateDialog extends JDialog {
     private void onCancel() {
 // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        STAppUpdateDialog dialog = new STAppUpdateDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

@@ -55,7 +55,7 @@ public class STAdsDownloader extends Thread {
     public void run() {
         // infinite loop connection towards web server
         while (true) {
-            try {                
+            try {
                 this.fetchImages();
                 sleep((int)(STLibrary.STConstants.ADS_THR_SECS * 1000));
             } catch (Exception e) {

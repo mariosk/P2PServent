@@ -27,7 +27,8 @@ public class STAdminDialog extends JDialog {
     private JLabel labelSelectedUser;
     private String[] listUserIds;
 
-    public STAdminDialog() {
+    public STAdminDialog(JFrame owner) {
+        super(owner);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
