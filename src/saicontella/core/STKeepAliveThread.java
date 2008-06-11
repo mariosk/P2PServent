@@ -25,9 +25,9 @@ public class STKeepAliveThread extends Thread {
     public STKeepAliveThread(LoginResponseWrapper proxyResponse) {
         super(STLibrary.STConstants.KEEP_ALIVE_THR_NAME);
         this.proxyResponse = proxyResponse;
-        this.rnd = new Random(System.currentTimeMillis() + 123456789);
-        this.pollingPeriod = Math.abs(this.rnd.nextInt(STLibrary.STConstants.KEEP_ALIVE_THR_SECS)) + 5;
-        //this.pollingPeriod = STLibrary.STConstants.KEEP_ALIVE_THR_SECS;
+        //this.rnd = new Random(System.currentTimeMillis() + 123456789);
+        //this.pollingPeriod = Math.abs(this.rnd.nextInt(STLibrary.STConstants.KEEP_ALIVE_THR_SECS)) + 5;
+        this.pollingPeriod = STLibrary.STConstants.KEEP_ALIVE_THR_SECS;
     }
 
     public void run() {

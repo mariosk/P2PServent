@@ -36,6 +36,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.GUIUtils;
+import phex.gui.actions.ExitPhexAction;
 import phex.share.ShareFile;
 import phex.share.FileRescanRunner;
 import phex.share.SharedFilesService;
@@ -65,8 +66,8 @@ public class STLibrary extends Component {
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
         public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
-        public static final int KEEP_ALIVE_THR_SECS = 10;               
-        public static final int ADS_THR_SECS = 10;                               
+        public static final int KEEP_ALIVE_THR_SECS = 10; // in seconds
+        public static final int ADS_THR_SECS = 10; // in seconds                               
         public static final String KEEP_ALIVE_THR_NAME = "KeepAliveToWebService_Thread";
         public static final String ADS_THR_NAME = "Advertisements_Thread";               
         public static final String P2PSERVENT_BAR = "===========================";               
@@ -113,6 +114,7 @@ public class STLibrary extends Component {
         // JMenus string here...
         public static final String HELP_MENU = "Help";
         public static final String HELP_MENU_UPDATES = "Check for updates";
+        public static final String HELP_MENU_MANUAL = "Manual";
         public static final String HELP_MENU_ABOUT = "About";        
     }
 
@@ -135,7 +137,8 @@ public class STLibrary extends Component {
     private UserServerAdminImplPortBindingStub webServiceAdminProxy;
 
     private STMainForm stMainForm;
-    private static boolean restart = false; 
+    private static boolean restart = false;
+    private boolean firstTimeOpened = false;
 
     public static STLibrary getInstance() {
         if (sLibrary == null) {
@@ -143,6 +146,14 @@ public class STLibrary extends Component {
             gnuTellaFramework = new STGnutellaFramework(sLibrary, restart);
         }
         return sLibrary;
+    }
+
+    public void setFirstTimeOpened() {
+        this.firstTimeOpened = true;
+    }
+
+    public boolean getFirstTimeOpened() {
+        return this.firstTimeOpened;
     }
 
     public STLibrary() {
@@ -183,12 +194,13 @@ public class STLibrary extends Component {
             f.delete();
     }
     
-    public void reInitializeSTLibrary(boolean goToSettings) {
+    public void reInitializeSTLibrary(boolean goToSettings, boolean firstTime) {
         try {
             this.stMainForm.dispose();
             restart = true;
             sLibrary = null;
             sLibrary = STLibrary.getInstance();
+            sLibrary.firstTimeOpened = firstTime;
             STMainForm mainF = new STMainForm(sLibrary, null);
             if (!mainF.initializedProperly()) {
                 restart = false;
@@ -295,7 +307,7 @@ public class STLibrary extends Component {
             // a newer version is identified
             this.stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
             STAppUpdateDialog updateDlg = new STAppUpdateDialog(this.stMainForm);                                    
-            updateDlg.setTitle("Updating iShare");
+            updateDlg.setTitle("Updating i-Share");
             updateDlg.pack();
             updateDlg.setLocationRelativeTo(null);
             updateDlg.show();
@@ -318,7 +330,7 @@ public class STLibrary extends Component {
     }
 
     public String getNewVersionFileName(String version) {
-        return "../iShare_"+version+".exe";
+        return "../i-Share_"+version+".exe";
     }
     
     public boolean downloadNewerVersion(String version, String URL) {        
@@ -381,7 +393,6 @@ public class STLibrary extends Component {
     public void STLogoutUser() {
         if (this.keepAliveThread != null) {
             try {
-                //this.keepAliveThread.stopMyThread();
                 this.keepAliveThread.stop();
                 this.keepAliveThread = null;
             }
@@ -392,6 +403,12 @@ public class STLibrary extends Component {
         this.STLogoutUser(STConstants.AUTH_WS_ENDPOINT);
     }
 
+    public void exitApplication() {
+        //ExitPhexAction.performCloseGUIAction();
+        STLibrary.getInstance().STLogoutUser();
+        System.exit(0);
+    }
+    
     /* DEPRECATED
     public void addFileShares(STLibraryTab libraryTab) {
         SharedFilesService sharedFilesService = this.getGnutellaFramework().getServent().getSharedFilesService();
@@ -531,7 +548,7 @@ public class STLibrary extends Component {
             while (response.getStatus() == ResponseSTATUS.ERROR && response.getErrorMessage().contains("same IP")) {
                 port++;
                 if (port > 65535) {
-                    this.fireMessageBox("Unfortunately there is a serious problem in port mapping of the iShare. Please contact the systems Administrator.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox("Unfortunately there is a serious problem in port mapping of the i-Share. Please contact the systems Administrator.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return null;
                 }
                 response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
@@ -540,9 +557,9 @@ public class STLibrary extends Component {
             if (newPortSet) {
                 this.getSTConfiguration().setListenPort(new Integer(port).toString());
                 this.getSTConfiguration().saveXMLFile();
-                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + "). iShare will be restarted.", "Warning", JOptionPane.WARNING_MESSAGE);
+                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + "). i-Share will be restarted.", "Warning", JOptionPane.WARNING_MESSAGE);
                 sLibrary.STLogoutUser();
-                sLibrary.reInitializeSTLibrary(false);
+                sLibrary.reInitializeSTLibrary(false, false);
                 return null;
             }
 
@@ -555,6 +572,11 @@ public class STLibrary extends Component {
                 return response;
             }
 			else {
+                if (restart)
+                    this.getGnutellaFramework().getServent().restartServer();
+                else
+                    this.getGnutellaFramework().getServent().start();
+                
                 this.fireMessageBox("Connected!", "Information", JOptionPane.INFORMATION_MESSAGE);
                 logger.debug("getClientDownloadLocation: " + response.getClientDownloadLocation());
 				logger.debug("getCountryId: " + response.getCountryId());
@@ -606,11 +628,6 @@ public class STLibrary extends Component {
                 this.getGnutellaFramework().setMaxDownload();
 
                 this.stMainForm.initializeToolsTabValues();
-
-                if (restart)
-                    this.getGnutellaFramework().getServent().restartServer();
-                else
-                    this.getGnutellaFramework().getServent().start();                
             }
             //ADMIN SERVICE TESTS (START)
             // Searching for a username...
@@ -919,10 +936,8 @@ public class STLibrary extends Component {
 
             if (this.webserviceAuthResponse.getSessionId() != null && this.webserviceAuthResponse.getUserId() != null) {
                 LoginResponseWrapper result = proxy.loggoff(this.webserviceAuthResponse.getSessionId(), this.webserviceAuthResponse.getUserId());
-                logger.debug("FirstName: " + result.getFirstName());
                 logger.debug("getStatus: " + result.getStatus().getValue());
-                if (result.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(result.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                if (result.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {                    
                     logger.error("ERROR String: " + result.getErrorMessage());
                 }
                 else {
@@ -930,7 +945,6 @@ public class STLibrary extends Component {
                     this.webserviceAuthResponse = null;
                     gnuTellaFramework.disconnectFromPeers();
                     gnuTellaFramework.getServent().stop();
-
                 }
             }
             else {

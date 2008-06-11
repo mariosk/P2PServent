@@ -11,6 +11,7 @@ package saicontella.core;
 import phex.query.SearchContainer;
 import phex.gui.common.*;
 import phex.gui.tabs.FWTab;
+import phex.gui.actions.ExitPhexAction;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.utils.DirectoryOnlyFileFilter;
 import phex.utils.Localizer;
@@ -130,6 +131,7 @@ public class STMainForm extends JFrame {
     private JMenuItem toolsMenuSharedFolders;
     private JMenu helpMenu;
     private JMenuItem helpMenuUpdates;
+    private JMenuItem helpMenuManual;
     private JMenuItem helpMenuAbout;
 
     private STSearchTab searchTab;
@@ -153,6 +155,7 @@ public class STMainForm extends JFrame {
     private ImageIcon myAdminIcon;
     private ImageIcon myExitIcon;
     private ImageIcon myAboutIcon;
+    private ImageIcon myManualIcon;
     private ImageIcon myUpdatesIcon;
 
     // allPeersData[0] => friend names from search result
@@ -260,12 +263,15 @@ public class STMainForm extends JFrame {
         // Instantiating the About Menu
         helpMenu = new JMenu(STLibrary.STConstants.HELP_MENU);
         helpMenuUpdates = new JMenuItem(STLibrary.STConstants.HELP_MENU_UPDATES);
+        helpMenuManual = new JMenuItem(STLibrary.STConstants.HELP_MENU_MANUAL);
         helpMenuAbout = new JMenuItem(STLibrary.STConstants.HELP_MENU_ABOUT);
         // Draw the order of the JMenuItems
         helpMenu.add(helpMenuUpdates);
+        helpMenu.add(helpMenuManual);
         helpMenu.add(helpMenuAbout);
         // Adding the action listeners for each menu item
         helpMenuUpdates.addActionListener(menuHandler);
+        helpMenuManual.addActionListener(menuHandler);
         helpMenuAbout.addActionListener(menuHandler);
         this.mainMenuBar.add(helpMenu);
     }
@@ -387,8 +393,7 @@ public class STMainForm extends JFrame {
                         stMainForm.fileMenuAdmin.setVisible(true);
                     if (STLibrary.getInstance().isCurrentUserBanned()) {
                         sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().STLogoutUser();
-                        System.exit(-1);
+                        STLibrary.getInstance().exitApplication();
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
                     }                    
@@ -468,7 +473,7 @@ public class STMainForm extends JFrame {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
         }
         else {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 800, 170);
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 700, 170);
         }
         this.myAdsImageLabel.setIcon(icon);
         this.myAdsImageLabel.repaint();        
@@ -481,7 +486,7 @@ public class STMainForm extends JFrame {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
         }
         else {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 280, 170);
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 250, 170);
         }
         this.myIShareLogoLabel.setIcon(icon);
         this.myIShareLogoLabel.repaint();        
@@ -860,6 +865,7 @@ public class STMainForm extends JFrame {
             myAdminIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myAdminIcon.ico")), 15, 15);            
             myExitIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myExitIcon.ico")), 15, 15);
             myAboutIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myAboutIcon.ico")), 15, 15);
+            myManualIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myManualIcon.ico")), 15, 15);            
             myUpdatesIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myUpdatesIcon.ico")), 15, 15);
                     
             this.setIconImage(sLibrary.getAppIcon().getImage());
@@ -876,6 +882,7 @@ public class STMainForm extends JFrame {
             this.toolsMenuUploads.setIcon(myUploadsIcon);
             this.toolsMenuSharedFolders.setIcon(mySharesIcon);
             this.helpMenuAbout.setIcon(myAboutIcon);
+            this.helpMenuManual.setIcon(myManualIcon);            
             this.helpMenuUpdates.setIcon(myUpdatesIcon);
         }
         catch (Exception ex) {
@@ -962,8 +969,7 @@ public class STMainForm extends JFrame {
                         stMainForm.fileMenuAdmin.setVisible(true);
                     if (STLibrary.getInstance().isCurrentUserBanned()) {
                         sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().STLogoutUser();
-                        System.exit(-1);
+                        STLibrary.getInstance().exitApplication();
                         stMainForm.disableMenus();
                         stMainForm.disableTabs();
                     }
@@ -994,8 +1000,7 @@ public class STMainForm extends JFrame {
                 adminDlg.pack();
                 adminDlg.setVisible(true);                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_EXIT)) {
-                STLibrary.getInstance().STLogoutUser();
-                System.exit(0);
+                STLibrary.getInstance().exitApplication();
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_CONNECTIONS)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.NETWORK_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_ADD)) {
@@ -1138,8 +1143,12 @@ public class STMainForm extends JFrame {
                 //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));                
                 sLibrary.getSTConfiguration().saveXMLFile();
                 sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                if (sLibrary.getFirstTimeOpened()) {
+                    sLibrary.fireMessageBox("Please re-launch the application", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    sLibrary.exitApplication();
+                }
                 sLibrary.STLogoutUser();
-                sLibrary.reInitializeSTLibrary(false);                
+                sLibrary.reInitializeSTLibrary(false, false);
             }
         }
     }
@@ -1153,9 +1162,7 @@ public class STMainForm extends JFrame {
          */
         @Override
         public void windowClosing(WindowEvent e) {
-            //ExitPhexAction.performCloseGUIAction();
-            STLibrary.getInstance().STLogoutUser();
-            System.exit(0);
+            STLibrary.getInstance().exitApplication();            
         }
 
         @Override
@@ -1164,7 +1171,8 @@ public class STMainForm extends JFrame {
             if (!f.exists()) {
                 //if (UpdatePrefs.ShowConfigWizard.get().booleanValue())
                 STConfigurationWizardDialog dialog = new STConfigurationWizardDialog(stMainForm);
-                dialog.setVisible(true);                                
+                dialog.setVisible(true);
+                STLibrary.getInstance().setFirstTimeOpened();
             }
         }
     }

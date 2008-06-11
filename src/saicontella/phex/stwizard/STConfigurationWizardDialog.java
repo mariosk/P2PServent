@@ -340,7 +340,7 @@ public class STConfigurationWizardDialog extends JDialog
                 STLibrary.getInstance().getSTConfiguration().setWebServiceAccount("");
                 STLibrary.getInstance().getSTConfiguration().setWebServicePassword(false, "");
                 STLibrary.getInstance().getSTConfiguration().saveXMLFile();
-                STLibrary.getInstance().reInitializeSTLibrary(openOptions);
+                STLibrary.getInstance().reInitializeSTLibrary(openOptions, true);
                 /*
                 if ( openOptions )
                 {

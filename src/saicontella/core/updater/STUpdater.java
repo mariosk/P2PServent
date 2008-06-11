@@ -32,7 +32,7 @@ public class STUpdater {
         this.localPath = localPath;
         JFrame frame = new JFrame();
         this.mainPanel = frame;
-        frame.setTitle( "iShare Updater" );
+        frame.setTitle( "i-Share Updater" );
         frame.setSize( 310, 130 );
         frame.setBackground( Color.BLACK );
         frame.setLocationRelativeTo(null);
@@ -99,7 +99,7 @@ public class STUpdater {
                 try {
                     STLibrary.getInstance().fireMessageBox("The previous application will be uninstalled! Please be patient.", "Information", JOptionPane.INFORMATION_MESSAGE);
                     Process p = Runtime.getRuntime().exec(localPath + "\\uninst.exe");
-                    File executable = new File(localPath + "\\iShare.exe");
+                    File executable = new File(localPath + "\\i-Share.exe");
                     while (executable.exists()) {
                         Thread.sleep(2000);
                     }

@@ -65,6 +65,8 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import org.jdesktop.jdic.desktop.Desktop;
 import org.jdesktop.jdic.desktop.DesktopException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -77,6 +79,7 @@ import com.jgoodies.forms.debug.FormDebugPanel;
 public class STNetworkTab extends FWTab
 {
     private static final String NETWORK_TABLE_IDENTIFIER = "NetworkTable";
+    private static Log logger = LogFactory.getLog("saicontella.phex.stnetwork.STNetworkTab");
 
     private static final Host[] EMPTY_HOST_ARRAY = new Host[0];
 
@@ -317,11 +320,13 @@ public class STNetworkTab extends FWTab
         for (int i = 0; i < hosts.length; i++) {
             for (int j = i+1; j < hosts.length; j++) {
                 try {
+                    long upSeconds = hosts[i].getConnectionUpTime( System.currentTimeMillis() ) / 1000;
                     if ((hosts[i].getHostAddress().getPort() == hosts[j].getHostAddress().getPort()) &&
                         (hosts[i].getHostAddress().getIpAddress().getFormatedString().equals(hosts[j].getHostAddress().getIpAddress().getFormatedString())) &&
-                        (hosts[j].isConnected() && hosts[i].isConnected() && hosts[i].isIncomming()))                    
+                        (hosts[j].isConnected() && hosts[i].isConnected() && upSeconds > 15))                    
                     {
-                        hosts[j].disconnect();
+                        logger.debug("====> Disconnecting from host: " + hosts[j].getHostAddress().getIpAddress().getFormatedString() + ":" + hosts[j].getHostAddress().getPort());                        
+                        this.disconnectFromHost(hosts[j]);
                     }
                 }
                 catch (Exception ex) {                    
@@ -346,7 +351,7 @@ public class STNetworkTab extends FWTab
         }
         int[] modelRows = networkTable.convertRowIndicesToModel( viewRows );
         Host[] hosts = hostsContainer.getNetworkHostsAt( modelRows );
-        //compactHostsEntries(hosts);
+        compactHostsEntries(hosts);
         for (int i = 0; i < hosts.length; i++) {
             allHosts.add(hosts[i]);
         }
@@ -509,16 +514,7 @@ public class STNetworkTab extends FWTab
             }
         }
     }
-
-    private class ExitHandler extends AbstractAction implements ActionListener
-    {
-        public void actionPerformed( ActionEvent e )
-        {
-            STLibrary.getInstance().STLogoutUser();
-            System.exit(0);            
-        }
-    }
-    
+   
     private class ConnectToHostHandler extends AbstractAction implements ActionListener
     {
         public void actionPerformed( ActionEvent e )

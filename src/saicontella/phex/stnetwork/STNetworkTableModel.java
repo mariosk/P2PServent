@@ -132,12 +132,12 @@ public class STNetworkTableModel extends FWSortableTableModel
     public Object getValueAt(int row, int col)
     {
         Host host = hostsContainer.getNetworkHostAt( row );
-        if ( host == null )
+        if ( host == null || host.getConnection() == null)
         {
-            fireTableRowsDeleted( row, row );
-            return "";
+            fireTableRowsDeleted( row, row );                        
+            return null;
         }
-
+        
         switch (col)
         {
             case HOST_MODEL_INDEX:

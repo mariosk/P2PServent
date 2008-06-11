@@ -64,8 +64,7 @@ public class STButtonsPanel extends JPanel {
     {
         public void actionPerformed( ActionEvent e )
         {
-            STLibrary.getInstance().STLogoutUser();
-            System.exit(0);
+            STLibrary.getInstance().exitApplication();
         }
     }
     

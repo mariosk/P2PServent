@@ -15,6 +15,7 @@ import phex.common.ManagerController;
 import phex.common.ThreadTracking;
 import phex.common.Environment;
 import phex.common.EnvironmentConstants;
+import phex.common.format.TimeFormatUtils;
 import phex.common.address.AddressUtils;
 import phex.common.address.DestAddress;
 import phex.common.address.IpAddress;
@@ -150,7 +151,7 @@ public class STGnutellaFramework {
         DownloadPrefs.MaxDownloadsPerIP.set(STLibrary.getInstance().getSTConfiguration().getMaxDownload());
     }
 
-    private boolean isIpAddressConnected(String remoteIpAddress)
+    private boolean isIpAddressConnected(String remoteIpAddress, int port)
     {
         try {
             Thread.sleep(1000);
@@ -163,11 +164,14 @@ public class STGnutellaFramework {
             return false;
         for (int i = 0; i < peersHostArray.size(); i++) {
             Host host = (Host)peersHostArray.get(i);
-            if (remoteIpAddress.equals(host.getHostAddress().getIpAddress().toString())) {
+            if (remoteIpAddress.equals(host.getHostAddress().getIpAddress().toString()) && port == host.getHostAddress().getPort()) {
                 if (host.getStatus() == HostStatus.CONNECTED
                  || host.getStatus() == HostStatus.ACCEPTING
-                 || host.getStatus() == HostStatus.CONNECTING)
+                 || host.getStatus() == HostStatus.CONNECTING) {
+                    long upSeconds = host.getConnectionUpTime( System.currentTimeMillis() ) / 1000;
+                    logger.error("Peer: " + remoteIpAddress + ":" + port + " is already connected or trying to connect...UPTIME:" + TimeFormatUtils.formatSignificantElapsedTime( upSeconds ));
                     return true;
+                }
             }
         }
         return false;
@@ -183,9 +187,9 @@ public class STGnutellaFramework {
             }
             for (int i = 0; i < peersList.size(); i++) {
                 String remoteIPAddress = ((ActiveSessionMiniWrapper)peersList.get(i)).getIp();
-                if (isIpAddressConnected(remoteIPAddress))
-                    continue;
                 int remotePort = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort().intValue();
+                if (isIpAddressConnected(remoteIPAddress, remotePort))
+                    continue;
                 this.connectToPeer(remoteIPAddress, remotePort);                
             }
         }
@@ -283,7 +287,8 @@ public class STGnutellaFramework {
             for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getMyFriends().size(); i++) {
                 String ipAddress = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getIPAddress();
                 String friendName = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendName();
-                if (ipAddress.equals(ip.getFormatedString()))
+                int portNumber = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getPortNumber();
+                if (ipAddress.equals(ip.getFormatedString()) && port == portNumber)
                     return friendName;
             }
         }

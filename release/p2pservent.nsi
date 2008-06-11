@@ -10,14 +10,14 @@
   !define SRC_DIR "${MAIN_DIR}"
 
 ;Name and file
-  Name "iShare ${VERSION}"
-  OutFile "iShare_${VERSION}.exe"
+  Name "i-Share ${VERSION}"
+  OutFile "i-Share_${VERSION}.exe"
   
 ;Default installation folder
-  InstallDir "$PROGRAMFILES\GamersUniverse\iShare"
+  InstallDir "$PROGRAMFILES\GamersUniverse\i-Share"
   
 ;Get installation folder from registry if available
-  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\iShare_${VERSION}" ""
+  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\i-Share_${VERSION}" ""
   
   !cd ${RELEASE_DIR}
 
@@ -33,7 +33,7 @@
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN "$INSTDIR\iShare.exe"
+  !define MUI_FINISHPAGE_RUN "$INSTDIR\i-Share.exe"
   !define MUI_FINISHPAGE_LINK "Visit GamersUniverse on the web"
   !define MUI_FINISHPAGE_LINK_LOCATION http://www.gamersuniverse.com
   !define MUI_FINISHPAGE_NOREBOOTSUPPORT
@@ -55,7 +55,7 @@ CRCCheck on
 
 ;--------------------------------
 ;Installer Sections
-Section "iShare ${VERSION}" ; (default section)
+Section "i-Share ${VERSION}" ; (default section)
 
 SetOutPath "$INSTDIR\images"
 File "${SRC_DIR}\images\About.png"
@@ -73,6 +73,7 @@ File "${SRC_DIR}\images\Settings.png"
 File "${SRC_DIR}\images\Upload.png"
 File "${SRC_DIR}\images\View_users.png"
 File "${SRC_DIR}\images\GamersLogo.png"
+File "${SRC_DIR}\images\GamersLogo.jpg"
 File "${SRC_DIR}\images\igamerbtn.gif"
 File "${SRC_DIR}\images\exitbtn.gif"
 File "${SRC_DIR}\images\mydownloads.png"
@@ -83,11 +84,12 @@ File "${SRC_DIR}\images\mysettings.png"
 File "${SRC_DIR}\images\myshared.png"
 File "${SRC_DIR}\images\myuploads.png"
 File "${SRC_DIR}\images\helpabout.png"
+File "${SRC_DIR}\images\manualicon.png"
 File "${SRC_DIR}\images\helpupdates.png"
 
 SetOutPath "$INSTDIR"
-File "${RELEASE_DIR}\iShare.exe"
-File "${RELEASE_DIR}\iShareUpdater.exe"
+File "${RELEASE_DIR}\i-Share.exe"
+File "${RELEASE_DIR}\i-ShareUpdater.exe"
 
 SetOutPath "$INSTDIR\lib"
 File "${SRC_DIR}\lib\activation.jar"
@@ -112,14 +114,14 @@ File "${SRC_DIR}\lib\jdic_stub.jar"
 SetOutPath "$INSTDIR"
 
 CreateDirectory "$SMPROGRAMS\GamersUniverse"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk" "$INSTDIR\iShare.exe"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk" "$INSTDIR\uninst.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\i-Share ${VERSION}.lnk" "$INSTDIR\i-Share.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall i-Share ${VERSION}.lnk" "$INSTDIR\uninst.exe"
 
 ;Store installation folder
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\iShare" "" "$INSTDIR"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\i-Share" "" "$INSTDIR"
 ;Store uninstall infos folder
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare" "DisplayName" "iShare ${VERSION} (remove only)"
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\iShare" "UninstallString" '"$INSTDIR\uninst.exe"'
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\i-Share" "DisplayName" "i-Share ${VERSION} (remove only)"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\i-Share" "UninstallString" '"$INSTDIR\uninst.exe"'
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"
 
@@ -128,16 +130,16 @@ SectionEnd ; end of default section
 Section "Desktop Shortcut"
 
 SetOutPath "$INSTDIR"
-CreateShortCut "$DESKTOP\iShare.lnk" "$INSTDIR\iShare.exe"
+CreateShortCut "$DESKTOP\i-Share.lnk" "$INSTDIR\i-Share.exe"
 
 SectionEnd ; end of default section
 
 ; begin uninstall settings/section
-UninstallText "This will uninstall iShare from your system"
+UninstallText "This will uninstall i-Share from your system"
 
-Section un.iShare ${VERSION}
+Section un.i-Share ${VERSION}
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
-Delete "$INSTDIR\iShare.exe"
+Delete "$INSTDIR\i-Share.exe"
 
 Delete "$INSTDIR\lib\activation.jar"
 Delete "$INSTDIR\lib\axis.jar"
@@ -173,6 +175,7 @@ Delete "$INSTDIR\images\Settings.png"
 Delete "$INSTDIR\images\Upload.png"
 Delete "$INSTDIR\images\View_users.png"
 Delete "$INSTDIR\images\GamersLogo.png"
+Delete "$INSTDIR\images\GamersLogo.jpg"
 Delete "$INSTDIR\images\igamerbtn.gif"
 Delete "$INSTDIR\images\exitbtn.gif"
 Delete "$INSTDIR\images\mydownloads.png"
@@ -183,15 +186,16 @@ Delete "$INSTDIR\images\mysettings.png"
 Delete "$INSTDIR\images\myshared.png"
 Delete "$INSTDIR\images\myuploads.png"
 Delete "$INSTDIR\images\helpabout.png"
+Delete "$INSTDIR\images\manualicon.png"
 Delete "$INSTDIR\images\helpupdates.png"
 
-Delete "$DESKTOP\iShare.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\iShare ${VERSION}.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\Uninstall iShare ${VERSION}.lnk"
+Delete "$DESKTOP\i-Share.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\i-Share ${VERSION}.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\Uninstall i-Share ${VERSION}.lnk"
 RMDir "$SMPROGRAMS\GamersUniverse"
 
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\iShare"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\iShare"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\i-Share"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\i-Share"
 
 RMDir "$INSTDIR\images"
 RMDir "$INSTDIR\lib"
@@ -199,7 +203,7 @@ Delete "$INSTDIR\uninst.exe"
 RMDir "$INSTDIR"
 SectionEnd ; end of uninstall section
 
-Section /o "un.iShare User Configuration"
+Section /o "un.i-Share User Configuration"
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
 RMDir /r "$INSTDIR"
 SectionEnd ; end of uninstall section
