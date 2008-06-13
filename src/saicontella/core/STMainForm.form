@@ -551,14 +551,8 @@
           </tabbedpane>
         </children>
       </grid>
-      <grid id="552bf" binding="imagesPanel" layout-manager="FormLayout">
-        <rowspec value="center:d:noGrow"/>
-        <colspec value="fill:d:grow"/>
-        <colspec value="left:4dlu:noGrow"/>
-        <colspec value="fill:d:grow"/>
-        <colspec value="left:4dlu:noGrow"/>
-        <colspec value="fill:d:grow"/>
-        <constraints border-constraint="West"/>
+      <grid id="552bf" binding="imagesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
         <properties>
           <background color="-16777216"/>
           <enabled value="false"/>
@@ -566,44 +560,56 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="253df" class="javax.swing.JLabel" binding="myLogoImageLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <alignmentX value="1.0"/>
-              <horizontalAlignment value="2"/>
-              <horizontalTextPosition value="2"/>
-              <iconTextGap value="1"/>
-              <text value=""/>
-            </properties>
-          </component>
-          <component id="cdb29" class="javax.swing.JLabel" binding="myAdsImageLabel">
-            <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <alignmentX value="0.0"/>
-              <alignmentY value="0.0"/>
-              <autoscrolls value="false"/>
-              <horizontalAlignment value="0"/>
-              <horizontalTextPosition value="0"/>
-              <text value=""/>
-            </properties>
-          </component>
-          <component id="dab01" class="javax.swing.JLabel" binding="myIShareLogoLabel">
-            <constraints>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <horizontalAlignment value="4"/>
-              <horizontalTextPosition value="11"/>
-              <text value=""/>
-            </properties>
-          </component>
+          <grid id="89c5a" binding="rightImagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="East"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="dab01" class="javax.swing.JLabel" binding="myIShareLogoLabel">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="7eec4" binding="leftImagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="West"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="253df" class="javax.swing.JLabel" binding="myLogoImageLabel">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <alignmentX value="1.0"/>
+                  <horizontalAlignment value="2"/>
+                  <horizontalTextPosition value="2"/>
+                  <iconTextGap value="1"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="b1651" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="cdb29" class="javax.swing.JLabel" binding="myAdsImageLabel">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <alignmentX value="0.0"/>
+                  <alignmentY value="0.0"/>
+                  <autoscrolls value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

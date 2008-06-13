@@ -19,7 +19,7 @@ public class STAboutDialog extends JDialog {
 
         try {
             ImageIcon imageIcon1AboutForm = new ImageIcon(new URL(STLibrary.STConstants.ADS_ABOUT_URL1));
-            imageIcon1AboutForm = STLibrary.getInstance().resizeMyImageIcon(imageIcon1AboutForm, 350, 180);
+            imageIcon1AboutForm = STLibrary.getInstance().resizeMyImageIcon(imageIcon1AboutForm, 350, 180);            
             ads1Label.setIcon(imageIcon1AboutForm);
             ImageIcon imageIcon2AboutForm = new ImageIcon(new URL(STLibrary.STConstants.ADS_ABOUT_URL2));
             imageIcon2AboutForm = STLibrary.getInstance().resizeMyImageIcon(imageIcon2AboutForm, 350, 180);

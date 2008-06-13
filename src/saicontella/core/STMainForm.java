@@ -112,6 +112,8 @@ public class STMainForm extends JFrame {
     private JLabel myFriendsAdsLabel;
     private JPanel innerAdsPanel;
     private JLabel myIShareLogoLabel;
+    private JPanel rightImagePanel;
+    private JPanel leftImagePanel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -283,54 +285,6 @@ public class STMainForm extends JFrame {
         this.sLibrary = sLibrary;
         this.sLibrary.setSTMainForm(this);
         
-        UIDefaults uiDefaults = UIManager.getDefaults();                        
-        uiDefaults.put("Menu.background", Color.BLACK);
-        uiDefaults.put("Menu.foreground", Color.WHITE);
-        uiDefaults.put("Menu.selectionBackground", Color.GRAY);
-
-        uiDefaults.put("MenuBar.background", Color.BLACK);
-        uiDefaults.put("MenuBar.foreground", Color.WHITE);
-        uiDefaults.put("MenuBar.selectionBackground", Color.GRAY);
-
-        uiDefaults.put("MenuItem.background", Color.BLACK);
-        uiDefaults.put("MenuItem.foreground", Color.WHITE);
-        uiDefaults.put("MenuItem.selectionBackground", Color.GRAY);
-
-        uiDefaults.put("TextField.selectionBackground", Color.BLACK);
-        uiDefaults.put("TextField.highlight", Color.BLACK);        
-        uiDefaults.put("Tree.selectionBackground", Color.GRAY);
-        uiDefaults.put("List.selectionBackground", Color.GRAY);
-        uiDefaults.put("ComboBox.selectionBackground", Color.BLACK);
-
-        uiDefaults.put("TabbedPane.background", Color.BLACK);
-        uiDefaults.put("TabbedPane.foreground", Color.WHITE);
-        uiDefaults.put("TabbedPane.selectHighlight", Color.GRAY);
-        uiDefaults.put("TabbedPane.selected", Color.BLACK);
-        uiDefaults.put("TabbedPane.shadow", Color.RED);
-        uiDefaults.put("TabbedPane.borderHighlightColor", Color.RED);
-
-        uiDefaults.put("Label.background", Color.BLACK);
-        uiDefaults.put("Label.foreground", Color.GRAY);
-        uiDefaults.put("Panel.background", Color.BLACK);
-        uiDefaults.put("Panel.foreground", Color.GRAY);
-
-        uiDefaults.put("OptionPane.background", Color.BLACK);
-        uiDefaults.put("OptionPane.foreground", Color.GRAY);
-
-        uiDefaults.put("OptionPane.errorDialog.titlePane.foreground", Color.GRAY);
-        uiDefaults.put("OptionPane.messageForeground", Color.GRAY);
-        uiDefaults.put("OptionPane.questionDialog.titlePane.foreground", Color.GRAY);
-        uiDefaults.put("OptionPane.warningDialog.titlePane.foreground", Color.GRAY);
-        uiDefaults.put("ComboBox.selectionBackground", Color.GRAY);
-        uiDefaults.put("Desktop.icon", sLibrary.getAppIcon());
-
-        // Phex Colors
-        uiDefaults.put("activeCaptionBorder", Color.BLACK);
-        uiDefaults.put("info", Color.WHITE);
-        PhexColors.updateColors();
-
-        //PhexColors.activatePhexColors4P2PServent();
-        
         $$$setupUI$$$();
 
         this.drawMenus();
@@ -380,39 +334,12 @@ public class STMainForm extends JFrame {
         UIManager.put("RadioButton.gradient", gradients);
         */
         
-        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getStr("myLogoImage")));
-        
-        if (this.sLibrary.getSTConfiguration() != null) {
-            if (this.sLibrary.getSTConfiguration().getAutoConnect()) {
-                boolean connected = STLibrary.getInstance().STLoginUser();
-                if (connected) {
-                    this.sLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
-                    this.fileMenuDisconnect.setEnabled(true);
-                    this.fileMenuConnect.setEnabled(false);
-                    if (STLibrary.getInstance().isCurrentUserAdministrator())
-                        stMainForm.fileMenuAdmin.setVisible(true);
-                    if (STLibrary.getInstance().isCurrentUserBanned()) {
-                        sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().exitApplication();
-                        stMainForm.disableMenus();
-                        stMainForm.disableTabs();
-                    }                    
-                    STLibrary.getInstance().updateP2PServent(true);
-                }
-                else {
-                    return;
-                }
-            }
-            this.setTitle(STResources.getStr("Application.name") + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
-        }
-       
+        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getStr("myLogoImage")));        
+        this.setTitle(STResources.getStr("Application.name") + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
         this.guiSettings = guiSettings;
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowHandler());
-
-        pack();
-        initFrameSize();
 
         if (sLibrary.getSTConfiguration() != null)
             sLibrary.getGnutellaFramework().getServent().getEventService().processAnnotations(this);
@@ -469,8 +396,8 @@ public class STMainForm extends JFrame {
     public void setAdImageLabelIcon(ImageIcon icon) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
-        if (h < 600) {            
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
+        if (h < 700) {
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, (int)0.5*icon.getIconWidth(), (int)0.5*icon.getIconHeight());
         }
         else {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, 700, 170);
@@ -482,8 +409,8 @@ public class STMainForm extends JFrame {
     public void setIShareImageLabelIcon(ImageIcon icon) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
-        if (h < 600) {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, icon.getIconWidth(), 70);
+        if (h < 700) {
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, (int)0.5*icon.getIconWidth(), (int)0.5*icon.getIconHeight());
         }
         else {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, 250, 170);
@@ -788,16 +715,15 @@ public class STMainForm extends JFrame {
         }
     }
 
-    private void initFrameSize() {
+    public void initFrameSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         int w = (int)(size.getWidth() - 0.25*size.getWidth());
         if (w < 700)
             w = 700;
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
-        if (h < 600) {
-            h = 600;
-            this.tabsPanel.setPreferredSize(new Dimension(w, 470));
-            this.myLogoImageLabel.setIcon(STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myLogoImage")), 70, 70));            
+        if (h < 700) {
+            h = 700;
+            this.tabsPanel.setPreferredSize(new Dimension(w, 470));                        
         }
         this.mySettingsTab.setAutoscrolls(true);
         this.innerSettingsPanel.setAutoscrolls(true);
@@ -952,29 +878,34 @@ public class STMainForm extends JFrame {
         this.initializeToolsTabValues();
         this.getContentPane().add(this.outerPanel);
     }
-
+        
+    public boolean connectAction(String userName, String passWord, int port) {
+        stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        boolean connected = STLibrary.getInstance().STLoginUser(userName, passWord, port);
+        stMainForm.setCursor(Cursor.getDefaultCursor());
+        if (connected) {
+            STLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
+            stMainForm.fileMenuDisconnect.setEnabled(true);
+            stMainForm.fileMenuConnect.setEnabled(false);
+            if (STLibrary.getInstance().isCurrentUserAdministrator())
+                stMainForm.fileMenuAdmin.setVisible(true);
+            if (STLibrary.getInstance().isCurrentUserBanned()) {
+                sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                STLibrary.getInstance().exitApplication();
+                stMainForm.disableMenus();
+                stMainForm.disableTabs();
+            }
+            STLibrary.getInstance().updateP2PServent(true);            
+        }
+        return connected;
+    }
+    
     private class ClickMenuActionHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             JMenuItem sourceObject = (JMenuItem) e.getSource();
             if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_CONNECT)) {
-                stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                boolean connected = STLibrary.getInstance().STLoginUser();
-                stMainForm.setCursor(Cursor.getDefaultCursor());
-                if (connected) {
-                    STLibrary.getInstance().getGnutellaFramework().connectToPeers(STLibrary.getInstance().getPeersList());
-                    stMainForm.fileMenuDisconnect.setEnabled(true);
-                    stMainForm.fileMenuConnect.setEnabled(false);
-                    if (STLibrary.getInstance().isCurrentUserAdministrator())
-                        stMainForm.fileMenuAdmin.setVisible(true);
-                    if (STLibrary.getInstance().isCurrentUserBanned()) {
-                        sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        STLibrary.getInstance().exitApplication();
-                        stMainForm.disableMenus();
-                        stMainForm.disableTabs();
-                    }
-                    STLibrary.getInstance().updateP2PServent(true);
-                }
+                stMainForm.connectAction(STLibrary.getInstance().getSTConfiguration().getWebServiceAccount(), STLibrary.getInstance().getSTConfiguration().getWebServicePassword(), STLibrary.getInstance().getSTConfiguration().getListenPort());
             } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_ABOUT)) {
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
@@ -1167,12 +1098,12 @@ public class STMainForm extends JFrame {
 
         @Override
         public void windowOpened(WindowEvent e) {
-            File f = new File(STResources.getStr("Application.configurationFile"));
+            File f = new File(sLibrary.getConfigurationFile());
             if (!f.exists()) {
+                STLibrary.getInstance().setFirstTimeOpened();
                 //if (UpdatePrefs.ShowConfigWizard.get().booleanValue())
                 STConfigurationWizardDialog dialog = new STConfigurationWizardDialog(stMainForm);
                 dialog.setVisible(true);
-                STLibrary.getInstance().setFirstTimeOpened();
             }
         }
     }

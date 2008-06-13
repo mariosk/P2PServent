@@ -25,8 +25,10 @@ public class STUpdater {
     private String URL;
     private String localPath;
     private JFrame mainPanel;
+    private STLibrary sLibrary;
 
     public STUpdater(String version, String URL, String localPath) {
+        this.sLibrary = STLibrary.getInstance();        
         this.version = version;
         this.URL = URL;
         this.localPath = localPath;

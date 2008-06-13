@@ -36,6 +36,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.GUIUtils;
+import phex.gui.common.PhexColors;
 import phex.gui.actions.ExitPhexAction;
 import phex.share.ShareFile;
 import phex.share.FileRescanRunner;
@@ -45,6 +46,8 @@ public class STLibrary extends Component {
 
     public interface STConstants
     {
+        public static final String REGISTER_URL = "http://www.gamersuniverse.com/gr/users/register/";
+        public static final String LOST_PASSWORD_URL = "http://www.gamersuniverse.com/forums/login.php?do=lostpw";
         public static final String ISHARE_PASS_PHRASE = "My little baby boy was born in Patras at 23rd of March, 2008";
         // UserAuthenticationSettings (START)
         public static final String ADMINISTRATOR = "administrator";
@@ -124,6 +127,7 @@ public class STLibrary extends Component {
     private static STLibrary sLibrary;
     private STKeepAliveThread keepAliveThread;
     private ImageIcon myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getStr("myApplicationIcon.ico")), 15, 15);
+    private ImageIcon myLoginIcon = new ImageIcon(STResources.getStr("myLoginImage"));
 
     // UserAuthentication web service
     private saicontella.core.webservices.authentication.UserSettingsWrapper[] webserviceAuthSettings;
@@ -157,6 +161,52 @@ public class STLibrary extends Component {
     }
 
     public STLibrary() {
+        UIDefaults uiDefaults = UIManager.getDefaults();
+        uiDefaults.put("Menu.background", Color.BLACK);
+        uiDefaults.put("Menu.foreground", Color.WHITE);
+        uiDefaults.put("Menu.selectionBackground", Color.GRAY);
+
+        uiDefaults.put("MenuBar.background", Color.BLACK);
+        uiDefaults.put("MenuBar.foreground", Color.WHITE);
+        uiDefaults.put("MenuBar.selectionBackground", Color.GRAY);
+
+        uiDefaults.put("MenuItem.background", Color.BLACK);
+        uiDefaults.put("MenuItem.foreground", Color.WHITE);
+        uiDefaults.put("MenuItem.selectionBackground", Color.GRAY);
+
+        uiDefaults.put("TextField.selectionBackground", Color.BLACK);
+        uiDefaults.put("TextField.highlight", Color.BLACK);
+        uiDefaults.put("Tree.selectionBackground", Color.GRAY);
+        uiDefaults.put("List.selectionBackground", Color.GRAY);
+        uiDefaults.put("ComboBox.selectionBackground", Color.BLACK);
+
+        uiDefaults.put("TabbedPane.background", Color.BLACK);
+        uiDefaults.put("TabbedPane.foreground", Color.WHITE);
+        uiDefaults.put("TabbedPane.selectHighlight", Color.GRAY);
+        uiDefaults.put("TabbedPane.selected", Color.BLACK);
+        uiDefaults.put("TabbedPane.shadow", Color.RED);
+        uiDefaults.put("TabbedPane.borderHighlightColor", Color.RED);
+
+        uiDefaults.put("Label.background", Color.BLACK);
+        uiDefaults.put("Label.foreground", Color.GRAY);
+        uiDefaults.put("Panel.background", Color.BLACK);
+        uiDefaults.put("Panel.foreground", Color.GRAY);
+
+        uiDefaults.put("OptionPane.background", Color.BLACK);
+        uiDefaults.put("OptionPane.foreground", Color.GRAY);
+
+        uiDefaults.put("OptionPane.errorDialog.titlePane.foreground", Color.GRAY);
+        uiDefaults.put("OptionPane.messageForeground", Color.GRAY);
+        uiDefaults.put("OptionPane.questionDialog.titlePane.foreground", Color.GRAY);
+        uiDefaults.put("OptionPane.warningDialog.titlePane.foreground", Color.GRAY);
+        uiDefaults.put("ComboBox.selectionBackground", Color.GRAY);
+        uiDefaults.put("Desktop.icon", this.getAppIcon());
+
+        // Phex Colors
+        uiDefaults.put("activeCaptionBorder", Color.BLACK);
+        uiDefaults.put("info", Color.WHITE);
+        PhexColors.updateColors();
+        
         STXMLParser xmlParser = new STXMLParser();
         confObject = xmlParser.readConfigurationFile();
         if (confObject == null) {
@@ -177,7 +227,7 @@ public class STLibrary extends Component {
         }
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -187,7 +237,10 @@ public class STLibrary extends Component {
     public ImageIcon getAppIcon() {
         return this.myApplicationIcon;
     }
-    
+    public ImageIcon getLoginIcon() {
+        return this.myLoginIcon;
+    }
+
     public void removePhexFile(String filename) {
         File f = new File(filename);
         if (f.exists())
@@ -205,14 +258,20 @@ public class STLibrary extends Component {
             if (!mainF.initializedProperly()) {
                 restart = false;
                 return;
-            }                        
+            }
+            mainF.pack();
+            mainF.initFrameSize();
+            mainF.initializeToolsTabValues();
             mainF.createUIComponents();
-            mainF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            
+            mainF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainF.setVisible(true);
+            if (sLibrary.getSTConfiguration().getAutoConnect())
+                mainF.connectAction(sLibrary.getSTConfiguration().getWebServiceAccount(), sLibrary.getSTConfiguration().getWebServicePassword(), sLibrary.getSTConfiguration().getListenPort());
             if (goToSettings)
-                mainF.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);
+                mainF.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);                        
             restart = false;
         } catch (Exception e) {
-            this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);  
+            this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -229,6 +288,8 @@ public class STLibrary extends Component {
     }
 
     public ImageIcon resizeMyImageIcon(ImageIcon imageIcon, int width, int height) {
+        if (width == 0 || height == 0)
+            return imageIcon;
         Image image = imageIcon.getImage();
         final Dimension dimension = new Dimension(width, height);
         image = image.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(), Image.SCALE_SMOOTH);
@@ -310,7 +371,7 @@ public class STLibrary extends Component {
             updateDlg.setTitle("Updating i-Share");
             updateDlg.pack();
             updateDlg.setLocationRelativeTo(null);
-            updateDlg.show();
+            updateDlg.setVisible(true);
         }
         else {
             if (!autoCheck)
@@ -352,6 +413,10 @@ public class STLibrary extends Component {
         return false;
     }
 
+    public String getConfigurationFile() {
+        return this.getApplicationLocalPath() + "/" + STResources.getStr("Application.configurationFile");    
+    }
+
     public String getLatestVersion() {
         return this.webServiceAuthVersion.getVersion();    
     }
@@ -360,19 +425,23 @@ public class STLibrary extends Component {
         return this.webServiceAuthVersion.getDownloadUrl();    
     }
 
+    public String getVersion() {
+        return STResources.getStr("Application.version");    
+    }
+
     public boolean isTheSameAppVersion() {
         if (this.webServiceAuthVersion == null) {
             STLibrary.getInstance().fireMessageBox("You need to login as a valid user first!", "Information", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
-        return this.webServiceAuthVersion.getVersion().equals(STResources.getStr("Application.version"));
+        return this.webServiceAuthVersion.getVersion().equals(this.getVersion());
     }
 
-    public boolean STLoginUser() {
+    public boolean STLoginUser(String userName, String passWord, int port) {
         // Web Service logins the user here and returns a sessionid and a userid to our local object
         try {
-            this.webserviceAuthResponse = this.STLoginUser(confObject.getWebServiceAccount(), confObject.getWebServicePassword(), confObject.getListenPort());
-            if (this.webserviceAuthResponse == null)
+            this.webserviceAuthResponse = this.STLoginUserWS(userName, passWord, port);
+            if (this.webserviceAuthResponse == null || this.webserviceAuthResponse.getStatus() == ResponseSTATUS.ERROR)
                 return false;
             this.webServiceAuthVersion = this.webServiceAuthProxy.checkForNewerApplication(STConstants.p2pAppId, ReleaseType.BETA);
         }
@@ -429,8 +498,10 @@ public class STLibrary extends Component {
 
     public void fireMessageBox(String message, String title, int type)
     {
-        this.stMainForm.setIconImage(this.getAppIcon().getImage());               
-        JOptionPane.setRootFrame(this.stMainForm);
+        if (this.stMainForm != null) {
+            this.stMainForm.setIconImage(this.getAppIcon().getImage());
+            JOptionPane.setRootFrame(this.stMainForm);
+        }
         if (message != null)
             JOptionPane.showMessageDialog(this, message, title, type);
         else
@@ -482,7 +553,7 @@ public class STLibrary extends Component {
         }
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -533,7 +604,7 @@ public class STLibrary extends Component {
     }
     
     // Calling the UserAuthentication web service: http://85.17.217.11:8080/UserServer/UserAuthentication?wsdl
-    public LoginResponseWrapper STLoginUser(String userName, String passWord, int port) {
+    public LoginResponseWrapper STLoginUserWS(String userName, String passWord, int port) {
     	try {
         	// Password will be clear text.    		    		
         	/*
@@ -576,7 +647,10 @@ public class STLibrary extends Component {
                     this.getGnutellaFramework().getServent().restartServer();
                 else
                     this.getGnutellaFramework().getServent().start();
-                
+
+                this.confObject.setWebServiceAccount(userName);
+                this.confObject.setWebServicePassword(false, passWord);
+                this.confObject.setListenPort(new Integer(port).toString());                
                 this.fireMessageBox("Connected!", "Information", JOptionPane.INFORMATION_MESSAGE);
                 logger.debug("getClientDownloadLocation: " + response.getClientDownloadLocation());
 				logger.debug("getCountryId: " + response.getCountryId());
@@ -587,7 +661,7 @@ public class STLibrary extends Component {
 				logger.debug("getSessionId: " + response.getSessionId());
 				logger.debug("getUserId: " + response.getUserId());
 				logger.debug("getAvailableCredits: " + response.getAvailableCredits());
-                this.reachAllOnlinePeers(response);                
+                //this.reachAllOnlinePeers(response);                
                 
                 /*
                 FriendDetailsWrapper[] friends = this.webServiceAuthProxy.searchFriend(response.getSessionId(), "");
@@ -599,7 +673,7 @@ public class STLibrary extends Component {
                 }
                 */
                 
-                if (this.confObject.getAccountName().equals(STConstants.ADMINISTRATOR)) {
+                if (this.confObject.getWebServiceAccount().equals(STConstants.ADMINISTRATOR)) {
                     UserSettingsWrapper[] settings = new UserSettingsWrapper[4];
                     settings[0] = new UserSettingsWrapper(STConstants.ADMINISTRATOR, "true");
                     settings[1] = new UserSettingsWrapper(STConstants.BANNED, "false");
@@ -625,9 +699,7 @@ public class STLibrary extends Component {
                 else
                     this.confObject.setMaxDownload(this.getCurrentGBytesToDownload());
                 this.getGnutellaFramework().setMaxUpload();
-                this.getGnutellaFramework().setMaxDownload();
-
-                this.stMainForm.initializeToolsTabValues();
+                this.getGnutellaFramework().setMaxDownload();                
             }
             //ADMIN SERVICE TESTS (START)
             // Searching for a username...
@@ -715,7 +787,7 @@ public class STLibrary extends Component {
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
+            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -731,7 +803,7 @@ public class STLibrary extends Component {
                 myFriendsListData[1] = new Vector();
                 for (int i = 0; i < myFriends.length; i++) {
                     logger.debug("friend[" + i + "]: " + myFriends[i].getFriendId() + " " + myFriends[i].getFriendName() + " " + myFriends[i].getStatus() + " " + myFriends[i].getUserId());
-                    if (this.getSTConfiguration().getAccountName().equals(myFriends[i].getFriendName()))
+                    if (this.getSTConfiguration().getWebServiceAccount().equals(myFriends[i].getFriendName()))
                         continue;
                     if (myFriends[i].getFriendshipStatus() != FriendshipStatus.ACCEPTED && myFriends[i].getFriendshipStatus() != FriendshipStatus.REQUEST)
                         continue;

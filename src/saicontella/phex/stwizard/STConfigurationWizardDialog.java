@@ -48,18 +48,17 @@ public class STConfigurationWizardDialog extends JDialog
     private STSharingPanel sharingPanel;
     private STContentCommunityPanel contentCommunityPanel;
     private STGoodbyePanel goodbyePanel;
-    private Component parent;
     
     private int currentPage;
     private JButton finishBtn;
     private JButton backBtn;
     private JButton nextBtn;
 
-    public STConfigurationWizardDialog(Component parent)
+    public STConfigurationWizardDialog(JFrame parent)
     {
+        super(parent);
         //super( GUIRegistry.getInstance().getMainFrame(),
         //STResources.getStr( "ConfigWizard_DialogTitle" ), false );
-        this.parent = parent;
         this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
         currentPage = WELCOME_PAGE;
         prepareComponent();
@@ -127,7 +126,7 @@ public class STConfigurationWizardDialog extends JDialog
         int height = Math.max( 400, getHeight() );
         setSize( height*5/4, height );
         
-        setLocationRelativeTo( getParent() );
+        setLocationRelativeTo( null );
     }
     
     public void setFinishBtnEnabled( boolean state )
@@ -337,8 +336,6 @@ public class STConfigurationWizardDialog extends JDialog
                 }
                 closeDialog();
 
-                STLibrary.getInstance().getSTConfiguration().setWebServiceAccount("");
-                STLibrary.getInstance().getSTConfiguration().setWebServicePassword(false, "");
                 STLibrary.getInstance().getSTConfiguration().saveXMLFile();
                 STLibrary.getInstance().reInitializeSTLibrary(openOptions, true);
                 /*

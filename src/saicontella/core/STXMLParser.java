@@ -84,8 +84,9 @@ public class STXMLParser extends DefaultHandler {
         logger.debug("P2PClient XML Configuration Schema");
         logger.debug("==================================");
         logger.debug("start of configuration");
-        logger.debug("\tAccount Name: " + this.tmpConfiguration.getAccountName());
-        logger.debug("\tAccount Server: " + this.tmpConfiguration.getAccountServer());
+        //DEPRECATED//
+        //logger.debug("\tAccount Name: " + this.tmpConfiguration.getAccountName());
+        //logger.debug("\tAccount Server: " + this.tmpConfiguration.getAccountServer());
         //logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword());
         logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: ********");
         logger.debug("\tListen Port: " + this.tmpConfiguration.getListenPort());
@@ -183,10 +184,13 @@ public class STXMLParser extends DefaultHandler {
             tmpConfiguration.setWebServicePassword(true, attributes.getValue("password"));            
             tmpConfiguration.setMaxSearchFriendsLimit(attributes.getValue("maxFriendsLimit"));
         }
+        //DEPRECATED
+        /*
         else if (qName.equalsIgnoreCase("account")) {
             tmpConfiguration.setAccountName(attributes.getValue("name"));
             tmpConfiguration.setAccountServer(attributes.getValue("server"));
         }
+        */
         else if (qName.equalsIgnoreCase("listen")) {           
             tmpConfiguration.setListenPort(attributes.getValue("port"));
             tmpConfiguration.setListenAddress(attributes.getValue("address"));

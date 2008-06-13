@@ -8,17 +8,21 @@ package saicontella.core;
  * February 2008
  */
 
+import phex.gui.common.PhexColors;
+
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+
+import saicontella.phex.stwizard.STConfigurationWizardDialog;
 
 public class STMainProgram {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {                
         STLibrary sLibrary = STLibrary.getInstance();
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex_SaiconNetwork.hosts");
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex.log");
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex.error.log");
-        STMainForm mainFrame = new STMainForm(sLibrary, null);
-        mainFrame.createUIComponents();
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        STLoginDialog loginDlg = new STLoginDialog();        
     }
 }

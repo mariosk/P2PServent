@@ -129,13 +129,14 @@ public class STConfiguration {
     public void setAutoConnect(String auto) {
         this.autoConnect = Boolean.parseBoolean(auto);
     }
-
+/* DEPRECATED
     public String getAccountServer() {
         return this.accountServer;
     }
     public void setAccountServer(String server) {
         this.accountServer = server;        
     }
+*/    
 
     public ArrayList getFolders() {
         return this.sharedFolders;
@@ -143,14 +144,15 @@ public class STConfiguration {
     public void addFolder(STFolder folder) {
         this.sharedFolders.add(folder);
     }
-    
+
+/* DEPRECATED    
     public void setAccountName(String name) {
         this.accountName = name;        
     }
     public String getAccountName() {
         return this.accountName;        
     }
-
+*/
     public void setMaxDownload(int max) {
         this.maxDownload = max;        
     }
@@ -306,8 +308,9 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("\t<!-- mySQL server -->");
         buffer.append("\n");
-        buffer.append("\t<account name=\"" + this.getAccountName() + "\" server=\"" + this.getAccountServer() + "\"/>");
-        buffer.append("\n");
+        //DEPRECATED//
+        //buffer.append("\t<account name=\"" + this.getAccountName() + "\" server=\"" + this.getAccountServer() + "\"/>");
+        //buffer.append("\n");
         buffer.append("\t<!-- webService endpoint -->");
         buffer.append("\n");
         buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getEncryptedPass(this.webServicePassword) + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");
