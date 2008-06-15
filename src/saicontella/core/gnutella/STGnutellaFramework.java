@@ -53,7 +53,7 @@ public class STGnutellaFramework {
     	return this.servent;
     }
 
-    public STGnutellaFramework(STLibrary sLibrary, boolean restart) {
+    public void restart(STLibrary sLibrary, boolean restart) {
         try {
             // This is the server side (Gnutella context listens local IP interface and port 6347)
             logger.info("Starting server side of gnutella servent");
@@ -68,7 +68,7 @@ public class STGnutellaFramework {
             PhexCorePrefs.init();
             PhexGuiPrefs.init();
             ProxyPrefs.init();
-            
+
             // According to GregorK this will work only until the FirewallCheckTimer kicks in. The workaround is:
             // http://www.gnutellaforums.com/help-support/79786-lan-dowload-waiting-ignored-candidate.html#post303417
             ConnectionPrefs.HasConnectedIncomming.set(false);
@@ -80,7 +80,7 @@ public class STGnutellaFramework {
             ConnectionPrefs.ForceToBeUltrapeer.set(true);
             ConnectionPrefs.AllowToBecomeUP.set(true);
             ConnectionPrefs.AcceptDeflateConnection.set(true);
-            
+
             NetworkPrefs.ListeningPort.set(sLibrary.getSTConfiguration().getListenPort());
             NetworkPrefs.MaxConcurrentConnectAttempts.set(sLibrary.getSTConfiguration().getMaxConnections());
             NetworkPrefs.AllowChatConnection.set(true);
@@ -91,14 +91,15 @@ public class STGnutellaFramework {
             DownloadPrefs.MaxDownloadsPerIP.set(sLibrary.getSTConfiguration().getMaxDownload());
 
             UploadPrefs.MaxUploadsPerIP.set(sLibrary.getSTConfiguration().getMaxUpload());
-            
+
             ProxyPrefs.ForcedIp.set("");
             ProxyPrefs.save(true);
-            
+
             // servent instantiations here...
             Localizer.initialize( InterfacePrefs.LocaleName.get() );
-            ThreadTracking.initialize();            
+            ThreadTracking.initialize();
             this.servent = Servent.getInstance();
+            this.servent.getLocalAddress().setPort(sLibrary.getSTConfiguration().getListenPort());
 
             // initializations that need the servent instance here...
             if (!sLibrary.getSTConfiguration().getListenAddress().equals("*")) {
@@ -108,7 +109,7 @@ public class STGnutellaFramework {
                 ProxyPrefs.ForcedIp.set(sLibrary.getSTConfiguration().getListenAddress());
             }
 
-            this.servent.setOnlineStatus(OnlineStatus.ONLINE);                       
+            this.servent.setOnlineStatus(OnlineStatus.ONLINE);
             ManagerController.initializeManagers();
             if (sLibrary.isConnected()) {
                 if (restart)
@@ -116,29 +117,33 @@ public class STGnutellaFramework {
                 else
                     this.servent.start();
             }
-            
+
             try
             {
                 GUIRegistry.getInstance().initialize();
             }
             catch ( ExceptionInInitializerError ex )
             {
-                ex.printStackTrace();    
+                ex.printStackTrace();
             }
             ManagerController.startupCompletedNotify();
 
             this.servent.getHostService().stop();
-            
+
             logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " online status: " + this.servent.getOnlineStatus().isNetworkOnline());
 	        logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " servent address: " + this.servent.getLocalAddress().getIpAddress() + ":" + servent.getLocalAddress().getPort());
 	        logger.debug(this.servent.getGnutellaNetwork().getNetworkGreeting());
 	        logger.debug(this.servent.getServentGuid());
-        } 
+        }
         catch (Exception ex) {
             sLibrary.fireMessageBox("Error in creating a Gnutella server socket. Check your XML file: " + ex.getMessage(), "Title", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         	System.exit(-1);
-        }       
+        }               
+    }
+    
+    public STGnutellaFramework(STLibrary sLibrary, boolean restart) {
+        this.restart(sLibrary, restart);
     }
 
     public void setMaxUpload()

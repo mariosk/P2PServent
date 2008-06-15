@@ -96,11 +96,17 @@ public class STLoginDialog extends JDialog {
 
     private void onOK() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        STLibrary.getInstance().getSTConfiguration().setAutoConnect(String.valueOf(this.checkBoxAutoConnect.isSelected()));
+        STLibrary.getInstance().getSTConfiguration().setWebServiceAccount(this.textFieldUserName.getText());
+        STLibrary.getInstance().getSTConfiguration().setWebServicePassword(false, this.passwordField.getText());
+        STLibrary.getInstance().getSTConfiguration().setListenPort(this.textFieldPort.getText());
+        STLibrary.getInstance().getSTConfiguration().saveXMLFile();
+
+        STLibrary.getInstance().getGnutellaFramework().restart(STLibrary.getInstance(), true);
         STMainForm mainFrame = new STMainForm(STLibrary.getInstance(), null);
-        mainFrame.setVisible(false);
+        mainFrame.setVisible(false);        
         this.setCursor(Cursor.getDefaultCursor());
 
-        STLibrary.getInstance().getSTConfiguration().setAutoConnect(String.valueOf(this.checkBoxAutoConnect.isSelected()));
         if (mainFrame.connectAction(this.textFieldUserName.getText(), this.passwordField.getText(), Integer.parseInt(this.textFieldPort.getText()))) {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             dispose();
@@ -115,6 +121,7 @@ public class STLoginDialog extends JDialog {
         else {
             this.setCursor(Cursor.getDefaultCursor());
             mainFrame.dispose();
+            // do not dispose here the loginDlg to let the user to retry once more. 
         }
     }
 

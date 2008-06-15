@@ -240,7 +240,7 @@ public class STLibrary extends Component {
         if (f.exists())
             f.delete();
     }
-    
+
     public void reInitializeSTLibrary(boolean goToSettings, boolean firstTime) {
         try {
             this.stMainForm.dispose();
@@ -622,10 +622,9 @@ public class STLibrary extends Component {
             if (newPortSet) {
                 this.getSTConfiguration().setListenPort(new Integer(port).toString());
                 this.getSTConfiguration().saveXMLFile();
-                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + "). i-Share will be restarted.", "Warning", JOptionPane.WARNING_MESSAGE);
-                sLibrary.STLogoutUser();
-                sLibrary.reInitializeSTLibrary(false, false);
-                return null;
+                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + ")", "Warning", JOptionPane.WARNING_MESSAGE);
+                sLibrary.fireMessageBox("Please re-launch the application", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.exitApplication();                
             }
 
             logger.debug("USERNAME: " + userName);

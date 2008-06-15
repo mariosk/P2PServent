@@ -15,6 +15,6 @@ public class STMainProgram {
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex_SaiconNetwork.hosts");
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex.log");
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex.error.log");
-        STLoginDialog loginDlg = new STLoginDialog();                
+        STLoginDialog loginDlg = new STLoginDialog();        
     }
 }

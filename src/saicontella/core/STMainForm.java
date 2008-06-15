@@ -1098,7 +1098,11 @@ public class STMainForm extends JFrame {
         @Override
         public void windowOpened(WindowEvent e) {
             File f = new File(sLibrary.getConfigurationFile());
-            if (!f.exists()) {
+            if (!f.exists()
+              || sLibrary.getSTConfiguration().getCompleteFolder() == null
+              || sLibrary.getSTConfiguration().getInCompleteFolder() == null
+              || sLibrary.getSTConfiguration().getCompleteFolder().equals("null")
+              || sLibrary.getSTConfiguration().getInCompleteFolder().equals("null")) {
                 STLibrary.getInstance().setFirstTimeOpened();
                 //if (UpdatePrefs.ShowConfigWizard.get().booleanValue())
                 STConfigurationWizardDialog dialog = new STConfigurationWizardDialog(stMainForm);
