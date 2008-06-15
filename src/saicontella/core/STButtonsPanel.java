@@ -1,5 +1,13 @@
 package saicontella.core;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;

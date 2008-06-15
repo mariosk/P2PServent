@@ -15,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import phex.common.log.NLogger;
-import phex.gui.common.BoxPanel;
 import phex.gui.common.GUIRegistry;
-import phex.gui.tabs.search.SearchResultsDataModel;
 import phex.gui.tabs.search.SearchVisualizer;
 import phex.query.Search;
 import phex.utils.Localizer;
@@ -25,7 +23,6 @@ import phex.utils.Localizer;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import saicontella.phex.stsearch.STSearchResultsDataModel;
 
 public class STSearchInfoBox extends STBoxPanel
 {

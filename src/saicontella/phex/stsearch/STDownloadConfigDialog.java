@@ -8,9 +8,6 @@ package saicontella.phex.stsearch;
  * March 2008
  */
 
-import saicontella.phex.stsearch.STDialogBanner;
-import saicontella.core.STMainForm;
-import saicontella.core.STResources;
 import saicontella.core.STLibrary;
 
 import java.awt.BorderLayout;

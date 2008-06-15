@@ -34,7 +34,6 @@ import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.tabs.search.SearchListTableModel;
 import phex.gui.tabs.search.SearchTab;
-import phex.gui.tabs.search.SearchResultsDataModel;
 import phex.query.Search;
 import phex.query.SearchContainer;
 import phex.xml.sax.gui.DGuiSettings;
@@ -43,7 +42,6 @@ import phex.xml.sax.gui.DTable;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import saicontella.phex.stsearch.STSearchResultsDataModel;
 
 public class STSearchListPanel extends JPanel
 {

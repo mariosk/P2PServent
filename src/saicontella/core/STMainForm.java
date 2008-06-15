@@ -11,7 +11,6 @@ package saicontella.core;
 import phex.query.SearchContainer;
 import phex.gui.common.*;
 import phex.gui.tabs.FWTab;
-import phex.gui.actions.ExitPhexAction;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.utils.DirectoryOnlyFileFilter;
 import phex.utils.Localizer;

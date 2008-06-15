@@ -23,7 +23,6 @@ import javax.swing.KeyStroke;
 
 import phex.gui.actions.FWAction;
 import phex.gui.actions.FWToggleAction;
-import phex.gui.common.FWElegantPanel;
 import phex.gui.common.GUIUtils;
 import phex.gui.common.GUIRegistry;
 import phex.gui.tabs.FWTab;
@@ -39,7 +38,6 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STMainForm;
 import saicontella.core.STButtonsPanel;
-import saicontella.phex.stsearch.STSearchResultsDataModel;
 import saicontella.phex.stsearch.filterpanel.STSearchFilterPanel;
 import saicontella.phex.STFWElegantPanel;
 

@@ -1,5 +1,13 @@
 package saicontella.phex.stlibrary;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import saicontella.core.STFriend;
 
 import javax.swing.*;

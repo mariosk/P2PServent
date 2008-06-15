@@ -5,21 +5,17 @@ package saicontella.phex.stupload;
  *
  * @author Marios Karagiannopoulos (mariosk@gmail.com)
  *
- * February 2008
+ * May 2008
  */
 
 import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.Collection;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -36,8 +32,6 @@ import phex.common.log.NLogger;
 import phex.gui.actions.BanHostActionUtils;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
-import phex.gui.common.BrowserLauncher;
-import phex.gui.common.FWElegantPanel;
 import phex.gui.common.FWToolBar;
 import phex.gui.common.GUIRegistry;
 import phex.gui.common.GUIUtils;
@@ -46,13 +40,11 @@ import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.dialogs.LogBufferDialog;
 import phex.gui.tabs.FWTab;
-import phex.gui.tabs.upload.UploadFilesTableModel;
 import phex.prefs.core.UploadPrefs;
 import phex.servent.Servent;
 import phex.upload.UploadManager;
 import phex.upload.UploadState;
 import phex.utils.Localizer;
-import phex.utils.URLUtil;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 

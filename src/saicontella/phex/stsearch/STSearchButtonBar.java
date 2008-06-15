@@ -28,11 +28,9 @@ import phex.event.PhexEventTopics;
 import phex.gui.common.FWButtonBar;
 import phex.gui.common.GUIRegistry;
 import phex.gui.tabs.search.cp.SearchInfoBox;
-import phex.gui.tabs.search.SearchResultsDataModel;
 import phex.query.Search;
 import phex.query.SearchContainer;
 import saicontella.core.STLibrary;
-import saicontella.phex.stsearch.STSearchResultsDataModel;
 
 public class STSearchButtonBar extends FWButtonBar
 {

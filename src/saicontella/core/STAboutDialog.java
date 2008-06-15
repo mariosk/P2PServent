@@ -1,5 +1,13 @@
 package saicontella.core;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

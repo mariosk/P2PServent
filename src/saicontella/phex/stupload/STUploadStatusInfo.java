@@ -1,5 +1,13 @@
 package saicontella.phex.stupload;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * May 2008
+ */
+
 import phex.upload.UploadStatus;
 import phex.utils.Localizer;
 

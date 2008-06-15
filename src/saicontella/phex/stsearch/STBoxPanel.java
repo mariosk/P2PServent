@@ -1,5 +1,13 @@
 package saicontella.phex.stsearch;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * February 2008
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;

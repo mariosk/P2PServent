@@ -27,7 +27,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.text.Keymap;
-import javax.print.DocFlavor;
 
 import org.bushe.swing.event.annotation.EventTopicSubscriber;
 import org.jdesktop.jdic.desktop.DesktopException;
@@ -35,7 +34,6 @@ import org.jdesktop.jdic.desktop.DesktopException;
 import phex.common.address.DefaultDestAddress;
 import phex.common.address.DestAddress;
 import phex.common.address.MalformedDestAddressException;
-import phex.common.log.NLogger;
 import phex.connection.OutgoingConnectionDispatcher;
 import phex.event.ChangeEvent;
 import phex.event.PhexEventTopics;
@@ -48,10 +46,7 @@ import phex.gui.prefs.NetworkTabPrefs;
 import phex.gui.prefs.PhexGuiPrefs;
 import phex.gui.tabs.FWTab;
 import phex.gui.tabs.network.NetworkRowRenderer;
-import saicontella.phex.stnetwork.STNetworkTableModel;
 import saicontella.phex.STFWElegantPanel;
-import saicontella.core.STResources;
-import saicontella.core.STRoundJButton;
 import saicontella.core.STLibrary;
 import saicontella.core.STButtonsPanel;
 import phex.host.*;
@@ -62,16 +57,13 @@ import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 
 import java.net.URL;
-import java.net.MalformedURLException;
 import org.jdesktop.jdic.desktop.Desktop;
-import org.jdesktop.jdic.desktop.DesktopException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.debug.FormDebugPanel;
 
 /**
  * The NetworkTab Panel.

@@ -15,7 +15,6 @@ import javax.swing.*;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import phex.gui.common.GUIRegistry;
 import phex.gui.common.PhexColors;
 import saicontella.core.STResources;
 import saicontella.core.STLibrary;

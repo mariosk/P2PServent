@@ -1,5 +1,13 @@
 package saicontella.core;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import org.jdesktop.jdic.desktop.Desktop;
 import org.jdesktop.jdic.desktop.DesktopException;
 
@@ -79,10 +87,10 @@ public class STLoginDialog extends JDialog {
         }
         else {
             setTitle("Login to i-Share v" + STLibrary.getInstance().getVersion());
-            setResizable(false);
-            setLocationRelativeTo(null);
-            pack();                                                
-            setVisible(true);            
+            pack();
+            this.setLocationRelativeTo(null);
+            setResizable(false);                                               
+            setVisible(true);
         }
     }
 

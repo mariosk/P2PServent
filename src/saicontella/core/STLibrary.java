@@ -20,7 +20,6 @@ import saicontella.core.webservices.authentication.BaseResponse;
 import saicontella.core.webservices.authentication.ResponseSTATUS;
 import saicontella.core.webservices.authentication.FriendDetailsWrapper;
 import saicontella.core.webservices.admin.UserInfoWrapper;
-import saicontella.phex.stlibrary.STLibraryTab;
 
 import javax.swing.*;
 import java.util.*;
@@ -35,12 +34,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import phex.gui.common.GUIUtils;
 import phex.gui.common.PhexColors;
-import phex.gui.actions.ExitPhexAction;
-import phex.share.ShareFile;
-import phex.share.FileRescanRunner;
-import phex.share.SharedFilesService;
 
 public class STLibrary extends Component {
 

@@ -1,5 +1,13 @@
 package saicontella.phex;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import phex.gui.common.GradientPanel;
 import phex.gui.common.PhexColors;
 

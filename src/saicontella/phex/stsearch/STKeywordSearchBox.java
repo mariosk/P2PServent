@@ -28,7 +28,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.text.Keymap;
 
 import phex.common.log.NLogger;
-import phex.gui.common.BoxPanel;
 import phex.gui.common.GUIRegistry;
 import phex.gui.common.GUIUtils;
 import phex.gui.prefs.PhexGuiPrefs;

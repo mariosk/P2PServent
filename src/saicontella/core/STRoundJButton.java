@@ -1,9 +1,16 @@
 package saicontella.core;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import javax.swing.*;
 import java.awt.geom.*;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
 
 public class STRoundJButton extends JButton {
   private Shape shape = null;

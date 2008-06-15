@@ -1,5 +1,13 @@
 package saicontella.phex.stsearch.filterpanel;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * February 2008
+ */
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 

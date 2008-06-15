@@ -13,16 +13,9 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.Vector;
-
-import phex.gui.actions.FWAction;
-import saicontella.phex.stlibrary.STLibraryTab;
-import saicontella.phex.stlibrary.STLibraryTab.AddFriendAction;
 
 public class STFriendDialog extends JDialog {
     private JPanel contentPane;

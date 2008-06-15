@@ -14,7 +14,6 @@ import javax.crypto.spec.PBEKeySpec;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.security.MessageDigest;
 import java.security.spec.KeySpec;
 import java.security.spec.AlgorithmParameterSpec;
 

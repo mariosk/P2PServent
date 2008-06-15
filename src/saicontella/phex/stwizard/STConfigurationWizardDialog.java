@@ -17,18 +17,13 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import phex.common.log.NLogger;
-import phex.gui.common.DialogBanner;
-import phex.gui.common.GUIRegistry;
-import phex.gui.dialogs.options.OptionsDialog;
 import phex.gui.prefs.UpdatePrefs;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STResources;
-import saicontella.core.STMainForm;
 import saicontella.core.STLibrary;
 
 public class STConfigurationWizardDialog extends JDialog

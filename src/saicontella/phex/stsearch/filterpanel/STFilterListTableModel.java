@@ -1,8 +1,15 @@
 package saicontella.phex.stsearch.filterpanel;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * February 2008
+ */
+
 import javax.swing.table.AbstractTableModel;
 
-import phex.query.QueryManager;
 import phex.rules.Rule;
 import phex.rules.SearchFilterRules;
 import phex.utils.Localizer;

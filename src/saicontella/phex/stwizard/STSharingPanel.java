@@ -11,7 +11,6 @@ package saicontella.phex.stwizard;
 import javax.swing.JPanel;
 
 import phex.gui.common.HTMLMultiLinePanel;
-import phex.gui.tabs.library.LibraryTreePane;
 import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;

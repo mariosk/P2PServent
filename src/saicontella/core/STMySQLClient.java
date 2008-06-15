@@ -8,11 +8,9 @@ package saicontella.core;
  * February 2008
  */
 
-import saicontella.core.STLibrary.*;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.net.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

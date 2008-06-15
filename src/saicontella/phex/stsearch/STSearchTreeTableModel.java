@@ -12,7 +12,6 @@ import phex.download.RemoteFile;
 import phex.gui.common.treetable.AbstractTreeTableModel;
 import phex.gui.common.treetable.TreeTableModel;
 import phex.gui.renderer.FileSizeCellRenderer;
-import phex.gui.renderer.HostAddressCellRenderer;
 import phex.gui.tabs.search.SearchResultElement;
 import phex.gui.tabs.search.SearchResultElementComparator;
 import phex.gui.models.ISortableModel;

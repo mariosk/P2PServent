@@ -34,7 +34,6 @@ import javax.swing.text.View;
 
 import org.bushe.swing.event.annotation.EventTopicSubscriber;
 
-import phex.common.address.DestAddress;
 import phex.event.PhexEventTopics;
 import phex.gui.common.GUIRegistry;
 import phex.gui.common.GUIUtils;

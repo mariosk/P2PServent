@@ -25,7 +25,6 @@ import phex.common.address.IpAddress;
 import phex.download.RemoteFile;
 import phex.event.ContainerEvent;
 import phex.event.PhexEventTopics;
-import phex.query.QueryManager;
 import phex.query.Search;
 import phex.query.SearchDataEvent;
 import phex.rules.Rule;
@@ -36,9 +35,6 @@ import phex.security.SecurityRule;
 import phex.servent.Servent;
 import phex.gui.tabs.search.SearchResultElement;
 import phex.gui.tabs.search.SearchResultElementComparator;
-import phex.gui.tabs.search.SearchResultsDataModel;
-import saicontella.phex.stsearch.STISearchDataModel;
-import saicontella.phex.stsearch.STSearchTreeTableModel;
 
 /**                                                                                                  .
  * This data model is doing the transition between the search result coming

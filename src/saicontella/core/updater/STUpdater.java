@@ -1,17 +1,18 @@
 package saicontella.core.updater;
 
+/**
+ * SaiconTella project
+ *
+ * @author Marios Karagiannopoulos (mariosk@gmail.com)
+ *
+ * June 2008
+ */
+
 import saicontella.core.STLibrary;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.lang.reflect.Field;
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.Map;
 import javax.swing.*;
 
 public class STUpdater {

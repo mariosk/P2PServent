@@ -8,11 +8,6 @@ package saicontella.core;
  * February 2008
  */
 
-import saicontella.core.STLibrary.*;
-import saicontella.core.STLibrary.STConstants.*;
-
-import java.util.ArrayList;
-
 public class STFileName {
     
     private String fileName;    

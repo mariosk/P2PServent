@@ -25,9 +25,7 @@ import phex.common.address.DefaultDestAddress;
 import phex.common.address.DestAddress;
 import phex.common.address.MalformedDestAddressException;
 import phex.event.PhexEventTopics;
-import phex.gui.common.BoxPanel;
 import phex.gui.common.table.FWTable;
-import phex.gui.tabs.search.SearchResultsDataModel;
 import phex.net.repres.PresentationManager;
 import phex.query.KeywordSearch;
 import phex.query.Search;
@@ -39,7 +37,6 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STLibrary;
-import saicontella.phex.stsearch.STSearchResultsDataModel;
 
 public class STSearchControlPanel extends JPanel
 {
