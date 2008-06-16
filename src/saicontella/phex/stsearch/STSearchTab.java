@@ -30,7 +30,6 @@ import phex.gui.tabs.FWTab;
 import phex.query.Search;
 import phex.query.SearchContainer;
 import phex.rules.SearchFilterRules;
-import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -38,6 +37,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STMainForm;
 import saicontella.core.STButtonsPanel;
+import saicontella.core.STLocalizer;
 import saicontella.phex.stsearch.filterpanel.STSearchFilterPanel;
 import saicontella.phex.STFWElegantPanel;
 
@@ -70,10 +70,10 @@ public class STSearchTab extends FWTab
     
     public STSearchTab( SearchContainer searchContainer, SearchFilterRules filterRules )
     {
-        super( STMainForm.SEARCH_TAB_ID, Localizer.getString( "Search" ),
+        super( STMainForm.SEARCH_TAB_ID, STLocalizer.getString( "Search" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Tab" ),
-            Localizer.getString( "TTTSearchTab" ), Localizer.getChar(
-            "SearchMnemonic"), KeyStroke.getKeyStroke( Localizer.getString(
+            STLocalizer.getString( "TTTSearchTab" ), STLocalizer.getChar(
+            "SearchMnemonic"), KeyStroke.getKeyStroke( STLocalizer.getString(
             "SearchAccelerator" ) ), STMainForm.SEARCH_TAB_INDEX );
         this.searchContainer = searchContainer;
         this.filterRules = filterRules;
@@ -113,7 +113,7 @@ public class STSearchTab extends FWTab
         tabBuilder.add( buttonBarContainer, cc.xy(2, 2) );
         
         contentPanel = new JPanel();
-        STFWElegantPanel banner = new STFWElegantPanel( Localizer.getString("Search"),
+        STFWElegantPanel banner = new STFWElegantPanel( STLocalizer.getString("Search"),
             contentPanel );
         tabBuilder.add(banner, cc.xy(2, 4));
         
@@ -309,9 +309,9 @@ public class STSearchTab extends FWTab
     {
         public CloseSearchAction()
         {
-            super( Localizer.getString( "CloseSearch" ),
+            super( STLocalizer.getString( "CloseSearch" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Close"),
-                Localizer.getString( "TTTCloseSearch" ), null, 
+                STLocalizer.getString( "TTTCloseSearch" ), null,
                 KeyStroke.getKeyStroke( KeyEvent.VK_DELETE, 0 ) );
             refreshActionState();
         }
@@ -342,9 +342,9 @@ public class STSearchTab extends FWTab
     {
         public ClearSearchResultsAction()
         {
-            super( Localizer.getString( "ClearSearchResults" ),
+            super( STLocalizer.getString( "ClearSearchResults" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Clear"),
-                Localizer.getString( "TTTClearSearchResults" ) );
+                STLocalizer.getString( "TTTClearSearchResults" ) );
             refreshActionState();
         }
 
@@ -376,9 +376,9 @@ public class STSearchTab extends FWTab
     {
         public CreateNewSearchAction()
         {
-            super( Localizer.getString( "CreateNewSearch" ),
+            super( STLocalizer.getString( "CreateNewSearch" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Search"),
-                Localizer.getString( "TTTCreateNewSearch" ) );
+                STLocalizer.getString( "TTTCreateNewSearch" ) );
             refreshActionState();
         }
 
@@ -401,7 +401,7 @@ public class STSearchTab extends FWTab
          */
         public ToggleSearchBarAction( boolean isButtonbarVisible )
         {
-            super( Localizer.getString( "SearchTab_ToggleSearchBarAction" ),
+            super( STLocalizer.getString( "SearchTab_ToggleSearchBarAction" ),
                    null, null, null,  null, null );
             setSelected( isButtonbarVisible );
             updateTooltip();
@@ -422,11 +422,11 @@ public class STSearchTab extends FWTab
         {
             if ( isSelected() )
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchBarActionHide" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchBarActionHide" ) );
             }
             else
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchBarActionShow" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchBarActionShow" ) );
             }
         }
         
@@ -446,7 +446,7 @@ public class STSearchTab extends FWTab
          */
         public ToggleSearchListAction( boolean isSearchListVisible )
         {
-            super( Localizer.getString( "SearchTab_ToggleSearchListAction" ),
+            super( STLocalizer.getString( "SearchTab_ToggleSearchListAction" ),
                    null, null, null,  null, null );
             setSelected( isSearchListVisible );
             updateTooltip();
@@ -467,11 +467,11 @@ public class STSearchTab extends FWTab
         {
             if ( isSelected() )
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchListActionHide" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchListActionHide" ) );
             }
             else
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchListActionShow" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchListActionShow" ) );
             }
         }
         
@@ -491,7 +491,7 @@ public class STSearchTab extends FWTab
          */
         public ToggleSearchFilterAction( boolean isSearchFilterVisible )
         {
-            super( Localizer.getString( "SearchTab_ToggleSearchFilterAction" ),
+            super( STLocalizer.getString( "SearchTab_ToggleSearchFilterAction" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Filter" ),
                 null, null,  null, null );
             setSelected( isSearchFilterVisible );
@@ -513,11 +513,11 @@ public class STSearchTab extends FWTab
         {
             if ( isSelected() )
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchFilterActionHide" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchFilterActionHide" ) );
             }
             else
             {
-                setToolTipText( Localizer.getString( "SearchTab_TTTToggleSearchFilterActionShow" ) );
+                setToolTipText( STLocalizer.getString( "SearchTab_TTTToggleSearchFilterActionShow" ) );
             }
         }
         

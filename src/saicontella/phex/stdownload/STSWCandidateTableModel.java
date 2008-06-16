@@ -35,7 +35,7 @@ import phex.gui.comparator.DestAddressComparator;
 import phex.gui.renderer.HostAddressCellRenderer;
 import phex.gui.renderer.ScopeProgressCellRenderer;
 import phex.servent.Servent;
-import phex.utils.Localizer;
+import saicontella.core.STLocalizer;
 
 public class STSWCandidateTableModel extends FWSortableTableModel
 {
@@ -82,12 +82,12 @@ public class STSWCandidateTableModel extends FWSortableTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "SharingHost" ),
-            Localizer.getString( "Vendor" ),
-            Localizer.getString( "DownloadTable_Available" ),
-            Localizer.getString( "DownloadTable_DownloadTotal" ),
-            Localizer.getString( "Rate" ),
-            Localizer.getString( "Status" )
+            STLocalizer.getString( "SharingHost" ),
+            STLocalizer.getString( "Vendor" ),
+            STLocalizer.getString( "DownloadTable_Available" ),
+            STLocalizer.getString( "DownloadTable_DownloadTotal" ),
+            STLocalizer.getString( "Rate" ),
+            STLocalizer.getString( "Status" )
         };
 
         tableClasses = new Class[]
@@ -169,7 +169,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                     return null;
                 }
                 return NumberFormatUtils.formatSignificantByteSize(
-                    segment.getTransferSpeed() ) + Localizer.getString( "PerSec" );
+                    segment.getTransferSpeed() ) + STLocalizer.getString( "PerSec" );
             }
             case STATUS_MODEL_INDEX:
                 return SWDownloadInfo.getDownloadCandidateStatusString(

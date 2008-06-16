@@ -18,11 +18,11 @@ import phex.common.log.NLogger;
 import phex.gui.common.GUIRegistry;
 import phex.gui.tabs.search.SearchVisualizer;
 import phex.query.Search;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STLocalizer;
 
 public class STSearchInfoBox extends STBoxPanel
 {
@@ -39,7 +39,7 @@ public class STSearchInfoBox extends STBoxPanel
         
     public STSearchInfoBox( STSearchControlPanel cp )
     {
-        super( Localizer.getString( "SearchTab_Information" ) );
+        super( STLocalizer.getString( "SearchTab_Information" ) );
         controlPanel = cp;
         
         CellConstraints cc = new CellConstraints();
@@ -50,35 +50,35 @@ public class STSearchInfoBox extends STBoxPanel
         PanelBuilder searchBoxBuilder = new PanelBuilder( boxLayout, 
             getContentPanel() );
         
-        JLabel label = searchBoxBuilder.addLabel( Localizer.getString( "SearchTab_Status" ),
+        JLabel label = searchBoxBuilder.addLabel( STLocalizer.getString( "SearchTab_Status" ),
             cc.xy( 2, 2 ) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTStatus") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTStatus") );
         
         searchStatusLbl = new JLabel();
         searchBoxBuilder.add( searchStatusLbl, cc.xy( 4, 2 ) );
         
         progressBar = new JProgressBar( 0, 100 );
-        progressBar.setToolTipText( Localizer.getString("SearchTab_TTTProgress") );
+        progressBar.setToolTipText( STLocalizer.getString("SearchTab_TTTProgress") );
         progressBar.setStringPainted(true);
         searchBoxBuilder.add( progressBar, cc.xywh( 2, 4, 3, 1 ) );
         
-        label = searchBoxBuilder.addLabel( Localizer.getString( "SearchTab_TotalResults" ),
+        label = searchBoxBuilder.addLabel( STLocalizer.getString( "SearchTab_TotalResults" ),
             cc.xy( 2, 6 ) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTTotalResults") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTTotalResults") );
         
         totalResultsLbl = new JLabel();
         searchBoxBuilder.add( totalResultsLbl, cc.xy( 4, 6 ) );
         
-        label = searchBoxBuilder.addLabel( Localizer.getString( "SearchTab_DisplayedResults" ),
+        label = searchBoxBuilder.addLabel( STLocalizer.getString( "SearchTab_DisplayedResults" ),
             cc.xy( 2, 8 ) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTDisplayedResults") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTDisplayedResults") );
         
         displayedResultsLbl = new JLabel();
         searchBoxBuilder.add( displayedResultsLbl, cc.xy( 4, 8 ) );
         
-        label = searchBoxBuilder.addLabel( Localizer.getString( "SearchTab_FilteredResults" ),
+        label = searchBoxBuilder.addLabel( STLocalizer.getString( "SearchTab_FilteredResults" ),
             cc.xy( 2, 10 ) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTFilteredResults") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTFilteredResults") );
         
         filteredResultsLbl = new JLabel();
         searchBoxBuilder.add( filteredResultsLbl, cc.xy( 4, 10 ) );

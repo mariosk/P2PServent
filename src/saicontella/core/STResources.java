@@ -14,17 +14,26 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.text.DateFormat;
 
 public class STResources {
     
-    private static ResourceBundle stResources = null;
+    private static ResourceBundle appResources = null;
     private static Log logger = LogFactory.getLog("saicontella.core.STResources");
 
     static
     {
         try
         {
-            stResources = ResourceBundle.getBundle("saicontella.core.resources.saicontella", Locale.getDefault());
+            appResources = ResourceBundle.getBundle("saicontella.core.resources.saicontella", Locale.getDefault());
+            // Print available locales
+            /*
+            Locale list [] = DateFormat.getAvailableLocales ();
+            System.out.println ("====== System available locales :======== ");
+            for (int i = 0; i <list.length; i++) {
+              System.out.println(list[i].toString() + "\t" + list[i].getDisplayName());
+            }
+            */
         }
         catch (MissingResourceException mre)
         {
@@ -33,11 +42,11 @@ public class STResources {
         }
     }
 
-    public static String getStr(String nm)
+    public static String getAppStr(String nm)
     {
         try
         {
-            return stResources.getString(nm);
+            return appResources.getString(nm);
         }
         catch (MissingResourceException mre)
         {

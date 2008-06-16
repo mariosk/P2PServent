@@ -38,13 +38,13 @@ import phex.gui.common.GUIRegistry;
 import phex.gui.common.GUIUtils;
 import phex.gui.common.PhexColors;
 import phex.rules.SearchFilterRules;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stsearch.STSearchTab;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
+import saicontella.core.STLocalizer;
 
 public class STSearchFilterPanel extends JPanel
 {
@@ -86,7 +86,7 @@ public class STSearchFilterPanel extends JPanel
             "2dlu, p, 2dlu"); //rows
         PanelBuilder topBuilder = new PanelBuilder( layout, topLayoutPanel );
         
-        JLabel titelLabel = new JLabel( Localizer.getString( 
+        JLabel titelLabel = new JLabel( STLocalizer.getString(
             "SearchTab_SearchFilterOptions" ) );
         Font currentFont = titelLabel.getFont();
         Font enlargedFont = currentFont.deriveFont( Font.BOLD, currentFont.getSize() + 2 );
@@ -114,7 +114,7 @@ public class STSearchFilterPanel extends JPanel
         PanelBuilder leftBuilder = new PanelBuilder( layout, leftLayoutPanel );
         
         ButtonGroup leftBtnGroup = new ButtonGroup();
-        quickFilterBtn = new JToggleButton( Localizer.getString( "SearchTab_QuickFilter" ),
+        quickFilterBtn = new JToggleButton( STLocalizer.getString( "SearchTab_QuickFilter" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.QuickFilter") );
         quickFilterBtn.setBorder( new CompoundBorder( 
             BorderFactory.createMatteBorder(2, 2, 1, 0, getBackground()), 
@@ -131,7 +131,7 @@ public class STSearchFilterPanel extends JPanel
             });
 
 /*
-        filterListBtn = new JToggleButton( Localizer.getString( "SearchTab_FilterRules" ),
+        filterListBtn = new JToggleButton( STLocalizer.getString( "SearchTab_FilterRules" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.FilterList") );
         filterListBtn.setBorder( new CompoundBorder(
             BorderFactory.createMatteBorder(1, 2, 2, 0, getBackground()),

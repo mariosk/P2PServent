@@ -49,10 +49,10 @@ import phex.gui.tabs.network.NetworkRowRenderer;
 import saicontella.phex.STFWElegantPanel;
 import saicontella.core.STLibrary;
 import saicontella.core.STButtonsPanel;
+import saicontella.core.STLocalizer;
 import phex.host.*;
 import phex.net.repres.PresentationManager;
 import phex.servent.Servent;
-import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 
@@ -93,10 +93,10 @@ public class STNetworkTab extends FWTab
 
     public STNetworkTab( )
     {
-        super( MainFrame.NETWORK_TAB_ID, Localizer.getString( "GnutellaNet"),
+        super( MainFrame.NETWORK_TAB_ID, STLocalizer.getString( "GnutellaNet"),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Network.Tab" ),
-            Localizer.getString( "TTTGnutellaNet"), Localizer.getChar(
-            "GnutellaNetMnemonic"), KeyStroke.getKeyStroke( Localizer.getString(
+            STLocalizer.getString( "TTTGnutellaNet"), STLocalizer.getChar(
+            "GnutellaNetMnemonic"), KeyStroke.getKeyStroke( STLocalizer.getString(
             "GnutellaNetAccelerator" ) ), MainFrame.NETWORK_TAB_INDEX );
         hostMgr = Servent.getInstance().getHostService();
         hostsContainer = hostMgr.getNetworkHostsContainer();
@@ -122,8 +122,7 @@ public class STNetworkTab extends FWTab
         //JPanel upperPanel = new FormDebugPanel();
 
         JPanel upperPanel = new JPanel( );
-        STFWElegantPanel upperElegantPanel = new STFWElegantPanel( Localizer.getString("Connections"),
-            upperPanel );
+        STFWElegantPanel upperElegantPanel = new STFWElegantPanel( STLocalizer.getString("Connections"), upperPanel );
         upperElegantPanel.setBackground(Color.BLACK);
         upperElegantPanel.setForeground(Color.GRAY);
 
@@ -153,7 +152,7 @@ public class STNetworkTab extends FWTab
 
         upperBuilder.add( networkTableScrollPane, cc.xywh( 2, 1, 9, 1 ) );
 
-        JLabel label = new JLabel( Localizer.getString( "NetworkTab_MyAddress" ) );
+        JLabel label = new JLabel( STLocalizer.getString( "NetworkTab_MyAddress" ) );
         upperBuilder.add( label, cc.xy( 2, 3 ) );
         myIPLabel = new JLabel( "" );
         myIPLabel.addMouseListener( new MouseAdapter()
@@ -185,8 +184,8 @@ public class STNetworkTab extends FWTab
             });
         upperBuilder.add( myIPLabel, cc.xy( 4, 3 ) );
         
-        label = new JLabel( Localizer.getString( "ConnectTo" )
-            + Localizer.getChar( "ColonSign" ) );
+        label = new JLabel( STLocalizer.getString( "ConnectTo" )
+            + STLocalizer.getChar( "ColonSign" ) );
         upperBuilder.add( label, cc.xy( 6, 3 ) );
 
 // TODO2 add connection and disconnect network buttons to ConnectTo status line
@@ -208,7 +207,7 @@ public class STNetworkTab extends FWTab
         connectToComboBox.setPrototypeDisplayValue("123.123.123.123:12345");
         upperBuilder.add( connectToComboBox, cc.xy( 8, 3 ) );
 
-        JButton connectHostButton = new JButton( Localizer.getString( "Connect" ) );        
+        JButton connectHostButton = new JButton( STLocalizer.getString( "Connect" ) );
         connectHostButton.addActionListener( connectToHostHandler );
         upperBuilder.add( connectHostButton, cc.xy( 10, 3 ) );
         
@@ -413,9 +412,9 @@ public class STNetworkTab extends FWTab
     {
         public DisconnectHostAction()
         {
-            super( Localizer.getString( "DisconnectHost" ),
+            super( STLocalizer.getString( "DisconnectHost" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Network.DisconnectHost"),
-                Localizer.getString( "TTTDisconnectHost" ), null,
+                STLocalizer.getString( "TTTDisconnectHost" ), null,
                 KeyStroke.getKeyStroke( KeyEvent.VK_DELETE, 0 ) );
             refreshActionState();
         }
@@ -444,9 +443,9 @@ public class STNetworkTab extends FWTab
     {
         public ChatToHostAction()
         {
-            super( Localizer.getString( "ChatToHost" ),
+            super( STLocalizer.getString( "ChatToHost" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Network.Chat"),
-                Localizer.getString( "TTTChatToHost" ) );
+                STLocalizer.getString( "TTTChatToHost" ) );
             refreshActionState();
         }
 
@@ -500,9 +499,9 @@ public class STNetworkTab extends FWTab
                         + "&password=" + STLibrary.getInstance().getSTConfiguration().getWebServicePassword();
                 Desktop.browse(new URL(urlString));
             } catch(MalformedURLException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             } catch (DesktopException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -633,9 +632,9 @@ public class STNetworkTab extends FWTab
     {
         CopyMyIpAction()
         {
-            super( Localizer.getString( "Copy" ),
+            super( STLocalizer.getString( "Copy" ),
                 IconPack.EMPTY_IMAGE_16,
-                Localizer.getString( "TTTCopyMyIP" ) );
+                STLocalizer.getString( "TTTCopyMyIP" ) );
         }
 
         public void actionPerformed( ActionEvent e )

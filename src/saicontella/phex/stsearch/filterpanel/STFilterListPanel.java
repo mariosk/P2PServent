@@ -19,12 +19,12 @@ import phex.gui.common.table.FWTable;
 import phex.gui.dialogs.filter.AdvSearchRulesDialog;
 import phex.rules.Rule;
 import phex.rules.SearchFilterRules;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
+import saicontella.core.STLocalizer;
 
 public class STFilterListPanel extends JPanel
 {
@@ -120,8 +120,8 @@ public class STFilterListPanel extends JPanel
     {
         public AdvancedFilterAction()
         {
-            super( Localizer.getString( "SearchTab_EditFilterRules" ), null,
-                Localizer.getString( "SearchTab_TTTEditFilterRules" ) );
+            super( STLocalizer.getString( "SearchTab_EditFilterRules" ), null,
+                STLocalizer.getString( "SearchTab_TTTEditFilterRules" ) );
             refreshActionState();
         }
 

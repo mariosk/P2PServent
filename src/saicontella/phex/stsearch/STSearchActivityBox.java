@@ -21,11 +21,11 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import phex.gui.common.*;
 import phex.gui.tabs.search.SearchTab;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STLocalizer;
 
 public class STSearchActivityBox extends STBoxPanel
 {
@@ -44,7 +44,7 @@ public class STSearchActivityBox extends STBoxPanel
     
     public STSearchActivityBox( STSearchTab searchTab, final STSearchControlPanel cp )
     {
-        super( Localizer.getString( "SearchTab_SearchActivity" ) );
+        super( STLocalizer.getString( "SearchTab_SearchActivity" ) );
 
         CellConstraints cc = new CellConstraints();
         getContentPanel().setLayout( new BorderLayout() );
@@ -60,9 +60,9 @@ public class STSearchActivityBox extends STBoxPanel
             newSearchActivityP );
         
         keywordSearchBtn = new JToggleButton( 
-            Localizer.getString( "SearchTab_KeywordSearch" ), 
+            STLocalizer.getString( "SearchTab_KeywordSearch" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search" ) );
-        keywordSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTKeywordSearch") );
+        keywordSearchBtn.setToolTipText( STLocalizer.getString( "SearchTab_TTTKeywordSearch") );
         //keywordSearchBtn.setForeground(Color.GRAY);
         
         updateActivityBtnProps( keywordSearchBtn );
@@ -88,17 +88,17 @@ public class STSearchActivityBox extends STBoxPanel
         PanelBuilder runningBuilder = new PanelBuilder( runningLayout, 
             runningSearchActivityP );
         
-        newSearchBtn = new JButton( Localizer.getString( "SearchTab_NewSearch" ),
+        newSearchBtn = new JButton( STLocalizer.getString( "SearchTab_NewSearch" ),
                     GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search") );
-        newSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTNewSearch") );
+        newSearchBtn.setToolTipText( STLocalizer.getString( "SearchTab_TTTNewSearch") );
         //newSearchBtn.setForeground(Color.GRAY);
         newSearchBtn.addActionListener( 
             searchTab.getTabAction( SearchTab.CREATE_NEW_SEARCH_ACTION ) );
         updateActivityBtnProps( newSearchBtn );
         
-        closeSearchBtn = new JButton( Localizer.getString( "SearchTab_CloseSearch" ), 
+        closeSearchBtn = new JButton( STLocalizer.getString( "SearchTab_CloseSearch" ),
                     GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Close") );
-        closeSearchBtn.setToolTipText( Localizer.getString( "SearchTab_TTTCloseSearch") );
+        closeSearchBtn.setToolTipText( STLocalizer.getString( "SearchTab_TTTCloseSearch") );
         //closeSearchBtn.setForeground(Color.GRAY);
         closeSearchBtn.addActionListener( 
             searchTab.getTabAction( SearchTab.CLOSE_SEARCH_ACTION ) );

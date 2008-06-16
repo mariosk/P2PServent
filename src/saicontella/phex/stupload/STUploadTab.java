@@ -44,7 +44,6 @@ import phex.prefs.core.UploadPrefs;
 import phex.servent.Servent;
 import phex.upload.UploadManager;
 import phex.upload.UploadState;
-import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 
@@ -52,6 +51,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STButtonsPanel;
+import saicontella.core.STLocalizer;
 import saicontella.phex.STFWElegantPanel;
 
 public class STUploadTab extends FWTab
@@ -69,10 +69,10 @@ public class STUploadTab extends FWTab
 
     public STUploadTab( )
     {
-        super( MainFrame.UPLOAD_TAB_ID, Localizer.getString( "Upload" ),
+        super( MainFrame.UPLOAD_TAB_ID, STLocalizer.getString( "Upload" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Upload.Tab" ),
-            Localizer.getString( "TTTUpload" ),Localizer.getChar(
-            "UploadMnemonic"), KeyStroke.getKeyStroke( Localizer.getString(
+            STLocalizer.getString( "TTTUpload" ),STLocalizer.getChar(
+            "UploadMnemonic"), KeyStroke.getKeyStroke( STLocalizer.getString(
             "UploadAccelerator" ) ), MainFrame.UPLOAD_TAB_INDEX);
         uploadManager = Servent.getInstance().getUploadService();
     }
@@ -84,7 +84,7 @@ public class STUploadTab extends FWTab
             "2dlu, fill:p:grow, 2dlu"); //rows
         PanelBuilder tabBuilder = new PanelBuilder(tabLayout, this);
         JPanel contentPanel = new JPanel();
-        STFWElegantPanel banner = new STFWElegantPanel( Localizer.getString("Uploads"),
+        STFWElegantPanel banner = new STFWElegantPanel( STLocalizer.getString("Uploads"),
             contentPanel );
         tabBuilder.add(banner, cc.xy(2, 2));
         
@@ -243,9 +243,9 @@ public class STUploadTab extends FWTab
     {
         AbortUploadAction()
         {
-            super( Localizer.getString( "AbortUpload" ),
+            super( STLocalizer.getString( "AbortUpload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.Stop"),
-                Localizer.getString( "TTTAbortUpload" ) );
+                STLocalizer.getString( "TTTAbortUpload" ) );
             refreshActionState();
         }
 
@@ -284,9 +284,9 @@ public class STUploadTab extends FWTab
     {
         RemoveUploadAction()
         {
-            super( Localizer.getString( "RemoveUpload" ),
+            super( STLocalizer.getString( "RemoveUpload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.Remove"),
-                Localizer.getString( "TTTRemoveUpload" ) );
+                STLocalizer.getString( "TTTRemoveUpload" ) );
             refreshActionState();
         }
 
@@ -321,9 +321,9 @@ public class STUploadTab extends FWTab
     {
         public ChatToHostAction()
         {
-            super( Localizer.getString( "ChatToHost" ),
+            super( STLocalizer.getString( "ChatToHost" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.Chat"),
-                Localizer.getString( "TTTChatToHost" ) );
+                STLocalizer.getString( "TTTChatToHost" ) );
             refreshActionState();
         }
 
@@ -383,9 +383,9 @@ public class STUploadTab extends FWTab
     {
         public AddToFavoritesAction()
         {
-            super( Localizer.getString( "AddToFavorites" ),
+            super( STLocalizer.getString( "AddToFavorites" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon( "Upload.FavoriteHost" ),
-                Localizer.getString( "TTTAddToFavorites" ) );
+                STLocalizer.getString( "TTTAddToFavorites" ) );
             refreshActionState();
         }
 
@@ -418,9 +418,9 @@ public class STUploadTab extends FWTab
     {
         ClearUploadsAction()
         {
-            super( Localizer.getString( "ClearCompleted" ),
+            super( STLocalizer.getString( "ClearCompleted" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.Trash"),
-                Localizer.getString( "TTTClearCompleted" ) );
+                STLocalizer.getString( "TTTClearCompleted" ) );
             refreshActionState();
         }
 
@@ -447,9 +447,9 @@ public class STUploadTab extends FWTab
     {
         public UploadStateLogAction()
         {
-            super( Localizer.getString( "UploadTab_ViewLog" ),
+            super( STLocalizer.getString( "UploadTab_ViewLog" ),
                 null,
-                Localizer.getString( "UploadTab_TTTViewLog" ) );
+                STLocalizer.getString( "UploadTab_TTTViewLog" ) );
             refreshActionState();
         }
 

@@ -12,8 +12,8 @@ import javax.swing.table.AbstractTableModel;
 
 import phex.rules.Rule;
 import phex.rules.SearchFilterRules;
-import phex.utils.Localizer;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
+import saicontella.core.STLocalizer;
 
 public class STFilterListTableModel extends AbstractTableModel
 {
@@ -69,7 +69,7 @@ public class STFilterListTableModel extends AbstractTableModel
         switch ( column )
         {
         case 1:
-            return Localizer.getString("SearchTab_SelectRulesToActivate");
+            return STLocalizer.getString("SearchTab_SelectRulesToActivate");
         }
         return " ";
     }

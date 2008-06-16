@@ -54,7 +54,6 @@ import phex.gui.renderer.SearchTreeCellRenderer;
 import phex.gui.tabs.search.SearchTab;
 import phex.gui.tabs.search.SearchResultElement;
 import phex.share.SharedFilesService;
-import phex.utils.Localizer;
 import phex.utils.StringUtils;
 import phex.utils.URLUtil;
 import phex.xml.sax.gui.DGuiSettings;
@@ -64,6 +63,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 /**
  * The search result panel containing a JTreeTable to group search results together and all its
@@ -296,9 +296,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public SWQuickDownloadAction()
         {
-            super( Localizer.getString( "QuickDownload" ),
+            super( STLocalizer.getString( "QuickDownload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Download"),
-                Localizer.getString( "TTTQuickDownload" ) );
+                STLocalizer.getString( "TTTQuickDownload" ) );
             refreshActionState();
         }
 
@@ -359,9 +359,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public SWConfigDownloadAction()
         {
-            super( Localizer.getString( "Download" ),
+            super( STLocalizer.getString( "Download" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.ConfigDownload"),
-                Localizer.getString( "TTTDownload" ) );
+                STLocalizer.getString( "TTTDownload" ) );
             refreshActionState();
         }
 
@@ -406,9 +406,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public ViewBitziTicketAction()
         {
-            super( Localizer.getString( "ViewBitziTicket" ),
+            super( STLocalizer.getString( "ViewBitziTicket" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.ViewBitzi"),
-                Localizer.getString( "TTTViewBitziTicket" ) );
+                STLocalizer.getString( "TTTViewBitziTicket" ) );
             refreshActionState();
         }
 
@@ -432,15 +432,15 @@ public class STSearchResultsPanel extends JPanel
                 NLogger.warn( ViewBitziTicketAction.class, exp, exp);
                 Object[] dialogOptions = new Object[]
                 {
-                    Localizer.getString( "Yes" ),
-                    Localizer.getString( "No" )
+                    STLocalizer.getString( "Yes" ),
+                    STLocalizer.getString( "No" )
                 };
 
                 int choice = JOptionPane.showOptionDialog( searchTab,
-                    Localizer.getString( "FailedToLaunchBrowserURLInClipboard" ),
-                    Localizer.getString( "FailedToLaunchBrowser" ),
+                    STLocalizer.getString( "FailedToLaunchBrowserURLInClipboard" ),
+                    STLocalizer.getString( "FailedToLaunchBrowser" ),
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
-                    dialogOptions, Localizer.getString( "Yes" ) );
+                    dialogOptions, STLocalizer.getString( "Yes" ) );
                 if ( choice == 0 )
                 {
                     Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
@@ -472,9 +472,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public ChatToHostAction()
         {
-            super( Localizer.getString( "ChatToHost" ),
+            super( STLocalizer.getString( "ChatToHost" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Chat"),
-                Localizer.getString( "TTTChatToHost" ) );
+                STLocalizer.getString( "TTTChatToHost" ) );
             refreshActionState();
         }
 
@@ -514,9 +514,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public BrowseHostAction()
         {
-            super( Localizer.getString( "BrowseHost" ),
+            super( STLocalizer.getString( "BrowseHost" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.BrowseHost"),
-                Localizer.getString( "TTTBrowseHost" ) );
+                STLocalizer.getString( "TTTBrowseHost" ) );
             refreshActionState();
         }
 
@@ -582,9 +582,9 @@ public class STSearchResultsPanel extends JPanel
     {
         public AddToFavoritesAction()
         {
-            super( Localizer.getString( "AddToFavorites" ),
+            super( STLocalizer.getString( "AddToFavorites" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.FavoriteHost"),
-                Localizer.getString( "TTTAddToFavorites" ) );
+                STLocalizer.getString( "TTTAddToFavorites" ) );
             refreshActionState();
         }
 

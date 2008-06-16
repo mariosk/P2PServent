@@ -40,7 +40,6 @@ import phex.servent.Servent;
 import phex.share.SharedDirectory;
 import phex.share.SharedFilesService;
 import phex.utils.DirectoryOnlyFileFilter;
-import phex.utils.Localizer;
 import phex.utils.SystemShellExecute;
 import phex.gui.tabs.library.SharingTreeModel;
 import phex.gui.tabs.library.LibraryNode;
@@ -52,6 +51,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STFolder;
 import saicontella.core.STFileName;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 public class STLibraryTreePane extends JPanel
 {
@@ -178,9 +178,9 @@ public class STLibraryTreePane extends JPanel
     {
         AddShareFolderAction()
         {
-            super( Localizer.getString("LibraryTab_Share"),
+            super( STLocalizer.getString("LibraryTab_Share"),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon( "Library.ShareFolder"),
-                Localizer.getString("LibraryTab_TTTShare"));
+                STLocalizer.getString("LibraryTab_TTTShare"));
         }
 
         public void actionPerformed(ActionEvent e)
@@ -200,9 +200,9 @@ public class STLibraryTreePane extends JPanel
 
                 final File[] files = FileDialogHandler.openMultipleDirectoryChooser(
                     parent,
-                    Localizer.getString( "LibraryTab_SelectDirectoryToShare" ),
-                    Localizer.getString( "LibraryTab_Select" ),
-                    Localizer.getChar( "LibraryTab_SelectMnemonic" ),
+                    STLocalizer.getString( "LibraryTab_SelectDirectoryToShare" ),
+                    STLocalizer.getString( "LibraryTab_Select" ),
+                    STLocalizer.getChar( "LibraryTab_SelectMnemonic" ),
                     currentDirectory);
                 if ( files == null )
                 {
@@ -276,9 +276,9 @@ public class STLibraryTreePane extends JPanel
     {
         RemoveShareFolderAction()
         {
-            super( Localizer.getString("LibraryTab_StopShare"),
+            super( STLocalizer.getString("LibraryTab_StopShare"),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.ShareFolderClear"),
-                Localizer.getString("LibraryTab_TTTStopShare"));
+                STLocalizer.getString("LibraryTab_TTTStopShare"));
             refreshActionState();
         }
 
@@ -375,9 +375,9 @@ public class STLibraryTreePane extends JPanel
     {
         ExploreFolderAction()
         {
-            super(Localizer.getString("LibraryTab_Explore"),
+            super(STLocalizer.getString("LibraryTab_Explore"),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.Explore"),
-                Localizer.getString("LibraryTab_TTTExplore"));
+                STLocalizer.getString("LibraryTab_TTTExplore"));
         }
 
         public void actionPerformed(ActionEvent e)

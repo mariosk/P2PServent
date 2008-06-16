@@ -35,6 +35,8 @@ public class STConfiguration {
     private String webServiceAccount;
     private String webServicePassword;
     private int maxSearchFriendsLimit;
+    private String langLocale;
+    
     protected Cipher ecipher;
     protected Cipher dcipher;
     // 8-byte Salt
@@ -51,6 +53,19 @@ public class STConfiguration {
         this.myFriends = new ArrayList();
         // Create encrypter/decrypter class
         this.InitEncrypter();        
+    }
+
+    public void setLangLocale(String locale) {
+        if (locale == null || locale.equals(""))
+            langLocale = "en";
+        else
+            langLocale = locale;    
+    }
+    public String getLangLocale() {
+        if (langLocale == null || langLocale.equals(""))
+            return "en";
+        else
+            return langLocale;
     }
 
     public void setWebServiceAccount(String value) {
@@ -218,7 +233,7 @@ public class STConfiguration {
     }
 
     public void saveXMLFile() {
-        this.saveXMLFile(STResources.getStr("Application.configurationFile"));    
+        this.saveXMLFile(STResources.getAppStr("Application.configurationFile"));    
     }
 
     private void InitEncrypter() {
@@ -305,11 +320,13 @@ public class STConfiguration {
         buffer.append("\n");
         buffer.append("<configuration>");
         buffer.append("\n");
-        buffer.append("\t<!-- mySQL server -->");
-        buffer.append("\n");
         //DEPRECATED//
+        //buffer.append("\t<!-- mySQL server -->");
+        //buffer.append("\n");        
         //buffer.append("\t<account name=\"" + this.getAccountName() + "\" server=\"" + this.getAccountServer() + "\"/>");
         //buffer.append("\n");
+        buffer.append("\t<locale value=\"" + this.getLangLocale() + "\"/>");
+        buffer.append("\n");        
         buffer.append("\t<!-- webService endpoint -->");
         buffer.append("\n");
         buffer.append("\t<webservice name=\"" + this.getWebServiceAccount() + "\" password=\"" + this.getEncryptedPass(this.webServicePassword) + "\" maxFriendsLimit=\"" + this.getMaxSearchFriendsLimit() + "\"/>");

@@ -37,7 +37,7 @@ public class STDialogBanner extends JPanel
         headerText = aHeaderText;
         subHeaderText = aSubHeaderText;
         
-        image = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr( "myApplicationIcon.ico" )), 40, 40);
+        image = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr( "myApplicationIcon.ico" )), 40, 40);
 
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(

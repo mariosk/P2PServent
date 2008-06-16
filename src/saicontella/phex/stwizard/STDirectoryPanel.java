@@ -18,12 +18,12 @@ import phex.gui.common.GUIUtils;
 import phex.gui.common.HTMLMultiLinePanel;
 import phex.prefs.core.DownloadPrefs;
 import phex.utils.DirectoryOnlyFileFilter;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 public class STDirectoryPanel extends JPanel
 {
@@ -50,33 +50,33 @@ public class STDirectoryPanel extends JPanel
         PanelBuilder builder = new PanelBuilder( layout, this );
         int columnCount = layout.getColumnCount();
         
-        builder.addSeparator( Localizer.getString( "ConfigWizard_DirectoryHeader" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigWizard_DirectoryHeader" ),
             cc.xywh( 1, 1, columnCount, 1 ) );
         
         HTMLMultiLinePanel welcomeLines = new HTMLMultiLinePanel(
-            Localizer.getString( "ConfigWizard_DirectoryText" ) );
+            STLocalizer.getString( "ConfigWizard_DirectoryText" ) );
         builder.add( welcomeLines, cc.xywh( 2, 3, columnCount-2, 1 ) );
         
-        builder.addLabel( Localizer.getString( "ConfigWizard_Incomplete" ),
+        builder.addLabel( STLocalizer.getString( "ConfigWizard_Incomplete" ),
             cc.xy( 2, 5 ) );
         incompleteDirectoryTF = new JTextField( DownloadPrefs.IncompleteDirectory.get(), 30 );
         builder.add( incompleteDirectoryTF, cc.xy( 4, 5 ) );
-        JButton button = new JButton( Localizer.getString( "ConfigWizard_SetFolder" ) );
+        JButton button = new JButton( STLocalizer.getString( "ConfigWizard_SetFolder" ) );
         //button.setMargin( noInsets );
         button.addActionListener( new SetIncompleteDirectoryListener() );
         builder.add( button, cc.xy( 6, 5 ) );
         
-        builder.addLabel( Localizer.getString( "ConfigWizard_Destination" ),
+        builder.addLabel( STLocalizer.getString( "ConfigWizard_Destination" ),
             cc.xy( 2, 7 ) );
         downloadDirectoryTF = new JTextField( DownloadPrefs.DestinationDirectory.get(), 30 );
         builder.add( downloadDirectoryTF, cc.xy( 4, 7 ) );
-        button = new JButton( Localizer.getString( "ConfigWizard_SetFolder" ) );
+        button = new JButton( STLocalizer.getString( "ConfigWizard_SetFolder" ) );
         //button.setMargin( noInsets );
         button.addActionListener( new SetDownloadDirectoryListener() );
         builder.add( button, cc.xy( 6, 7 ) );
         
         HTMLMultiLinePanel welcomeLines2 = new HTMLMultiLinePanel(
-            Localizer.getString( "ConfigWizard_DirectoryText2" ) );        
+            STLocalizer.getString( "ConfigWizard_DirectoryText2" ) );
         builder.add( welcomeLines2, cc.xywh( 2, 9, columnCount-2, 1 ) );
     }
     
@@ -96,9 +96,9 @@ public class STDirectoryPanel extends JPanel
                 downloadDirectoryTF.requestFocus();
                 downloadDirectoryTF.selectAll();
                 GUIUtils.showErrorMessage(
-                    Localizer.getFormatedString( "CantCreateDownloadDir", 
+                    STLocalizer.getFormatedString( "CantCreateDownloadDir",
                         downloadDirectoryTF.getText() ),
-                    Localizer.getString( "DirectoryError" ) );
+                    STLocalizer.getString( "DirectoryError" ) );
                 return false;
             }
         }
@@ -111,9 +111,9 @@ public class STDirectoryPanel extends JPanel
                 incompleteDirectoryTF.requestFocus();
                 incompleteDirectoryTF.selectAll();
                 GUIUtils.showErrorMessage(
-                    Localizer.getFormatedString( "CantCreateIncompleteDir", 
+                    STLocalizer.getFormatedString( "CantCreateIncompleteDir",
                         incompleteDirectoryTF.getText() ),
-                    Localizer.getString( "DirectoryError" ) );
+                    STLocalizer.getString( "DirectoryError" ) );
                 return false;
             }
         }
@@ -146,10 +146,10 @@ public class STDirectoryPanel extends JPanel
             chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
             chooser.setMultiSelectionEnabled( false );
             chooser.setDialogTitle(
-                Localizer.getString( "SelectDownloadDirectory" ) );
-            chooser.setApproveButtonText( Localizer.getString( "Select" ) );
+                STLocalizer.getString( "SelectDownloadDirectory" ) );
+            chooser.setApproveButtonText( STLocalizer.getString( "Select" ) );
             chooser.setApproveButtonMnemonic(
-                Localizer.getChar( "SelectMnemonic" ) );
+                STLocalizer.getChar( "SelectMnemonic" ) );
             int returnVal = chooser.showDialog( STDirectoryPanel.this, null );
             if( returnVal == JFileChooser.APPROVE_OPTION )
             {
@@ -171,10 +171,10 @@ public class STDirectoryPanel extends JPanel
             chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
             chooser.setMultiSelectionEnabled( false );
             chooser.setDialogTitle(
-                Localizer.getString( "SelectIncompleteDirectory" ) );
-            chooser.setApproveButtonText( Localizer.getString( "Select" ) );
+                STLocalizer.getString( "SelectIncompleteDirectory" ) );
+            chooser.setApproveButtonText( STLocalizer.getString( "Select" ) );
             chooser.setApproveButtonMnemonic(
-                Localizer.getChar( "SelectMnemonic" ) );
+                STLocalizer.getChar( "SelectMnemonic" ) );
             int returnVal = chooser.showDialog( STDirectoryPanel.this, null );
             if( returnVal == JFileChooser.APPROVE_OPTION )
             {

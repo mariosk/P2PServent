@@ -37,7 +37,6 @@ import phex.servent.Servent;
 import phex.share.ShareFile;
 import phex.share.SharedFilesService;
 import phex.share.SharedDirectory;
-import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import phex.security.PhexSecurityManager;
@@ -82,10 +81,10 @@ public class STLibraryTab extends FWTab
 
     public STLibraryTab(STMainForm mainForm)
     {
-        super(MainFrame.LIBRARY_TAB_ID, Localizer.getString("Library"),
+        super(MainFrame.LIBRARY_TAB_ID, STLocalizer.getString("Library"),
             GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.Tab"),
-            Localizer.getString("TTTLibrary"), Localizer
-                .getChar("LibraryMnemonic"), KeyStroke.getKeyStroke(Localizer
+            STLocalizer.getString("TTTLibrary"), STLocalizer
+                .getChar("LibraryMnemonic"), KeyStroke.getKeyStroke(STLocalizer
                 .getString("LibraryAccelerator")), MainFrame.LIBRARY_TAB_INDEX);
         Servent.getInstance().getEventService().processAnnotations( this );
         this.mainForm = mainForm;
@@ -229,7 +228,7 @@ public class STLibraryTab extends FWTab
             "2dlu, fill:p:grow, 2dlu"); //rows
         tabBuilder = new PanelBuilder(tabLayout, this);
         JPanel contentPanel = new JPanel();
-        STFWElegantPanel elegantPanel = new STFWElegantPanel( Localizer.getString("Library"),
+        STFWElegantPanel elegantPanel = new STFWElegantPanel( STLocalizer.getString("Library"),
             contentPanel );
         tabBuilder.add(elegantPanel, cc.xy(2, 2));
         
@@ -391,7 +390,7 @@ public class STLibraryTab extends FWTab
                 SharedFilesService filesService = Servent.getInstance().getSharedFilesService();
                 QueryRoutingTable qrt = filesService.getLocalRoutingTable();
                 
-                String label = Localizer.getFormatedString( "LibraryTab_StatsHeader",
+                String label = STLocalizer.getFormatedString( "LibraryTab_StatsHeader",
                     NumberFormatUtils.formatNumber( filesService.getFileCount() ),
                     NumberFormatUtils.formatSignificantByteSize( filesService.getTotalFileSizeInKb() * 1024L ),
                     NumberFormatUtils.formatDecimal( qrt.getFillRatio(), 2 ),
@@ -425,13 +424,13 @@ public class STLibraryTab extends FWTab
     {
         DelFriendAction()
         {
-            super("Delete friend", mainForm.getFriendsDeleteIcon(), "Delete friend");
+            super(STLocalizer.getString("DelFriend"), mainForm.getFriendsDeleteIcon(), STLocalizer.getString("DelFriend"));
         }
 
         public void actionPerformed(ActionEvent e)
         {
             if (selectedFolderIndex < 0) {
-                STLibrary.getInstance().fireMessageBox("Please select a folder first to remove friends!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(STLocalizer.getString("DelShareFolder"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Deleting a friend from the list of the added already friends inside the friendsList
@@ -466,19 +465,19 @@ public class STLibraryTab extends FWTab
     {
         AddFriendAction()
         {
-            super("Add friend", mainForm.getFriendsAddIcon(), "Add friend");
+            super(STLocalizer.getString("AddFriend"), mainForm.getFriendsAddIcon(), STLocalizer.getString("AddFriend"));
         }
 
         public void actionPerformed(ActionEvent e)
         {
             if (selectedFolderIndex < 0) {
-                STLibrary.getInstance().fireMessageBox("Please select a folder to share to your friends!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ShareFolder"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }            
             // Adding a friend from the list of the configured friends inside saicontella.xml
             Vector data = STLibrary.getInstance().getSTConfiguration().getMyFriendsVectorData();
             if (data == null || data.size() == 0) {
-                STLibrary.getInstance().fireMessageBox("There are no friends to add!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(STLocalizer.getString("NoFriendsToAdd"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             /*
@@ -505,9 +504,9 @@ public class STLibraryTab extends FWTab
     {
         RescanAction()
         {
-            super(Localizer.getString("LibraryTab_Rescan"), 
+            super(STLocalizer.getString("LibraryTab_Rescan"),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon(
-                "Library.Refresh"), Localizer.getString("LibraryTab_TTTRescan"));
+                "Library.Refresh"), STLocalizer.getString("LibraryTab_TTTRescan"));
         }
         
         public void actionPerformed(ActionEvent e)

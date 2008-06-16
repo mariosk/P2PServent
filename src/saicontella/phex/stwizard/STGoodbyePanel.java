@@ -17,6 +17,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STResources;
+import saicontella.core.STLocalizer;
 
 public class STGoodbyePanel extends JPanel
 {
@@ -40,14 +41,14 @@ public class STGoodbyePanel extends JPanel
         PanelBuilder builder = new PanelBuilder( layout, this );
         CellConstraints cc = new CellConstraints();
         
-        builder.addSeparator( STResources.getStr( "ConfigWizard_WelcomeToPhexHeader" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigWizard_WelcomeToPhexHeader" ),
             cc.xywh( 1, 1, 3, 1 ) );
         
         HTMLMultiLinePanel welcomeLines = new HTMLMultiLinePanel(
-            STResources.getStr( "ConfigWizard_GoodbyeText" ) );
+            STLocalizer.getString( "ConfigWizard_GoodbyeText" ) );
         builder.add( welcomeLines, cc.xy( 2, 3 ) );
         
-        openOptions = new JCheckBox( STResources.getStr( "ConfigWizard_OpenOptions" ) );
+        openOptions = new JCheckBox( STLocalizer.getString( "ConfigWizard_OpenOptions" ) );
         builder.add( openOptions, cc.xy( 2, 5 ) );       
     }
     

@@ -37,14 +37,14 @@ public class STButtonsPanel extends JPanel {
 
         JButton igamerButton = new JButton("");
         igamerButton.setBorder(BorderFactory.createEmptyBorder());
-        igamerButton.setIcon(new ImageIcon(STResources.getStr("myIGamersImage")));
+        igamerButton.setIcon(new ImageIcon(STResources.getAppStr("myIGamersImage")));
         ConnectToIGamersHandler igamersHandler = new ConnectToIGamersHandler();
         igamerButton.addActionListener( igamersHandler );
         cacheStatusBuilder.add( igamerButton, cc.xy( 1, 3 ) );
 
         JButton exitButton = new JButton("");
         exitButton.setBorder(BorderFactory.createEmptyBorder());
-        exitButton.setIcon(new ImageIcon(STResources.getStr("myExitImage")));
+        exitButton.setIcon(new ImageIcon(STResources.getAppStr("myExitImage")));
         ExitHandler exitHandler = new ExitHandler();
         exitButton.addActionListener( exitHandler );
         cacheStatusBuilder.add( exitButton, cc.xy( 6, 3) );
@@ -61,9 +61,9 @@ public class STButtonsPanel extends JPanel {
                         + "&password=" + STLibrary.getInstance().getSTConfiguration().getWebServicePassword();
                 Desktop.browse(new URL(urlString));
             } catch(MalformedURLException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             } catch (DesktopException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }
         }
     }

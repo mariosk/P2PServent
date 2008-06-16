@@ -25,6 +25,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.core.STResources;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 public class STConfigurationWizardDialog extends JDialog
 {
@@ -80,8 +81,8 @@ public class STConfigurationWizardDialog extends JDialog
         int rowCount = layout.getRowCount();
         
         STDialogBanner banner = new STDialogBanner(
-            STResources.getStr( "ConfigWizard_BannerHeader" ),
-            STResources.getStr( "ConfigWizard_BannerSubHeader" ) );
+            STLocalizer.getString( "ConfigWizard_BannerHeader" ),
+            STLocalizer.getString( "ConfigWizard_BannerSubHeader" ) );
         contentPB.add(banner, cc.xywh(1, 1, columnCount, 1));
         
         contentPB.add(new JSeparator(), cc.xywh(1, 2, columnCount, 1));
@@ -93,19 +94,19 @@ public class STConfigurationWizardDialog extends JDialog
         // button bar
         contentPB.add( new JSeparator(), cc.xywh( 1, rowCount - 3, columnCount, 1 ) );
         
-        backBtn = new JButton( STResources.getStr( "WizardDialog_Back" ) );
+        backBtn = new JButton( STLocalizer.getString( "WizardDialog_Back" ) );
         backBtn.addActionListener( new BackBtnListener());
         
-        nextBtn = new JButton( STResources.getStr( "WizardDialog_Next" ) );
+        nextBtn = new JButton( STLocalizer.getString( "WizardDialog_Next" ) );
         nextBtn.setDefaultCapable( true );
         nextBtn.setRequestFocusEnabled( true );
         nextBtn.addActionListener( new NextBtnListener());
         
-        finishBtn = new JButton( STResources.getStr( "WizardDialog_Finish" ) );
+        finishBtn = new JButton( STLocalizer.getString( "WizardDialog_Finish" ) );
         finishBtn.addActionListener( new FinishBtnListener());
         finishBtn.setEnabled(false);
         
-        JButton cancelBtn = new JButton( STResources.getStr( "WizardDialog_Cancel" ) );
+        JButton cancelBtn = new JButton( STLocalizer.getString( "WizardDialog_Cancel" ) );
         cancelBtn.addActionListener( closeEventHandler );
         
         JPanel btnPanel = ButtonBarFactory.buildWizardBar(backBtn, nextBtn,

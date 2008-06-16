@@ -16,8 +16,10 @@ import java.awt.event.*;
 import java.awt.*;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.util.*;
+import java.util.List;
 
-public class STLoginDialog extends JDialog {
+public class STLoginDialog extends JDialog implements ItemListener {
     private JPanel contentPane;
     private JButton buttonConnect;
     private JPasswordField passwordField;
@@ -27,14 +29,42 @@ public class STLoginDialog extends JDialog {
     private JTextField textFieldPort;
     private JCheckBox checkBoxAutoConnect;
     private JLabel imageLabel;
+    private ImageIcon[] images;
+    private JPanel buttonsPanel;
+    private JPanel fieldsPanel;
+    private JComboBox langsComboBox;
+    private JLabel langsLabel;
+    private List<Locale> availableLocales;
 
     public STLoginDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonConnect);
-        this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
-        this.imageLabel.setIcon(STLibrary.getInstance().getLoginIcon());
 
+        this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
+
+        availableLocales = STLocalizer.getAvailableLocales();
+        int configLangFound = -1;
+        for (int i = 0; i < availableLocales.size(); i++) {
+            ImageIcon image = new ImageIcon(STResources.getAppStr("lang_" + availableLocales.get(i).toString() + ".ico"));
+            langsComboBox.addItem(image);
+            if (configLangFound < 0) {
+                if (STLibrary.getInstance().getSTConfiguration().getLangLocale() != null) {
+                    if (STLibrary.getInstance().getSTConfiguration().getLangLocale().equals(availableLocales.get(i).toString()))
+                        configLangFound = i;
+                }
+            }
+        }
+        langsComboBox.addItemListener(this);
+        if (configLangFound >= 0) {
+            langsComboBox.setSelectedIndex(configLangFound);
+            STLocalizer.initialize( STLibrary.getInstance().getSTConfiguration().getLangLocale() );
+        }
+        else {
+            STLocalizer.initialize( "en_US" );        
+        }
+
+        this.imageLabel.setIcon(STLibrary.getInstance().getLoginIcon());
         this.checkBoxAutoConnect.setSelected(STLibrary.getInstance().getSTConfiguration().getAutoConnect());
         if (STLibrary.getInstance().getSTConfiguration().getWebServiceAccount() != null
          && STLibrary.getInstance().getSTConfiguration().getWebServicePassword() != null
@@ -86,20 +116,27 @@ public class STLoginDialog extends JDialog {
             setVisible(false);
         }
         else {
-            setTitle("Login to i-Share v" + STLibrary.getInstance().getVersion());
+            setTitle(STLocalizer.getString("LoginIShare") + " v" + STLibrary.getInstance().getVersion());            
             pack();
-            this.setLocationRelativeTo(null);
+            setLocationRelativeTo(null);
             setResizable(false);                                               
             setVisible(true);
         }
     }
 
+    public void itemStateChanged(ItemEvent e) {
+        this.langsLabel.setText(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
+        STLibrary.getInstance().getSTConfiguration().setLangLocale(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
+        STLocalizer.initialize( STLibrary.getInstance().getSTConfiguration().getLangLocale() );
+    }
+    
     private void onOK() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         STLibrary.getInstance().getSTConfiguration().setAutoConnect(String.valueOf(this.checkBoxAutoConnect.isSelected()));
         STLibrary.getInstance().getSTConfiguration().setWebServiceAccount(this.textFieldUserName.getText());
         STLibrary.getInstance().getSTConfiguration().setWebServicePassword(false, this.passwordField.getText());
         STLibrary.getInstance().getSTConfiguration().setListenPort(this.textFieldPort.getText());
+        STLibrary.getInstance().getSTConfiguration().setLangLocale(availableLocales.get(langsComboBox.getSelectedIndex()).toString());        
         STLibrary.getInstance().getSTConfiguration().saveXMLFile();
 
         STLibrary.getInstance().getGnutellaFramework().restart(STLibrary.getInstance(), true);
@@ -130,6 +167,10 @@ public class STLoginDialog extends JDialog {
         System.exit(0);
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
+
     class LabelListening extends MouseAdapter implements FocusListener {
         private static final String TEXT_KEY = "jlabel_text_key";
 
@@ -153,10 +194,39 @@ public class STLoginDialog extends JDialog {
                 else if (e.getComponent() == forgotPassLabel)
                     Desktop.browse(new URL(STLibrary.STConstants.LOST_PASSWORD_URL));                
             } catch(MalformedURLException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             } catch (DesktopException ex) {
-                STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }            
         }
-    }    
+    }
+
+    class SimpleCellRenderer extends JLabel implements ListCellRenderer
+    {
+        public SimpleCellRenderer()
+        {
+            setOpaque(true);
+        }
+
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+        {
+            Value val = (Value)value;
+            setText(val.value);
+            setIcon(val.image);
+            setBackground(isSelected ? Color.red : (index & 1) == 0 ? Color.cyan : Color.green);
+            setForeground(isSelected ? Color.white : Color.black);
+            return this;
+        }
+    }
+    
+    private class Value
+    {
+        Value(String value, Icon image)
+        {
+            this.value = value;
+            this.image = image;
+        }
+        String value;
+        Icon image;
+    }
 }

@@ -32,7 +32,7 @@ import phex.gui.renderer.ETACellRenderer;
 import phex.gui.renderer.HostAddressCellRenderer;
 import phex.gui.renderer.ProgressCellRenderer;
 import phex.servent.Servent;
-import phex.utils.Localizer;
+import saicontella.core.STLocalizer;
 
 public class STDownloadTransferTableModel extends FWSortableTableModel
 {
@@ -90,16 +90,16 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "DownloadTransfer_Host" ),
-            Localizer.getString( "DownloadTransfer_Vendor" ),
-            Localizer.getString( "DownloadTransfer_From" ),
-            Localizer.getString( "DownloadTransfer_To" ),
-            Localizer.getString( "DownloadTransfer_Completed" ),
-            Localizer.getString( "DownloadTransfer_Size" ),
-            Localizer.getString( "DownloadTransfer_Progress" ),
-            Localizer.getString( "DownloadTransfer_Rate" ),
-            Localizer.getString( "DownloadTransfer_ETA" ),
-            Localizer.getString( "DownloadTransfer_Status" )
+            STLocalizer.getString( "DownloadTransfer_Host" ),
+            STLocalizer.getString( "DownloadTransfer_Vendor" ),
+            STLocalizer.getString( "DownloadTransfer_From" ),
+            STLocalizer.getString( "DownloadTransfer_To" ),
+            STLocalizer.getString( "DownloadTransfer_Completed" ),
+            STLocalizer.getString( "DownloadTransfer_Size" ),
+            STLocalizer.getString( "DownloadTransfer_Progress" ),
+            STLocalizer.getString( "DownloadTransfer_Rate" ),
+            STLocalizer.getString( "DownloadTransfer_ETA" ),
+            STLocalizer.getString( "DownloadTransfer_Status" )
         };
 
         tableClasses = new Class[]
@@ -208,7 +208,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
                 return "";
             }
             return NumberFormatUtils.formatSignificantByteSize(
-                segment.getTransferSpeed() ) + Localizer.getString( "PerSec" );
+                segment.getTransferSpeed() ) + STLocalizer.getString( "PerSec" );
         case ETA_MODEL_INDEX:
             segment = candidate.getDownloadSegment();
             if ( segment == null )

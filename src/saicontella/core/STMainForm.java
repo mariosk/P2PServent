@@ -13,7 +13,6 @@ import phex.gui.common.*;
 import phex.gui.tabs.FWTab;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.utils.DirectoryOnlyFileFilter;
-import phex.utils.Localizer;
 import phex.host.Host;
 
 import javax.swing.*;
@@ -293,7 +292,7 @@ public class STMainForm extends JFrame {
         JPanel emptyPanel1 = new JPanel();
         JPanel emptyPanel2 = new JPanel();
 
-        STFWElegantPanel settingsElegantPanel = new STFWElegantPanel( "Settings", emptyPanel1);
+        STFWElegantPanel settingsElegantPanel = new STFWElegantPanel( STLocalizer.getString("Settings"), emptyPanel1);
         CellConstraints ccSettings = new CellConstraints();
         FormLayout layoutSettings = new FormLayout(
             "d, fill:d:grow, d, d, d, d", // columns
@@ -305,7 +304,7 @@ public class STMainForm extends JFrame {
         this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 4));
         this.mySettingsTab.add(emptyPanel1, ccSettings.xy(1, 5));
 
-        STFWElegantPanel friendsElegantPanel = new STFWElegantPanel( "Friends", emptyPanel2);
+        STFWElegantPanel friendsElegantPanel = new STFWElegantPanel( STLocalizer.getString("Friends"), emptyPanel2);
         CellConstraints ccFriends = new CellConstraints();
         FormLayout layoutFriends = new FormLayout(
             "fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, fill:d:grow, d, d, d, d", // columns
@@ -333,8 +332,8 @@ public class STMainForm extends JFrame {
         UIManager.put("RadioButton.gradient", gradients);
         */
         
-        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getStr("myLogoImage")));        
-        this.setTitle(STResources.getStr("Application.name") + " v" + STResources.getStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
+        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getAppStr("myLogoImage")));
+        this.setTitle(STResources.getAppStr("Application.name") + " v" + STResources.getAppStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
         this.guiSettings = guiSettings;
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -356,7 +355,7 @@ public class STMainForm extends JFrame {
         buttonSearchFriend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -623,7 +622,7 @@ public class STMainForm extends JFrame {
                 return;
             if (currentPanel.equals(libraryTab)) {
                 if (!STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     tabbedPane.setSelectedIndex(0);
                     return;
                 }
@@ -631,14 +630,14 @@ public class STMainForm extends JFrame {
             }
             else if (currentPanel.equals(searchTab)) {
                 if (!STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     tabbedPane.setSelectedIndex(0);
                     return;
                 }
             }
             else if (currentPanel.equals(myFriendsTab)) {
                 if (searchTab != null && !STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     tabbedPane.setSelectedIndex(0);
                     return;
                 }                                
@@ -680,7 +679,7 @@ public class STMainForm extends JFrame {
                     if (pendingFriends != null) {
                         setIconImage(sLibrary.getAppIcon().getImage());
                         STFriendDialog friendDlg = new STFriendDialog(stMainForm, pendingFriends);                        
-                        friendDlg.setTitle("Pending friends...");
+                        friendDlg.setTitle(STLocalizer.getString("PendingFriends"));
                         friendDlg.setLocationRelativeTo(null);
                         friendDlg.pack();
                         friendDlg.setVisible(true);
@@ -776,22 +775,22 @@ public class STMainForm extends JFrame {
 
         // Load images
         try {
-            myPeersIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myPeersIcon.ico")), 15, 15);
-            mySearchIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("mySearchIcon.ico")), 15, 15);
-            myDownloadsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myDownloadsIcon.ico")), 15, 15);
-            myUploadsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myUploadsIcon.ico")), 15, 15);
-            mySharesIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("mySharesIcon.ico")), 15, 15);
-            mySettingsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("mySettingsIcon.ico")), 15, 15);
-            myFriendsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myFriendsIcon.ico")), 15, 15);
-            myFriendsAddIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myFriendsAddIcon.ico")), 15, 15);
-            myFriendsDeleteIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myFriendsDeleteIcon.ico")), 15, 15);            
-            myConnectIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myConnectIcon.ico")), 15, 15);
-            myDisconnectIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myDisconnectIcon.ico")), 15, 15);
-            myAdminIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myAdminIcon.ico")), 15, 15);            
-            myExitIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myExitIcon.ico")), 15, 15);
-            myAboutIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myAboutIcon.ico")), 15, 15);
-            myManualIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myManualIcon.ico")), 15, 15);            
-            myUpdatesIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getStr("myUpdatesIcon.ico")), 15, 15);
+            myPeersIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myPeersIcon.ico")), 15, 15);
+            mySearchIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("mySearchIcon.ico")), 15, 15);
+            myDownloadsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myDownloadsIcon.ico")), 15, 15);
+            myUploadsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myUploadsIcon.ico")), 15, 15);
+            mySharesIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("mySharesIcon.ico")), 15, 15);
+            mySettingsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("mySettingsIcon.ico")), 15, 15);
+            myFriendsIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myFriendsIcon.ico")), 15, 15);
+            myFriendsAddIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myFriendsAddIcon.ico")), 15, 15);
+            myFriendsDeleteIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myFriendsDeleteIcon.ico")), 15, 15);
+            myConnectIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myConnectIcon.ico")), 15, 15);
+            myDisconnectIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myDisconnectIcon.ico")), 15, 15);
+            myAdminIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myAdminIcon.ico")), 15, 15);
+            myExitIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myExitIcon.ico")), 15, 15);
+            myAboutIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myAboutIcon.ico")), 15, 15);
+            myManualIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myManualIcon.ico")), 15, 15);
+            myUpdatesIcon = STLibrary.getInstance().resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myUpdatesIcon.ico")), 15, 15);
                     
             this.setIconImage(sLibrary.getAppIcon().getImage());
             this.fileMenuConnections.setIcon(myPeersIcon);
@@ -818,7 +817,7 @@ public class STMainForm extends JFrame {
         networkTab = new STNetworkTab();
         networkTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(networkTab, NETWORK_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(NETWORK_TAB_INDEX, "myPeers");
+        this.mainTabbedPanel.setTitleAt(NETWORK_TAB_INDEX, STLocalizer.getString("myPeers"));
         this.mainTabbedPanel.setIconAt(NETWORK_TAB_INDEX, myPeersIcon);
 
         // STSearch Tab
@@ -826,38 +825,38 @@ public class STMainForm extends JFrame {
         searchTab = new STSearchTab(searchContainer, sLibrary.getGnutellaFramework().getServent().getQueryService().getSearchFilterRules());
         searchTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(searchTab, SEARCH_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(SEARCH_TAB_INDEX, "mySearch");
+        this.mainTabbedPanel.setTitleAt(SEARCH_TAB_INDEX, STLocalizer.getString("mySearch"));
         this.mainTabbedPanel.setIconAt(SEARCH_TAB_INDEX, mySearchIcon);
 
         //  SWDownload Tab
         swDownloadTab = new STSWDownloadTab();
         swDownloadTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(swDownloadTab, DOWNLOAD_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(DOWNLOAD_TAB_INDEX, "myDownloads");
+        this.mainTabbedPanel.setTitleAt(DOWNLOAD_TAB_INDEX, STLocalizer.getString("myDownloads"));
         this.mainTabbedPanel.setIconAt(DOWNLOAD_TAB_INDEX, myDownloadsIcon);
 
         //  STUpload Tab
         uploadTab = new STUploadTab();
         uploadTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(uploadTab, UPLOAD_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(UPLOAD_TAB_INDEX, "myUploads");
+        this.mainTabbedPanel.setTitleAt(UPLOAD_TAB_INDEX, STLocalizer.getString("myUploads"));
         this.mainTabbedPanel.setIconAt(UPLOAD_TAB_INDEX, myUploadsIcon);
 
         //  STLibrary Tab
         libraryTab = new STLibraryTab(this);
         libraryTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(libraryTab, LIBRARY_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(LIBRARY_TAB_INDEX, "myShares");
+        this.mainTabbedPanel.setTitleAt(LIBRARY_TAB_INDEX, STLocalizer.getString("myShares"));
         this.mainTabbedPanel.setIconAt(LIBRARY_TAB_INDEX, mySharesIcon);
 
         //  Settings Tab
         this.mainTabbedPanel.add(mySettingsTab, SETTINGS_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(SETTINGS_TAB_INDEX, "mySettings");
+        this.mainTabbedPanel.setTitleAt(SETTINGS_TAB_INDEX, STLocalizer.getString("mySettings"));
         this.mainTabbedPanel.setIconAt(SETTINGS_TAB_INDEX, mySettingsIcon);
 
         //  myFriends Tab
         this.mainTabbedPanel.add(myFriendsTab, FRIENDS_TAB_INDEX);
-        this.mainTabbedPanel.setTitleAt(FRIENDS_TAB_INDEX, "myFriends");
+        this.mainTabbedPanel.setTitleAt(FRIENDS_TAB_INDEX, STLocalizer.getString("myFriends"));
         this.mainTabbedPanel.setIconAt(FRIENDS_TAB_INDEX, myFriendsIcon);
 
         this.mainTabbedPanel.invalidate();
@@ -889,7 +888,7 @@ public class STMainForm extends JFrame {
             if (STLibrary.getInstance().isCurrentUserAdministrator())
                 stMainForm.fileMenuAdmin.setVisible(true);
             if (STLibrary.getInstance().isCurrentUserBanned()) {
-                sLibrary.fireMessageBox("Unfortunately you are not authorized to use the peer to peer service. Contact the administrator!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.fireMessageBox(STLocalizer.getString("BannedUser"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 STLibrary.getInstance().exitApplication();
                 stMainForm.disableMenus();
                 stMainForm.disableTabs();
@@ -909,7 +908,7 @@ public class STMainForm extends JFrame {
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
                 STAboutDialog aboutDlg = new STAboutDialog(stMainForm);
-                aboutDlg.setTitle("About");
+                aboutDlg.setTitle(STLocalizer.getString("About"));
                 aboutDlg.setSize(400, 400);
                 aboutDlg.setLocationRelativeTo(null);
                 aboutDlg.pack();
@@ -925,7 +924,7 @@ public class STMainForm extends JFrame {
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_ADMINISTRATOR)) {
                 stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
                 STAdminDialog adminDlg = new STAdminDialog(stMainForm);
-                adminDlg.setTitle("Administration");
+                adminDlg.setTitle(STLocalizer.getString("Administration"));
                 adminDlg.setLocationRelativeTo(null);
                 adminDlg.pack();
                 adminDlg.setVisible(true);                
@@ -989,7 +988,7 @@ public class STMainForm extends JFrame {
             // Removing a friend...
             if (sourceObject.getText().equals(STLibrary.STConstants.FRIEND_SELECTED)) {
                 if (!STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }                
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -997,7 +996,7 @@ public class STMainForm extends JFrame {
                 Object[] friendNames = listFriends.getSelectedValues();
                 if (friendNames == null) {
                     stMainForm.setCursor(Cursor.getDefaultCursor());
-                    STLibrary.getInstance().fireMessageBox("Please select at leaset one friend to remove!", "Error", JOptionPane.ERROR);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("SelectFriendToRemove"), STLocalizer.getString("Error"), JOptionPane.ERROR);
                     stMainForm.setCursor(Cursor.getDefaultCursor());
                     return;
                 }
@@ -1026,7 +1025,7 @@ public class STMainForm extends JFrame {
             // Adding a friend...
             } else if (sourceObject.getText().equals(STLibrary.STConstants.PEER_SELECTED)) {
                 if (!STLibrary.getInstance().isConnected()) {
-                    STLibrary.getInstance().fireMessageBox("You need to connect first!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("ConnectionNeeded"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }                
                 stMainForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1034,7 +1033,7 @@ public class STMainForm extends JFrame {
                 Object[] friendNames = listAllPeers.getSelectedValues();
                 if (friendNames == null) {
                     stMainForm.setCursor(Cursor.getDefaultCursor());
-                    STLibrary.getInstance().fireMessageBox("Please select at least one friend to add!", "Error", JOptionPane.ERROR);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("SelectFriendToAdd"), STLocalizer.getString("Error"), JOptionPane.ERROR);
                     stMainForm.setCursor(Cursor.getDefaultCursor());
                     return;
                 }
@@ -1042,7 +1041,7 @@ public class STMainForm extends JFrame {
                 // adding the selected friends from the left JList to the right JList
                 for (int i = 0; i < indices.length; i++) {
                     if (STLibrary.getInstance().isFriendAlreadyInList(friendNames[i].toString(), friendsListData[0])) {
-                    STLibrary.getInstance().fireMessageBox("This friend is already in your friends list!", "Warning", JOptionPane.WARNING_MESSAGE);                        
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("FriendAlreadyInList"), STLocalizer.getString("Warning"), JOptionPane.WARNING_MESSAGE);                        
                         continue;
                     }
                     friendsListData[0].add(allPeersData[0].get(indices[i]));
@@ -1056,7 +1055,7 @@ public class STMainForm extends JFrame {
                 stMainForm.setCursor(Cursor.getDefaultCursor());
             } else if (sourceObject.getText().equals("Save")) {
                 // saveFriendsListInXML();
-                sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.fireMessageBox(STLocalizer.getString("Saved"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
             } else if (sourceObject.getText().equals("Save Settings")) {
                 sLibrary.getSTConfiguration().setMaxSearchFriendsLimit(maxFriendsLimitTextBox.getText());                
                 sLibrary.getSTConfiguration().setWebServiceAccount(userTextBox.getText());
@@ -1072,9 +1071,9 @@ public class STMainForm extends JFrame {
                 //sLibrary.getSTConfiguration().setMaxDownload(Integer.parseInt(this.mainForm.downloadRatioTextBox.getText()));
                 //sLibrary.getSTConfiguration().setMaxUpload(Integer.parseInt(this.mainForm.uploadRatioTextBox.getText()));                
                 sLibrary.getSTConfiguration().saveXMLFile();
-                sLibrary.fireMessageBox("Saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                sLibrary.fireMessageBox(STLocalizer.getString("Saved"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 if (sLibrary.getFirstTimeOpened()) {
-                    sLibrary.fireMessageBox("Please re-launch the application", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    sLibrary.fireMessageBox(STLocalizer.getString("ReLaunch"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                     sLibrary.exitApplication();
                 }
                 sLibrary.STLogoutUser();
@@ -1131,10 +1130,10 @@ public class STMainForm extends JFrame {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             chooser.setMultiSelectionEnabled(false);
             chooser.setDialogTitle(
-                    Localizer.getString("SelectDownloadDirectory"));
-            chooser.setApproveButtonText(Localizer.getString("Select"));
+                    STLocalizer.getString("SelectDownloadDirectory"));
+            chooser.setApproveButtonText(STLocalizer.getString("Select"));
             chooser.setApproveButtonMnemonic(
-                    Localizer.getChar("SelectMnemonic"));
+                    STLocalizer.getChar("SelectMnemonic"));
             int returnVal = chooser.showDialog(STMainForm.this, null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 String directory = chooser.getSelectedFile().getAbsolutePath();
@@ -1152,10 +1151,10 @@ public class STMainForm extends JFrame {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             chooser.setMultiSelectionEnabled(false);
             chooser.setDialogTitle(
-                    Localizer.getString("SelectDownloadDirectory"));
-            chooser.setApproveButtonText(Localizer.getString("Select"));
+                    STLocalizer.getString("SelectDownloadDirectory"));
+            chooser.setApproveButtonText(STLocalizer.getString("Select"));
             chooser.setApproveButtonMnemonic(
-                    Localizer.getChar("SelectMnemonic"));
+                    STLocalizer.getChar("SelectMnemonic"));
             int returnVal = chooser.showDialog(STMainForm.this, null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 String directory = chooser.getSelectedFile().getAbsolutePath();

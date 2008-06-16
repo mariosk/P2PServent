@@ -9,7 +9,7 @@ package saicontella.phex.stupload;
  */
 
 import phex.upload.UploadStatus;
-import phex.utils.Localizer;
+import saicontella.core.STLocalizer;
 
 public final class STUploadStatusInfo
 {
@@ -29,23 +29,23 @@ public final class STUploadStatusInfo
         switch( status )
         {
             case ACCEPTING_REQUEST:
-                return Localizer.getString( "UploadStatus_AcceptingRequest" );
+                return STLocalizer.getString( "UploadStatus_AcceptingRequest" );
             case HANDSHAKE:
-                return Localizer.getString( "UploadStatus_Handshake" );
+                return STLocalizer.getString( "UploadStatus_Handshake" );
             case QUEUED:
-                return Localizer.getString( "UploadStatus_Queued" );
+                return STLocalizer.getString( "UploadStatus_Queued" );
             case UPLOADING_THEX:
-                return Localizer.getString( "UploadStatus_UploadingThex" );
+                return STLocalizer.getString( "UploadStatus_UploadingThex" );
             case UPLOADING_DATA:
-                return Localizer.getString( "UploadStatus_UploadingData" );
+                return STLocalizer.getString( "UploadStatus_UploadingData" );
             case COMPLETED:
-                return Localizer.getString( "UploadStatus_Completed" );
+                return STLocalizer.getString( "UploadStatus_Completed" );
             case ABORTED:
-                return Localizer.getString( "UploadStatus_Aborted" );
+                return STLocalizer.getString( "UploadStatus_Aborted" );
             default:
                 Object[] arguments = new Object[1];
                 arguments[0] = status;
-                return Localizer.getFormatedString( "UnrecognizedStatus",
+                return STLocalizer.getFormatedString( "UnrecognizedStatus",
                     arguments );
         }
     }

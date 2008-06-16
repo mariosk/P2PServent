@@ -27,8 +27,8 @@ import phex.host.Host;
 import phex.host.HostInfo;
 import phex.host.NetworkHostsContainer;
 import phex.servent.Servent;
-import phex.utils.Localizer;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 public class STNetworkTableModel extends FWSortableTableModel
 {
@@ -86,17 +86,17 @@ public class STNetworkTableModel extends FWSortableTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "RemoteHost" ),
-//            Localizer.getString( "Vendor" ),
-            Localizer.getString( "Type" ),
-            Localizer.getString( "Mode" ),
-            Localizer.getString( "ReceivedDropped" ),
-            Localizer.getString( "SentQueuedDropped" ),
-            Localizer.getString( "Shared" ),
-            Localizer.getString( "QRT" ),
-            Localizer.getString( "Uptime" ),
-            Localizer.getString( "Status" ),
-            "User"    
+            STLocalizer.getString( "RemoteHost" ),
+//            STLocalizer.getString( "Vendor" ),
+            STLocalizer.getString( "Type" ),
+            STLocalizer.getString( "Mode" ),
+            STLocalizer.getString( "ReceivedDropped" ),
+            STLocalizer.getString( "SentQueuedDropped" ),
+            STLocalizer.getString( "Shared" ),
+            STLocalizer.getString( "QRT" ),
+            STLocalizer.getString( "Uptime" ),
+            STLocalizer.getString( "Status" ),
+            STLocalizer.getString( "User" )    
         };
 
         tableClasses = new Class[]
@@ -150,9 +150,9 @@ public class STNetworkTableModel extends FWSortableTableModel
                 switch ( host.getType() )
                 {
                     case OUTGOING:
-                        return Localizer.getString( "HostType_Outgoing" );
+                        return STLocalizer.getString( "HostType_Outgoing" );
                     case INCOMING:
-                        return Localizer.getString( "HostType_Incoming" );
+                        return STLocalizer.getString( "HostType_Incoming" );
                     default:
                         return "";
                 }
@@ -163,7 +163,7 @@ public class STNetworkTableModel extends FWSortableTableModel
                 }
                 if ( host.isUltrapeer() )
                 {
-                    String mode = Localizer.getString( "Ultrapeer" );
+                    String mode = STLocalizer.getString( "Ultrapeer" );
                     if ( host.getPushProxyAddress() != null )
                     {
                         mode += " (PP)";
@@ -172,11 +172,11 @@ public class STNetworkTableModel extends FWSortableTableModel
                 }
                 else if ( host.isUltrapeerLeafConnection() )
                 {
-                    return Localizer.getString( "Leaf" );
+                    return STLocalizer.getString( "Leaf" );
                 }
                 else
                 {
-                    return Localizer.getString( "Peer" );
+                    return STLocalizer.getString( "Peer" );
                 }
             case RECEIVED_DROPPED_MODEL_INDEX:
                 return String.valueOf(host.getReceivedCount() + " (" + String.valueOf(host.getDropCount()) + ")");

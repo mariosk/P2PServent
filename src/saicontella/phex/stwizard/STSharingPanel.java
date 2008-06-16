@@ -11,12 +11,12 @@ package saicontella.phex.stwizard;
 import javax.swing.JPanel;
 
 import phex.gui.common.HTMLMultiLinePanel;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stlibrary.STLibraryTreePane;
+import saicontella.core.STLocalizer;
 
 public class STSharingPanel extends JPanel
 {
@@ -39,11 +39,11 @@ public class STSharingPanel extends JPanel
         PanelBuilder builder = new PanelBuilder( layout, this );
         CellConstraints cc = new CellConstraints();
         
-        builder.addSeparator( Localizer.getString( "ConfigWizard_SharingHeader" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigWizard_SharingHeader" ),
             cc.xywh( 1, 1, 5, 1 ) );
         
         HTMLMultiLinePanel welcomeLines = new HTMLMultiLinePanel(
-            Localizer.getString( "ConfigWizard_SharingText" ) );        
+            STLocalizer.getString( "ConfigWizard_SharingText" ) );        
         welcomeLines.setBorder( null );
         builder.add( welcomeLines, cc.xywh( 2, 3, 4, 1 ) );
         

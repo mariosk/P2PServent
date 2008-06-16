@@ -35,12 +35,12 @@ import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.tabs.FWTab;
 import phex.query.ResearchSetting;
-import phex.utils.Localizer;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import saicontella.phex.STFWElegantPanel;
 import saicontella.core.STLibrary;
 import saicontella.core.STButtonsPanel;
+import saicontella.core.STLocalizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -66,10 +66,10 @@ public class STSWDownloadTab extends FWTab
 
     public STSWDownloadTab( )
     {
-        super( MainFrame.DOWNLOAD_TAB_ID, Localizer.getString( "Download" ),
+        super( MainFrame.DOWNLOAD_TAB_ID, STLocalizer.getString( "Download" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Download.Tab" ),
-            Localizer.getString( "TTTDownloadTab" ),Localizer.getChar(
-            "DownloadMnemonic"), KeyStroke.getKeyStroke( Localizer.getString(
+            STLocalizer.getString( "TTTDownloadTab" ),STLocalizer.getChar(
+            "DownloadMnemonic"), KeyStroke.getKeyStroke( STLocalizer.getString(
             "DownloadAccelerator" ) ), MainFrame.DOWNLOAD_TAB_INDEX );
         swarmingMgr = SwarmingManager.getInstance();
     }
@@ -179,8 +179,7 @@ public class STSWDownloadTab extends FWTab
         fileToolbar.addAction( action );
         downloadPopup.add( action );
 
-        STFWElegantPanel elegantPanel = new STFWElegantPanel( Localizer.getString("DownloadFiles"),
-            downloadTablePanel );
+        STFWElegantPanel elegantPanel = new STFWElegantPanel(STLocalizer.getString("DownloadFiles"), downloadTablePanel );
         return elegantPanel;
     }
 
@@ -350,9 +349,9 @@ public class STSWDownloadTab extends FWTab
     {
         StartDownloadAction()
         {
-            super( Localizer.getString( "StartDownload" ),
+            super( STLocalizer.getString( "StartDownload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.StartDownload"),
-                Localizer.getString( "TTTStartDownload" ) );
+                STLocalizer.getString( "TTTStartDownload" ) );
             refreshActionState();
         }
 
@@ -397,9 +396,9 @@ public class STSWDownloadTab extends FWTab
     {
         StopDownloadAction()
         {
-            super( "Pause",
+            super( STLocalizer.getString("Pause"),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.StopDownload"),
-                Localizer.getString( "TTTStopDownload" ) );
+                STLocalizer.getString( "TTTStopDownload" ) );
             refreshActionState();
         }
 
@@ -456,9 +455,9 @@ public class STSWDownloadTab extends FWTab
     {
         GeneratePreviewAction ( )
         {
-            super( Localizer.getString( "DownloadTab_PreviewDownload" ),
+            super( STLocalizer.getString( "DownloadTab_PreviewDownload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.Preview"),
-                Localizer.getString( "DownloadTab_TTTPreviewDownload" ) );
+                STLocalizer.getString( "DownloadTab_TTTPreviewDownload" ) );
             refreshActionState();
         }
 
@@ -476,7 +475,7 @@ public class STSWDownloadTab extends FWTab
                             File previewFile = file.getPreviewFile();
                             Desktop.open(previewFile);
                         } catch (DesktopException e) {
-                            STLibrary.getInstance().fireMessageBox(e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);                            
+                            STLibrary.getInstance().fireMessageBox(e.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);                            
                         }
 
                         /*
@@ -533,9 +532,9 @@ public class STSWDownloadTab extends FWTab
     {
         RemoveDownloadAction()
         {
-            super( Localizer.getString( "RemoveDownload" ),
+            super( STLocalizer.getString( "RemoveDownload" ),
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Download.RemoveDownload"),
-                Localizer.getString( "TTTRemoveDownload" ), null,
+                STLocalizer.getString( "TTTRemoveDownload" ), null,
                 KeyStroke.getKeyStroke( KeyEvent.VK_DELETE, 0 ) );
             refreshActionState();
         }
@@ -593,27 +592,27 @@ public class STSWDownloadTab extends FWTab
                 {
                     dialogOptions = new Object[]
                     {
-                        Localizer.getString( "Yes" ),
-                        Localizer.getString( "No" ),
-                        Localizer.getString( "YesToAll" ),
-                        Localizer.getString( "NoToAll" ),
+                        STLocalizer.getString( "Yes" ),
+                        STLocalizer.getString( "No" ),
+                        STLocalizer.getString( "YesToAll" ),
+                        STLocalizer.getString( "NoToAll" ),
                     };
                 }
                 else
                 {
                     dialogOptions = new Object[]
                     {
-                        Localizer.getString( "Yes" ),
-                        Localizer.getString( "No" )
+                        STLocalizer.getString( "Yes" ),
+                        STLocalizer.getString( "No" )
                     };
                 }
 
                 int choice = JOptionPane.showOptionDialog(
                     GUIRegistry.getInstance().getMainFrame(),
-                    Localizer.getFormatedString( "RemoveDownloadWarning", warningParams),
-                    Localizer.getFormatedString( "RemoveDownloadTitle", titleParams ),
+                    STLocalizer.getFormatedString( "RemoveDownloadWarning", warningParams),
+                    STLocalizer.getFormatedString( "RemoveDownloadTitle", titleParams ),
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
-                    dialogOptions, Localizer.getString( "Yes" ) );
+                    dialogOptions, STLocalizer.getString( "Yes" ) );
                 if ( choice == 0 )
                 {
                     removeFiles.add( file );

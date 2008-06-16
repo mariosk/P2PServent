@@ -107,7 +107,7 @@ public class STAdminDialog extends JDialog {
                 int i = userNamesFoundList.getSelectedIndex();
                 String userId = listUserIds[i];
                 STLibrary.getInstance().setUserSettings(userId, settings);
-                STLibrary.getInstance().fireMessageBox("Your changes have been successfully submitted for user: " + userNamesFoundList.getSelectedValue().toString(), "Information", JOptionPane.INFORMATION_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(STLocalizer.getString("SuccessSubmit") + userNamesFoundList.getSelectedValue().toString(), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }

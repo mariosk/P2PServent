@@ -32,7 +32,7 @@ import phex.gui.renderer.ETACellRenderer;
 import phex.gui.renderer.ProgressCellRenderer;
 import phex.gui.renderer.TransferSizeCellRenderer;
 import phex.servent.Servent;
-import phex.utils.Localizer;
+import saicontella.core.STLocalizer;
 
 public class STSWDownloadTableModel extends FWSortableTableModel
 {
@@ -96,18 +96,18 @@ public class STSWDownloadTableModel extends FWSortableTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "File" ),
-            Localizer.getString( "PercentSign" ),
-            Localizer.getString( "Size" ),
-            Localizer.getString( "Rate" ),
-            Localizer.getString( "DownloadTable_ETA" ),
-//            Localizer.getString( "NumberOfCandidates" ),
-            Localizer.getString( "Status" ),
-//            Localizer.getString( "Priority" ),
-//            Localizer.getString( "SearchTerm" ),
-            Localizer.getString( "Created" ),
-            Localizer.getString( "Downloaded" ),
-            Localizer.getString( "SHA1" )
+            STLocalizer.getString( "File" ),
+            STLocalizer.getString( "PercentSign" ),
+            STLocalizer.getString( "Size" ),
+            STLocalizer.getString( "Rate" ),
+            STLocalizer.getString( "DownloadTable_ETA" ),
+//            STLocalizer.getString( "NumberOfCandidates" ),
+            STLocalizer.getString( "Status" ),
+//            STLocalizer.getString( "Priority" ),
+//            STLocalizer.getString( "SearchTerm" ),
+            STLocalizer.getString( "Created" ),
+            STLocalizer.getString( "Downloaded" ),
+            STLocalizer.getString( "SHA1" )
         };
 
         tableClasses = new Class[]
@@ -165,15 +165,15 @@ public class STSWDownloadTableModel extends FWSortableTableModel
             String maxRateStr;
             if ( maxRate >= Integer.MAX_VALUE )
             {
-                maxRateStr = Localizer.getDecimalFormatSymbols().getInfinity();
+                maxRateStr = STLocalizer.getDecimalFormatSymbols().getInfinity();
             }
             else
             {
                 maxRateStr = NumberFormatUtils.formatSignificantByteSize( maxRate)
-                    + Localizer.getString( "PerSec" );
+                    + STLocalizer.getString( "PerSec" );
             }
             return NumberFormatUtils.formatSignificantByteSize(
-                download.getTransferSpeed() ) + Localizer.getString( "PerSec" )
+                download.getTransferSpeed() ) + STLocalizer.getString( "PerSec" )
                 + " (" + maxRateStr + ")";
         }
         case ETA_MODEL_INDEX:

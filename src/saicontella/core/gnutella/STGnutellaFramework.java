@@ -28,8 +28,8 @@ import phex.net.repres.PresentationManager;
 import phex.prefs.core.*;
 import phex.servent.Servent;
 import phex.servent.OnlineStatus;
-import phex.utils.Localizer;
 import phex.utils.SystemProperties;
+import phex.utils.Localizer;
 import phex.query.Search;
 import phex.query.SearchContainer;
 import phex.host.Host;
@@ -38,6 +38,7 @@ import phex.host.HostStatus;
 import java.io.File;
 import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import saicontella.core.*;
 import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
@@ -95,7 +96,7 @@ public class STGnutellaFramework {
             ProxyPrefs.ForcedIp.set("");
             ProxyPrefs.save(true);
 
-            // servent instantiations here...
+            // servent instantiations here...           
             Localizer.initialize( InterfacePrefs.LocaleName.get() );
             ThreadTracking.initialize();
             this.servent = Servent.getInstance();
@@ -136,7 +137,7 @@ public class STGnutellaFramework {
 	        logger.debug(this.servent.getServentGuid());
         }
         catch (Exception ex) {
-            sLibrary.fireMessageBox("Error in creating a Gnutella server socket. Check your XML file: " + ex.getMessage(), "Title", JOptionPane.ERROR_MESSAGE);
+            sLibrary.fireMessageBox(STLocalizer.getString("GnutellaError") + ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         	System.exit(-1);
         }               

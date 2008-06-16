@@ -26,11 +26,11 @@ import phex.host.FavoriteHost;
 import phex.host.FavoritesContainer;
 import phex.net.repres.PresentationManager;
 import phex.servent.Servent;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STLocalizer;
 
 /**
  *
@@ -63,13 +63,13 @@ public class STNetFavoritesPanel
             "p, 3dlu, p, 4dlu, p, 2dlu, p, 2dlu, p:grow"); //rows
         PanelBuilder favoritesBuilder = new PanelBuilder( layout, this );
 
-        favoritesBuilder.addSeparator( Localizer.getString( "NetworkTab_Favorites" ),
+        favoritesBuilder.addSeparator( STLocalizer.getString( "NetworkTab_Favorites" ),
             cc.xywh( 1, 1, 5, 1 ) );
 
         newFavoriteHostTF = new JTextField( 20 );
         favoritesBuilder.add( newFavoriteHostTF, cc.xy( 2, 3 ) );
 
-        addToFavoritesHostBtn = new JButton( Localizer.getString( "Add" ) );
+        addToFavoritesHostBtn = new JButton( STLocalizer.getString( "Add" ) );
         addToFavoritesHostBtn.addActionListener( new AddToFavoritesHostAction() );
         favoritesBuilder.add( addToFavoritesHostBtn, cc.xy( 4, 3 ) );
 
@@ -79,11 +79,11 @@ public class STNetFavoritesPanel
         favoritesList.setCellRenderer( new STFavoritesListRenderer() );
         favoritesBuilder.add( new JScrollPane( favoritesList ), cc.xywh( 2, 5, 1, 5 ) );
 
-        connectToFavoritesHostBtn = new JButton( Localizer.getString( "Connect" ) );
+        connectToFavoritesHostBtn = new JButton( STLocalizer.getString( "Connect" ) );
         connectToFavoritesHostBtn.addActionListener( new ConnectToFavoritesHostAction());
         favoritesBuilder.add( connectToFavoritesHostBtn, cc.xy( 4, 5 ) );
 
-        removeFromFavoritesHostBtn = new JButton( Localizer.getString( "Remove" ) );
+        removeFromFavoritesHostBtn = new JButton( STLocalizer.getString( "Remove" ) );
         removeFromFavoritesHostBtn.addActionListener( new RemoveFromFavoritesHostAction());
         favoritesBuilder.add( removeFromFavoritesHostBtn, cc.xy( 4, 7 ) );
     }

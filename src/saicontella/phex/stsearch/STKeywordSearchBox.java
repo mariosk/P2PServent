@@ -34,12 +34,12 @@ import phex.gui.prefs.PhexGuiPrefs;
 import phex.gui.prefs.SearchTabPrefs;
 import phex.query.DynamicQueryConstants;
 import phex.query.KeywordSearch;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STLocalizer;
 
 public class STKeywordSearchBox extends STBoxPanel
 {
@@ -52,7 +52,7 @@ public class STKeywordSearchBox extends STBoxPanel
     
     public STKeywordSearchBox( STSearchControlPanel cp )
     {
-        super( Localizer.getString( "SearchTab_KeywordSearch" ) );
+        super( STLocalizer.getString( "SearchTab_KeywordSearch" ) );
         controlPanel = cp;
         
         CellConstraints cc = new CellConstraints();
@@ -62,7 +62,7 @@ public class STKeywordSearchBox extends STBoxPanel
         PanelBuilder searchBoxBuilder = new PanelBuilder( searchBoxLayout, 
             getContentPanel() );
         
-        searchBoxBuilder.addLabel( Localizer.getString( "SearchTab_TypeYourSearch" ),
+        searchBoxBuilder.addLabel( STLocalizer.getString( "SearchTab_TypeYourSearch" ),
             cc.xy(2, 2) );
         
         SubmitSearchHandler submitSearchHandler = new SubmitSearchHandler();
@@ -80,18 +80,18 @@ public class STKeywordSearchBox extends STBoxPanel
         searchTermComboBox.setSelectedItem( "" );
         searchBoxBuilder.add( searchTermComboBox, cc.xy(2, 4) );
         
-        searchButton = new JButton( Localizer.getString( "SearchTab_StartSearch" ),
+        searchButton = new JButton( STLocalizer.getString( "SearchTab_StartSearch" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Search" ) );
         searchButton.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );        
-        searchButton.setToolTipText( Localizer.getString( "SearchTab_TTTStartSearch") );
+        searchButton.setToolTipText( STLocalizer.getString( "SearchTab_TTTStartSearch") );
         searchButton.setMargin( GUIUtils.NARROW_BUTTON_INSETS );
         searchButton.addActionListener( submitSearchHandler );
         
         StopSearchHandler stopSearchHandler = new StopSearchHandler();
-        stopButton = new JButton( Localizer.getString( "SearchTab_StopSearch" ),
+        stopButton = new JButton( STLocalizer.getString( "SearchTab_StopSearch" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Stop" ) );
         stopButton.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        stopButton.setToolTipText( Localizer.getString( "SearchTab_TTTStopSearch") );
+        stopButton.setToolTipText( STLocalizer.getString( "SearchTab_TTTStopSearch") );
         stopButton.setMargin( GUIUtils.NARROW_BUTTON_INSETS );        
         stopButton.addActionListener( stopSearchHandler );
         
@@ -134,9 +134,9 @@ public class STKeywordSearchBox extends STBoxPanel
         if ( searchButton != null )
         {
             String orgText = searchButton.getText();
-            searchButton.setText( Localizer.getString( "SearchTab_StartSearch" ) );
+            searchButton.setText( STLocalizer.getString( "SearchTab_StartSearch" ) );
             Dimension dim = searchButton.getPreferredSize();
-            searchButton.setText( Localizer.getString( "SearchTab_Searching" ) );
+            searchButton.setText( STLocalizer.getString( "SearchTab_Searching" ) );
             Dimension dim2 = searchButton.getPreferredSize();
             dim.width = Math.max(dim.width, dim2.width);
             searchButton.setPreferredSize(dim);
@@ -182,15 +182,15 @@ public class STKeywordSearchBox extends STBoxPanel
             
             if ( search.isSearching() )
             {
-                searchButton.setText( Localizer.getString( "SearchTab_Searching" ) );
-                searchButton.setToolTipText( Localizer.getString( "SearchTab_TTTSearching" ) );
+                searchButton.setText( STLocalizer.getString( "SearchTab_Searching" ) );
+                searchButton.setToolTipText( STLocalizer.getString( "SearchTab_TTTSearching" ) );
                 searchButton.setEnabled(false);
                 searchTermComboBox.setEnabled( false );
             }
             else
             {
-                searchButton.setText( Localizer.getString( "SearchTab_StartSearch" ) );
-                searchButton.setToolTipText( Localizer.getString( "SearchTab_TTTStartSearch") );
+                searchButton.setText( STLocalizer.getString( "SearchTab_StartSearch" ) );
+                searchButton.setToolTipText( STLocalizer.getString( "SearchTab_TTTStartSearch") );
                 searchButton.setEnabled(true);
                 searchTermComboBox.setEnabled( true );
             }
@@ -199,8 +199,8 @@ public class STKeywordSearchBox extends STBoxPanel
         {// this is the case for a new search.
             searchTermComboBox.setSelectedItem( null );
             ((JTextField)searchTermComboBox.getEditor().getEditorComponent()).setText( "" );
-            searchButton.setText( Localizer.getString( "SearchTab_StartSearch" ) );
-            searchButton.setToolTipText( Localizer.getString( "SearchTab_TTTStartSearch") );
+            searchButton.setText( STLocalizer.getString( "SearchTab_StartSearch" ) );
+            searchButton.setToolTipText( STLocalizer.getString( "SearchTab_TTTStartSearch") );
             searchButton.setEnabled(true);
             searchTermComboBox.setEnabled( true );
         }
@@ -225,7 +225,7 @@ public class STKeywordSearchBox extends STBoxPanel
             {
                 Object[] objArr = new Object[ 1 ];
                 objArr[ 0 ] = new Integer( DynamicQueryConstants.MIN_SEARCH_TERM_LENGTH );
-                GUIUtils.showErrorMessage( Localizer.getFormatedString(
+                GUIUtils.showErrorMessage( STLocalizer.getFormatedString(
                         "MinSearchTerm", objArr ) );
                 searchTermComboBox.getEditor().selectAll();
                 try

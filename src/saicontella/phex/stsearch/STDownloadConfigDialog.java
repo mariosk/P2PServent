@@ -9,6 +9,7 @@ package saicontella.phex.stsearch;
  */
 
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -26,7 +27,8 @@ import phex.download.swarming.SwarmingManager;
 import phex.gui.common.*;
 import phex.prefs.core.DownloadPrefs;
 import phex.query.DynamicQueryConstants;
-import phex.utils.*;
+import phex.utils.StringUtils;
+import phex.utils.FileUtils;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
@@ -63,7 +65,7 @@ public class STDownloadConfigDialog extends JDialog
      */
     public STDownloadConfigDialog( RemoteFile remoteFile ) throws HeadlessException
     {
-        super(GUIRegistry.getInstance().getMainFrame(), Localizer
+        super(GUIRegistry.getInstance().getMainFrame(), STLocalizer
             .getString("ConfigDownload_DialogTitleNew"), true );
         this.remoteFile = remoteFile;
         prepareComponent();
@@ -75,7 +77,7 @@ public class STDownloadConfigDialog extends JDialog
      */
     public STDownloadConfigDialog( SWDownloadFile downloadFile ) throws HeadlessException
     {
-        super(GUIRegistry.getInstance().getMainFrame(), Localizer
+        super(GUIRegistry.getInstance().getMainFrame(), STLocalizer
             .getString("ConfigDownload_DialogTitleConfig"), false);
         this.downloadFile = downloadFile;
         prepareComponent();
@@ -110,50 +112,50 @@ public class STDownloadConfigDialog extends JDialog
         PanelBuilder builder = new PanelBuilder(layout, contentPanel);
 
         int row = 1;
-        STDialogBanner banner = new STDialogBanner( Localizer.getString("ConfigDownload_BannerHeader"),
-            Localizer.getString("ConfigDownload_BannerSubHeader") );
+        STDialogBanner banner = new STDialogBanner( STLocalizer.getString("ConfigDownload_BannerHeader"),
+            STLocalizer.getString("ConfigDownload_BannerSubHeader") );
         builder.add( banner, cc.xywh( 1, row, 11, 1 ));
         row ++; //2
         builder.add(new JSeparator(), cc.xywh(1, row, 11, 1));
         row += 2; //4
-        builder.addSeparator( Localizer.getString( "ConfigDownload_File" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigDownload_File" ),
             cc.xywh( 2, row, 9, 1 ) );
         row += 2; //6
-        builder.addLabel( Localizer.getString( "ConfigDownload_FileName" ), cc.xy( 4, row, "left, center") );
+        builder.addLabel( STLocalizer.getString( "ConfigDownload_FileName" ), cc.xy( 4, row, "left, center") );
         fileNameTF = new JTextField( 40 );
         builder.add( fileNameTF, cc.xywh( 6, row, 3, 1 ));
         row += 2; //8
-        builder.addLabel( Localizer.getString( "ConfigDownload_DestinationDirectory" ), cc.xy( 4, row, "left, center") );
+        builder.addLabel( STLocalizer.getString( "ConfigDownload_DestinationDirectory" ), cc.xy( 4, row, "left, center") );
         destDirectoryTF = new JTextField( 40 );
         builder.add( destDirectoryTF, cc.xywh( 6, row, 3, 1 ));
-        JButton browseDestDirBtn = new JButton( Localizer.getString( "ConfigDownload_Browse" ) );
+        JButton browseDestDirBtn = new JButton( STLocalizer.getString( "ConfigDownload_Browse" ) );
         browseDestDirBtn.addActionListener( new BrowseDestDirBtnListener());
         builder.add( browseDestDirBtn, cc.xy( 10, row ) );
         row += 2; //10
-        builder.addLabel( Localizer.getString( "ConfigDownload_ReSearchTerm" ), cc.xy( 4, row, "left, center") );
+        builder.addLabel( STLocalizer.getString( "ConfigDownload_ReSearchTerm" ), cc.xy( 4, row, "left, center") );
         searchTermTF = new JTextField( 40 );
         builder.add( searchTermTF, cc.xywh( 6, row, 3, 1 ));
         row += 2; //12
-        builder.addSeparator( Localizer.getString( "ConfigDownload_Options" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigDownload_Options" ),
             cc.xywh( 2, row, 9, 1 ) );
         row += 2; //14
-        builder.addLabel( Localizer.getString( "ConfigDownload_DownloadStrategy" ), cc.xy( 4, row, "left, center") );
+        builder.addLabel( STLocalizer.getString( "ConfigDownload_DownloadStrategy" ), cc.xy( 4, row, "left, center") );
         String[] strategyArr = new String[]
         {
-            Localizer.getString( "DownloadTab_StrategyAvailability" ),
-            Localizer.getString( "DownloadTab_StrategyBeginning" ),
-            Localizer.getString( "DownloadTab_StrategyBeginningEnd" ),
-            Localizer.getString( "DownloadTab_StrategyRandom" )
+            STLocalizer.getString( "DownloadTab_StrategyAvailability" ),
+            STLocalizer.getString( "DownloadTab_StrategyBeginning" ),
+            STLocalizer.getString( "DownloadTab_StrategyBeginningEnd" ),
+            STLocalizer.getString( "DownloadTab_StrategyRandom" )
         };
         downloadStrategyCbx = new JComboBox( strategyArr );
         builder.add( downloadStrategyCbx, cc.xywh( 6, row, 3, 1 ));
         row += 2; //16
         if ( remoteFile != null )
         {
-            builder.addLabel( Localizer.getString( "ConfigDownload_Priority" ), cc.xy( 4, row, "left, center") );
+            builder.addLabel( STLocalizer.getString( "ConfigDownload_Priority" ), cc.xy( 4, row, "left, center") );
             ButtonGroup priorityGroup = new ButtonGroup();
-            topPriority = new JRadioButton( Localizer.getString( "ConfigDownload_AddToTop" ) );
-            bottomPriority = new JRadioButton( Localizer.getString( "ConfigDownload_AddToBottom" ) );
+            topPriority = new JRadioButton( STLocalizer.getString( "ConfigDownload_AddToTop" ) );
+            bottomPriority = new JRadioButton( STLocalizer.getString( "ConfigDownload_AddToBottom" ) );
             priorityGroup.add( topPriority );
             priorityGroup.add( bottomPriority );
             builder.add( topPriority, cc.xywh( 6, row, 1, 1 ));
@@ -165,13 +167,13 @@ public class STDownloadConfigDialog extends JDialog
 
         if ( remoteFile != null )
         {
-            switchToDownloadTab = new JCheckBox( Localizer.getString( "ConfigDownload_SwitchToDownloadTab" ) );
+            switchToDownloadTab = new JCheckBox( STLocalizer.getString( "ConfigDownload_SwitchToDownloadTab" ) );
             builder.add(switchToDownloadTab, cc.xywh(2, row, 5, 1));
         }
 
-        JButton cancelBtn = new JButton(Localizer.getString("Cancel"));
+        JButton cancelBtn = new JButton(STLocalizer.getString("Cancel"));
         cancelBtn.addActionListener(new CancelBtnListener());
-        JButton okBtn = new JButton(Localizer.getString("OK"));
+        JButton okBtn = new JButton(STLocalizer.getString("OK"));
         okBtn.addActionListener(new OkBtnListener());
         JPanel btnPanel = ButtonBarFactory.buildOKCancelBar(okBtn, cancelBtn);
         builder.add(btnPanel, cc.xywh(8, row, 3, 1));
@@ -251,7 +253,7 @@ public class STDownloadConfigDialog extends JDialog
         if ( filename.length() == 0 )
         {
             GUIUtils.showErrorMessage( this,
-                Localizer.getString( "ConfigDownload_ErrorNoFileName" ) );
+                STLocalizer.getString( "ConfigDownload_ErrorNoFileName" ) );
             fileNameTF.requestFocus();
             return false;
         }
@@ -260,7 +262,7 @@ public class STDownloadConfigDialog extends JDialog
         if ( filename.length() == 0 )
         {
             GUIUtils.showErrorMessage( this,
-                Localizer.getString( "ConfigDownload_ErrorNoDestDir" ) );
+                STLocalizer.getString( "ConfigDownload_ErrorNoDestDir" ) );
             destDirectoryTF.requestFocus();
             return false;
         }
@@ -268,14 +270,14 @@ public class STDownloadConfigDialog extends JDialog
         if ( !directory.isAbsolute() || (directory.exists() && !directory.isDirectory() ) )
         {
             GUIUtils.showErrorMessage( this,
-                Localizer.getString( "ConfigDownload_ErrorInvalidDestDir" ) );
+                STLocalizer.getString( "ConfigDownload_ErrorInvalidDestDir" ) );
             destDirectoryTF.requestFocus();
             return false;
         }
         if ( !directory.exists() && !directory.mkdirs() )
         {
             GUIUtils.showErrorMessage( this,
-                Localizer.getString( "ConfigDownload_ErrorCreateDestDir" ) );
+                STLocalizer.getString( "ConfigDownload_ErrorCreateDestDir" ) );
             destDirectoryTF.requestFocus();
             return false;
         }
@@ -286,7 +288,7 @@ public class STDownloadConfigDialog extends JDialog
             Object[] objArr = new Object[ 1 ];
             objArr[ 0 ] = new Integer( DynamicQueryConstants.MIN_SEARCH_TERM_LENGTH );
             GUIUtils.showErrorMessage( this,
-                Localizer.getFormatedString( "ConfigDownload_ErrorMinSearchTerm", objArr ) );
+                STLocalizer.getFormatedString( "ConfigDownload_ErrorMinSearchTerm", objArr ) );
             searchTermTF.requestFocus();
             return false;
         }
@@ -403,9 +405,9 @@ public class STDownloadConfigDialog extends JDialog
             {
                 File file = FileDialogHandler.openSingleDirectoryChooser(
                     STDownloadConfigDialog.this,
-                    Localizer.getString( "ConfigDownload_SelectDestinationDirectory" ),
-                    Localizer.getString( "ConfigDownload_Select" ),
-                    Localizer.getChar( "ConfigDownload_SelectMnemonic" ),
+                    STLocalizer.getString( "ConfigDownload_SelectDestinationDirectory" ),
+                    STLocalizer.getString( "ConfigDownload_Select" ),
+                    STLocalizer.getChar( "ConfigDownload_SelectMnemonic" ),
                     new File( destDirectoryTF.getText() ) );
                 destDirectoryTF.setText( file.getAbsolutePath() );
             }

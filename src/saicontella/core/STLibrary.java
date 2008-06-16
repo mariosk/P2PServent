@@ -86,33 +86,33 @@ public class STLibrary extends Component {
             UNDEFINED
         } 
         public static final String p2pAppId = "92e4cace2cab102ba39d8cc01d4f351c";
-        public static final String NO_LIST_SELECTED = "Select either a peer or a friend";
-        public static final String PEER_SELECTED = "Add to friends";
-        public static final String FRIEND_SELECTED = "Remove from friends";
+        public static final String NO_LIST_SELECTED = STLocalizer.getString("SelectPeerOrFriend");
+        public static final String PEER_SELECTED = STLocalizer.getString("PeerSelected");
+        public static final String FRIEND_SELECTED = STLocalizer.getString("FriendSelected");
         // JMenus string here...
-        public static final String FILE_MENU = "File";
-        public static final String FILE_MENU_CONNECTIONS = "Peers";        
-        public static final String FILE_MENU_ADMINISTRATOR = "Administrator";
-        public static final String FILE_MENU_CONNECT = "Connect";
-        public static final String FILE_MENU_DISCONNECT = "Disconnect";
+        public static final String FILE_MENU = STLocalizer.getString("File");
+        public static final String FILE_MENU_CONNECTIONS = STLocalizer.getString("Peers");
+        public static final String FILE_MENU_ADMINISTRATOR = STLocalizer.getString("Administrator");
+        public static final String FILE_MENU_CONNECT = STLocalizer.getString("Connect");
+        public static final String FILE_MENU_DISCONNECT = STLocalizer.getString("Disconnect");
         // Separator
-        public static final String FILE_MENU_EXIT = "Exit";
+        public static final String FILE_MENU_EXIT = STLocalizer.getString("Exit");
         // JMenus string here...
-        public static final String FRIENDS_MENU = "Friends";
-        public static final String FRIENDS_MENU_SEARCH = "Search";
-        public static final String FRIENDS_MENU_ADD = "Add";
-        public static final String FRIENDS_MENU_DELETE = "Delete";
+        public static final String FRIENDS_MENU = STLocalizer.getString("Friends");
+        public static final String FRIENDS_MENU_SEARCH = STLocalizer.getString("Search");
+        public static final String FRIENDS_MENU_ADD = STLocalizer.getString("Add");
+        public static final String FRIENDS_MENU_DELETE = STLocalizer.getString("Delete");
         // JMenus string here...
-        public static final String TOOLS_MENU = "Tools";
-        public static final String TOOLS_MENU_DOWNLOADS = "Downloads";
-        public static final String TOOLS_MENU_UPLOADS = "Uploads";        
-        public static final String TOOLS_MENU_SETTINGS = "Settings";
-        public static final String TOOLS_MENU_SHARED_FOLDERS = "Shared folders";
+        public static final String TOOLS_MENU = STLocalizer.getString("Tools");
+        public static final String TOOLS_MENU_DOWNLOADS = STLocalizer.getString("Downloads");
+        public static final String TOOLS_MENU_UPLOADS = STLocalizer.getString("Uploads");
+        public static final String TOOLS_MENU_SETTINGS = STLocalizer.getString("Settings");
+        public static final String TOOLS_MENU_SHARED_FOLDERS = STLocalizer.getString("SharedFolders");
         // JMenus string here...
-        public static final String HELP_MENU = "Help";
-        public static final String HELP_MENU_UPDATES = "Check for updates";
-        public static final String HELP_MENU_MANUAL = "Manual";
-        public static final String HELP_MENU_ABOUT = "About";        
+        public static final String HELP_MENU = STLocalizer.getString("Help");
+        public static final String HELP_MENU_UPDATES = STLocalizer.getString("CheckUpdates");
+        public static final String HELP_MENU_MANUAL = STLocalizer.getString("Manual");
+        public static final String HELP_MENU_ABOUT = STLocalizer.getString("About");
     }
 
     private static Log logger = LogFactory.getLog("saicontella.core.STLibrary");
@@ -120,8 +120,8 @@ public class STLibrary extends Component {
     private static STGnutellaFramework gnuTellaFramework;
     private static STLibrary sLibrary;
     private STKeepAliveThread keepAliveThread;
-    private ImageIcon myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getStr("myApplicationIcon.ico")), 15, 15);
-    private ImageIcon myLoginIcon = new ImageIcon(STResources.getStr("myLoginImage"));
+    private ImageIcon myApplicationIcon; 
+    private ImageIcon myLoginIcon;
 
     // UserAuthentication web service
     private saicontella.core.webservices.authentication.UserSettingsWrapper[] webserviceAuthSettings;
@@ -207,11 +207,15 @@ public class STLibrary extends Component {
             confObject = new STConfiguration();            
             this.initDefaultSTConfiguration();
         }
+
+        myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myApplicationIcon.ico")), 15, 15);
+        myLoginIcon = new ImageIcon(STResources.getAppStr("myLoginImage"));
+        
         //STMySQLClient dbClient = new STMySQLClient("mysql", Configuration.getAccountServer(), Configuration.getAccountName(), "");
     	logger.info(STConstants.P2PSERVENT_BAR);
-        logger.info(STResources.getStr("Application.name"));    
+        logger.info(STResources.getAppStr("Application.name"));
         logger.info(STConstants.P2PSERVENT_BAR);
-        logger.info("Copyright Saicon @2008");
+        logger.info("Copyright Saicon @2008");                
         logger.info(STConstants.P2PSERVENT_BAR);
         try {
             this.webServiceAuthProxy = new UserAuthenticationImplPortBindingStub();
@@ -221,7 +225,7 @@ public class STLibrary extends Component {
         }
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -265,7 +269,7 @@ public class STLibrary extends Component {
                 mainF.getMainTabbedPanel().setSelectedIndex(STMainForm.SETTINGS_TAB_INDEX);                        
             restart = false;
         } catch (Exception e) {
-            this.fireMessageBox(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(e.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -329,7 +333,7 @@ public class STLibrary extends Component {
           int returnCode = client.executeMethod(method);
 
           if(returnCode != HttpStatus.SC_OK) {            
-            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status code: " + returnCode, "ERROR", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(STLocalizer.getString("CouldNotFetch") + absPathObject + ", " + STLocalizer.getString("StatusCode") + returnCode, STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             status = false;
             return binaryData;
           }
@@ -340,12 +344,12 @@ public class STLibrary extends Component {
         }
         catch (HttpException he)
         {
-            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status: " + he.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(STLocalizer.getString("CouldNotFetch") + absPathObject + ", " + STLocalizer.getString("Status") + he.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             status = false;
         }
         catch (IOException ie)
         {
-            this.fireMessageBox("Unable to fetch: " + absPathObject + ", status: " + ie.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(STLocalizer.getString("CouldNotFetch") + absPathObject + ", " + STLocalizer.getString("Status") + ie.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             status = false;
         }
         finally
@@ -362,14 +366,14 @@ public class STLibrary extends Component {
             // a newer version is identified
             this.stMainForm.setIconImage(sLibrary.getAppIcon().getImage());
             STAppUpdateDialog updateDlg = new STAppUpdateDialog(this.stMainForm);                                    
-            updateDlg.setTitle("Updating i-Share");
+            updateDlg.setTitle(STLocalizer.getString("UpdateIShare"));
             updateDlg.pack();
             updateDlg.setLocationRelativeTo(null);
             updateDlg.setVisible(true);
         }
         else {
             if (!autoCheck)
-                STLibrary.getInstance().fireMessageBox("There are no new updates!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                STLibrary.getInstance().fireMessageBox(STLocalizer.getString("NoNewUpdates"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -379,7 +383,7 @@ public class STLibrary extends Component {
             return path.getCanonicalPath();
         }
         catch (Exception ex) {
-            this.fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -399,7 +403,7 @@ public class STLibrary extends Component {
                 bos = null;
             }
             catch (Exception e) {
-                this.fireMessageBox(e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                this.fireMessageBox(e.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             return true;            
@@ -408,7 +412,7 @@ public class STLibrary extends Component {
     }
 
     public String getConfigurationFile() {
-        return this.getApplicationLocalPath() + "/" + STResources.getStr("Application.configurationFile");    
+        return this.getApplicationLocalPath() + "/" + STResources.getAppStr("Application.configurationFile");
     }
 
     public String getLatestVersion() {
@@ -420,12 +424,12 @@ public class STLibrary extends Component {
     }
 
     public String getVersion() {
-        return STResources.getStr("Application.version");    
+        return STResources.getAppStr("Application.version");
     }
 
     public boolean isTheSameAppVersion() {
         if (this.webServiceAuthVersion == null) {
-            STLibrary.getInstance().fireMessageBox("You need to login as a valid user first!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            STLibrary.getInstance().fireMessageBox(STLocalizer.getString("LoginNeeded"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return this.webServiceAuthVersion.getVersion().equals(this.getVersion());
@@ -440,7 +444,7 @@ public class STLibrary extends Component {
             this.webServiceAuthVersion = this.webServiceAuthProxy.checkForNewerApplication(STConstants.p2pAppId, ReleaseType.BETA);
         }
         catch (Exception ex) {
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if (this.webserviceAuthResponse != null) {
@@ -530,7 +534,7 @@ public class STLibrary extends Component {
                 return;
             if (activeSessions.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
                 logger.debug("activeSessions ERROR String: " + response.getErrorMessage());
-                this.fireMessageBox(activeSessions.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.fireMessageBox(activeSessions.getErrorMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 ActiveSessionMiniWrapper[] array = activeSessions.getActiveSessions();
@@ -547,7 +551,7 @@ public class STLibrary extends Component {
         }
         catch (Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -570,7 +574,7 @@ public class STLibrary extends Component {
             }
         }
         catch (Exception ex) {
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             logger.error("ERROR String: " + ex.getMessage());            
         }
     }
@@ -591,7 +595,7 @@ public class STLibrary extends Component {
             return pendingUsers;
         }
         catch (Exception ex) {
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             logger.error("ERROR String: " + ex.getMessage());
             return null;            
         }
@@ -613,7 +617,7 @@ public class STLibrary extends Component {
             while (response.getStatus() == ResponseSTATUS.ERROR && response.getErrorMessage().contains("same IP")) {
                 port++;
                 if (port > 65535) {
-                    this.fireMessageBox("Unfortunately there is a serious problem in port mapping of the i-Share. Please contact the systems Administrator.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox(STLocalizer.getString("PortMappingError"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     return null;
                 }
                 response = this.webServiceAuthProxy.login(userName, passWord, STConstants.p2pAppId, port);
@@ -622,8 +626,8 @@ public class STLibrary extends Component {
             if (newPortSet) {
                 this.getSTConfiguration().setListenPort(new Integer(port).toString());
                 this.getSTConfiguration().saveXMLFile();
-                this.fireMessageBox("Due to connectivity conflicts the port number of your application has been set to: (" + port + ")", "Warning", JOptionPane.WARNING_MESSAGE);
-                sLibrary.fireMessageBox("Please re-launch the application", "Information", JOptionPane.INFORMATION_MESSAGE);
+                this.fireMessageBox(STLocalizer.getString("PortMappingSuccess") + port , STLocalizer.getString("Warning"), JOptionPane.WARNING_MESSAGE);
+                sLibrary.fireMessageBox(STLocalizer.getString("ReLaunch"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 sLibrary.exitApplication();                
             }
 
@@ -631,7 +635,7 @@ public class STLibrary extends Component {
 			//logger.debug("PASSWORD: " + passWord);
 			logger.debug("getStatus: " + response.getStatus().getValue());
 			if (response.getStatus() == saicontella.core.webservices.authentication.ResponseSTATUS.ERROR) {
-                this.fireMessageBox(response.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.fireMessageBox(response.getErrorMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 logger.error("ERROR String: " + response.getErrorMessage());
                 return response;
             }
@@ -644,7 +648,7 @@ public class STLibrary extends Component {
                 this.confObject.setWebServiceAccount(userName);
                 this.confObject.setWebServicePassword(false, passWord);
                 this.confObject.setListenPort(new Integer(port).toString());                
-                this.fireMessageBox("Connected!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                this.fireMessageBox(STLocalizer.getString("Connected"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 logger.debug("getClientDownloadLocation: " + response.getClientDownloadLocation());
 				logger.debug("getCountryId: " + response.getCountryId());
 				logger.debug("getCountryName: " + response.getCountryName());
@@ -733,7 +737,7 @@ public class STLibrary extends Component {
           }
           catch(Exception ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox("Login failed. Please contact Administrator for more info {" + ex.getMessage() + "}", "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(STLocalizer.getString("NotConnected") + " {" + ex.getMessage() + "}", STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
           }           
           return null;
     }
@@ -745,7 +749,7 @@ public class STLibrary extends Component {
         }
         catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         return null;        
     }
@@ -756,7 +760,7 @@ public class STLibrary extends Component {
         }
         catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -780,7 +784,7 @@ public class STLibrary extends Component {
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -807,7 +811,7 @@ public class STLibrary extends Component {
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         return myFriendsListData;
     }
@@ -829,18 +833,18 @@ public class STLibrary extends Component {
 
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(response.getErrorMessage(), "Error adding friend " + friendName, JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox(response.getErrorMessage(), STLocalizer.getString("AddFriendError") + friendName, JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.fireMessageBox(STLocalizer.getString("Friend") + " '" + friendName + "' " + STLocalizer.getString("Added"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else {
-                this.fireMessageBox("Friend '" + friendName + "' added succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                this.fireMessageBox(STLocalizer.getString("Friend") + " '" + friendName + "' " + STLocalizer.getString("Added"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error in friend " + friendName, JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -851,20 +855,20 @@ public class STLibrary extends Component {
             BaseResponse response = this.webServiceAuthProxy.removeFriend(this.webserviceAuthResponse.getSessionId(), userId);
             if (response != null) {
                 if (response.getStatus() == ResponseSTATUS.ERROR) {
-                    this.fireMessageBox(response.getErrorMessage(), "Error removing friend " + friendName, JOptionPane.ERROR_MESSAGE);
+                    this.fireMessageBox(response.getErrorMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     errorFound = true;
                 }
                 else {
-                    this.fireMessageBox("Friend '" + friendName + "' removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.fireMessageBox(STLocalizer.getString("Friend") + " '" + friendName + "' " + STLocalizer.getString("Removed"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else {
-                this.fireMessageBox("Friend '" + friendName + "' removed succesfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                this.fireMessageBox(STLocalizer.getString("Friend") + " '" + friendName + "' " + STLocalizer.getString("Removed"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RemoteException ex) {
             errorFound = true;
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error in friend " + friendName, JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         return (!errorFound);
     }
@@ -889,7 +893,7 @@ public class STLibrary extends Component {
             }
         } catch (RemoteException ex) {
             logger.error("Exception: " + ex.getMessage());
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -1006,19 +1010,19 @@ public class STLibrary extends Component {
                     logger.error("ERROR String: " + result.getErrorMessage());
                 }
                 else {
-                    this.fireMessageBox("Disconnected!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.fireMessageBox(STLocalizer.getString("Disconnected"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                     this.webserviceAuthResponse = null;
                     gnuTellaFramework.disconnectFromPeers();
                     gnuTellaFramework.getServent().stop();
                 }
             }
             else {
-                this.fireMessageBox("ERROR NULL sessionId and userId", "Error", JOptionPane.ERROR_MESSAGE);
-                logger.error("ERROR NULL sessionId and userId");
+                this.fireMessageBox(STLocalizer.getString("NullSessId"), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
+                logger.error("NULL sessionId and userId");
             }
           }
           catch(Exception ex) {
-            this.fireMessageBox(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             logger.error("Exception: " + ex.getMessage());
           }
     }

@@ -9,6 +9,7 @@ package saicontella.core.updater;
  */
 
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -35,9 +36,9 @@ public class STUpdater {
         this.localPath = localPath;
         JFrame frame = new JFrame();
         this.mainPanel = frame;
-        frame.setTitle( "i-Share Updater" );
-        frame.setSize( 310, 130 );
-        frame.setBackground( Color.BLACK );
+        frame.setTitle(STLocalizer.getString("UpdateIShare"));
+        frame.setSize(310, 130);
+        frame.setBackground(Color.BLACK);
         frame.setLocationRelativeTo(null);
         frame.setIconImage(new ImageIcon("./images/gamers.png").getImage());
         frame.setResizable(false);
@@ -50,7 +51,7 @@ public class STUpdater {
         pb.setValue(0);
         pb.setStringPainted(true);
 
-        label = new JLabel("Downloading version: " + version + "...");
+        label = new JLabel(STLocalizer.getString("DownloadVersion") + " " + version + "...");
         label.setForeground( Color.WHITE );
 
         JPanel panel = new JPanel();
@@ -78,7 +79,7 @@ public class STUpdater {
                     timer.stop();
                     button.setEnabled(true);
                     pb.setValue(0);
-                    String str = "<html>" + "<b>" + "Downloading completed." + "</b>" + "</font>" + "</html>";
+                    String str = "<html>" + "<b>" + STLocalizer.getString("DownloadCompleted") + "</b>" + "</font>" + "</html>";
                     label.setText(str);
                 }
                 i = i + 1;
@@ -100,19 +101,19 @@ public class STUpdater {
                 i = 100;
                 mainPanel.setCursor(Cursor.getDefaultCursor());
                 try {
-                    STLibrary.getInstance().fireMessageBox("The previous application will be uninstalled! Please be patient.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("UpdaterUninstall"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                     Process p = Runtime.getRuntime().exec(localPath + "\\uninst.exe");
                     File executable = new File(localPath + "\\i-Share.exe");
                     while (executable.exists()) {
                         Thread.sleep(2000);
                     }
                     //p.waitFor();                                                                                                                        
-                    STLibrary.getInstance().fireMessageBox("The new version application is going to be installed.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(STLocalizer.getString("UpdaterInstall"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
                     Runtime.getRuntime().exec(STLibrary.getInstance().getNewVersionFileName(version));
                     System.exit(0);
                 }
                 catch (Exception ex) {
-                    STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -125,7 +126,7 @@ public class STUpdater {
             mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             button.setEnabled(false);
             i = 0;
-            String str = "<html>" + "<b>" + "Downloading is in progress......." + "</b>" + "</font>" + "</html>";
+            String str = "<html>" + "<b>" + STLocalizer.getString("DownloadInProgress") + "</b>" + "</font>" + "</html>";
             label.setText(str);
             timer.start();
             Thread downloadThread = new Thread(new DownloadRunnable());

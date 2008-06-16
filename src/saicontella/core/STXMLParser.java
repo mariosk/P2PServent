@@ -41,7 +41,7 @@ public class STXMLParser extends DefaultHandler {
 
     public STConfiguration readConfigurationFile() {
         //parse the xml file and get the dom object
-        if (parseXmlFile(STResources.getStr("Application.configurationFile"))) {
+        if (parseXmlFile(STResources.getAppStr("Application.configurationFile"))) {
             //Iterate through the list and print the data
             printData();
             return this.tmpConfiguration;
@@ -87,6 +87,7 @@ public class STXMLParser extends DefaultHandler {
         //logger.debug("\tAccount Name: " + this.tmpConfiguration.getAccountName());
         //logger.debug("\tAccount Server: " + this.tmpConfiguration.getAccountServer());
         //logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: " + this.tmpConfiguration.getWebServicePassword());
+        logger.debug("\tLanguage: " + this.tmpConfiguration.getLangLocale());
         logger.debug("\tWeb service: Username: " + this.tmpConfiguration.getWebServiceAccount() + ", Password: ********");
         logger.debug("\tListen Port: " + this.tmpConfiguration.getListenPort());
         if (this.tmpConfiguration.getListenAddress() != null)
@@ -200,6 +201,9 @@ public class STXMLParser extends DefaultHandler {
         else if (qName.equalsIgnoreCase("folders")) {           
             tmpConfiguration.setCompleteFolder(attributes.getValue("complete"));
             tmpConfiguration.setInCompleteFolder(attributes.getValue("incomplete"));
+        }
+        else if (qName.equalsIgnoreCase("locale")) {
+            tmpConfiguration.setLangLocale(attributes.getValue("value"));            
         }
 /*
         else if (qName.equalsIgnoreCase("ratio")) {           

@@ -29,8 +29,8 @@ import phex.gui.renderer.TransferSizeCellRenderer;
 import phex.servent.Servent;
 import phex.upload.UploadManager;
 import phex.upload.UploadState;
-import phex.utils.Localizer;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 public class STUploadFilesTableModel extends FWSortableTableModel
 {
@@ -83,15 +83,15 @@ public class STUploadFilesTableModel extends FWSortableTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "Host" ),
-            //Localizer.getString( "Vendor" ),
+            STLocalizer.getString( "Host" ),
+            //STLocalizer.getString( "Vendor" ),
             "User",
-            Localizer.getString( "File" ),
-            Localizer.getString( "PercentSign" ),
-            Localizer.getString( "Size" ),
-            Localizer.getString( "Rate" ),
-            Localizer.getString( "UploadTable_ETA" ),
-            Localizer.getString( "Status" )
+            STLocalizer.getString( "File" ),
+            STLocalizer.getString( "PercentSign" ),
+            STLocalizer.getString( "Size" ),
+            STLocalizer.getString( "Rate" ),
+            STLocalizer.getString( "UploadTable_ETA" ),
+            STLocalizer.getString( "Status" )
         };
 
         tableClasses = new Class[]
@@ -161,7 +161,7 @@ public class STUploadFilesTableModel extends FWSortableTableModel
             case RATE_MODEL_INDEX:
             {
                 return NumberFormatUtils.formatSignificantByteSize( 
-                    uploadState.getTransferSpeed() ) + Localizer.getString( "PerSec" );
+                    uploadState.getTransferSpeed() ) + STLocalizer.getString( "PerSec" );
             }
             case ETA_MODEL_INDEX:
                 return uploadState;

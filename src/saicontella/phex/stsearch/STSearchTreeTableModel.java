@@ -15,9 +15,9 @@ import phex.gui.renderer.FileSizeCellRenderer;
 import phex.gui.tabs.search.SearchResultElement;
 import phex.gui.tabs.search.SearchResultElementComparator;
 import phex.gui.models.ISortableModel;
-import phex.utils.Localizer;
 import phex.common.address.DestAddress;
 import saicontella.core.STLibrary;
+import saicontella.core.STLocalizer;
 
 /**
  *
@@ -79,16 +79,16 @@ public class STSearchTreeTableModel extends AbstractTreeTableModel
     {
         tableColumns = new String[]
         {
-            Localizer.getString( "File" ),
-            Localizer.getString( "Type" ),
-            Localizer.getString( "Size" ),
-            Localizer.getString( "Score" ),
-            Localizer.getString( "Rating" ),
-            Localizer.getString( "HostSpeed" ),
-            Localizer.getString( "SharingHost" ),
-//            Localizer.getString( "Vendor" ),
-//            Localizer.getString( "Information" ),
-//            Localizer.getString( "SHA1" )
+            STLocalizer.getString( "File" ),
+            STLocalizer.getString( "Type" ),
+            STLocalizer.getString( "Size" ),
+            STLocalizer.getString( "Score" ),
+            STLocalizer.getString( "Rating" ),
+            STLocalizer.getString( "HostSpeed" ),
+            STLocalizer.getString( "SharingHost" ),
+//            STLocalizer.getString( "Vendor" ),
+//            STLocalizer.getString( "Information" ),
+//            STLocalizer.getString( "SHA1" )
         };
 
         tableClasses = new Class[]

@@ -12,7 +12,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import phex.gui.common.HTMLMultiLinePanel;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -20,6 +19,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import phex.prefs.core.DownloadPrefs;
 import phex.prefs.core.SubscriptionPrefs;
+import saicontella.core.STLocalizer;
 
 public class STContentCommunityPanel extends JPanel
 {
@@ -43,14 +43,14 @@ public class STContentCommunityPanel extends JPanel
         PanelBuilder builder = new PanelBuilder( layout, this );
         CellConstraints cc = new CellConstraints();
         
-        builder.addSeparator( Localizer.getString( "ConfigWizard_ContentCommunityHeader" ),
+        builder.addSeparator( STLocalizer.getString( "ConfigWizard_ContentCommunityHeader" ),
             cc.xywh( 1, 1, 3, 1 ) );
         
         HTMLMultiLinePanel welcomeLines = new HTMLMultiLinePanel(
-            Localizer.getString( "ConfigWizard_ContentCommunityText" ) );
+            STLocalizer.getString( "ConfigWizard_ContentCommunityText" ) );
         builder.add( welcomeLines, cc.xy( 2, 3 ) );
         
-        joinPolarSkulk = new JCheckBox( Localizer.getString( "ConfigWizard_JoinPolarSkulk" ) );
+        joinPolarSkulk = new JCheckBox( STLocalizer.getString( "ConfigWizard_JoinPolarSkulk" ) );
         builder.add( joinPolarSkulk, cc.xy( 2, 5 ) );
     }
     

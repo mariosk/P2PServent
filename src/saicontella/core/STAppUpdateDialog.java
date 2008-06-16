@@ -63,7 +63,7 @@ public class STAppUpdateDialog extends JDialog {
             System.exit(0);
         }
         catch (Exception ex) {
-            STLibrary.getInstance().fireMessageBox(ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
         this.setCursor(Cursor.getDefaultCursor());
         dispose();

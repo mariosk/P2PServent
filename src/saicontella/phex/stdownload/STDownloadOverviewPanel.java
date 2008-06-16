@@ -35,13 +35,13 @@ import phex.gui.common.GUIUtils;
 import phex.gui.common.IconPack;
 import phex.gui.common.progressbar.DownloadFileScopeProvider;
 import phex.gui.common.progressbar.MultiScopeProgressBar;
-import phex.utils.Localizer;
 import phex.utils.SystemShellExecute;
 import phex.xml.sax.gui.DGuiSettings;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import saicontella.core.STLocalizer;
 
 public class STDownloadOverviewPanel extends JPanel
 {
@@ -130,7 +130,7 @@ public class STDownloadOverviewPanel extends JPanel
             "p"); //rows
         PanelBuilder panelBuilder = new PanelBuilder( layout, subPanel );
 
-        progressIconLabel = new JLabel( Localizer.getString("DownloadOverview_Progress") );
+        progressIconLabel = new JLabel( STLocalizer.getString("DownloadOverview_Progress") );
         panelBuilder.add( progressIconLabel, cc.xy( 3, 1 ) );
 
         ActionListener actionListener = new ActionListener()
@@ -172,78 +172,78 @@ public class STDownloadOverviewPanel extends JPanel
         layout.setColumnGroups( new int[][] { {1,5,9}, {3,7,11} } );
         PanelBuilder panelBuilder = new PanelBuilder( layout, subPanel );
 
-        panelBuilder.addSeparator(Localizer.getString("DownloadOverview_Transfer"),
+        panelBuilder.addSeparator(STLocalizer.getString("DownloadOverview_Transfer"),
             cc.xywh( 1, 1, layout.getColumnCount(), 1 ) );
 
-        JLabel label = new JLabel( Localizer.getString("DownloadOverview_Downloaded") );
+        JLabel label = new JLabel( STLocalizer.getString("DownloadOverview_Downloaded") );
         panelBuilder.add( label, cc.xy( 1, 3 ) );
         downloadedLabel = new JLabel( );
         panelBuilder.add( downloadedLabel, cc.xy( 3, 3 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_Remaining") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_Remaining") );
         panelBuilder.add( label, cc.xy( 5, 3 ) );
         remainingLabel = new JLabel();
         panelBuilder.add( remainingLabel, cc.xy( 7, 3 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_DownloadRate") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_DownloadRate") );
         panelBuilder.add( label, cc.xy( 9, 3 ) );
         downloadRateLabel = new JLabel();
         panelBuilder.add( downloadRateLabel, cc.xy( 11, 3 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_FileSize") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_FileSize") );
         panelBuilder.add( label, cc.xy( 1, 5 ) );
         totalSizeLabel = new JLabel();
         panelBuilder.add( totalSizeLabel, cc.xy( 3, 5 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_EstimatedTime") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_EstimatedTime") );
         panelBuilder.add( label, cc.xy( 5, 5 ) );
         etaLabel = new JLabel();
         panelBuilder.add( etaLabel, cc.xy( 7, 5 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_MaximalRate") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_MaximalRate") );
         panelBuilder.add( label, cc.xy( 9, 5 ) );
         maxRateLabel = new JLabel();
         panelBuilder.add( maxRateLabel, cc.xy( 11, 5 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_LastDownloaded") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_LastDownloaded") );
         panelBuilder.add( label, cc.xy( 1, 7 ) );
         lastDownloadedLabel = new JLabel();
         panelBuilder.add( lastDownloadedLabel, cc.xy( 3, 7 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_Created") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_Created") );
         panelBuilder.add( label, cc.xy( 9, 7 ) );
         createdLabel = new JLabel();
         panelBuilder.add( createdLabel, cc.xy( 11, 7 ) );
 
-        panelBuilder.addSeparator(Localizer.getString("DownloadOverview_Candidates"),
+        panelBuilder.addSeparator(STLocalizer.getString("DownloadOverview_Candidates"),
             cc.xywh( 1, 9, 11, 1 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_DownloadingCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_DownloadingCandidates") );
         panelBuilder.add( label, cc.xy( 1, 11 ) );
         downloadingCandidatesLabel = new JLabel();
         panelBuilder.add( downloadingCandidatesLabel, cc.xy( 3, 11 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_QueuedCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_QueuedCandidates") );
         panelBuilder.add( label, cc.xy( 5, 11 ) );
         queuedCandidatesLabel = new JLabel();
         panelBuilder.add( queuedCandidatesLabel, cc.xy( 7, 11 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_ConnectingCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_ConnectingCandidates") );
         panelBuilder.add( label, cc.xy( 9, 11 ) );
         connectingCandidatesLabel = new JLabel();
         panelBuilder.add( connectingCandidatesLabel, cc.xy( 11, 11 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_GoodCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_GoodCandidates") );
         panelBuilder.add( label, cc.xy( 1, 13 ) );
         goodCandidatesLabel = new JLabel();
         panelBuilder.add( goodCandidatesLabel, cc.xy( 3, 13 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_BadCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_BadCandidates") );
         panelBuilder.add( label, cc.xy( 5, 13 ) );
         badCandidatesLabel = new JLabel();
         panelBuilder.add( badCandidatesLabel, cc.xy( 7, 13 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_TotalCandidates") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_TotalCandidates") );
         panelBuilder.add( label, cc.xy( 9, 13 ) );
         totalCandidatesLabel = new JLabel();
         panelBuilder.add( totalCandidatesLabel, cc.xy( 11, 13 ) );
@@ -266,10 +266,10 @@ public class STDownloadOverviewPanel extends JPanel
             "p, 2dlu, p, 2dlu, p, 2dlu, p, 2dlu, p"); //rows
         PanelBuilder panelBuilder = new PanelBuilder( layout, subPanel );
 
-        panelBuilder.addSeparator(Localizer.getString("DownloadOverview_Information"),
+        panelBuilder.addSeparator(STLocalizer.getString("DownloadOverview_Information"),
             cc.xywh( 1, 1, layout.getColumnCount(), 1 ) );
 
-        JLabel label = new JLabel( Localizer.getString("DownloadOverview_FileName") );
+        JLabel label = new JLabel( STLocalizer.getString("DownloadOverview_FileName") );
         panelBuilder.add( label, cc.xy( 1, 3 ) );
         fileNameTxt = new JTextField( );
         fileNameTxt.setEditable(false);
@@ -279,7 +279,7 @@ public class STDownloadOverviewPanel extends JPanel
         fileNameTxt.setMinimumSize(new Dimension(0,0));
         panelBuilder.add( fileNameTxt, cc.xy( 3, 3 ) );
 
-        label = new JLabel( Localizer.getString("DownloadOverview_IncompleteFile") );
+        label = new JLabel( STLocalizer.getString("DownloadOverview_IncompleteFile") );
         panelBuilder.add( label, cc.xy( 1, 5 ) );
         incompleteFileTxt = new JTextField();
         incompleteFileTxt.setEditable(false);
@@ -292,7 +292,7 @@ public class STDownloadOverviewPanel extends JPanel
         {
             exploreFileBtn = new JButton();
             exploreFileBtn.setToolTipText(
-                Localizer.getString( "DownloadOverview_Explore" ) );
+                STLocalizer.getString( "DownloadOverview_Explore" ) );
             exploreFileBtn.setMargin(GUIUtils.EMPTY_INSETS);
             exploreFileBtn.addActionListener( new ExploreActionListener() );
             panelBuilder.add( exploreFileBtn, cc.xy( 5, 5 ) );
@@ -383,20 +383,20 @@ public class STDownloadOverviewPanel extends JPanel
         lastDownloadedLabel.setText( dateFormat.format( lastDownloadFile.getDownloadedDate() ) );
 
         downloadRateLabel.setText( NumberFormatUtils.formatSignificantByteSize(
-            lastDownloadFile.getTransferSpeed() ) + Localizer.getString( "PerSec" ) );
+            lastDownloadFile.getTransferSpeed() ) + STLocalizer.getString( "PerSec" ) );
         downloadRateLabel.setToolTipText( NumberFormatUtils.formatFullByteSize(
-            lastDownloadFile.getTransferSpeed() ) + Localizer.getString( "PerSec" ) );
+            lastDownloadFile.getTransferSpeed() ) + STLocalizer.getString( "PerSec" ) );
 
         long maxRate = lastDownloadFile.getDownloadThrottlingRate();
         String maxRateStr;
         if ( maxRate >= Integer.MAX_VALUE )
         {
-            maxRateStr = Localizer.getDecimalFormatSymbols().getInfinity();
+            maxRateStr = STLocalizer.getDecimalFormatSymbols().getInfinity();
         }
         else
         {
             maxRateStr = NumberFormatUtils.formatSignificantByteSize( maxRate)
-                + Localizer.getString( "PerSec" );
+                + STLocalizer.getString( "PerSec" );
         }
         maxRateLabel.setText( maxRateStr );
 

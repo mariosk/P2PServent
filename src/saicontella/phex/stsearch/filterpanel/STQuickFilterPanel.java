@@ -40,12 +40,12 @@ import phex.rules.condition.NotCondition;
 import phex.rules.condition.OrConcatCondition;
 import phex.rules.condition.FileSizeCondition.Range;
 import phex.rules.consequence.FilterFromSearchConsequence;
-import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stsearch.STSearchResultsDataModel;
+import saicontella.core.STLocalizer;
 
 public class STQuickFilterPanel extends JPanel
 {
@@ -94,48 +94,48 @@ public class STQuickFilterPanel extends JPanel
         PanelBuilder panelBuilder = new PanelBuilder( layout, this );
         layout.setColumnGroups( new int[][]{{2, 8},{4, 10},{6,12}} );
         
-        JLabel label = panelBuilder.addLabel( Localizer.getString( "SearchTab_WithTerms" ),
+        JLabel label = panelBuilder.addLabel( STLocalizer.getString( "SearchTab_WithTerms" ),
             cc.xywh(2, 2, 1, 1) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTWithTerms") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTWithTerms") );
         
         QuickFilterActivationHandler activationHandler = new QuickFilterActivationHandler();
         
         withTermsTF = new JTextField( 8 );
         withTermsTF.addKeyListener( activationHandler );
-        withTermsTF.setToolTipText( Localizer.getString("SearchTab_TTTWithTerms") );
+        withTermsTF.setToolTipText( STLocalizer.getString("SearchTab_TTTWithTerms") );
         Keymap keymap = JTextField.addKeymap( "SearchFilterTextEditor", withTermsTF.getKeymap() );
         withTermsTF.setKeymap( keymap );
         GUIUtils.assignKeymapToTextField( keymap, withTermsTF );
         panelBuilder.add( withTermsTF, cc.xywh(4, 2, 3, 1) );
         
-        label = panelBuilder.addLabel( Localizer.getString( "SearchTab_WithoutTerms" ),
+        label = panelBuilder.addLabel( STLocalizer.getString( "SearchTab_WithoutTerms" ),
             cc.xywh(8, 2, 1, 1) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTWithoutTerms") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTWithoutTerms") );
         
         withoutTermsTF = new JTextField( 8 );
         withoutTermsTF.addKeyListener( activationHandler );
-        withoutTermsTF.setToolTipText( Localizer.getString("SearchTab_TTTWithoutTerms") );
+        withoutTermsTF.setToolTipText( STLocalizer.getString("SearchTab_TTTWithoutTerms") );
         keymap = JTextField.addKeymap( "SearchFilterTextEditor", withoutTermsTF.getKeymap() );
         withoutTermsTF.setKeymap( keymap );
         GUIUtils.assignKeymapToTextField( keymap, withoutTermsTF );
         panelBuilder.add( withoutTermsTF, cc.xywh(10, 2, 3, 1) );
 
-        label = panelBuilder.addLabel( Localizer.getString( "SearchTab_FileType" ),
+        label = panelBuilder.addLabel( STLocalizer.getString( "SearchTab_FileType" ),
             cc.xywh(2, 4, 1, 1) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTFileType") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTFileType") );
         
         mediaTypeComboBox = new JComboBox( MediaType.getAllMediaTypes() );
         mediaTypeComboBox.addItemListener( activationHandler );
         mediaTypeComboBox.setRenderer( new MediaTypeListRenderer() );
         panelBuilder.add( mediaTypeComboBox, cc.xywh(4, 4, 3, 1) );
         
-        label = panelBuilder.addLabel( Localizer.getString( "SearchTab_MinFileSize" ),
+        label = panelBuilder.addLabel( STLocalizer.getString( "SearchTab_MinFileSize" ),
             cc.xywh(2, 6, 1, 1) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTMinFileSize") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTMinFileSize") );
         
         minFileSizeTF = new IntegerTextField( 9 );
         minFileSizeTF.addKeyListener( activationHandler );
-        minFileSizeTF.setToolTipText( Localizer.getString( "SearchTab_TTTMinFileSize" ) );
+        minFileSizeTF.setToolTipText( STLocalizer.getString( "SearchTab_TTTMinFileSize" ) );
         keymap = JTextField.getKeymap( "SearchFilterTextEditor" );
         minFileSizeTF.setKeymap( keymap );
         GUIUtils.assignKeymapToTextField( keymap, minFileSizeTF );
@@ -143,16 +143,16 @@ public class STQuickFilterPanel extends JPanel
         
         minFileSizeUnitComboBox = new FWSizeDefComboBox();
         minFileSizeUnitComboBox.addItemListener( activationHandler );
-        minFileSizeUnitComboBox.setToolTipText( Localizer.getString( "SearchTab_TTTMinFileSize" ) );
+        minFileSizeUnitComboBox.setToolTipText( STLocalizer.getString( "SearchTab_TTTMinFileSize" ) );
         panelBuilder.add( minFileSizeUnitComboBox, cc.xywh(6, 6, 1, 1) );
 
-        label = panelBuilder.addLabel( Localizer.getString( "SearchTab_MaxFileSize" ),
+        label = panelBuilder.addLabel( STLocalizer.getString( "SearchTab_MaxFileSize" ),
             cc.xywh(8, 6, 1, 1) );
-        label.setToolTipText( Localizer.getString("SearchTab_TTTMaxFileSize") );
+        label.setToolTipText( STLocalizer.getString("SearchTab_TTTMaxFileSize") );
         
         maxFileSizeTF = new IntegerTextField( 9 );
         maxFileSizeTF.addKeyListener( activationHandler );
-        maxFileSizeTF.setToolTipText( Localizer.getString( "SearchTab_TTTMaxFileSize" ) );
+        maxFileSizeTF.setToolTipText( STLocalizer.getString( "SearchTab_TTTMaxFileSize" ) );
         keymap = JTextField.getKeymap( "SearchFilterTextEditor" );
         maxFileSizeTF.setKeymap( keymap );
         GUIUtils.assignKeymapToTextField( keymap, maxFileSizeTF );
@@ -160,7 +160,7 @@ public class STQuickFilterPanel extends JPanel
         
         maxFileSizeUnitComboBox = new FWSizeDefComboBox( );
         maxFileSizeUnitComboBox.addItemListener( activationHandler );
-        maxFileSizeUnitComboBox.setToolTipText( Localizer.getString( "SearchTab_TTTMaxFileSize" ) );
+        maxFileSizeUnitComboBox.setToolTipText( STLocalizer.getString( "SearchTab_TTTMaxFileSize" ) );
         panelBuilder.add( maxFileSizeUnitComboBox, cc.xywh(12, 6, 1, 1) );
     }
     
