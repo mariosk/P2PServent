@@ -10,7 +10,7 @@ package saicontella.core;
 
 public class STMainProgram {
 
-    public static void main(String[] args) {                
+    public static void main(String[] args) {
         STLibrary sLibrary = STLibrary.getInstance();
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex_SaiconNetwork.hosts");
         sLibrary.removePhexFile(sLibrary.getApplicationLocalPath() + "/phex.log");

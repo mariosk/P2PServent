@@ -166,6 +166,7 @@ public class STMainForm extends JFrame {
     private Vector[] friendsListData;
     private STMainForm stMainForm;
     private boolean initialized;
+    private STSystemTray tray;
 
     public void disableTabs() {
         this.mainTabbedPanel.setEnabledAt(STMainForm.NETWORK_TAB_INDEX, false);
@@ -285,6 +286,7 @@ public class STMainForm extends JFrame {
         
         $$$setupUI$$$();
 
+        this.tray = new STSystemTray();
         this.drawMenus();
 
         STButtonsPanel buttonsPanel1 = new STButtonsPanel();
@@ -377,7 +379,7 @@ public class STMainForm extends JFrame {
                 stMainForm.setCursor(Cursor.getDefaultCursor());
             }
         });
-
+        
         this.initialized = true;
     }
 
@@ -1095,7 +1097,17 @@ public class STMainForm extends JFrame {
         }
 
         @Override
-        public void windowOpened(WindowEvent e) {
+        public void windowIconified(WindowEvent e) {
+            tray.addToSystemTray();
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            tray.removeFromSystemTray();
+        }
+
+        @Override
+        public void windowOpened(WindowEvent e) {            
             File f = new File(sLibrary.getConfigurationFile());
             if (!f.exists()
               || sLibrary.getSTConfiguration().getCompleteFolder() == null

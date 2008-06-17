@@ -154,6 +154,10 @@ public class STLibrary extends Component {
         return this.firstTimeOpened;
     }
 
+    public void DeIconifyMainForm() {
+        this.stMainForm.setState(JFrame.NORMAL);
+    }
+    
     public STLibrary() {
         UIDefaults uiDefaults = UIManager.getDefaults();
         uiDefaults.put("Menu.background", Color.BLACK);

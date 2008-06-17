@@ -176,6 +176,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="SAICON" level="application" />
     <orderEntryProperties />
   </component>
 </module>
