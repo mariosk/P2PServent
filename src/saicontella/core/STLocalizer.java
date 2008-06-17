@@ -133,21 +133,7 @@ public class STLocalizer
         int size = fileList.size();
         for (int i = 0; i < size; i++)
         {
-            // 1) phex.resources classpath
-            resourceName = "/saicontella/core/resources/" + fileList.get( i )
-                + ".properties";
-            tmpMap = loadProperties( resourceName );
-            if ( tmpMap != null )
-            {
-                langKeyMap.putAll( tmpMap );
-                logger.info( "Loaded language map: " + resourceName + "." );
-                return;
-            }
-            else {
-                logger.info( "Could not load language map: " + resourceName + "." );    
-            }
-            // 2) e.g. $PHEX/ext
-            resourceName = "/" + fileList.get( i ) + ".properties";
+            resourceName = STLibrary.getInstance().getApplicationLocalPath() + "\\" + fileList.get( i ) + ".properties";
             tmpMap = loadProperties( resourceName );
             if ( tmpMap != null )
             {
@@ -168,14 +154,14 @@ public class STLocalizer
         BufferedReader reader = null;
 
         try {
-            s = STLocalizer.class.getResourceAsStream( name );
+            s = new FileInputStream(name);
             if ( s == null ) { return null; }
             stream = new InputStreamReader(s,"UTF8");
             // make sure it is buffered
             reader = new BufferedReader(stream);
         }
         catch (Exception e) {
-
+            return null;
         }
         
         Properties props = new Properties();
@@ -203,20 +189,19 @@ public class STLocalizer
     {
         if ( availableLocales != null ) { return availableLocales; }
         availableLocales = new ArrayList<Locale>();
-        List<Locale> list = loadLocalList( "/language.list" );
-        availableLocales.addAll( list );
-        list = loadLocalList( "/saicontella/core/resources/language.list" );
-        availableLocales.addAll( list );
+        List<Locale> list = loadLocalList( STLibrary.getInstance().getApplicationLocalPath() + "\\" + STResources.getAppStr("Application.languageList") );
+        availableLocales.addAll( list );                
         return availableLocales;
     }
 
     private static List<Locale> loadLocalList(String name)
     {
-        InputStream stream = STLocalizer.class.getResourceAsStream( name );
-        if ( stream == null ) { return Collections.emptyList(); }
-        // make sure it is buffered
+        InputStream stream = null;
         try
         {
+            stream = new FileInputStream(name);
+            if ( stream == null ) { return Collections.emptyList(); }
+            // make sure it is buffered            
             BufferedReader reader = new BufferedReader( new InputStreamReader(
                 stream, "ISO-8859-1" ) );
             ArrayList<Locale> list = new ArrayList<Locale>();

@@ -16,52 +16,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STAppUpdateDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STAppUpdateDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/gnutella/STGnutellaFramework.java" afterPath="$PROJECT_DIR$/src/saicontella/core/gnutella/STGnutellaFramework.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWDownloadTab.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWDownloadTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STResources.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STResources.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/p2pservent.nsi" afterPath="$PROJECT_DIR$/release/p2pservent.nsi" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\images\PL.gif" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/lib/svnphex.jar" afterPath="$PROJECT_DIR$/release/lib/svnphex.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STLoginDialog.form" afterPath="$PROJECT_DIR$/src/saicontella/core/STLoginDialog.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STLibrary.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STLibrary.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STAdminDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STAdminDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STContentCommunityPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STContentCommunityPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchActivityBox.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Lang_en_US.properties" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\src\saicontella\core\resources\Lang_el_GR.properties" afterPath="" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\src\saicontella\core\resources\Lang_en_US.properties" afterPath="" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\images\UK.gif" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Lang_el_GR.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STLoginDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STLoginDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STFilterListPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STFilterListPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchTreeTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchTreeTableModel.java" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\src\saicontella\core\resources\language.list" afterPath="" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\src\saicontella\core\resources\Lang_pl.properties" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/resources/saicontella.properties" afterPath="$PROJECT_DIR$/src/saicontella/core/resources/saicontella.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STDirectoryPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STDirectoryPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STXMLParser.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STXMLParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STQuickFilterPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STQuickFilterPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STDownloadOverviewPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STDownloadOverviewPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetFavoritesPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetFavoritesPanel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/language.list" />
+      <change type="DELETED" beforePath="F:\SAICON\P2PServent\images\GR.gif" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/P2PServent.jar" afterPath="$PROJECT_DIR$/release/P2PServent.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/P2PServent.iws" afterPath="$PROJECT_DIR$/P2PServent.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWCandidateTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWCandidateTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STMainForm.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STMainForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STFilterListTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STFilterListTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTab.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STDialogBanner.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STDialogBanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STConfigurationWizardDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STConfigurationWizardDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/release/lib/svnphex.jar" afterPath="$PROJECT_DIR$/release/lib/svnphex.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadStatusInfo.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadStatusInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadFilesTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadFilesTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadTab.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stupload/STUploadTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STWelcomePanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STWelcomePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STButtonsPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STButtonsPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTreePane.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTreePane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STConfiguration.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchResultsPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchResultsPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STGoodbyePanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STGoodbyePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STDownloadTransferTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STDownloadTransferTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchTab.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STKeywordSearchBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STDownloadConfigDialog.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STDownloadConfigDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTab.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stnetwork/STNetworkTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWDownloadTableModel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWDownloadTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STSharingPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stwizard/STSharingPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STSearchFilterPanel.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/filterpanel/STSearchFilterPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" afterPath="$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchInfoBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/updater/STUpdater.java" afterPath="$PROJECT_DIR$/src/saicontella/core/updater/STUpdater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/saicontella/core/STLocalizer.java" afterPath="$PROJECT_DIR$/src/saicontella/core/STLocalizer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Lang_pl.properties" />
     </list>
     <ignored path="P2PServent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -126,17 +100,7 @@
     <favorites_list name="P2PServent" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="STLibrary.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLibrary.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="114" column="83" selection-start="6563" selection-end="6563" vertical-scroll-proportion="0.5540275">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -288,34 +252,24 @@
     <option name="SHOW_DIALOG" value="false" />
   </component>
   <component name="RunManager" selected="Application.MainProgram">
-    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
-      <method>
-        <option name="Make" value="true" />
-      </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
@@ -355,24 +309,34 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration default="false" name="MainProgram" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="saicontella.core.STMainProgram" />
@@ -475,7 +439,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1688" height="1024" extended-state="0" />
+    <frame x="-4" y="-4" width="1688" height="1024" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23960881" order="3" />
@@ -483,11 +447,11 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2096577" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3832952" order="1" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3569794" order="3" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3569794" order="3" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5320366" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837528" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498469" order="1" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
@@ -565,41 +529,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STAdminDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="0" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.34615386">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STAppUpdateDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="68" selection-start="2181" selection-end="2211" vertical-scroll-proportion="1.1132479">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STButtonsPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="102" selection-start="2727" selection-end="2727" vertical-scroll-proportion="1.0041407">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/gnutella/STGnutellaFramework.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="139" column="124" selection-start="6155" selection-end="6155" vertical-scroll-proportion="0.34615386">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stdownload/STSWDownloadTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="181" column="101" selection-start="7166" selection-end="7166" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stsearch/STSearchResultsPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="86" column="8" selection-start="2762" selection-end="2762" vertical-scroll-proportion="0.33333334">
@@ -630,18 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLocalizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="269" column="0" selection-start="9331" selection-end="9378" vertical-scroll-proportion="0.3072519">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUsedLocale#0;class#STLocalizer#0" expanded="false" />
-            <element signature="method#getDecimalFormatSymbols#0;class#STLocalizer#0" expanded="false" />
-            <element signature="method#getIntegerNumberFormat#0;class#STLocalizer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/saicontella/phex/stlibrary/STLibraryTab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="230" column="44" selection-start="8663" selection-end="8663" vertical-scroll-proportion="0.3072519">
@@ -653,15 +570,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="124" column="105" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.3064833">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLoginDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="43" selection-start="4759" selection-end="4781" vertical-scroll-proportion="0.3072519">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -679,9 +587,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLoginDialog.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.6.0_04/jre/lib/rt.jar!/sun/awt/image/ImageFetcher.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="1264" selection-end="1264" vertical-scroll-proportion="0.6251483">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/resources/saicontella.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="517" selection-end="541" vertical-scroll-proportion="0.3715847">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLocalizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="0" selection-start="5638" selection-end="5638" vertical-scroll-proportion="0.3167939">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STResources.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1318" selection-end="1318" vertical-scroll-proportion="1.0710382">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLoginDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="42" selection-start="933" selection-end="975" vertical-scroll-proportion="0.22404371">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/saicontella/core/STLibrary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="83" selection-start="6563" selection-end="6563" vertical-scroll-proportion="0.5540275">
+        <state line="382" column="0" selection-start="17925" selection-end="17925" vertical-scroll-proportion="0.3164794">
           <folding />
         </state>
       </provider>

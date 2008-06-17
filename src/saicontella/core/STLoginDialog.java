@@ -33,7 +33,6 @@ public class STLoginDialog extends JDialog implements ItemListener {
     private JPanel buttonsPanel;
     private JPanel fieldsPanel;
     private JComboBox langsComboBox;
-    private JLabel langsLabel;
     private List<Locale> availableLocales;
 
     public STLoginDialog() {
@@ -46,8 +45,9 @@ public class STLoginDialog extends JDialog implements ItemListener {
         availableLocales = STLocalizer.getAvailableLocales();
         int configLangFound = -1;
         for (int i = 0; i < availableLocales.size(); i++) {
-            ImageIcon image = new ImageIcon(STResources.getAppStr("lang_" + availableLocales.get(i).toString() + ".ico"));
-            langsComboBox.addItem(image);
+            //ImageIcon image = new ImageIcon(STResources.getAppStr("lang_" + availableLocales.get(i).toString() + ".ico"));
+            //langsComboBox.addItem(image);
+            langsComboBox.addItem(availableLocales.get(i).toString());
             if (configLangFound < 0) {
                 if (STLibrary.getInstance().getSTConfiguration().getLangLocale() != null) {
                     if (STLibrary.getInstance().getSTConfiguration().getLangLocale().equals(availableLocales.get(i).toString()))
@@ -125,7 +125,6 @@ public class STLoginDialog extends JDialog implements ItemListener {
     }
 
     public void itemStateChanged(ItemEvent e) {
-        this.langsLabel.setText(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
         STLibrary.getInstance().getSTConfiguration().setLangLocale(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
         STLocalizer.initialize( STLibrary.getInstance().getSTConfiguration().getLangLocale() );
     }

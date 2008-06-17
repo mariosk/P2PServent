@@ -55,14 +55,14 @@ public class STLibrary extends Component {
         public static final String ADMIN_WS_ENDPOINT = "http://85.17.217.11:8080/UserServer/UserServerAdmin?wsdl";
         public static final String ADS_USER_AGENT = "SaiconTella/v1.0 (compatible; MSIE 7.0; Windows NT 6.0";
         // Advertisement links here...
-        public static final String ADS_MY_FRIENDS_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=41";
-        public static final String ADS_ABOUT_URL1 = "http://85.17.217.5/www/delivery/avw.php?zoneid=42";
-        public static final String ADS_ABOUT_URL2 = "http://85.17.217.5/www/delivery/avw.php?zoneid=43";
-        public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=26";
-        public static final String ISHARE_LOGO_URL = "http://85.17.217.5/www/delivery/avw.php?zoneid=44";
+        public static final String ADS_MY_FRIENDS_URL = STLocalizer.getString("AdsMyFriendsUrl");
+        public static final String ADS_ABOUT_URL1 = STLocalizer.getString("AdsAboutUrl1");
+        public static final String ADS_ABOUT_URL2 = STLocalizer.getString("AdsAboutUrl2");
+        public static final String ADS_WEB_SERVER_URL = STLocalizer.getString("AdsWebServerUrl");
+        public static final String ISHARE_LOGO_URL = STLocalizer.getString("IShareLogoUrl");
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
-        public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
+        //public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
         public static final int KEEP_ALIVE_THR_SECS = 10; // in seconds
         public static final int ADS_THR_SECS = 10; // in seconds                               
         public static final String KEEP_ALIVE_THR_NAME = "KeepAliveToWebService_Thread";

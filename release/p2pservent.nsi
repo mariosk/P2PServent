@@ -5,7 +5,7 @@
 ;--------------------------------
 ;General
   !define MAIN_DIR "F:\SAICON\P2PServent"
-  !define VERSION "v1.12"
+  !define VERSION "v1.13"
   !define RELEASE_DIR "${MAIN_DIR}\release"
   !define SRC_DIR "${MAIN_DIR}"
 
@@ -88,6 +88,10 @@ File "${SRC_DIR}\images\manualicon.png"
 File "${SRC_DIR}\images\helpupdates.png"
 
 SetOutPath "$INSTDIR"
+File "${MAIN_DIR}\language.list"
+File "${MAIN_DIR}\Lang_pl.properties"
+File "${MAIN_DIR}\Lang_en_US.properties"
+File "${MAIN_DIR}\Lang_el_GR.properties"
 File "${RELEASE_DIR}\i-Share.exe"
 File "${RELEASE_DIR}\i-ShareUpdater.exe"
 
