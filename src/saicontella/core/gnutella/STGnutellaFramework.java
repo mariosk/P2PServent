@@ -251,7 +251,7 @@ public class STGnutellaFramework {
             for (int i = 0; i < peersList.size(); i++) {
                 String ipAddress = ((ActiveSessionMiniWrapper)peersList.get(i)).getIp();
                 String friendName = ((ActiveSessionMiniWrapper)peersList.get(i)).getUsername();
-                if (name.equals(friendName)) {
+                if (name.equalsIgnoreCase(friendName)) {
                     Integer port = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort();
                     userInfo[0] = ipAddress;
                     userInfo[1] = port;
@@ -263,7 +263,7 @@ public class STGnutellaFramework {
             for (int i = 0; i < STLibrary.getInstance().getSTConfiguration().getMyFriends().size(); i++) {
                 String ipAddress = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getIPAddress();
                 String friendName = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendName();
-                if (friendName.equals(name)) {
+                if (friendName.equalsIgnoreCase(name)) {
                     Integer port = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getPortNumber();
                     userInfo[0] = ipAddress;
                     userInfo[1] = port;

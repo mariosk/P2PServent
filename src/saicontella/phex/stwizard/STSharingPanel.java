@@ -17,6 +17,10 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import saicontella.phex.stlibrary.STLibraryTreePane;
 import saicontella.core.STLocalizer;
+import saicontella.core.STLibrary;
+
+import java.io.File;
+import java.awt.*;
 
 public class STSharingPanel extends JPanel
 {
@@ -48,6 +52,7 @@ public class STSharingPanel extends JPanel
         builder.add( welcomeLines, cc.xywh( 2, 3, 4, 1 ) );
         
         STLibraryTreePane libraryTree = new STLibraryTreePane( this );
+        libraryTree.addShareFolder(new File(STLibrary.getInstance().getApplicationLocalPath() + "\\Complete"));
         builder.add( libraryTree, cc.xywh(2, 5, 4, 1) );
     }
 }

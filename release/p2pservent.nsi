@@ -5,7 +5,7 @@
 ;--------------------------------
 ;General
   !define MAIN_DIR "F:\SAICON\P2PServent"
-  !define VERSION "v1.15"
+  !define VERSION "v1.16"
   !define RELEASE_DIR "${MAIN_DIR}\release"
   !define SRC_DIR "${MAIN_DIR}"
 
@@ -209,7 +209,14 @@ SectionEnd ; end of uninstall section
 
 Section /o "un.i-Share User Configuration"
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
-RMDir /r "$INSTDIR"
+RMDir "$INSTDIR\images"
+RMDir "$INSTDIR\lib"
+Delete "$INSTDIR\uninst.exe"
+Delete "$INSTDIR\saicontella.xml"
+Delete "$INSTDIR\saicontella.xml.tmp"
+Delete "$INSTDIR\sharedlibrary.xml"
+Delete "$INSTDIR\sharedlibrary.xml.tmp"
+RMDir "$INSTDIR"
 SectionEnd ; end of uninstall section
 
 ; eof

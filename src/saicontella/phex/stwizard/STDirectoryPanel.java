@@ -60,6 +60,7 @@ public class STDirectoryPanel extends JPanel
         builder.addLabel( STLocalizer.getString( "ConfigWizard_Incomplete" ),
             cc.xy( 2, 5 ) );
         incompleteDirectoryTF = new JTextField( DownloadPrefs.IncompleteDirectory.get(), 30 );
+        incompleteDirectoryTF.setText(STLibrary.getInstance().getApplicationLocalPath() + "\\Incomplete");
         builder.add( incompleteDirectoryTF, cc.xy( 4, 5 ) );
         JButton button = new JButton( STLocalizer.getString( "ConfigWizard_SetFolder" ) );
         //button.setMargin( noInsets );
@@ -69,6 +70,7 @@ public class STDirectoryPanel extends JPanel
         builder.addLabel( STLocalizer.getString( "ConfigWizard_Destination" ),
             cc.xy( 2, 7 ) );
         downloadDirectoryTF = new JTextField( DownloadPrefs.DestinationDirectory.get(), 30 );
+        downloadDirectoryTF.setText(STLibrary.getInstance().getApplicationLocalPath() + "\\Complete");
         builder.add( downloadDirectoryTF, cc.xy( 4, 7 ) );
         button = new JButton( STLocalizer.getString( "ConfigWizard_SetFolder" ) );
         //button.setMargin( noInsets );

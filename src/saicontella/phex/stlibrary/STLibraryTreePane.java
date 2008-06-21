@@ -115,6 +115,10 @@ public class STLibraryTreePane extends JPanel
         }
     }
 
+    public void addShareFolder(File dir) {
+        this.addShareFolderAction.shareDirRecursive(dir);
+    }
+    
     private void prepareComponent()
     {
         CellConstraints cc = new CellConstraints();
@@ -243,7 +247,7 @@ public class STLibraryTreePane extends JPanel
         {
         }
 
-        private void shareDirRecursive(File file)
+        public void shareDirRecursive(File file)
         {
             if (!file.isDirectory())
             {

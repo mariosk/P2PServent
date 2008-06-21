@@ -18,6 +18,8 @@ import javax.swing.*;
 
 import phex.common.log.NLogger;
 import phex.gui.prefs.UpdatePrefs;
+import phex.share.SharedFilesService;
+import phex.share.FileRescanRunner;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
@@ -217,7 +219,19 @@ public class STConfigurationWizardDialog extends JDialog
             int height = Math.max( prefSize.height, currSize.height );
             setSize( height*5/4, height );
             doLayout();
-        }        
+        }
+
+        if (newPage == sharingPanel) {
+            SharedFilesService sharedFilesService = STLibrary.getInstance().getGnutellaFramework().getServent().getSharedFilesService();
+            FileRescanRunner.rescan(sharedFilesService, true, false);
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            try {
+                Thread.sleep(5000);
+            }
+            catch (Exception ex) {
+            }
+            this.setCursor(Cursor.getDefaultCursor());
+        }
     }
     
     private final class NextBtnListener implements ActionListener
