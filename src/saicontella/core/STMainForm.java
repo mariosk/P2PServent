@@ -23,9 +23,13 @@ import javax.swing.event.ListSelectionEvent;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.Desktop;
 import java.util.Vector;
 import java.util.ArrayList;
-import java.io.File;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.MalformedURLException;
 
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -39,6 +43,7 @@ import saicontella.phex.stupload.STUploadTab;
 import saicontella.phex.stlibrary.STLibraryTab;
 import saicontella.phex.stwizard.STConfigurationWizardDialog;
 import saicontella.phex.STFWElegantPanel;
+import org.jdesktop.jdic.desktop.*;
 
 public class STMainForm extends JFrame {
 
@@ -112,6 +117,7 @@ public class STMainForm extends JFrame {
     private JLabel myIShareLogoLabel;
     private JPanel rightImagePanel;
     private JPanel leftImagePanel;
+    private JPanel middleImagePanel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -380,20 +386,22 @@ public class STMainForm extends JFrame {
             }
         });
         
-        this.initialized = true;
+        this.initialized = true;               
     }
 
     public boolean initializedProperly() {
         return this.initialized;
     }
     
-    public void setMyFriendsAdImageLabelIcon(ImageIcon icon) {
+    public void setMyFriendsAdImageLabelIcon(ImageIcon icon, String link) {
         icon = STLibrary.getInstance().resizeMyImageIcon(icon, 200, 300);
         this.myFriendsAdsLabel.setIcon(icon);
         this.myFriendsAdsLabel.repaint();
+        if (link.length() > 0)
+            this.myFriendsAdsLabel.addMouseListener(new STMouseListener(link, this));
     }
 
-    public void setAdImageLabelIcon(ImageIcon icon) {
+    public void setAdImageLabelIcon(ImageIcon icon, String link) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
         if (h < 700) {
@@ -403,10 +411,12 @@ public class STMainForm extends JFrame {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, 700, 170);
         }
         this.myAdsImageLabel.setIcon(icon);
-        this.myAdsImageLabel.repaint();        
+        this.myAdsImageLabel.repaint();
+        if (link.length() > 0)
+            this.myAdsImageLabel.addMouseListener(new STMouseListener(link, this));
     }
 
-    public void setIShareImageLabelIcon(ImageIcon icon) {
+    public void setIShareImageLabelIcon(ImageIcon icon, String link) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
         if (h < 700) {
@@ -416,7 +426,9 @@ public class STMainForm extends JFrame {
             icon = STLibrary.getInstance().resizeMyImageIcon(icon, 250, 170);
         }
         this.myIShareLogoLabel.setIcon(icon);
-        this.myIShareLogoLabel.repaint();        
+        this.myIShareLogoLabel.repaint();
+        if (link.length() > 0)
+            this.myIShareLogoLabel.addMouseListener(new STMouseListener(link, this));
     }
 
     /**

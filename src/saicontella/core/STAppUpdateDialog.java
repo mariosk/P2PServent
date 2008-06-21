@@ -58,7 +58,7 @@ public class STAppUpdateDialog extends JDialog {
         try {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));            
             STLibrary.getInstance().STLogoutUser();
-            String command = "./i-ShareUpdater.exe " + "\"" + STLibrary.getInstance().getLatestVersion() + "\"" + " " + "\"" + STLibrary.getInstance().getLatestVersionURL() + "\"" + " " + "\"" + STLibrary.getInstance().getApplicationLocalPath() + "\"";
+            String command = STLibrary.getInstance().getApplicationLocalPath() + "\\i-ShareUpdater.exe " + "\"" + STLibrary.getInstance().getLatestVersion() + "\"" + " " + "\"" + STLibrary.getInstance().getLatestVersionURL() + "\"" + " " + "\"" + STLibrary.getInstance().getApplicationLocalPath() + "\"";
             Runtime.getRuntime().exec(command);
             System.exit(0);
         }

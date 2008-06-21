@@ -35,6 +35,7 @@ import phex.security.SecurityRule;
 import phex.servent.Servent;
 import phex.gui.tabs.search.SearchResultElement;
 import phex.gui.tabs.search.SearchResultElementComparator;
+import saicontella.core.STLibrary;
 
 /**                                                                                                  .
  * This data model is doing the transition between the search result coming
@@ -342,11 +343,11 @@ public class STSearchResultsDataModel implements STISearchDataModel
         }
         if ( quickFilterRule != null )
         {
-            quickFilterRule.process(search, remoteFiles);
+            quickFilterRule.process(search, remoteFiles, STLibrary.getInstance().getGnutellaFramework().getServent());
         }
         for ( Rule rule : searchFilterRuleSet )
         {
-            rule.process(search, remoteFiles);
+            rule.process(search, remoteFiles, STLibrary.getInstance().getGnutellaFramework().getServent());
         }
     }
     

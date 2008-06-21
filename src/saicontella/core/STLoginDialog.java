@@ -140,7 +140,7 @@ public class STLoginDialog extends JDialog implements ItemListener {
 
         STLibrary.getInstance().getGnutellaFramework().restart(STLibrary.getInstance(), true);
         STMainForm mainFrame = new STMainForm(STLibrary.getInstance(), null);
-        mainFrame.setVisible(false);        
+        mainFrame.setVisible(false);
         this.setCursor(Cursor.getDefaultCursor());
 
         if (mainFrame.connectAction(this.textFieldUserName.getText(), this.passwordField.getText(), Integer.parseInt(this.textFieldPort.getText()))) {
@@ -198,34 +198,5 @@ public class STLoginDialog extends JDialog implements ItemListener {
                 STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }            
         }
-    }
-
-    class SimpleCellRenderer extends JLabel implements ListCellRenderer
-    {
-        public SimpleCellRenderer()
-        {
-            setOpaque(true);
-        }
-
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
-        {
-            Value val = (Value)value;
-            setText(val.value);
-            setIcon(val.image);
-            setBackground(isSelected ? Color.red : (index & 1) == 0 ? Color.cyan : Color.green);
-            setForeground(isSelected ? Color.white : Color.black);
-            return this;
-        }
-    }
-    
-    private class Value
-    {
-        Value(String value, Icon image)
-        {
-            this.value = value;
-            this.image = image;
-        }
-        String value;
-        Icon image;
     }
 }

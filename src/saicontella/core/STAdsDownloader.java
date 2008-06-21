@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
+import javax.swing.text.html.HTMLEditorKit;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -37,13 +38,24 @@ public class STAdsDownloader extends Thread {
         ImageIcon imageIconMyFriends = null;
         ImageIcon imageIconIShare = null;
         try {
-            imageIconMainForm = new ImageIcon(new URL(STLibrary.STConstants.ADS_WEB_SERVER_URL));
-            this.mainForm.setAdImageLabelIcon(imageIconMainForm);
-            imageIconMyFriends = new ImageIcon(new URL(STLibrary.STConstants.ADS_MY_FRIENDS_URL));
-            this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends);
-            imageIconIShare = new ImageIcon(new URL(STLibrary.STConstants.ISHARE_LOGO_URL));
-            this.mainForm.setIShareImageLabelIcon(imageIconIShare);
-        } catch (MalformedURLException e) {
+            STHTMLParser parser = new STHTMLParser();
+
+            parser.runCallback(STLibrary.STConstants.ADS_WEB_SERVER_URL);
+            imageIconMainForm = parser.getImageIcon();
+            if (imageIconMainForm != null)
+                this.mainForm.setAdImageLabelIcon(imageIconMainForm, parser.getLinkURL());
+
+            parser.runCallback(STLibrary.STConstants.ADS_MY_FRIENDS_URL);
+            imageIconMyFriends = parser.getImageIcon();
+            if (imageIconMyFriends != null)
+                this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends, parser.getLinkURL());
+
+            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL);
+            imageIconIShare = parser.getImageIcon();
+            if (imageIconIShare != null)
+                this.mainForm.setIShareImageLabelIcon(imageIconIShare, parser.getLinkURL()); 
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

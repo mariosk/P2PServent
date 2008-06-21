@@ -36,6 +36,7 @@ public class STUpdater {
         this.localPath = localPath;
         JFrame frame = new JFrame();
         this.mainPanel = frame;
+        STLocalizer.initialize( sLibrary.getSTConfiguration().getLangLocale() );
         frame.setTitle(STLocalizer.getString("UpdateIShare"));
         frame.setSize(310, 130);
         frame.setBackground(Color.BLACK);

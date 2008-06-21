@@ -43,6 +43,8 @@ import phex.gui.tabs.search.SearchResultsDataModel;
 import phex.query.KeywordSearch;
 import phex.query.Search;
 import phex.query.SearchDataEvent;
+import phex.query.BrowseHostResults;
+import phex.common.address.DestAddress;
 import saicontella.core.STLibrary;
 
 public class STSearchButton extends JToggleButton
@@ -80,6 +82,12 @@ public class STSearchButton extends JToggleButton
             textBuf.append( ((KeywordSearch)search).getSearchString() );
             setIcon( GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.Search") );
         }
+        else if ( search instanceof BrowseHostResults)
+        {
+            DestAddress destAddress = ((BrowseHostResults)search).getDestAddress();
+            textBuf.append( destAddress.getFullHostName() );
+            setIcon( GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.BrowseHost") );
+        }        
         else
         {
             textBuf.append( search.toString() );

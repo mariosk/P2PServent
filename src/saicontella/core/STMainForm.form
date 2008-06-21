@@ -592,7 +592,7 @@
               </component>
             </children>
           </grid>
-          <grid id="b1651" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="b1651" binding="middleImagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>

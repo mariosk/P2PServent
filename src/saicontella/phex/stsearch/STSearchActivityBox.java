@@ -21,6 +21,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import phex.gui.common.*;
 import phex.gui.tabs.search.SearchTab;
+import phex.utils.Localizer;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -73,11 +74,26 @@ public class STSearchActivityBox extends STBoxPanel
                     cp.activateKeywordSearchBox( );
                 }
             });
-        
+
+        browseHostBtn = new JToggleButton(
+            Localizer.getString( "SearchTab_BrowseHost" ),
+            GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.BrowseHost") );
+        browseHostBtn.setToolTipText( STLocalizer.getString( "SearchTab_TTTBrowseHost") );
+        updateActivityBtnProps( browseHostBtn );
+        browseHostBtn.addActionListener(new ActionListener()
+            {
+                public void actionPerformed( ActionEvent e )
+                {
+                    cp.activateBrowseHostBox( );
+                }
+            });
+
         ButtonGroup group = new ButtonGroup();
         group.add(keywordSearchBtn);
+        group.add(browseHostBtn);
 
         newSearchBuilder.add( keywordSearchBtn, cc.xy(2, 2) );
+        newSearchBuilder.add( browseHostBtn, cc.xy(2, 4) );
         
         runningSearchActivityP = new JPanel();
         runningSearchActivityP.setOpaque(false);

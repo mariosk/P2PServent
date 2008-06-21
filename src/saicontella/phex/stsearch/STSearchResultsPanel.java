@@ -150,6 +150,11 @@ public class STSearchResultsPanel extends JPanel
         //resultToolbar.addAction( action );
         //searchResultPopup.add( action );
 
+        action = new BrowseHostAction();
+        searchTab.addTabAction( BROWSE_HOST_ACTION_KEY, action );
+        resultToolbar.addAction( action );
+        searchResultPopup.add( action );
+        
         action = new ChatToHostAction();
         searchTab.addTabAction( CHAT_TO_HOST_ACTION_KEY, action );
         searchResultPopup.add( action );

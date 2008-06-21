@@ -38,7 +38,6 @@ import phex.host.HostStatus;
 import java.io.File;
 import java.util.Vector;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import saicontella.core.*;
 import saicontella.core.webservices.authentication.ActiveSessionMiniWrapper;
@@ -68,7 +67,7 @@ public class STGnutellaFramework {
             // initializations here...
             PhexCorePrefs.init();
             PhexGuiPrefs.init();
-            ProxyPrefs.init();
+            ProxyPrefs.init();            
 
             // According to GregorK this will work only until the FirewallCheckTimer kicks in. The workaround is:
             // http://www.gnutellaforums.com/help-support/79786-lan-dowload-waiting-ignored-candidate.html#post303417
@@ -92,11 +91,10 @@ public class STGnutellaFramework {
             DownloadPrefs.MaxDownloadsPerIP.set(sLibrary.getSTConfiguration().getMaxDownload());
 
             UploadPrefs.MaxUploadsPerIP.set(sLibrary.getSTConfiguration().getMaxUpload());
-
             ProxyPrefs.ForcedIp.set("");
-            ProxyPrefs.save(true);
+            // IT IS VERY IMPORTANT TO NOT Prefs.Save() ANYTHING BEFORE THE GNUTELLA SERVENT START!!!
 
-            // servent instantiations here...           
+            // servent instantiations here...
             Localizer.initialize( InterfacePrefs.LocaleName.get() );
             ThreadTracking.initialize();
             this.servent = Servent.getInstance();
@@ -104,19 +102,21 @@ public class STGnutellaFramework {
 
             // initializations that need the servent instance here...
             if (!sLibrary.getSTConfiguration().getListenAddress().equals("*")) {
-                IpAddress localAddress = AddressUtils.parseAndValidateAddress(sLibrary.getSTConfiguration().getListenAddress(), true).getIpAddress();
+                DestAddress localAddress = AddressUtils.parseAndValidateAddress(sLibrary.getSTConfiguration().getListenAddress(), true, servent.getSecurityService());
                 LocalServentAddress serventAddr = (LocalServentAddress)servent.getLocalAddress();
-                serventAddr.setForcedHostIP(localAddress);
+                serventAddr.setForcedHostIP(localAddress.getIpAddress());
                 ProxyPrefs.ForcedIp.set(sLibrary.getSTConfiguration().getListenAddress());
             }
 
             this.servent.setOnlineStatus(OnlineStatus.ONLINE);
             ManagerController.initializeManagers();
+
             if (sLibrary.isConnected()) {
                 if (restart)
                     this.servent.restartServer();
                 else
                     this.servent.start();
+                this.servent.getHostService().stop();
             }
 
             try
@@ -129,12 +129,10 @@ public class STGnutellaFramework {
             }
             ManagerController.startupCompletedNotify();
 
-            this.servent.getHostService().stop();
-
             logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " online status: " + this.servent.getOnlineStatus().isNetworkOnline());
-	        logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " servent address: " + this.servent.getLocalAddress().getIpAddress() + ":" + servent.getLocalAddress().getPort());
-	        logger.debug(this.servent.getGnutellaNetwork().getNetworkGreeting());
-	        logger.debug(this.servent.getServentGuid());
+            logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " servent address: " + this.servent.getLocalAddress().getIpAddress() + ":" + servent.getLocalAddress().getPort());
+            logger.debug(this.servent.getGnutellaNetwork().getNetworkGreeting());
+            logger.debug(this.servent.getServentGuid());
         }
         catch (Exception ex) {
             sLibrary.fireMessageBox(STLocalizer.getString("GnutellaError") + ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
@@ -223,9 +221,8 @@ public class STGnutellaFramework {
     {
         try {
             logger.info("Disconnecting from peers...");
-            PhexCorePrefs.save(true);
-            //this.getServent().stop();
-            STLibrary.getInstance().disconnectFromPeers();
+            if (STLibrary.getInstance().isConnected())
+                STLibrary.getInstance().disconnectFromPeers();
         } 
         catch (Exception ex) {
             ex.printStackTrace();            
@@ -267,7 +264,7 @@ public class STGnutellaFramework {
                 String ipAddress = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getIPAddress();
                 String friendName = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getFriendName();
                 if (friendName.equals(name)) {
-                    Integer port = ((ActiveSessionMiniWrapper)peersList.get(i)).getPort();
+                    Integer port = ((STFriend)STLibrary.getInstance().getSTConfiguration().getMyFriends().get(i)).getPortNumber();
                     userInfo[0] = ipAddress;
                     userInfo[1] = port;
                     return userInfo;

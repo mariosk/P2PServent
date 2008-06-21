@@ -26,11 +26,9 @@ import phex.common.address.DestAddress;
 import phex.common.address.MalformedDestAddressException;
 import phex.event.PhexEventTopics;
 import phex.gui.common.table.FWTable;
+import phex.gui.tabs.search.cp.BrowseHostSearchBox;
 import phex.net.repres.PresentationManager;
-import phex.query.KeywordSearch;
-import phex.query.Search;
-import phex.query.SearchContainer;
-import phex.query.SearchDataEvent;
+import phex.query.*;
 import phex.rules.SearchFilterRules;
 
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -51,6 +49,7 @@ public class STSearchControlPanel extends JPanel
 
     private JPanel searchBoxContentPanel;
     private STKeywordSearchBox keywordSearchBox;
+    private STBrowseHostSearchBox browseHostBox;
     
     private STSearchInfoBox infoBox;
     private JScrollPane scrollPane;
@@ -73,7 +72,8 @@ public class STSearchControlPanel extends JPanel
      */
     public void clearSearchHistory()
     {
-        keywordSearchBox.clearSearchHistory();        
+        keywordSearchBox.clearSearchHistory();
+        browseHostBox.clearBrowseHostHistory();
     }
 
     public void initializeComponent()
@@ -105,6 +105,7 @@ public class STSearchControlPanel extends JPanel
         
         keywordSearchBox = new STKeywordSearchBox( this );
         activityBox = new STSearchActivityBox( searchTab, this );
+        browseHostBox = new STBrowseHostSearchBox( this );
         infoBox = new STSearchInfoBox( this );
         
         // get prefered width of all boxes to calc width for all
@@ -119,6 +120,9 @@ public class STSearchControlPanel extends JPanel
         Dimension ksbPref = keywordSearchBox.getPreferredSize();
         prefWidth = Math.max( prefWidth, ksbPref.width );
         prefHeight = Math.max( prefHeight, ksbPref.height );
+        Dimension bhbPref = browseHostBox.getPreferredSize();
+        prefWidth = Math.max( prefWidth, bhbPref.width );
+        prefHeight = Math.max( prefHeight, bhbPref.height );
 
         actPref.width = prefWidth;
         keywordSearchBox.setPreferredSize( actPref );
@@ -128,6 +132,10 @@ public class STSearchControlPanel extends JPanel
         ksbPref.width = prefWidth;
         ksbPref.height = prefHeight;
         keywordSearchBox.setPreferredSize( ksbPref );
+
+        bhbPref.width = prefWidth;
+        bhbPref.height = prefHeight;             
+        browseHostBox.setPreferredSize( bhbPref );
         
         searchBoxContentPanel = new JPanel( new BorderLayout() );
         cpPanelBuilder.add( searchBoxContentPanel, cc.xy( 1, 1 ) );
@@ -164,6 +172,12 @@ public class STSearchControlPanel extends JPanel
             updateControlPanel();
         }
     }
+
+    public void activateBrowseHostBox()
+    {
+        activateSearchBox( browseHostBox );
+        browseHostBox.focusInputField();
+    }
     
     public void activateKeywordSearchBox()
     {
@@ -184,6 +198,11 @@ public class STSearchControlPanel extends JPanel
                 activateSearchBox( keywordSearchBox );
                 keywordSearchBox.updateControlPanel( (KeywordSearch)search );
             }
+            else if ( search instanceof BrowseHostResults)
+            {
+                activateSearchBox( browseHostBox );
+                browseHostBox.updateControlPanel( (BrowseHostResults)search );
+            }            
             else
             {
                 throw new RuntimeException("Unknwon search type");
@@ -192,8 +211,9 @@ public class STSearchControlPanel extends JPanel
         else
         {// this is the case for a new search.
             activityBox.displayNewSearchPanel();
-
+            
             keywordSearchBox.updateControlPanel( null );
+            browseHostBox.updateControlPanel( null );
         }
     }
     

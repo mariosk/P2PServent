@@ -160,7 +160,6 @@ public class STLibraryTreePane extends JPanel
             exploreFolderAction = new ExploreFolderAction();
         }
 
-
         fileTreePopup = new FWPopupMenu();        
         fileTreePopup.addAction( addShareFolderAction );
         fileTreePopup.addAction( removeShareFolderAction );
@@ -170,6 +169,8 @@ public class STLibraryTreePane extends JPanel
             fileTreePopup.addAction( exploreFolderAction );
         }
     }
+
+
 
     /**
      * Starts a download.
@@ -214,7 +215,6 @@ public class STLibraryTreePane extends JPanel
                     {
                         try
                         {
-                            SharedFilesService service = STLibrary.getInstance().getGnutellaFramework().getServent().getSharedFilesService();
                             for ( int i = 0; i < files.length; i++ )
                             {
                                 if ( files[i] != null )
@@ -243,15 +243,14 @@ public class STLibraryTreePane extends JPanel
         {
         }
 
-        public void shareDirRecursive(File file)
+        private void shareDirRecursive(File file)
         {
             if (!file.isDirectory())
             {
                 return;
             }
             LibraryPrefs.SharedDirectoriesSet.get().add( file.getAbsolutePath() );
-            LibraryPrefs.SharedDirectoriesSet.changed();
-            
+            LibraryPrefs.SharedDirectoriesSet.changed();            
             File[] dirs = file.listFiles(new DirectoryOnlyFileFilter());
             for (int i = 0; i < dirs.length; i++)
             {
@@ -293,6 +292,7 @@ public class STLibraryTreePane extends JPanel
             if ( !(lastPathComponent instanceof LibraryNode ))
             {
                 return;
+
             }
             final File file = ((LibraryNode)lastPathComponent).getSystemFile();
             if ( file == null )

@@ -20,6 +20,7 @@ import saicontella.core.webservices.authentication.BaseResponse;
 import saicontella.core.webservices.authentication.ResponseSTATUS;
 import saicontella.core.webservices.authentication.FriendDetailsWrapper;
 import saicontella.core.webservices.admin.UserInfoWrapper;
+import saicontella.phex.stlibrary.STLibraryTab;
 
 import javax.swing.*;
 import java.util.*;
@@ -35,11 +36,21 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import phex.gui.common.PhexColors;
+import phex.gui.prefs.PhexGuiPrefs;
+import phex.share.ShareFile;
+import phex.share.SharedFilesService;
+import phex.share.FileRescanRunner;
+import phex.prefs.core.LibraryPrefs;
+import phex.prefs.core.PhexCorePrefs;
+import phex.servent.Servent;
 
 public class STLibrary extends Component {
 
     public interface STConstants
     {
+        public static final String SHAREDLIB_XML = "sharedlibrary.xml";
+        public static final String SHAREDLIB_XML_BAK = "sharedlibrary.bak";        
+
         public static final String REGISTER_URL = "http://www.gamersuniverse.com/gr/users/register/";
         public static final String LOST_PASSWORD_URL = "http://www.gamersuniverse.com/forums/login.php?do=lostpw";
         public static final String ISHARE_PASS_PHRASE = "My little baby boy was born in Patras at 23rd of March, 2008";
@@ -59,12 +70,13 @@ public class STLibrary extends Component {
         public static final String ADS_ABOUT_URL1 = STLocalizer.getString("AdsAboutUrl1");
         public static final String ADS_ABOUT_URL2 = STLocalizer.getString("AdsAboutUrl2");
         public static final String ADS_WEB_SERVER_URL = STLocalizer.getString("AdsWebServerUrl");
+        //public static final String ADS_WEB_SERVER_URL = "http://127.0.0.1/test.html";
         public static final String ISHARE_LOGO_URL = STLocalizer.getString("IShareLogoUrl");
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
-        public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds                
+        public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds
         //public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
-        public static final int KEEP_ALIVE_THR_SECS = 10; // in seconds
-        public static final int ADS_THR_SECS = 10; // in seconds                               
+        public static final int KEEP_ALIVE_THR_SECS = 15; // in seconds
+        public static final int ADS_THR_SECS = 20; // in seconds                               
         public static final String KEEP_ALIVE_THR_NAME = "KeepAliveToWebService_Thread";
         public static final String ADS_THR_NAME = "Advertisements_Thread";               
         public static final String P2PSERVENT_BAR = "===========================";               
@@ -474,20 +486,59 @@ public class STLibrary extends Component {
         this.STLogoutUser(STConstants.AUTH_WS_ENDPOINT);
     }
 
-    public void exitApplication() {
-        //ExitPhexAction.performCloseGUIAction();
-        STLibrary.getInstance().STLogoutUser();
-        System.exit(0);
+    private void CopyFile(File in, File out) throws Exception {
+        FileInputStream fis  = new FileInputStream(in);
+        FileOutputStream fos = new FileOutputStream(out);
+        byte[] buf = new byte[1024];
+        int i = 0;
+        while((i=fis.read(buf))!=-1) {
+            fos.write(buf, 0, i);
+        }
+        fis.close();
+        fos.close();
     }
-    
-    /* DEPRECATED
+
+    public void BackupSharedLibrary() throws Exception {
+        // workaround to prevent Phex to remove the sharelibrary.
+        File sharedLibXml = new File(this.getApplicationLocalPath() + "\\" + STConstants.SHAREDLIB_XML);
+        File sharedLibXmlBak = new File(this.getApplicationLocalPath() + "\\" + STConstants.SHAREDLIB_XML_BAK);
+        CopyFile(sharedLibXml, sharedLibXmlBak);
+    }
+
+    public void RestoreSharedLibrary() throws Exception {
+        // workaround to prevent Phex to remove the sharelibrary.
+        File sharedLibXml = new File(this.getApplicationLocalPath() + "\\" + STConstants.SHAREDLIB_XML);
+        File sharedLibXmlBak = new File(this.getApplicationLocalPath() + "\\" + STConstants.SHAREDLIB_XML_BAK);
+        CopyFile(sharedLibXmlBak, sharedLibXml);
+    }
+
+    public void exitApplication() {
+        try {
+            //this.BackupSharedLibrary();
+            this.STLogoutUser();
+            this.getGnutellaFramework().getServent().stop();
+            PhexCorePrefs.save(true);
+            PhexGuiPrefs.save(true);
+            System.exit(0);
+        }
+        catch (Exception ex) {
+            fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+
+    // DEPRECATED
+    /*
     public void addFileShares(STLibraryTab libraryTab) {
         SharedFilesService sharedFilesService = this.getGnutellaFramework().getServent().getSharedFilesService();
-        FileRescanRunner.rescan(sharedFilesService, true, false);
+        //FileRescanRunner.rescan(sharedFilesService, true, false);
         ArrayList<STFolder> folders = this.getSTConfiguration().getFolders();
         for (int i=0; i<folders.size(); i++) {
-            STFileName[] files = ((STFolder)folders.get(i)).getFiles();
-            //libraryTab.s.shareDirHelper(new File(folders[i].getFolderName()));
+            LibraryPrefs.SharedDirectoriesSet.get().add( ((STFolder)folders.get(i)).toString() );
+            LibraryPrefs.SharedDirectoriesSet.changed();
+
+            //STFileName[] files = ((STFolder)folders.get(i)).getFiles();
+            //libraryTab.s.shareDirHelper(new File(folders[i].getFolderName()));            
             for (int j=0; j<files.length; j++) {
                 File file = new File(((STFolder)folders.get(i)).getFolderName() + "\\" + files[j].getFileName());
                 ShareFile shareFile = new ShareFile(file);
@@ -644,15 +695,14 @@ public class STLibrary extends Component {
                 return response;
             }
 			else {
+                this.fireMessageBox(STLocalizer.getString("Connected"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
+                this.confObject.setWebServiceAccount(userName);
+                this.confObject.setWebServicePassword(false, passWord);
+                this.confObject.setListenPort(new Integer(port).toString());
                 if (restart)
                     this.getGnutellaFramework().getServent().restartServer();
                 else
-                    this.getGnutellaFramework().getServent().start();
-
-                this.confObject.setWebServiceAccount(userName);
-                this.confObject.setWebServicePassword(false, passWord);
-                this.confObject.setListenPort(new Integer(port).toString());                
-                this.fireMessageBox(STLocalizer.getString("Connected"), STLocalizer.getString("Information"), JOptionPane.INFORMATION_MESSAGE);
+                    this.getGnutellaFramework().getServent().start();                
                 logger.debug("getClientDownloadLocation: " + response.getClientDownloadLocation());
 				logger.debug("getCountryId: " + response.getCountryId());
 				logger.debug("getCountryName: " + response.getCountryName());

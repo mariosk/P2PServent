@@ -114,7 +114,8 @@ public class STLibraryTab extends FWTab
     private void applyIpSystemRulesLists(int folderIndex)
     {
         if (folderIndex < 0)
-            return;        
+            return;
+        PhexSecurityManager manager = STLibrary.getInstance().getGnutellaFramework().getServent().getSecurityService();
         STFolder folder = (STFolder) STLibrary.getInstance().getSTConfiguration().getFolders().get(folderIndex);
         File dir = new File(folder.getFolderName());
         if ( dir != null )
@@ -124,7 +125,7 @@ public class STLibraryTab extends FWTab
             {
                 return;
             }
-            PhexSecurityManager.getInstance().removeIpSystemRuleListFromSharedResource(directory);
+            manager.removeIpSystemRuleListFromSharedResource(directory);
             for (int i = 0; i < folder.getFriends().size(); i++) {
                 STFriend friend = (STFriend) folder.getFriends().get(i);
                 Object[] userInfo = STLibrary.getInstance().getGnutellaFramework().getIpAddressFromFriendName(friend.getFriendName());
@@ -135,12 +136,12 @@ public class STLibraryTab extends FWTab
                         friendIpAddress = friend.getIPAddress();
                     if (friendIpAddress != null) {
                         if (!friendIpAddress.equalsIgnoreCase("null")) {
-                            PhexSecurityManager.getInstance().addIpSystemRuleListToSharedResource(directory, friendIpAddress, port);
+                            manager.addIpSystemRuleListToSharedResource(directory, friendIpAddress, port);
                         }
                     }
                 }
                 else {
-                    PhexSecurityManager.getInstance().addIpSystemRuleListToSharedResource(directory, "127.0.0.1", -1);
+                    manager.addIpSystemRuleListToSharedResource(directory, "127.0.0.1", -1);
                 }
             }
         }
