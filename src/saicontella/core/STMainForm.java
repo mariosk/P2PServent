@@ -16,6 +16,8 @@ import phex.utils.DirectoryOnlyFileFilter;
 import phex.host.Host;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionListener;
@@ -118,6 +120,9 @@ public class STMainForm extends JFrame {
     private JPanel rightImagePanel;
     private JPanel leftImagePanel;
     private JPanel middleImagePanel;
+    private JLabel FriendsSizeLabel;
+    private JLabel friendNameLabel;
+    private JLabel myFriendsLabel;
 
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -283,6 +288,35 @@ public class STMainForm extends JFrame {
         this.mainMenuBar.add(helpMenu);
     }
 
+    private void setUIStrings() {
+        // mySettings Panel
+        TitledBorder b1 = (TitledBorder)WebServicesPanel.getBorder();
+        b1.setTitle(STLocalizer.getString("WebServices"));
+        this.UserLabel.setText(STLocalizer.getString("WebServicesUser"));
+        this.PasswordLabel.setText(STLocalizer.getString("WebServicesPassword"));
+        this.FriendsSizeLabel.setText(STLocalizer.getString("WebServicesFriendsSize"));
+        TitledBorder b2 = (TitledBorder)SharedFoldersPanel.getBorder();
+        b2.setTitle(STLocalizer.getString("SharedFoldersPanel"));
+        this.CompleteDownloadFolderLabel.setText(STLocalizer.getString("CompleteDownloadFolder"));
+        this.IncompleteDownloadFolderLabel.setText(STLocalizer.getString("IncompleteDownloadFolder"));
+        this.DownloadRatioLabel.setText(STLocalizer.getString("DownloadRatio"));
+        this.UploadRatioLabel.setText(STLocalizer.getString("UploadRatio"));
+        this.completeDownloadFolderBrowseButton.setText(STLocalizer.getString("Browse"));
+        this.incompleteDownloadFolderBrowseButton.setText(STLocalizer.getString("Browse"));
+        TitledBorder b3 = (TitledBorder)ServentPanel.getBorder();
+        b3.setTitle(STLocalizer.getString("Servent"));
+        this.ListenPortLabel.setText(STLocalizer.getString("ServentListenPort"));
+        this.ConnectionTimeoutLabel.setText(STLocalizer.getString("ServentConnectionTimeout"));
+        this.maximumConnectionsLabel.setText(STLocalizer.getString("ServentMaximumConnections"));
+        this.AddressLabel.setText(STLocalizer.getString("ServentIPAddress"));
+        this.autoConnectLabel.setText(STLocalizer.getString("ServentAutoConnect"));
+        this.saveSettingsButton.setText(STLocalizer.getString("SaveSettings"));
+        // myFriends Panel
+        this.friendNameLabel.setText(STLocalizer.getString("friendName"));
+        this.buttonSearchFriend.setText(STLocalizer.getString("buttonSearchFriend"));
+        this.myFriendsLabel.setText(STLocalizer.getString("myFriendsLabel"));        
+    }
+
     public STMainForm(STLibrary sLibrary, DGuiSettings guiSettings) {
         super();
 
@@ -291,6 +325,7 @@ public class STMainForm extends JFrame {
         this.sLibrary.setSTMainForm(this);
         
         $$$setupUI$$$();
+        setUIStrings();                
 
         this.tray = new STSystemTray();
         this.drawMenus();
@@ -340,7 +375,6 @@ public class STMainForm extends JFrame {
         UIManager.put("RadioButton.gradient", gradients);
         */
         
-        this.myLogoImageLabel.setIcon(new ImageIcon(STResources.getAppStr("myLogoImage")));
         this.setTitle(STResources.getAppStr("Application.name") + " v" + STResources.getAppStr("Application.version") + " (" + sLibrary.getSTConfiguration().getListenAddress() + ":" + sLibrary.getSTConfiguration().getListenPort() + ")");
         this.guiSettings = guiSettings;
 
@@ -401,34 +435,28 @@ public class STMainForm extends JFrame {
             this.myFriendsAdsLabel.addMouseListener(new STMouseListener(link, this));
     }
 
-    public void setAdImageLabelIcon(ImageIcon icon, String link) {
+    private void setRetrievedImageIconGeneric(ImageIcon icon, String link, JLabel labelComponent) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
         if (h < 700) {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, (int)0.5*icon.getIconWidth(), (int)0.5*icon.getIconHeight());
+            icon = STLibrary.getInstance().resizeMyImageIcon(icon, (int)(0.7*icon.getIconWidth()), (int)(0.7*icon.getIconHeight()));
         }
-        else {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 700, 170);
-        }
-        this.myAdsImageLabel.setIcon(icon);
-        this.myAdsImageLabel.repaint();
+        labelComponent.setIcon(icon);
+        labelComponent.repaint();
         if (link.length() > 0)
-            this.myAdsImageLabel.addMouseListener(new STMouseListener(link, this));
+            labelComponent.addMouseListener(new STMouseListener(link, this));        
     }
 
-    public void setIShareImageLabelIcon(ImageIcon icon, String link) {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
-        if (h < 700) {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, (int)0.5*icon.getIconWidth(), (int)0.5*icon.getIconHeight());
-        }
-        else {
-            icon = STLibrary.getInstance().resizeMyImageIcon(icon, 250, 170);
-        }
-        this.myIShareLogoLabel.setIcon(icon);
-        this.myIShareLogoLabel.repaint();
-        if (link.length() > 0)
-            this.myIShareLogoLabel.addMouseListener(new STMouseListener(link, this));
+    public void setAdImageLabelIcon(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myAdsImageLabel);
+    }
+
+    public void setIShareImageLabelIcon1(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myLogoImageLabel);
+    }
+    
+    public void setIShareImageLabelIcon2(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myIShareLogoLabel);
     }
 
     /**

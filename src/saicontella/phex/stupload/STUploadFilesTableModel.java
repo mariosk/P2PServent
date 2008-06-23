@@ -85,7 +85,7 @@ public class STUploadFilesTableModel extends FWSortableTableModel
         {
             STLocalizer.getString( "Host" ),
             //STLocalizer.getString( "Vendor" ),
-            "User",
+            STLocalizer.getString( "User" ),
             STLocalizer.getString( "File" ),
             STLocalizer.getString( "PercentSign" ),
             STLocalizer.getString( "Size" ),

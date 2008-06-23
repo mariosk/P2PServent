@@ -45,8 +45,12 @@
                           <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <background color="-16777216"/>
+                          <font style="1"/>
+                        </properties>
                         <border type="line" title="Servent">
+                          <font/>
                           <title-color color="-1"/>
                           <color color="-1"/>
                         </border>
@@ -58,7 +62,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="56efc"/>
+                              <labelFor value="b3ef1"/>
                               <text value="&amp;Listen port:"/>
                             </properties>
                           </component>
@@ -80,7 +84,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="77ddf"/>
+                              <labelFor value="a684c"/>
                               <text value="&amp;Connection timeout:"/>
                             </properties>
                           </component>
@@ -144,7 +148,7 @@
                             </constraints>
                             <properties>
                               <horizontalTextPosition value="2"/>
-                              <labelFor value="769c6"/>
+                              <labelFor value="f0f95"/>
                               <text value="&amp;Maximum Connections:"/>
                             </properties>
                           </component>
@@ -187,9 +191,11 @@
                         </constraints>
                         <properties>
                           <background color="-16777216"/>
-                          <foreground color="-1"/>
+                          <font style="1"/>
+                          <foreground color="-16777216"/>
                         </properties>
                         <border type="line" title="Web Services">
+                          <font/>
                           <title-color color="-1"/>
                           <color color="-1"/>
                         </border>
@@ -201,7 +207,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="60203"/>
+                              <labelFor value="3c041"/>
                               <text value="&amp;User:"/>
                             </properties>
                           </component>
@@ -223,18 +229,18 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="2e42"/>
+                              <labelFor value="826b2"/>
                               <text value="&amp;Password:"/>
                             </properties>
                           </component>
-                          <component id="b01f0" class="javax.swing.JLabel">
+                          <component id="b01f0" class="javax.swing.JLabel" binding="FriendsSizeLabel">
                             <constraints>
                               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="146" height="14"/>
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="56efc"/>
+                              <labelFor value="6f90d"/>
                               <text value="M&amp;ax size of Friends to search:"/>
                             </properties>
                           </component>
@@ -265,6 +271,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
+                          <background color="-16777216"/>
                           <font style="1"/>
                         </properties>
                         <border type="line" title="Shared Folders">
@@ -280,7 +287,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="2ae02"/>
+                              <labelFor value="4ace3"/>
                               <text value="Complete &amp;download folder:"/>
                             </properties>
                           </component>
@@ -291,7 +298,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="ca466"/>
+                              <labelFor value="6be1"/>
                               <text value="&amp;Incomplete download folder:"/>
                             </properties>
                           </component>
@@ -323,7 +330,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="7876d"/>
+                              <labelFor value="86f34"/>
                               <text value="Download &amp;ratio:"/>
                             </properties>
                           </component>
@@ -345,7 +352,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <labelFor value="dd1ce"/>
+                              <labelFor value="4e636"/>
                               <text value="Upl&amp;oad ratio:"/>
                             </properties>
                           </component>
@@ -448,11 +455,12 @@
                       <color color="-6710887"/>
                     </border>
                     <children>
-                      <component id="bbf5c" class="javax.swing.JLabel">
+                      <component id="bbf5c" class="javax.swing.JLabel" binding="friendNameLabel">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
+                          <labelFor value="18e4a"/>
                           <text value="Friend name:"/>
                         </properties>
                       </component>
@@ -487,7 +495,7 @@
                           <text value="Search"/>
                         </properties>
                       </component>
-                      <component id="e8d99" class="javax.swing.JLabel">
+                      <component id="e8d99" class="javax.swing.JLabel" binding="myFriendsLabel">
                         <constraints>
                           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>

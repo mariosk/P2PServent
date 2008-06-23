@@ -375,9 +375,9 @@ public class STNetworkTab extends FWTab
     }
 
     private void updateIpLabel( DestAddress localAddress )
-    {
+    {        
         myIPLabel.setText( localAddress.getFullHostName() );
-        String countryCode = localAddress.getCountryCode();
+        String countryCode = localAddress.getCountryCode();                
         Icon icon = null;
         if ( countryCode != null && countryCode.length() > 0 )
         {

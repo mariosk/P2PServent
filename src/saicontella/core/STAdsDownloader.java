@@ -36,7 +36,8 @@ public class STAdsDownloader extends Thread {
     private void fetchImages() {        
         ImageIcon imageIconMainForm = null;
         ImageIcon imageIconMyFriends = null;
-        ImageIcon imageIconIShare = null;
+        ImageIcon imageIconIShare1 = null;
+        ImageIcon imageIconIShare2 = null;
         try {
             STHTMLParser parser = new STHTMLParser();
 
@@ -50,10 +51,15 @@ public class STAdsDownloader extends Thread {
             if (imageIconMyFriends != null)
                 this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends, parser.getLinkURL());
 
-            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL);
-            imageIconIShare = parser.getImageIcon();
-            if (imageIconIShare != null)
-                this.mainForm.setIShareImageLabelIcon(imageIconIShare, parser.getLinkURL()); 
+            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL1);
+            imageIconIShare1 = parser.getImageIcon();
+            if (imageIconIShare1 != null)
+                this.mainForm.setIShareImageLabelIcon1(imageIconIShare1, parser.getLinkURL());
+
+            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL2);
+            imageIconIShare2 = parser.getImageIcon();
+            if (imageIconIShare2 != null)
+                this.mainForm.setIShareImageLabelIcon2(imageIconIShare2, parser.getLinkURL());             
 
         } catch (Exception e) {
             e.printStackTrace();

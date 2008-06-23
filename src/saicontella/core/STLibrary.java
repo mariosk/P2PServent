@@ -71,7 +71,8 @@ public class STLibrary extends Component {
         public static final String ADS_ABOUT_URL2 = STLocalizer.getString("AdsAboutUrl2");
         public static final String ADS_WEB_SERVER_URL = STLocalizer.getString("AdsWebServerUrl");
         //public static final String ADS_WEB_SERVER_URL = "http://127.0.0.1/test.html";
-        public static final String ISHARE_LOGO_URL = STLocalizer.getString("IShareLogoUrl");
+        public static final String ISHARE_LOGO_URL1 = STLocalizer.getString("IShareLogoUrl1");
+        public static final String ISHARE_LOGO_URL2 = STLocalizer.getString("IShareLogoUrl2");
         //public static final String ADS_WEB_SERVER_URL = "http://85.17.217.5/www/images/moltoad.jpg?7082e45fb2";
         public static final int ADS_WEB_SERVER_TIMEOUT = 10; // in seconds
         //public static final String ADS_WEB_SERVER_FILE = "http://192.168.0.199/saicon_ads.txt";
