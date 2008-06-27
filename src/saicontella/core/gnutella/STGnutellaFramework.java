@@ -67,8 +67,11 @@ public class STGnutellaFramework {
             // initializations here...
             PhexCorePrefs.init();
             PhexGuiPrefs.init();
-            ProxyPrefs.init();            
+            ProxyPrefs.init();
+            InterfacePrefs.init();
 
+            InterfacePrefs.ShowBetaUpdateNotification.set(false);
+            
             // According to GregorK this will work only until the FirewallCheckTimer kicks in. The workaround is:
             // http://www.gnutellaforums.com/help-support/79786-lan-dowload-waiting-ignored-candidate.html#post303417
             ConnectionPrefs.HasConnectedIncomming.set(false);
