@@ -164,6 +164,9 @@ public class STXMLParser extends DefaultHandler {
             //create a new instance of configuration
             tmpConfiguration = new STConfiguration();            
         }
+        else if (qName.equalsIgnoreCase("bgColor")) {
+            tmpConfiguration.setBgColor(attributes.getValue("value"));
+        }
         else if (qName.equalsIgnoreCase("folder")) {
             this.addSTFileObjectsInSTFolder();
             this.sharedFolderIndex++;

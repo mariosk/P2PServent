@@ -123,7 +123,7 @@ public class STNetworkTab extends FWTab
 
         JPanel upperPanel = new JPanel( );
         STFWElegantPanel upperElegantPanel = new STFWElegantPanel( STLocalizer.getString("Connections"), upperPanel );
-        upperElegantPanel.setBackground(Color.BLACK);
+        upperElegantPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         upperElegantPanel.setForeground(Color.GRAY);
 
         layout = new FormLayout(

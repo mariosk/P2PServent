@@ -171,39 +171,46 @@ public class STLibrary extends Component {
         this.stMainForm.setState(JFrame.NORMAL);
     }
     
-    public STLibrary() {
+    public STLibrary() {        
+        STXMLParser xmlParser = new STXMLParser();
+        confObject = xmlParser.readConfigurationFile();
+        if (confObject == null) {
+            confObject = new STConfiguration();
+            this.initDefaultSTConfiguration();
+        }
+
         UIDefaults uiDefaults = UIManager.getDefaults();
-        uiDefaults.put("Menu.background", Color.BLACK);
+        uiDefaults.put("Menu.background", confObject.getBgColor());
         uiDefaults.put("Menu.foreground", Color.WHITE);
         uiDefaults.put("Menu.selectionBackground", Color.GRAY);
 
-        uiDefaults.put("MenuBar.background", Color.BLACK);
+        uiDefaults.put("MenuBar.background", confObject.getBgColor());
         uiDefaults.put("MenuBar.foreground", Color.WHITE);
         uiDefaults.put("MenuBar.selectionBackground", Color.GRAY);
 
-        uiDefaults.put("MenuItem.background", Color.BLACK);
+        uiDefaults.put("MenuItem.background", confObject.getBgColor());
         uiDefaults.put("MenuItem.foreground", Color.WHITE);
         uiDefaults.put("MenuItem.selectionBackground", Color.GRAY);
 
-        uiDefaults.put("TextField.selectionBackground", Color.BLACK);
-        uiDefaults.put("TextField.highlight", Color.BLACK);
+        uiDefaults.put("TextField.selectionBackground", confObject.getBgColor());
+        uiDefaults.put("TextField.highlight", confObject.getBgColor());
         uiDefaults.put("Tree.selectionBackground", Color.GRAY);
         uiDefaults.put("List.selectionBackground", Color.GRAY);
-        uiDefaults.put("ComboBox.selectionBackground", Color.BLACK);
+        uiDefaults.put("ComboBox.selectionBackground", confObject.getBgColor());
 
-        uiDefaults.put("TabbedPane.background", Color.BLACK);
+        uiDefaults.put("TabbedPane.background", confObject.getBgColor());
         uiDefaults.put("TabbedPane.foreground", Color.WHITE);
         uiDefaults.put("TabbedPane.selectHighlight", Color.GRAY);
-        uiDefaults.put("TabbedPane.selected", Color.BLACK);
+        uiDefaults.put("TabbedPane.selected", confObject.getBgColor());
         uiDefaults.put("TabbedPane.shadow", Color.RED);
         uiDefaults.put("TabbedPane.borderHighlightColor", Color.RED);
 
-        uiDefaults.put("Label.background", Color.BLACK);
+        uiDefaults.put("Label.background", confObject.getBgColor());
         uiDefaults.put("Label.foreground", Color.GRAY);
-        uiDefaults.put("Panel.background", Color.BLACK);
+        uiDefaults.put("Panel.background", confObject.getBgColor());
         uiDefaults.put("Panel.foreground", Color.GRAY);
 
-        uiDefaults.put("OptionPane.background", Color.BLACK);
+        uiDefaults.put("OptionPane.background", confObject.getBgColor());
         uiDefaults.put("OptionPane.foreground", Color.GRAY);
 
         uiDefaults.put("OptionPane.errorDialog.titlePane.foreground", Color.GRAY);
@@ -214,16 +221,9 @@ public class STLibrary extends Component {
         uiDefaults.put("Desktop.icon", this.getAppIcon());
 
         // Phex Colors
-        uiDefaults.put("activeCaptionBorder", Color.BLACK);
+        uiDefaults.put("activeCaptionBorder", confObject.getBgColor());
         uiDefaults.put("info", Color.WHITE);
         PhexColors.updateColors();
-        
-        STXMLParser xmlParser = new STXMLParser();
-        confObject = xmlParser.readConfigurationFile();
-        if (confObject == null) {
-            confObject = new STConfiguration();            
-            this.initDefaultSTConfiguration();
-        }
 
         myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myApplicationIcon.ico")), 15, 15);
         myLoginIcon = new ImageIcon(STResources.getAppStr("myLoginImage"));

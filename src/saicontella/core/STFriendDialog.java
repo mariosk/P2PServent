@@ -46,9 +46,9 @@ public class STFriendDialog extends JDialog {
         this.radioButtonAccept.setForeground(Color.GRAY);
         this.radioButtonReject.setForeground(Color.GRAY);
         this.radioButtonDeny.setForeground(Color.GRAY);
-        this.radioButtonAccept.setBackground(Color.BLACK);
-        this.radioButtonReject.setBackground(Color.BLACK);
-        this.radioButtonDeny.setBackground(Color.BLACK);
+        this.radioButtonAccept.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.radioButtonReject.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.radioButtonDeny.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         this.radioButtonAccept.setEnabled(false);
         this.radioButtonReject.setEnabled(false);
         this.radioButtonDeny.setEnabled(false);

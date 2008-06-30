@@ -292,11 +292,15 @@ public class STMainForm extends JFrame {
         // mySettings Panel
         TitledBorder b1 = (TitledBorder)WebServicesPanel.getBorder();
         b1.setTitle(STLocalizer.getString("WebServices"));
+        //b1.setTitleColor(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        WebServicesPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());        
         this.UserLabel.setText(STLocalizer.getString("WebServicesUser"));
         this.PasswordLabel.setText(STLocalizer.getString("WebServicesPassword"));
         this.FriendsSizeLabel.setText(STLocalizer.getString("WebServicesFriendsSize"));
         TitledBorder b2 = (TitledBorder)SharedFoldersPanel.getBorder();
         b2.setTitle(STLocalizer.getString("SharedFoldersPanel"));
+        SharedFoldersPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        //b2.setTitleColor(STLibrary.getInstance().getSTConfiguration().getBgColor());
         this.CompleteDownloadFolderLabel.setText(STLocalizer.getString("CompleteDownloadFolder"));
         this.IncompleteDownloadFolderLabel.setText(STLocalizer.getString("IncompleteDownloadFolder"));
         this.DownloadRatioLabel.setText(STLocalizer.getString("DownloadRatio"));
@@ -305,6 +309,8 @@ public class STMainForm extends JFrame {
         this.incompleteDownloadFolderBrowseButton.setText(STLocalizer.getString("Browse"));
         TitledBorder b3 = (TitledBorder)ServentPanel.getBorder();
         b3.setTitle(STLocalizer.getString("Servent"));
+        //b3.setTitleColor(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        ServentPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         this.ListenPortLabel.setText(STLocalizer.getString("ServentListenPort"));
         this.ConnectionTimeoutLabel.setText(STLocalizer.getString("ServentConnectionTimeout"));
         this.maximumConnectionsLabel.setText(STLocalizer.getString("ServentMaximumConnections"));
@@ -314,7 +320,14 @@ public class STMainForm extends JFrame {
         // myFriends Panel
         this.friendNameLabel.setText(STLocalizer.getString("friendName"));
         this.buttonSearchFriend.setText(STLocalizer.getString("buttonSearchFriend"));
-        this.myFriendsLabel.setText(STLocalizer.getString("myFriendsLabel"));        
+        this.myFriendsLabel.setText(STLocalizer.getString("myFriendsLabel"));
+
+        this.mySettingsTab.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.myFriendsTab.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.autoConnectCheckBox.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.outerPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.imagesPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.tabsPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());        
     }
 
     public STMainForm(STLibrary sLibrary, DGuiSettings guiSettings) {

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.security.spec.KeySpec;
 import java.security.spec.AlgorithmParameterSpec;
+import java.awt.*;
 
 public class STConfiguration {
     
@@ -36,6 +37,7 @@ public class STConfiguration {
     private String webServicePassword;
     private int maxSearchFriendsLimit;
     private String langLocale;
+    private String bgColor;
     
     protected Cipher ecipher;
     protected Cipher dcipher;
@@ -52,7 +54,7 @@ public class STConfiguration {
         this.sharedFolders = new ArrayList();
         this.myFriends = new ArrayList();
         // Create encrypter/decrypter class
-        this.InitEncrypter();        
+        this.InitEncrypter();
     }
 
     public void setLangLocale(String locale) {
@@ -66,6 +68,20 @@ public class STConfiguration {
             return "en";
         else
             return langLocale;
+    }
+
+    public void setBgColor(String value) {
+        this.bgColor = value;
+    }
+    public Color getBgColor() {
+        if (this.bgColor != null) {
+            if (!this.bgColor.equals(""))
+                return Color.decode(this.bgColor);
+            else
+                return Color.BLACK;
+        }
+        else
+            return Color.BLACK;
     }
 
     public void setWebServiceAccount(String value) {

@@ -36,6 +36,7 @@ import javax.swing.UIManager;
 
 import phex.common.log.NLogger;
 import phex.gui.common.PhexColors;
+import saicontella.core.STLibrary;
 
 public class STBoxPanel extends JPanel
 {
@@ -67,7 +68,7 @@ public class STBoxPanel extends JPanel
             return;
         }
         //Color color = (Color)defaults.get("window");
-        Color color = Color.BLACK;
+        Color color = STLibrary.getInstance().getSTConfiguration().getBgColor();
         if ( color == null )
         {
             NLogger.error( STBoxPanel.class,
@@ -80,7 +81,7 @@ public class STBoxPanel extends JPanel
         {
             NLogger.error( STBoxPanel.class,
                 "Failed to get Phex color: BoxPanelBorderColor." );
-            boxPanelBorderColor = Color.BLACK;
+            boxPanelBorderColor = STLibrary.getInstance().getSTConfiguration().getBgColor();
         }
         setBorder( BorderFactory.createCompoundBorder(
             BorderFactory.createMatteBorder(6, 6, 6, 6, newColor ),

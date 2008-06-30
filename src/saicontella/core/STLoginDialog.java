@@ -41,6 +41,10 @@ public class STLoginDialog extends JDialog implements ItemListener {
         getRootPane().setDefaultButton(buttonConnect);
 
         this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
+        contentPane.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        buttonsPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        checkBoxAutoConnect.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
+        this.fieldsPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
 
         availableLocales = STLocalizer.getAvailableLocales();
         int configLangFound = -1;

@@ -36,10 +36,11 @@ public class STUpdater {
         this.localPath = localPath;
         JFrame frame = new JFrame();
         this.mainPanel = frame;
+        this.mainPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         STLocalizer.initialize( sLibrary.getSTConfiguration().getLangLocale() );
         frame.setTitle(STLocalizer.getString("UpdateIShare"));
         frame.setSize(310, 130);
-        frame.setBackground(Color.BLACK);
+        frame.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         frame.setLocationRelativeTo(null);
         frame.setIconImage(new ImageIcon("./images/gamers.png").getImage());
         frame.setResizable(false);
@@ -56,12 +57,12 @@ public class STUpdater {
         label.setForeground( Color.WHITE );
 
         JPanel panel = new JPanel();
-        panel.setBackground( Color.BLACK );
+        panel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         panel.add(button);
         panel.add(pb);
 
         JPanel panel1 = new JPanel();
-        panel1.setBackground( Color.BLACK );
+        panel1.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
         panel1.setLayout(new BorderLayout());
         panel1.add(panel, BorderLayout.NORTH);
         panel1.add(label, BorderLayout.CENTER);
@@ -92,7 +93,7 @@ public class STUpdater {
     public static void main(String[] args) {
         if (args.length != 3)
             return;
-        STUpdater updater = new STUpdater(args[0], args[1], args[2]);
+        STUpdater updater = new STUpdater(args[0], args[1], args[2]);        
     }
 
     class DownloadRunnable implements Runnable {
