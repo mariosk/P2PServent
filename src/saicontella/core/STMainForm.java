@@ -16,7 +16,6 @@ import phex.utils.DirectoryOnlyFileFilter;
 import phex.host.Host;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -25,13 +24,9 @@ import javax.swing.event.ListSelectionEvent;
 
 import java.awt.event.*;
 import java.awt.*;
-import java.awt.Desktop;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
 
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -45,7 +40,10 @@ import saicontella.phex.stupload.STUploadTab;
 import saicontella.phex.stlibrary.STLibraryTab;
 import saicontella.phex.stwizard.STConfigurationWizardDialog;
 import saicontella.phex.STFWElegantPanel;
-import org.jdesktop.jdic.desktop.*;
+
+import chrriis.common.UIUtils;
+import chrriis.dj.nativeswing.NativeInterface;
+import chrriis.dj.nativeswing.components.JWebBrowser;
 
 public class STMainForm extends JFrame {
 
@@ -179,6 +177,8 @@ public class STMainForm extends JFrame {
     private boolean initialized;
     private STSystemTray tray;
 
+    final JWebBrowser webBrowser = new JWebBrowser();
+
     public void disableTabs() {
         this.mainTabbedPanel.setEnabledAt(STMainForm.NETWORK_TAB_INDEX, false);
         this.mainTabbedPanel.setEnabledAt(STMainForm.SEARCH_TAB_INDEX, false);
@@ -289,6 +289,13 @@ public class STMainForm extends JFrame {
     }
 
     private void setUIStrings() {
+
+        NativeInterface.open();
+        webBrowser.setBarsVisible(false);
+        webBrowser.setButtonBarVisible(false);
+        webBrowser.navigate("http://www.gamersuniverse.com/index.php");
+        this.imagesPanel.add(webBrowser, BorderLayout.CENTER);
+
         // mySettings Panel
         TitledBorder b1 = (TitledBorder)WebServicesPanel.getBorder();
         b1.setTitle(STLocalizer.getString("WebServices"));

@@ -256,6 +256,26 @@
     <library name="Axis">
       <CLASSES>
         <root url="jar://C:/Documents and Settings/mariosk/.IntelliJIdea70/system/webservices/axis-1.4.0/axis.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jna.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jna_WindowUtils.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/svnphex.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/forms_rt.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-logging.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/log4j.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/swt-3.4M7-win32-win32-x86.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/wsdl4j-1.5.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/forms-1.1.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jdic.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jdic_stub.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxrpc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/activation.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/MRJAdapter.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-httpclient-3.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/looks-2.1.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/mailapi.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-discovery-0.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-collections-3.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
