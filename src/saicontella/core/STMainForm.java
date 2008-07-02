@@ -41,10 +41,6 @@ import saicontella.phex.stlibrary.STLibraryTab;
 import saicontella.phex.stwizard.STConfigurationWizardDialog;
 import saicontella.phex.STFWElegantPanel;
 
-import chrriis.common.UIUtils;
-import chrriis.dj.nativeswing.NativeInterface;
-import chrriis.dj.nativeswing.components.JWebBrowser;
-
 public class STMainForm extends JFrame {
 
     public static final int NETWORK_TAB_ID = 1000;
@@ -177,8 +173,6 @@ public class STMainForm extends JFrame {
     private boolean initialized;
     private STSystemTray tray;
 
-    final JWebBrowser webBrowser = new JWebBrowser();
-
     public void disableTabs() {
         this.mainTabbedPanel.setEnabledAt(STMainForm.NETWORK_TAB_INDEX, false);
         this.mainTabbedPanel.setEnabledAt(STMainForm.SEARCH_TAB_INDEX, false);
@@ -289,13 +283,6 @@ public class STMainForm extends JFrame {
     }
 
     private void setUIStrings() {
-
-        NativeInterface.open();
-        webBrowser.setBarsVisible(false);
-        webBrowser.setButtonBarVisible(false);
-        webBrowser.navigate("http://www.gamersuniverse.com/index.php");
-        this.imagesPanel.add(webBrowser, BorderLayout.CENTER);
-
         // mySettings Panel
         TitledBorder b1 = (TitledBorder)WebServicesPanel.getBorder();
         b1.setTitle(STLocalizer.getString("WebServices"));

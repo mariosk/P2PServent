@@ -15,6 +15,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -37,14 +38,20 @@ public class STButtonsPanel extends JPanel {
 
         JButton igamerButton = new JButton("");
         igamerButton.setBorder(BorderFactory.createEmptyBorder());
-        igamerButton.setIcon(new ImageIcon(STResources.getAppStr("myIGamersImage")));
+        if (STLibrary.getInstance().getSTConfiguration().getBgColor() != Color.BLACK)
+            igamerButton.setIcon(new ImageIcon("images/igamerGreen.gif"));
+        else
+            igamerButton.setIcon(new ImageIcon(STResources.getAppStr("myIGamersImage")));
         ConnectToIGamersHandler igamersHandler = new ConnectToIGamersHandler();
         igamerButton.addActionListener( igamersHandler );
         cacheStatusBuilder.add( igamerButton, cc.xy( 1, 3 ) );
 
         JButton exitButton = new JButton("");
         exitButton.setBorder(BorderFactory.createEmptyBorder());
-        exitButton.setIcon(new ImageIcon(STResources.getAppStr("myExitImage")));
+        if (STLibrary.getInstance().getSTConfiguration().getBgColor() != Color.BLACK)
+            exitButton.setIcon(new ImageIcon("images/exitGreen.gif"));
+        else
+            exitButton.setIcon(new ImageIcon(STResources.getAppStr("myExitImage")));
         ExitHandler exitHandler = new ExitHandler();
         exitButton.addActionListener( exitHandler );
         cacheStatusBuilder.add( exitButton, cc.xy( 6, 3) );

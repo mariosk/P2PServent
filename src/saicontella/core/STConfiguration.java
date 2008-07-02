@@ -341,6 +341,8 @@ public class STConfiguration {
         //buffer.append("\n");        
         //buffer.append("\t<account name=\"" + this.getAccountName() + "\" server=\"" + this.getAccountServer() + "\"/>");
         //buffer.append("\n");
+        if (this.bgColor != null)
+            buffer.append("\t<bgColor value=\"" + this.bgColor + "\"/>");        
         buffer.append("\t<locale value=\"" + this.getLangLocale() + "\"/>");
         buffer.append("\n");        
         buffer.append("\t<!-- webService endpoint -->");

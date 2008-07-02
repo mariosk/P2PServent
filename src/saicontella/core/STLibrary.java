@@ -226,7 +226,10 @@ public class STLibrary extends Component {
         PhexColors.updateColors();
 
         myApplicationIcon = resizeMyImageIcon(new ImageIcon(STResources.getAppStr("myApplicationIcon.ico")), 15, 15);
-        myLoginIcon = new ImageIcon(STResources.getAppStr("myLoginImage"));
+        if (this.confObject.getBgColor() != Color.BLACK)
+            myLoginIcon = new ImageIcon("images/GreenLogo.gif");
+        else
+            myLoginIcon = new ImageIcon(STResources.getAppStr("myLoginImage"));
         
         //STMySQLClient dbClient = new STMySQLClient("mysql", Configuration.getAccountServer(), Configuration.getAccountName(), "");
     	logger.info(STConstants.P2PSERVENT_BAR);
