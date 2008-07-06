@@ -15,6 +15,8 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -25,7 +27,7 @@ import org.jdesktop.jdic.desktop.DesktopException;
 public class STButtonsPanel extends JPanel {
 
     public STButtonsPanel() {
-        super();
+        super();       
 
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(
@@ -42,8 +44,10 @@ public class STButtonsPanel extends JPanel {
             igamerButton.setIcon(new ImageIcon("images/igamerGreen.gif"));
         else
             igamerButton.setIcon(new ImageIcon(STResources.getAppStr("myIGamersImage")));
+
         ConnectToIGamersHandler igamersHandler = new ConnectToIGamersHandler();
-        igamerButton.addActionListener( igamersHandler );
+        igamerButton.addMouseListener( igamersHandler );
+        
         cacheStatusBuilder.add( igamerButton, cc.xy( 1, 3 ) );
 
         JButton exitButton = new JButton("");
@@ -52,18 +56,33 @@ public class STButtonsPanel extends JPanel {
             exitButton.setIcon(new ImageIcon("images/exitGreen.gif"));
         else
             exitButton.setIcon(new ImageIcon(STResources.getAppStr("myExitImage")));
+
         ExitHandler exitHandler = new ExitHandler();
-        exitButton.addActionListener( exitHandler );
+        exitButton.addMouseListener( exitHandler );
+
         cacheStatusBuilder.add( exitButton, cc.xy( 6, 3) );
 
     }
 
-    private class ConnectToIGamersHandler extends AbstractAction implements ActionListener
+    private class ConnectToIGamersHandler extends MouseAdapter
     {
-        public void actionPerformed( ActionEvent e )
-        {
+        public void mouseEntered(MouseEvent mouseEvent) {
+            STLibrary.getInstance().getSTMainForm().setCursor(Cursor.HAND_CURSOR);
+        }
+
+        public void mouseExited(MouseEvent e) {
+            STLibrary.getInstance().getSTMainForm().setCursor(Cursor.getDefaultCursor());
+        }
+
+        public void mouseClicked(MouseEvent e) {
             try {
-                String urlString = "http://www.gamersuniverse.com/igamer/users/p2p_login.php?username="
+                String urlString = "";
+                if (STLibrary.getInstance().getSTConfiguration().getBgColor() == Color.BLACK)
+                    urlString = "http://www.gamersuniverse.com/igamer/users/p2p_login.php?username="
+                        + STLibrary.getInstance().getSTConfiguration().getWebServiceAccount()
+                        + "&password=" + STLibrary.getInstance().getSTConfiguration().getWebServicePassword();
+                else
+                    urlString = "http://www.gamersuniverse.com/pao_isupporter/users/p2p_login.php?username="
                         + STLibrary.getInstance().getSTConfiguration().getWebServiceAccount()
                         + "&password=" + STLibrary.getInstance().getSTConfiguration().getWebServicePassword();
                 Desktop.browse(new URL(urlString));
@@ -75,10 +94,17 @@ public class STButtonsPanel extends JPanel {
         }
     }
 
-    private class ExitHandler extends AbstractAction implements ActionListener
+    private class ExitHandler extends MouseAdapter
     {
-        public void actionPerformed( ActionEvent e )
-        {
+        public void mouseEntered(MouseEvent mouseEvent) {
+            STLibrary.getInstance().getSTMainForm().setCursor(Cursor.HAND_CURSOR);
+        }
+
+        public void mouseExited(MouseEvent e) {
+            STLibrary.getInstance().getSTMainForm().setCursor(Cursor.getDefaultCursor());
+        }
+
+        public void mouseClicked(MouseEvent e) {
             STLibrary.getInstance().exitApplication();
         }
     }

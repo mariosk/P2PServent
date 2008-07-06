@@ -170,6 +170,10 @@ public class STLibrary extends Component {
     public void DeIconifyMainForm() {
         this.stMainForm.setState(JFrame.NORMAL);
     }
+
+    public JFrame getSTMainForm() {
+        return this.stMainForm;
+    }
     
     public STLibrary() {        
         STXMLParser xmlParser = new STXMLParser();

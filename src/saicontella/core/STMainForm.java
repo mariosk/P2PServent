@@ -435,7 +435,7 @@ public class STMainForm extends JFrame {
     }
     
     public void setMyFriendsAdImageLabelIcon(ImageIcon icon, String link) {
-        icon = STLibrary.getInstance().resizeMyImageIcon(icon, 200, 300);
+        //icon = STLibrary.getInstance().resizeMyImageIcon(icon, 200, 300);
         this.myFriendsAdsLabel.setIcon(icon);
         this.myFriendsAdsLabel.repaint();
         if (link.length() > 0)

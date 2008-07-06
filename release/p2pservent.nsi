@@ -17,7 +17,7 @@
   InstallDir "$PROGRAMFILES\GamersUniverse\i-Share"
   
 ;Get installation folder from registry if available
-  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\i-Share_${VERSION}" ""
+  InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\GamersUniverse\i-Share" ""
   
   !cd ${RELEASE_DIR}
 
@@ -55,7 +55,7 @@ CRCCheck on
 
 ;--------------------------------
 ;Installer Sections
-Section "i-Share ${VERSION}" ; (default section)
+Section "i-Share" ; (default section)
 
 SetOutPath "$INSTDIR\images"
 File "${SRC_DIR}\images\About.png"
@@ -118,13 +118,13 @@ File "${SRC_DIR}\lib\jdic_stub.jar"
 SetOutPath "$INSTDIR"
 
 CreateDirectory "$SMPROGRAMS\GamersUniverse"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\i-Share ${VERSION}.lnk" "$INSTDIR\i-Share.exe"
-CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall i-Share ${VERSION}.lnk" "$INSTDIR\uninst.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\i-Share.lnk" "$INSTDIR\i-Share.exe"
+CreateShortCut "$SMPROGRAMS\GamersUniverse\Uninstall i-Share.lnk" "$INSTDIR\uninst.exe"
 
 ;Store installation folder
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\i-Share" "" "$INSTDIR"
 ;Store uninstall infos folder
-WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\i-Share" "DisplayName" "i-Share ${VERSION} (remove only)"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\i-Share" "DisplayName" "i-Share (remove only)"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\i-Share" "UninstallString" '"$INSTDIR\uninst.exe"'
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"
@@ -141,7 +141,7 @@ SectionEnd ; end of default section
 ; begin uninstall settings/section
 UninstallText "This will uninstall i-Share from your system"
 
-Section un.i-Share ${VERSION}
+Section un.i-Share
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
 Delete "$INSTDIR\i-Share.exe"
 
@@ -194,8 +194,8 @@ Delete "$INSTDIR\images\manualicon.png"
 Delete "$INSTDIR\images\helpupdates.png"
 
 Delete "$DESKTOP\i-Share.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\i-Share ${VERSION}.lnk"
-Delete "$SMPROGRAMS\GamersUniverse\Uninstall i-Share ${VERSION}.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\i-Share.lnk"
+Delete "$SMPROGRAMS\GamersUniverse\Uninstall i-Share.lnk"
 RMDir "$SMPROGRAMS\GamersUniverse"
 
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\i-Share"
