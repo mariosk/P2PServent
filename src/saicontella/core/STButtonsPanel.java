@@ -74,7 +74,7 @@ public class STButtonsPanel extends JPanel {
             STLibrary.getInstance().getSTMainForm().setCursor(Cursor.getDefaultCursor());
         }
 
-        public void mouseClicked(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) {
             try {
                 String urlString = "";
                 if (STLibrary.getInstance().getSTConfiguration().getBgColor() == Color.BLACK)
@@ -104,7 +104,7 @@ public class STButtonsPanel extends JPanel {
             STLibrary.getInstance().getSTMainForm().setCursor(Cursor.getDefaultCursor());
         }
 
-        public void mouseClicked(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) {
             STLibrary.getInstance().exitApplication();
         }
     }

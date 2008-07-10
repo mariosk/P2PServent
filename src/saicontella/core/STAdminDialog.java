@@ -75,8 +75,8 @@ public class STAdminDialog extends JDialog {
             }
         });
         userNamesFoundList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
                 labelSelectedUser.setText(userNamesFoundList.getSelectedValue().toString());
                 // retrieving the relevant settings for the selected user...
                 int index = userNamesFoundList.getSelectedIndex();

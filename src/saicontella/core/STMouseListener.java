@@ -27,7 +27,7 @@ public class STMouseListener extends MouseAdapter {
         parent.setCursor(Cursor.getDefaultCursor());
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
         e.getComponent().requestFocusInWindow();
         try {
             org.jdesktop.jdic.desktop.Desktop.browse(new URL(linkURL));

@@ -84,7 +84,7 @@ public class STFriendDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         friendsList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 radioButtonAccept.setEnabled(true);
                 radioButtonReject.setEnabled(true);
                 radioButtonDeny.setEnabled(true);

@@ -91,7 +91,7 @@ public class STLoginDialog extends JDialog implements ItemListener {
             this.textFieldPort.setText(new Integer(STLibrary.getInstance().getSTConfiguration().getListenPort()).toString());
         }
         
-        LabelListening app = new LabelListening();        
+        LabelListening app = new LabelListening(this);        
         this.registerLabel.setFocusable(true);
         this.registerLabel.putClientProperty(LabelListening.TEXT_KEY, this.registerLabel.getText());
         this.registerLabel.setFocusable(true);
@@ -138,6 +138,11 @@ public class STLoginDialog extends JDialog implements ItemListener {
         }
     }
 
+    public JPanel getContentPane()
+    {
+        return this.contentPane;
+    }
+    
     public void itemStateChanged(ItemEvent e) {
         STLibrary.getInstance().getSTConfiguration().setLangLocale(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
         STLocalizer.initialize( STLibrary.getInstance().getSTConfiguration().getLangLocale() );
@@ -186,6 +191,19 @@ public class STLoginDialog extends JDialog implements ItemListener {
 
     class LabelListening extends MouseAdapter implements FocusListener {
         private static final String TEXT_KEY = "jlabel_text_key";
+        private STLoginDialog dlg;
+
+        public LabelListening(STLoginDialog dlg) {
+            this.dlg = dlg;
+        }
+        
+        public void mouseEntered(MouseEvent mouseEvent) {
+            dlg.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+
+        public void mouseExited(MouseEvent e) {
+            dlg.setCursor(Cursor.getDefaultCursor());
+        }
 
         public void focusGained(FocusEvent e) {
             JLabel label = (JLabel) e.getComponent();

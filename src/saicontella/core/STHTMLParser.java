@@ -22,16 +22,24 @@ public class STHTMLParser extends ParserCallback{
     private ImageIcon imageFetched;
     private String linkURL;
     private boolean foundFirstImage;
+
+    public static int IMAGE_TYPE = 0;
+    public static int SWF_TYPE = 1;
+    public static int HTML_TYPE = 2;
+    public static int UNKNOWN_TYPE = 3;
     
-    public void runCallback(String urlString) {
+    public int runCallback(String urlString) {
         try {            
             URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
             String contentType = connection.getContentType();
-            if (!contentType.equalsIgnoreCase("text/html") && contentType.startsWith("image/")) {
-                this.imageFetched = new ImageIcon(new URL(urlString));
-                this.linkURL = "";
-                return;
+            if (contentType.equalsIgnoreCase("application/x-shockwave-flash"))
+                return STHTMLParser.SWF_TYPE;
+            else
+                if (!contentType.equalsIgnoreCase("text/html") && contentType.startsWith("image/")) {
+                    this.imageFetched = new ImageIcon(new URL(urlString));
+                    this.linkURL = "";
+                    return ;
             }            
             InputStream is = connection.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
