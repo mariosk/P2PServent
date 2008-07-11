@@ -5,7 +5,7 @@
 ;--------------------------------
 ;General
   !define MAIN_DIR "F:\SAICON\P2PServent"
-  !define VERSION "v1.17"
+  !define VERSION "v1.18"
   !define RELEASE_DIR "${MAIN_DIR}\release"
   !define SRC_DIR "${MAIN_DIR}"
 
@@ -96,6 +96,8 @@ File "${RELEASE_DIR}\i-Share.exe"
 File "${RELEASE_DIR}\i-ShareUpdater.exe"
 
 SetOutPath "$INSTDIR\lib"
+File "${SRC_DIR}\lib\jna.jar"
+File "${SRC_DIR}\lib\jna_WindowUtils.jar"
 File "${SRC_DIR}\lib\activation.jar"
 File "${SRC_DIR}\lib\axis.jar"
 File "${SRC_DIR}\lib\commons-collections-3.2.jar"
@@ -145,6 +147,8 @@ Section un.i-Share
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
 Delete "$INSTDIR\i-Share.exe"
 
+Delete "$INSTDIR\lib\jna.jar"
+Delete "$INSTDIR\lib\jna_WindowUtils.jar"
 Delete "$INSTDIR\lib\activation.jar"
 Delete "$INSTDIR\lib\axis.jar"
 Delete "$INSTDIR\lib\commons-collections-3.2.jar"

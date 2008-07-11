@@ -39,28 +39,49 @@ public class STAdsDownloader extends Thread {
         ImageIcon imageIconIShare1 = null;
         ImageIcon imageIconIShare2 = null;
         try {
+            logger.debug("[" + getName() + "]: Fetching advertisements...");
             STHTMLParser parser = new STHTMLParser();
 
-            parser.runCallback(STLibrary.STConstants.ADS_WEB_SERVER_URL);
-            imageIconMainForm = parser.getImageIcon();
-            if (imageIconMainForm != null)
-                this.mainForm.setAdImageLabelIcon(imageIconMainForm, parser.getLinkURL());
+            int status = parser.runCallback(STLibrary.STConstants.ADS_WEB_SERVER_URL);
+            if (status == STHTMLParser.SWF_TYPE) {
+                this.mainForm.setAdImageLabelIcon();
+            }
+            else {
+                imageIconMainForm = parser.getImageIcon();
+                if (imageIconMainForm != null)
+                    this.mainForm.setAdImageLabelIcon(imageIconMainForm, parser.getLinkURL());
+            }
 
-            parser.runCallback(STLibrary.STConstants.ADS_MY_FRIENDS_URL);
-            imageIconMyFriends = parser.getImageIcon();
-            if (imageIconMyFriends != null)
-                this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends, parser.getLinkURL());
+            status = parser.runCallback(STLibrary.STConstants.ADS_MY_FRIENDS_URL);
+            if (status == STHTMLParser.SWF_TYPE) {
+                this.mainForm.setMyFriendsAdImageLabelIcon();
+            }
+            else {
+                imageIconMyFriends = parser.getImageIcon();
+                if (imageIconMyFriends != null)
+                    this.mainForm.setMyFriendsAdImageLabelIcon(imageIconMyFriends, parser.getLinkURL());
+            }
 
-            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL1);
-            imageIconIShare1 = parser.getImageIcon();
-            if (imageIconIShare1 != null)
-                this.mainForm.setIShareImageLabelIcon1(imageIconIShare1, parser.getLinkURL());
+            status = parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL1);
+            if (status == STHTMLParser.SWF_TYPE) {
+                this.mainForm.setIShareImageLabelIcon1();
+            }
+            else {
+                imageIconIShare1 = parser.getImageIcon();
+                if (imageIconIShare1 != null)
+                    this.mainForm.setIShareImageLabelIcon1(imageIconIShare1, parser.getLinkURL());
+            }            
 
-            parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL2);
-            imageIconIShare2 = parser.getImageIcon();
-            if (imageIconIShare2 != null)
-                this.mainForm.setIShareImageLabelIcon2(imageIconIShare2, parser.getLinkURL());             
-
+            status = parser.runCallback(STLibrary.STConstants.ISHARE_LOGO_URL2);
+            if (status == STHTMLParser.SWF_TYPE) {
+                this.mainForm.setIShareImageLabelIcon2();
+            }
+            else {
+                imageIconIShare2 = parser.getImageIcon();
+                if (imageIconIShare2 != null)
+                    this.mainForm.setIShareImageLabelIcon2(imageIconIShare2, parser.getLinkURL());
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

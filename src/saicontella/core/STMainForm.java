@@ -27,6 +27,8 @@ import java.awt.*;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.io.*;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -41,10 +43,9 @@ import saicontella.phex.stlibrary.STLibraryTab;
 import saicontella.phex.stwizard.STConfigurationWizardDialog;
 import saicontella.phex.STFWElegantPanel;
 
-import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.NativeInterface;
-import chrriis.dj.nativeswing.components.JWebBrowser;
 import chrriis.dj.nativeswing.components.JFlashPlayer;
+import org.jdesktop.jdic.desktop.DesktopException;
 
 public class STMainForm extends JFrame {
 
@@ -178,14 +179,16 @@ public class STMainForm extends JFrame {
     private boolean initialized;
     private STSystemTray tray;
 
-    final JFlashPlayer webBrowserAds = new JFlashPlayer();
-    final JFlashPlayer webBrowserMyFriends = new JFlashPlayer();
-    final JFlashPlayer webBrowserLogo1 = new JFlashPlayer();
-    final JFlashPlayer webBrowserLogo2 = new JFlashPlayer();
+    final JFlashPlayer flashPlayerAds = new JFlashPlayer();
+    final JFlashPlayer flashPlayerMyFriends = new JFlashPlayer();
+    final JFlashPlayer flashPlayerLogo1 = new JFlashPlayer();
+    final JFlashPlayer flashPlayerLogo2 = new JFlashPlayer();
+
     private Thread urlUpdateThreadAds;
     private Thread urlUpdateThreadMyFriends;
     private Thread urlUpdateThreadLogo1;
     private Thread urlUpdateThreadLogo2;
+    
     private STUrlUpdateThread updThreadAds;
     private STUrlUpdateThread updThreadMyFriends;
     private STUrlUpdateThread updThreadLogo1;
@@ -356,42 +359,8 @@ public class STMainForm extends JFrame {
 
         this.tray = new STSystemTray();
         this.drawMenus();
-
-        this.leftImagePanel.removeAll();
-        this.rightImagePanel.removeAll();
-        this.middleImagePanel.removeAll();
-
+       
         imagesPanel.setSize(this.getWidth(), 500);        
-        this.leftImagePanel.add(webBrowserLogo1);
-        this.middleImagePanel.add(webBrowserAds);
-        this.rightImagePanel.add(webBrowserLogo2);
-        
-        updThreadMyFriends = new STUrlUpdateThread(this.webBrowserMyFriends, STLibrary.STConstants.ADS_MY_FRIENDS_URL);
-        urlUpdateThreadMyFriends = new Thread(updThreadMyFriends);
-        urlUpdateThreadMyFriends.start();
-
-        webBrowserLogo1.load(STLibrary.STConstants.ISHARE_LOGO_URL1);
-        updThreadLogo1 = new STUrlUpdateThread(this.webBrowserLogo1, STLibrary.STConstants.ISHARE_LOGO_URL1);
-        urlUpdateThreadLogo1 = new Thread(updThreadLogo1);
-        urlUpdateThreadLogo1.start();
-
-        //webBrowserAds.navigate(STLibrary.STConstants.ADS_WEB_SERVER_URL);
-        //updThreadAds = new STUrlUpdateThread(this.webBrowserAds, STLibrary.STConstants.ADS_WEB_SERVER_URL);
-        updThreadAds = new STUrlUpdateThread(this.webBrowserAds, "http://www.gamersuniverse.com");
-        urlUpdateThreadAds = new Thread(updThreadAds);
-        urlUpdateThreadAds.start();
-
-        webBrowserLogo2.load(STLibrary.STConstants.ISHARE_LOGO_URL2);
-        updThreadLogo2 = new STUrlUpdateThread(this.webBrowserLogo2, STLibrary.STConstants.ISHARE_LOGO_URL2);
-        urlUpdateThreadLogo2 = new Thread(updThreadLogo2);       
-        urlUpdateThreadLogo2.start();
-
-        this.setMyFriendsContentToEmbeddedWebBrowser(STLibrary.STConstants.ADS_MY_FRIENDS_URL);
-        /*
-        this.setLogo1ContentToEmbeddedWebBrowser(STLibrary.STConstants.ISHARE_LOGO_URL1);
-        this.setAdContentToEmbeddedWebBrowser(STLibrary.STConstants.ADS_WEB_SERVER_URL);
-        this.setLogo2ContentToEmbeddedWebBrowser(STLibrary.STConstants.ISHARE_LOGO_URL2);
-        */
 
         STButtonsPanel buttonsPanel1 = new STButtonsPanel();
         STButtonsPanel buttonsPanel2 = new STButtonsPanel();
@@ -489,16 +458,33 @@ public class STMainForm extends JFrame {
     public boolean initializedProperly() {
         return this.initialized;
     }
-    
+   
     public void setMyFriendsAdImageLabelIcon(ImageIcon icon, String link) {
-        //icon = STLibrary.getInstance().resizeMyImageIcon(icon, 200, 300);
+        this.flashPlayerMyFriends.setVisible(false);
+        this.myFriendsAdsLabel.setVisible(true);        
         this.myFriendsAdsLabel.setIcon(icon);
         this.myFriendsAdsLabel.repaint();
         if (link.length() > 0)
             this.myFriendsAdsLabel.addMouseListener(new STMouseListener(link, this));
     }
 
+    public void setAdImageLabelIcon(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myAdsImageLabel);
+        this.flashPlayerAds.setVisible(false);
+    }
+
+    public void setIShareImageLabelIcon1(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myLogoImageLabel);
+        this.flashPlayerLogo1.setVisible(false);
+    }
+
+    public void setIShareImageLabelIcon2(ImageIcon icon, String link) {
+        setRetrievedImageIconGeneric(icon, link, this.myIShareLogoLabel);
+        this.flashPlayerLogo2.setVisible(false);
+    }
+    
     private void setRetrievedImageIconGeneric(ImageIcon icon, String link, JLabel labelComponent) {
+        labelComponent.setVisible(true);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double h = size.getHeight() - (size.getHeight() / 2) + 0.2*size.getHeight();
         if (h < 700) {
@@ -510,21 +496,44 @@ public class STMainForm extends JFrame {
             labelComponent.addMouseListener(new STMouseListener(link, this));        
     }
 
-    public void setAdImageLabelIcon(ImageIcon icon, String link) {
-        setRetrievedImageIconGeneric(icon, link, this.myAdsImageLabel);
-    }
-
-    public void setIShareImageLabelIcon1(ImageIcon icon, String link) {
-        setRetrievedImageIconGeneric(icon, link, this.myLogoImageLabel);
+    public void setMyFriendsAdImageLabelIcon() {        
+        if (updThreadMyFriends == null) {
+            this.innerAdsPanel.removeAll();
+            this.innerAdsPanel.add(flashPlayerMyFriends);
+            updThreadMyFriends = new STUrlUpdateThread(flashPlayerMyFriends, STLibrary.STConstants.ADS_MY_FRIENDS_URL);
+            urlUpdateThreadMyFriends = new Thread(updThreadMyFriends);
+            urlUpdateThreadMyFriends.start();
+        }        
     }
     
-    public void setIShareImageLabelIcon2(ImageIcon icon, String link) {
-        setRetrievedImageIconGeneric(icon, link, this.myIShareLogoLabel);
+    public void setAdImageLabelIcon() {
+        if (updThreadAds == null) {
+            this.middleImagePanel.removeAll();
+            this.middleImagePanel.add(flashPlayerAds);
+            updThreadAds = new STUrlUpdateThread(flashPlayerAds, STLibrary.STConstants.ADS_WEB_SERVER_URL);
+            urlUpdateThreadAds = new Thread(updThreadAds);
+            urlUpdateThreadAds.start();
+        }
     }
 
-    public void setMyFriendsContentToEmbeddedWebBrowser(String url) {        
-        this.innerAdsPanel.remove(this.myFriendsAdsLabel);
-        this.innerAdsPanel.add(this.webBrowserMyFriends);
+    public void setIShareImageLabelIcon1() {
+        if (updThreadLogo1 == null) {
+            this.leftImagePanel.removeAll();
+            this.leftImagePanel.add(flashPlayerLogo1);            
+            updThreadLogo1 = new STUrlUpdateThread(flashPlayerLogo1, STLibrary.STConstants.ISHARE_LOGO_URL1);
+            urlUpdateThreadLogo1 = new Thread(updThreadLogo1);
+            urlUpdateThreadLogo1.start();
+        }
+    }
+
+    public void setIShareImageLabelIcon2() {
+        if (updThreadLogo2 == null) {
+            this.rightImagePanel.removeAll();
+            this.rightImagePanel.add(flashPlayerLogo2);
+            updThreadLogo2 = new STUrlUpdateThread(flashPlayerLogo2, STLibrary.STConstants.ISHARE_LOGO_URL2);
+            urlUpdateThreadLogo2 = new Thread(updThreadLogo2);
+            urlUpdateThreadLogo2.start();
+        }        
     }
     
     /**
@@ -1040,6 +1049,14 @@ public class STMainForm extends JFrame {
                 adminDlg.setVisible(true);                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_EXIT)) {
                 STLibrary.getInstance().exitApplication();
+            } else if (sourceObject.getText().equals(STLibrary.STConstants.HELP_MENU_MANUAL)) {
+                try {
+                    org.jdesktop.jdic.desktop.Desktop.browse(new URL(STLocalizer.getString("ManualUrl")));
+                } catch(MalformedURLException ex) {
+                    STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
+                } catch (DesktopException ex) {
+                    STLibrary.getInstance().fireMessageBox(ex.getMessage(), STLocalizer.getString("Error"), JOptionPane.ERROR_MESSAGE);
+                }                
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FILE_MENU_CONNECTIONS)) {
                 stMainForm.mainTabbedPanel.setSelectedIndex(STMainForm.NETWORK_TAB_INDEX);
             } else if (sourceObject.getText().equals(STLibrary.STConstants.FRIENDS_MENU_ADD)) {

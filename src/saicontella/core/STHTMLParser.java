@@ -26,31 +26,34 @@ public class STHTMLParser extends ParserCallback{
     public static int IMAGE_TYPE = 0;
     public static int SWF_TYPE = 1;
     public static int HTML_TYPE = 2;
-    public static int UNKNOWN_TYPE = 3;
+    public static int UNKNOWN_TYPE = 2;
     
     public int runCallback(String urlString) {
         try {            
             URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
             String contentType = connection.getContentType();
-            if (contentType.equalsIgnoreCase("application/x-shockwave-flash"))
+            if (contentType.equalsIgnoreCase("application/x-shockwave-flash"))            
                 return STHTMLParser.SWF_TYPE;
-            else
+            else {
                 if (!contentType.equalsIgnoreCase("text/html") && contentType.startsWith("image/")) {
                     this.imageFetched = new ImageIcon(new URL(urlString));
                     this.linkURL = "";
-                    return ;
-            }            
+                    return STHTMLParser.IMAGE_TYPE;
+                }     
+            }
             InputStream is = connection.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             HTMLEditorKit.Parser parser = new ParserDelegator();
             HTMLEditorKit.ParserCallback callback = this;
-            parser.parse(br, callback, true);            
+            parser.parse(br, callback, true);
+            return STHTMLParser.HTML_TYPE;
         }
         catch (Exception ex) {
             logger.error(ex.getMessage());
-        }        
+        }
+        return STHTMLParser.UNKNOWN_TYPE;
     }
     
     public STHTMLParser() {
