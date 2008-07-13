@@ -4,7 +4,7 @@
 
 ;--------------------------------
 ;General
-  !define MAIN_DIR "F:\SAICON\P2PServent"
+  !define MAIN_DIR "F:\SAICON\i-Share\P2PServent"
   !define VERSION "v1.18"
   !define RELEASE_DIR "${MAIN_DIR}\release"
   !define SRC_DIR "${MAIN_DIR}"
@@ -96,6 +96,7 @@ File "${RELEASE_DIR}\i-Share.exe"
 File "${RELEASE_DIR}\i-ShareUpdater.exe"
 
 SetOutPath "$INSTDIR\lib"
+File "${SRC_DIR}\lib\jna.jar"
 File "${SRC_DIR}\lib\jna.jar"
 File "${SRC_DIR}\lib\jna_WindowUtils.jar"
 File "${SRC_DIR}\lib\activation.jar"
