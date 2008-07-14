@@ -5,7 +5,7 @@
 ;--------------------------------
 ;General
   !define MAIN_DIR "F:\SAICON\i-Share\P2PServent"
-  !define VERSION "v1.18"
+  !define VERSION "v1.19"
   !define RELEASE_DIR "${MAIN_DIR}\release"
   !define SRC_DIR "${MAIN_DIR}"
 

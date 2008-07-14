@@ -21,10 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
+import phex.download.swarming.SwarmingManager;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.FWToggleAction;
-import phex.gui.common.GUIUtils;
+import phex.gui.common.FWElegantPanel;
 import phex.gui.common.GUIRegistry;
+import phex.gui.common.GUIUtils;
+import phex.gui.common.MainFrame;
 import phex.gui.tabs.FWTab;
 
 import phex.query.Search;
@@ -48,6 +51,7 @@ public class STSearchTab extends FWTab
 {
     private final SearchContainer searchContainer;
     private final SearchFilterRules filterRules;
+    private final SwarmingManager downloadService;
     
     private List<FWAction> viewMenuActionList;
     private STSearchResultsDataModel displayedDataModel;
@@ -68,7 +72,7 @@ public class STSearchTab extends FWTab
     private STSearchControlPanel searchControlPanel;
     private STSearchResultsPanel searchResultPanel;
     
-    public STSearchTab( SearchContainer searchContainer, SearchFilterRules filterRules )
+    public STSearchTab( SearchContainer searchContainer, SearchFilterRules filterRules, SwarmingManager downloadService )
     {
         super( STMainForm.SEARCH_TAB_ID, STLocalizer.getString( "Search" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.Tab" ),
@@ -77,8 +81,9 @@ public class STSearchTab extends FWTab
             "SearchAccelerator" ) ), STMainForm.SEARCH_TAB_INDEX );
         this.searchContainer = searchContainer;
         this.filterRules = filterRules;
+        this.downloadService = downloadService;
     }
-
+    
     public void initComponent( DGuiSettings guiSettings )
     {
         boolean isSearchBarVisible = true;
@@ -154,7 +159,7 @@ public class STSearchTab extends FWTab
         searchFilterPanel = new STSearchFilterPanel( this, filterRules );
         lowerRightBuilder.add( searchFilterPanel, cc.xy( 1, 1  ) );
         
-        searchResultPanel = new STSearchResultsPanel( this );
+        searchResultPanel = new STSearchResultsPanel( this, downloadService );
         searchResultPanel.initializeComponent( guiSettings );
         lowerRightBuilder.add( searchResultPanel, cc.xy( 1, 2 ) );
         
@@ -162,7 +167,7 @@ public class STSearchTab extends FWTab
 
         STButtonsPanel buttonsPanel = new STButtonsPanel();
         lowerBuilder.add( buttonsPanel, cc.xy( 6, 2 ) );
-
+        
         Dimension dim = new Dimension( 400, 200 );
         mainSearchPanel.setPreferredSize( dim );
         mainSearchPanel.setMinimumSize( new Dimension( 0, 0 ) );
@@ -173,7 +178,7 @@ public class STSearchTab extends FWTab
         searchListSplitPane.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0) );
         searchListSplitPane.setDividerSize( 4 );
         searchListSplitPane.setOneTouchExpandable( false );
-
+        
         setSearchButtonBarVisible( isSearchBarVisible );
         setSearchListVisible( isSearchListVisible );
         setFilterPanelVisible( isFilterPanelVisible );

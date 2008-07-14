@@ -27,7 +27,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import phex.common.ThreadPool;
+import phex.common.Environment;
 import phex.common.log.NLogger;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
@@ -60,32 +60,32 @@ public class STLibraryTreePane extends JPanel
     private SharingTreeModel sharingTreeModel;
     private JTree mainTree;
     private FWPopupMenu fileTreePopup;
-
+    
     private AddShareFolderAction addShareFolderAction;
     private RemoveShareFolderAction removeShareFolderAction;
     private ExploreFolderAction exploreFolderAction;
-
+    
     public STLibraryTreePane( Component parent )
     {
         this.parent = parent;
         prepareComponent();
     }
-
+    
     public void addTreeSelectionListener( TreeSelectionListener listener )
     {
         mainTree.getSelectionModel().addTreeSelectionListener( listener );
     }
-
+    
     public void appendPopupSeparator()
     {
         fileTreePopup.addSeparator();
     }
-
+    
     public void appendPopupAction( FWAction action )
     {
         fileTreePopup.addAction( action );
     }
-
+    
     public LibraryNode getSelectedTreeComponent()
     {
         TreePath path = mainTree.getSelectionPath();
@@ -96,14 +96,14 @@ public class STLibraryTreePane extends JPanel
         LibraryNode node = (LibraryNode) path.getLastPathComponent();
         return node;
     }
-
+    
     public void updateFileSystem()
     {
         sharingTreeModel.updateFileSystem();
     }
-
+    
     /**
-     *
+     * 
      */
     private void refreshActions()
     {
@@ -114,7 +114,7 @@ public class STLibraryTreePane extends JPanel
             exploreFolderAction.refreshActionState();
         }
     }
-
+    
     public void addShareFolder(File dir) {
         this.addShareFolderAction.shareDirRecursive(dir);
     }
@@ -125,18 +125,18 @@ public class STLibraryTreePane extends JPanel
         FormLayout layout = new FormLayout("fill:d:grow", // columns
             "fill:d:grow, 1dlu, p"); //rows
         PanelBuilder tabBuilder = new PanelBuilder( layout, this );
-
+        
         sharingTreeModel = new SharingTreeModel();
         mainTree = new JTree( sharingTreeModel );
         mainTree.setMinimumSize( new Dimension( 0, 0 ) );
         mainTree.setRowHeight(0);
         mainTree.setCellRenderer(new SharingTreeRenderer());
         mainTree.addMouseListener( new MouseHandler() );
-
+        
         mainTree.getSelectionModel().addTreeSelectionListener(
             new SelectionHandler());
         ToolTipManager.sharedInstance().registerComponent( mainTree );
-
+        
         // open up first level of nodes
         TreeNode root = (TreeNode) sharingTreeModel.getRoot();
         int count = root.getChildCount();
@@ -147,34 +147,34 @@ public class STLibraryTreePane extends JPanel
 
         JScrollPane treeScrollPane = new JScrollPane(mainTree);
         tabBuilder.add(treeScrollPane, cc.xywh(1, 1, 1, 1));
-
+        
         FWToolBar shareToolbar = new FWToolBar(FWToolBar.HORIZONTAL);
         shareToolbar.setBorderPainted(false);
         shareToolbar.setFloatable(false);
         tabBuilder.add(shareToolbar, cc.xy(1, 3));
-
+        
         addShareFolderAction = new AddShareFolderAction();
         shareToolbar.addAction( addShareFolderAction );
-
+        
         removeShareFolderAction = new RemoveShareFolderAction();
         shareToolbar.addAction( removeShareFolderAction );
-
+        
         if ( SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC_OSX )
         {
             exploreFolderAction = new ExploreFolderAction();
         }
-
-        fileTreePopup = new FWPopupMenu();        
+        
+        fileTreePopup = new FWPopupMenu();
         fileTreePopup.addAction( addShareFolderAction );
         fileTreePopup.addAction( removeShareFolderAction );
-
+        
         if ( SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC_OSX )
         {
             fileTreePopup.addAction( exploreFolderAction );
         }
     }
-
-
+    
+    
 
     /**
      * Starts a download.
@@ -184,7 +184,7 @@ public class STLibraryTreePane extends JPanel
         AddShareFolderAction()
         {
             super( STLocalizer.getString("LibraryTab_Share"),
-                GUIRegistry.getInstance().getPlafIconPack().getIcon( "Library.ShareFolder"),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon( "Library.ShareFolder"), 
                 STLocalizer.getString("LibraryTab_TTTShare"));
         }
 
@@ -202,8 +202,8 @@ public class STLibraryTreePane extends JPanel
                         currentDirectory = ((LibraryNode)lastPathComponent).getSystemFile();
                     }
                 }
-
-                final File[] files = FileDialogHandler.openMultipleDirectoryChooser(
+                
+                final File[] files = FileDialogHandler.openMultipleDirectoryChooser( 
                     parent,
                     STLocalizer.getString( "LibraryTab_SelectDirectoryToShare" ),
                     STLocalizer.getString( "LibraryTab_Select" ),
@@ -226,7 +226,7 @@ public class STLibraryTreePane extends JPanel
                                     shareDirRecursive(files[i]);
                                 }
                             }
-                            GUIActionPerformer.rescanSharedFiles();                            
+                            GUIActionPerformer.rescanSharedFiles();
                         }
                         catch ( Throwable th )
                         {
@@ -234,7 +234,7 @@ public class STLibraryTreePane extends JPanel
                         }
                     }
                 };
-                ThreadPool.getInstance().addJob(runner, "AddShareFolderAction");
+                Environment.getInstance().executeOnThreadPool(runner, "AddShareFolderAction");
             }
             catch ( Throwable th )
             {
@@ -246,7 +246,7 @@ public class STLibraryTreePane extends JPanel
         public void refreshActionState()
         {
         }
-
+        
         public void shareDirRecursive(File file)
         {
             if (!file.isDirectory())
@@ -254,8 +254,12 @@ public class STLibraryTreePane extends JPanel
                 return;
             }
             LibraryPrefs.SharedDirectoriesSet.get().add( file.getAbsolutePath() );
-            LibraryPrefs.SharedDirectoriesSet.changed();            
+            LibraryPrefs.SharedDirectoriesSet.changed();
             File[] dirs = file.listFiles(new DirectoryOnlyFileFilter());
+            if ( dirs == null )
+            {// not a valid path or an IO error.
+                return;
+            }
             for (int i = 0; i < dirs.length; i++)
             {
                 shareDirRecursive(dirs[i]);
@@ -274,13 +278,13 @@ public class STLibraryTreePane extends JPanel
             STLibrary.getInstance().getSTConfiguration().saveXMLFile();            
         }
     }
-
+    
     private class RemoveShareFolderAction extends FWAction
     {
         RemoveShareFolderAction()
         {
             super( STLocalizer.getString("LibraryTab_StopShare"),
-                GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.ShareFolderClear"),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.ShareFolderClear"), 
                 STLocalizer.getString("LibraryTab_TTTStopShare"));
             refreshActionState();
         }
@@ -296,7 +300,7 @@ public class STLibraryTreePane extends JPanel
             if ( !(lastPathComponent instanceof LibraryNode ))
             {
                 return;
-
+                
             }
             final File file = ((LibraryNode)lastPathComponent).getSystemFile();
             if ( file == null )
@@ -311,10 +315,10 @@ public class STLibraryTreePane extends JPanel
                     GUIActionPerformer.rescanSharedFiles();
                 }
             };
-            ThreadPool.getInstance().addJob(runner, "RemoveShareFolderAction");
+            Environment.getInstance().executeOnThreadPool(runner, "RemoveShareFolderAction");
             refreshActionState();
         }
-
+        
         private void stopShareDirRecursive(File file)
         {
             if (!file.isDirectory())
@@ -331,7 +335,7 @@ public class STLibraryTreePane extends JPanel
                 // we can assume there is no shared sub-directory available.
                 return;
             }
-
+            
             File[] dirs = file.listFiles(new DirectoryOnlyFileFilter());
             for (int i = 0; i < dirs.length; i++)
             {
@@ -374,7 +378,7 @@ public class STLibraryTreePane extends JPanel
             setEnabled(true);
         }
     }
-
+    
     private class ExploreFolderAction extends FWAction
     {
         ExploreFolderAction()
@@ -383,7 +387,7 @@ public class STLibraryTreePane extends JPanel
                 GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.Explore"),
                 STLocalizer.getString("LibraryTab_TTTExplore"));
         }
-
+        
         public void actionPerformed(ActionEvent e)
         {
             TreePath selectionPath = mainTree.getSelectionPath();
@@ -395,14 +399,14 @@ public class STLibraryTreePane extends JPanel
             if ( !(lastPathComponent instanceof LibraryNode ))
             {
                 return;
-
+                
             }
             final File dir = ((LibraryNode)lastPathComponent).getSystemFile();
             if ( dir == null )
             {
                 return;
             }
-
+            
             try
             {
                 SystemShellExecute.exploreFolder(dir);
@@ -442,9 +446,9 @@ public class STLibraryTreePane extends JPanel
             ((STLibraryTab)parent).fillFriedsList(folderIndex);
         }
     }
-
+    
     private class SelectionHandler implements TreeSelectionListener
-    {       
+    {
         public void valueChanged( TreeSelectionEvent e )
         {
             final Object treeRoot = sharingTreeModel.getRoot();
@@ -470,7 +474,7 @@ public class STLibraryTreePane extends JPanel
     {
         @Override
         public void mouseClicked( MouseEvent e )
-        {                       
+        {
         }
 
         @Override

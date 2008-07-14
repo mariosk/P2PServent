@@ -33,33 +33,33 @@ import saicontella.core.STLocalizer;
 public class STNetworkTableModel extends FWSortableTableModel
 {
     public static final int HOST_MODEL_INDEX = 0;
-//    public static final int VENDOR_MODEL_INDEX = 1;
-    public static final int TYPE_MODEL_INDEX = 1;
-    public static final int MODE_MODEL_INDEX = 2;
-    public static final int RECEIVED_DROPPED_MODEL_INDEX = 3;
-    public static final int SENT_QUEUED_MODEL_INDEX = 4;
-    public static final int SHARED_MODEL_INDEX = 5;
-    public static final int QRT_MODEL_INDEX = 6;
-    public static final int UPTIME_MODEL_INDEX = 7;
-    public static final int STATUS_MODEL_INDEX = 8;
-    public static final int USER_NAME_INDEX = 9;
-
+    public static final int VENDOR_MODEL_INDEX = 1;
+    public static final int TYPE_MODEL_INDEX = 2;
+    public static final int MODE_MODEL_INDEX = 3;
+    public static final int RECEIVED_DROPPED_MODEL_INDEX = 4;
+    public static final int SENT_QUEUED_MODEL_INDEX = 5;
+    public static final int SHARED_MODEL_INDEX = 6;
+    public static final int QRT_MODEL_INDEX = 7;
+    public static final int UPTIME_MODEL_INDEX = 8;
+    public static final int STATUS_MODEL_INDEX = 9;
+    public static final int USER_NAME_INDEX = 10;
+    
     /**
      * The unique column id is not allowed to ever change over Phex releases. It
      * is used when serializing column information. The column id is contained in
      * the identifier field of the TableColumn.
      */
     private static final Integer HOST_COLUMN_ID = Integer.valueOf( 1001 );
-//    private static final Integer VENDOR_COLUMN_ID = Integer.valueOf( 1002 );
-    private static final Integer TYPE_COLUMN_ID = Integer.valueOf( 1002 );
-    private static final Integer RECEIVED_DROPPED_COLUMN_ID = Integer.valueOf( 1003 );
-    private static final Integer SENT_QUEUED_COLUMN_ID = Integer.valueOf( 1004 );
-    private static final Integer SHARED_COLUMN_ID = Integer.valueOf( 1006 );
-    private static final Integer UPTIME_COLUMN_ID = Integer.valueOf( 1007 );
-    private static final Integer STATUS_COLUMN_ID = Integer.valueOf( 1008 );
-    private static final Integer MODE_COLUMN_ID = Integer.valueOf( 1009 );
-    private static final Integer QRT_COLUMN_ID = Integer.valueOf( 1010 );
-    private static final Integer USER_COLUMN_ID = Integer.valueOf( 1011 );
+    private static final Integer VENDOR_COLUMN_ID = Integer.valueOf( 1002 );
+    private static final Integer TYPE_COLUMN_ID = Integer.valueOf( 1003 );
+    private static final Integer RECEIVED_DROPPED_COLUMN_ID = Integer.valueOf( 1004 );
+    private static final Integer SENT_QUEUED_COLUMN_ID = Integer.valueOf( 1005 );
+    private static final Integer SHARED_COLUMN_ID = Integer.valueOf( 1007 );
+    private static final Integer UPTIME_COLUMN_ID = Integer.valueOf( 1008 );
+    private static final Integer STATUS_COLUMN_ID = Integer.valueOf( 1009 );
+    private static final Integer MODE_COLUMN_ID = Integer.valueOf( 1010 );
+    private static final Integer QRT_COLUMN_ID = Integer.valueOf( 1011 );
+    private static final Integer USER_COLUMN_ID = Integer.valueOf( 1012 );
 
     /**
      * Column ids ordered according to its corresponding model index
@@ -67,7 +67,7 @@ public class STNetworkTableModel extends FWSortableTableModel
     private static final Integer[] COLUMN_IDS = new Integer[]
     {
         HOST_COLUMN_ID,
-//        VENDOR_COLUMN_ID,
+        VENDOR_COLUMN_ID,
         TYPE_COLUMN_ID,
         MODE_COLUMN_ID,
         RECEIVED_DROPPED_COLUMN_ID,
@@ -87,7 +87,7 @@ public class STNetworkTableModel extends FWSortableTableModel
         tableColumns = new String[]
         {
             STLocalizer.getString( "RemoteHost" ),
-//            STLocalizer.getString( "Vendor" ),
+            STLocalizer.getString( "Vendor" ),
             STLocalizer.getString( "Type" ),
             STLocalizer.getString( "Mode" ),
             STLocalizer.getString( "ReceivedDropped" ),
@@ -96,13 +96,13 @@ public class STNetworkTableModel extends FWSortableTableModel
             STLocalizer.getString( "QRT" ),
             STLocalizer.getString( "Uptime" ),
             STLocalizer.getString( "Status" ),
-            STLocalizer.getString( "User" )    
+            STLocalizer.getString( "User" )
         };
 
         tableClasses = new Class[]
         {
              HostAddressCellRenderer.class,
-//             String.class,
+             String.class,
              String.class,
              String.class,
              String.class,
@@ -134,17 +134,17 @@ public class STNetworkTableModel extends FWSortableTableModel
         Host host = hostsContainer.getNetworkHostAt( row );
         if ( host == null || host.getConnection() == null)
         {
-            fireTableRowsDeleted( row, row );                        
+            fireTableRowsDeleted( row, row );
             return null;
         }
-        
+
         switch (col)
         {
             case HOST_MODEL_INDEX:
                 return host.getHostAddress();
 
-//            case VENDOR_MODEL_INDEX:
-//                return host.getVendor();
+            case VENDOR_MODEL_INDEX:
+                return host.getVendor();
 
             case TYPE_MODEL_INDEX:
                 switch ( host.getType() )
@@ -198,13 +198,13 @@ public class STNetworkTableModel extends FWSortableTableModel
                 }
             case QRT_MODEL_INDEX:
                 QueryRoutingTable qrt = host.getLastReceivedRoutingTable();
-                if( qrt == null )
+                if( qrt == null ) 
                 {
                     return "";
                 }
                 else
                 {
-                    return NumberFormatUtils.formatDecimal( qrt.getFillRatio(), 2 ) + "% / "
+                    return NumberFormatUtils.formatDecimal( qrt.getFillRatio(), 2 ) + "% / " 
                         + NumberFormatUtils.formatDecimal( qrt.getTableSize()/1024.0, 0 ) + "K";
                 }
             case UPTIME_MODEL_INDEX:
@@ -219,7 +219,7 @@ public class STNetworkTableModel extends FWSortableTableModel
         }
         return "";
     }
-
+    
     /**
      * Returns the most comparator that is used for sorting of the cell values
      * in the column. This is used by the FWSortedTableModel to perform the
@@ -257,9 +257,10 @@ public class STNetworkTableModel extends FWSortableTableModel
                 Host host = hostsContainer.getNetworkHostAt( row );
                 if ( host == null )
                 {
-                    return new Long( Long.MIN_VALUE );
+                    return Long.valueOf( Long.MIN_VALUE );
                 }
-                return host.getConnectionUpTimeObject( System.currentTimeMillis() );
+                return Long.valueOf( host.getConnectionUpTime( 
+                    System.currentTimeMillis() ) );
         }
         return getValueAt( row, column );
     }
@@ -276,7 +277,7 @@ public class STNetworkTableModel extends FWSortableTableModel
         }
         return true;
     }
-
+    
     /**
      * Indicates if a column is visible by default.
      */
@@ -289,7 +290,7 @@ public class STNetworkTableModel extends FWSortableTableModel
         }
         return true;
     }
-
+    
     @EventTopicSubscriber(topic=PhexEventTopics.Net_Hosts)
     public void onNetworkHostsEvent( String topic, final ContainerEvent event )
     {
@@ -307,7 +308,7 @@ public class STNetworkTableModel extends FWSortableTableModel
                 {
                     fireTableChanged( new TableModelEvent(STNetworkTableModel.this,
                         position, position, TableModelEvent.ALL_COLUMNS,
-                        TableModelEvent.DELETE ) );
+                        TableModelEvent.DELETE ) );            
                 }
             }
         });

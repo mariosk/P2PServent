@@ -215,14 +215,14 @@ public class STMainForm extends JFrame {
             return;
         for (int i = 0; i < hosts.size(); i++) {
             this.networkTab.disconnectFromHost((Host)hosts.get(i));
-        }        
-    }
+        }
+     }
 
     public ArrayList<Host> getPeersListData() {
         if (this.networkTab == null)
             return null;
-        return this.networkTab.getAllHosts();    
-    }
+        return this.networkTab.getAllHosts();
+     }
 
     public void drawMenus() {
         ClickMenuActionHandler menuHandler = new ClickMenuActionHandler();
@@ -745,7 +745,7 @@ public class STMainForm extends JFrame {
                     tabbedPane.setSelectedIndex(0);
                     return;
                 }
-                libraryTab.updateMyFriendsList();
+                //libraryTab.updateMyFriendsList();
             }
             else if (currentPanel.equals(searchTab)) {
                 if (!STLibrary.getInstance().isConnected()) {
@@ -941,14 +941,14 @@ public class STMainForm extends JFrame {
 
         // STSearch Tab
         searchContainer = sLibrary.getGnutellaFramework().getServent().getQueryService().getSearchContainer();
-        searchTab = new STSearchTab(searchContainer, sLibrary.getGnutellaFramework().getServent().getQueryService().getSearchFilterRules());
+        searchTab = new STSearchTab(searchContainer, sLibrary.getGnutellaFramework().getServent().getQueryService().getSearchFilterRules(), sLibrary.getGnutellaFramework().getServent().getDownloadService());
         searchTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(searchTab, SEARCH_TAB_INDEX);
         this.mainTabbedPanel.setTitleAt(SEARCH_TAB_INDEX, STLocalizer.getString("mySearch"));
         this.mainTabbedPanel.setIconAt(SEARCH_TAB_INDEX, mySearchIcon);
 
         //  SWDownload Tab
-        swDownloadTab = new STSWDownloadTab();
+        swDownloadTab = new STSWDownloadTab(sLibrary.getGnutellaFramework().getServent().getDownloadService());
         swDownloadTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(swDownloadTab, DOWNLOAD_TAB_INDEX);
         this.mainTabbedPanel.setTitleAt(DOWNLOAD_TAB_INDEX, STLocalizer.getString("myDownloads"));
@@ -962,7 +962,7 @@ public class STMainForm extends JFrame {
         this.mainTabbedPanel.setIconAt(UPLOAD_TAB_INDEX, myUploadsIcon);
 
         //  STLibrary Tab
-        libraryTab = new STLibraryTab(this);
+        libraryTab = new STLibraryTab(this);                
         libraryTab.initComponent(guiSettings);
         this.mainTabbedPanel.add(libraryTab, LIBRARY_TAB_INDEX);
         this.mainTabbedPanel.setTitleAt(LIBRARY_TAB_INDEX, STLocalizer.getString("myShares"));

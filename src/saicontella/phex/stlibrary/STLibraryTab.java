@@ -8,21 +8,32 @@ package saicontella.phex.stlibrary;
  * February 2008
  */
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.datatransfer.StringSelection;
 import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.io.File;
+import java.io.IOException;
+import java.awt.event.*;
+import java.awt.Component;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.bushe.swing.event.annotation.EventTopicSubscriber;
 
+import phex.common.Environment;
 import phex.common.QueryRoutingTable;
-import phex.common.ThreadPool;
+import phex.common.URN;
 import phex.common.format.NumberFormatUtils;
+import phex.common.log.NLogger;
 import phex.event.PhexEventTopics;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
+import phex.gui.common.BrowserLauncher;
 import phex.gui.common.FWPopupMenu;
 import phex.gui.common.FWToolBar;
 import phex.gui.common.GUIRegistry;
@@ -30,6 +41,8 @@ import phex.gui.common.GUIUtils;
 import phex.gui.common.MainFrame;
 import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
+import phex.gui.dialogs.ExportDialog;
+import phex.gui.dialogs.FilterLibraryDialog;
 import phex.gui.tabs.FWTab;
 import phex.gui.tabs.library.SharedFilesTableModel;
 import phex.gui.tabs.library.LibraryNode;
@@ -37,6 +50,8 @@ import phex.servent.Servent;
 import phex.share.ShareFile;
 import phex.share.SharedFilesService;
 import phex.share.SharedDirectory;
+import phex.utils.SystemShellExecute;
+import phex.utils.URLUtil;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
 import phex.security.PhexSecurityManager;
@@ -44,11 +59,15 @@ import phex.security.PhexSecurityManager;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+
 import saicontella.core.*;
 import saicontella.phex.STFWElegantPanel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.bushe.swing.event.annotation.EventTopicSubscriber;
 
 public class STLibraryTab extends FWTab
 {
@@ -237,39 +256,58 @@ public class STLibraryTab extends FWTab
             "fill:d:grow, p, p, p, p, p", // columns
             "fill:d:grow, fill:d:grow"); //rows
         PanelBuilder contentBuilder = new PanelBuilder(contentLayout, contentPanel);
-                
+        
         MouseHandler mouseHandler = new MouseHandler();
-
+        
         libraryTreePane = new STLibraryTreePane( this );
         libraryTreePane.addTreeSelectionListener(
             new SelectionHandler() );
         JPanel tablePanel = createTablePanel( guiSettings, mouseHandler );
         JButton dummyButton = new JButton("");
         tablePanel.setBackground(dummyButton.getBackground());
-        
+
         JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
             libraryTreePane, tablePanel );
         splitPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         splitPane.setDividerSize(4);
         splitPane.setOneTouchExpandable(false);
         contentBuilder.add(splitPane, cc.xywh(1, 1, 6, 1));
-
+       
         STButtonsPanel buttonsPanel = new STButtonsPanel();
         contentBuilder.add( buttonsPanel, cc.xy( 6, 2 ) );
 
         sharedFilesLabel = new JLabel( " " );
         sharedFilesLabel.setHorizontalAlignment( JLabel.RIGHT );
         elegantPanel.addHeaderPanelComponent(sharedFilesLabel, BorderLayout.EAST );
-
+        
         fileTablePopup = new FWPopupMenu();
         
         FWAction action;
-        
+/*        
+        action = getTabAction( OPEN_FILE_ACTION_KEY );
+        fileTablePopup.addAction( action );
+
+        action = getTabAction( VIEW_BITZI_ACTION_KEY );
+        fileTablePopup.addAction( action );
+
+        fileTablePopup.addSeparator();
+        libraryTreePane.appendPopupSeparator();
+*/        
         action = getTabAction( RESCAN_ACTION_KEY );
         fileTablePopup.addAction( action );
         libraryTreePane.appendPopupAction( action );
 
-        /*
+/*        
+        action = getTabAction( EXPORT_ACTION_KEY );
+        fileTablePopup.addAction( action );
+        libraryTreePane.appendPopupAction( action );
+        
+        action = getTabAction( FILTER_ACTION_KEY );
+        fileTablePopup.addAction( action );
+        libraryTreePane.appendPopupAction( action );
+*/
+
+/*
         action = getTabAction( ADD_FRIEND_ACTION_KEY );
         fileTablePopup.addAction( action );
         libraryTreePane.appendPopupAction( action );
@@ -277,7 +315,7 @@ public class STLibraryTab extends FWTab
         action = getTabAction( DEL_FRIEND_ACTION_KEY );
         fileTablePopup.addAction( action );
         libraryTreePane.appendPopupAction( action );
-        */
+*/
     }
 /*
     class JCheckBoxChangeListener implements ChangeListener {
@@ -301,8 +339,8 @@ public class STLibraryTab extends FWTab
         friendsList.setListData(friendsCheckBoxes);
         friendsList.repaint();
     }
-
-    private JPanel createTablePanel(DGuiSettings guiSettings,
+    
+    private JPanel createTablePanel(DGuiSettings guiSettings, 
         MouseHandler mouseHandler )
     {
         JPanel panel = new JPanel();
@@ -329,7 +367,7 @@ public class STLibraryTab extends FWTab
             new SelectionHandler());
         sharedFilesTableScrollPane = FWTable
             .createFWTableScrollPane(sharedFilesTable);
-
+        
         // adding in col: 1, row: 1
         tabBuilder.add(sharedFilesTableScrollPane, cc.xy(1, 1));
         
@@ -338,10 +376,10 @@ public class STLibraryTab extends FWTab
         shareToolbar.setFloatable(false);
         // adding in col: 1, row: 3
         tabBuilder.add(shareToolbar, cc.xy(1, 3));
-
+        
         friendsList = new STLibraryFriendsList(this);
         this.updateMyFriendsList();
-        this.friendsStatusLabel = new JLabel("");                        
+        this.friendsStatusLabel = new JLabel(""); 
 
         friendsScrollPane = new JScrollPane(friendsList);
         // adding in col: 2, row: 1
@@ -350,12 +388,30 @@ public class STLibraryTab extends FWTab
         tabBuilder.add(this.friendsStatusLabel, cc.xy(2, 3));
 
         FWAction action;
+/*        
+        action = new OpenFileAction();
+        addTabAction( OPEN_FILE_ACTION_KEY, action );
+        shareToolbar.addAction( action );
 
+        action = new ViewBitziTicketAction();
+        addTabAction( VIEW_BITZI_ACTION_KEY, action );
+        shareToolbar.addAction( action );
+        
+        shareToolbar.addSeparator();
+*/        
         action = new RescanAction();
         addTabAction( RESCAN_ACTION_KEY, action );
         shareToolbar.addAction( action );
-
-        /*
+/*        
+        action = new ExportAction();
+        addTabAction( EXPORT_ACTION_KEY, action );
+        shareToolbar.addAction( action );
+        
+        action = new FilterAction();
+        addTabAction( FILTER_ACTION_KEY, action );
+        shareToolbar.addAction( action );
+*/
+/*
         action = new AddFriendAction();
         addTabAction( ADD_FRIEND_ACTION_KEY, action );
         shareToolbar.addAction( action );
@@ -363,7 +419,7 @@ public class STLibraryTab extends FWTab
         action = new DelFriendAction();
         addTabAction( DEL_FRIEND_ACTION_KEY, action );
         shareToolbar.addAction( action );
-        */
+*/
         
         return panel;
     }
@@ -384,6 +440,11 @@ public class STLibraryTab extends FWTab
     @EventTopicSubscriber(topic=PhexEventTopics.Share_Update)
     public void onShareUpdateEvent( String topic, Object event )
     {
+        if ( sharedFilesLabel == null )
+        {
+            // UI not initialized yet.
+            return;
+        }
         EventQueue.invokeLater( new Runnable()
         {
             public void run()
@@ -500,6 +561,11 @@ public class STLibraryTab extends FWTab
     }
 
     private static final String RESCAN_ACTION_KEY = "RescanAction";
+    private static final String VIEW_BITZI_ACTION_KEY = "ViewBitziTicketAction";
+    private static final String EXPORT_ACTION_KEY = "ExportAction";
+    private static final String FILTER_ACTION_KEY = "FilterAction";
+    private static final String OPEN_FILE_ACTION_KEY = "OpenFileAction";
+    
     
     class RescanAction extends FWAction
     {
@@ -524,14 +590,278 @@ public class STLibraryTab extends FWTab
         {
         }
     }
+    
+    private class ExportAction extends FWAction
+    {
+        ExportAction()
+        {
+            super(STLocalizer.getString("LibraryTab_Export"),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon(
+                "Library.Export"), STLocalizer.getString("LibraryTab_TTTExport"));
+        }
+        
+        public void actionPerformed(ActionEvent e)
+        {
+            List<ShareFile> selectionList;
+            
+            int[] viewRows = sharedFilesTable.getSelectedRows();
+            if ( viewRows.length > 0 )
+            {
+                int[] modelRows = sharedFilesTable.convertRowIndicesToModel( viewRows );
+                selectionList = new ArrayList<ShareFile>();
+                for (int i = 0; i < modelRows.length; i++)
+                {
+                    if ( modelRows[i] >= 0 )
+                    {
+                        Object obj = sharedFilesModel.getValueAt( 
+                            modelRows[i], SharedFilesTableModel.FILE_MODEL_INDEX);
+                        if ( obj == null )
+                        {
+                            continue;
+                        }
+                        if ( obj instanceof ShareFile )
+                        {
+                            ShareFile sFile = (ShareFile)obj;
+                            selectionList.add( sFile );
+                        }
+                    }
+                }
+            }
+            else
+            {
+                selectionList = Collections.emptyList();
+            }
+            ExportDialog dialog;
+            if ( selectionList.isEmpty() )
+            {
+                dialog = new ExportDialog(  );
+            }
+            else
+            {
+                dialog = new ExportDialog( selectionList );
+            }
+            dialog.setVisible(true);
+        }
 
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void refreshActionState()
+        {
+        }
+    }
+    
+    private class OpenFileAction extends FWAction
+    {
+        OpenFileAction()
+        {
+            super(STLocalizer.getString("LibraryTab_OpenFile"),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon(
+                "Library.OpenFile"), STLocalizer.getString("LibraryTab_TTTOpenFile"));
+            refreshActionState();
+        }
+        
+        public void actionPerformed(ActionEvent e)
+        {
+            try
+            {
+                int row = sharedFilesTable.getSelectedRow();
+                row = sharedFilesTable.translateRowIndexToModel(row);
+                if ( row < 0 )
+                {
+                    return;
+                }
+                Object obj = sharedFilesModel.getValueAt(row, SharedFilesTableModel.FILE_MODEL_INDEX);            
+                if ( obj == null )
+                {
+                    return;
+                }
+                final File file;
+                if ( obj instanceof ShareFile )
+                {
+                    ShareFile sFile = (ShareFile)obj;
+                    file = sFile.getSystemFile();
+                    
+                }
+                else if ( obj instanceof File )
+                {
+                    file = (File)obj;
+                }
+                else
+                {
+                    return;
+                }
+                
+                Runnable runnable = new Runnable()
+                {
+                    public void run()
+                    {
+                        try
+                        {
+                            SystemShellExecute.launchFile( file );
+                        }
+                        catch ( IOException exp )
+                        {// ignore and do nothing..
+                        }
+                        catch ( Throwable th )
+                        {
+                            NLogger.error( STLibraryTab.class, th, th);
+                        }
+                    }
+                };
+                Environment.getInstance().executeOnThreadPool(runnable, "SystenShellExecute");
+            }
+            catch ( Throwable th )
+            {
+                NLogger.error( STLibraryTab.class, th, th);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void refreshActionState()
+        {
+            int row = sharedFilesTable.getSelectedRow();
+            row = sharedFilesTable.translateRowIndexToModel(row);
+            if ( row < 0 )
+            {
+                setEnabled(false);
+                return;
+            }
+            Object obj = sharedFilesModel.getValueAt(row, SharedFilesTableModel.FILE_MODEL_INDEX);            
+            if ( obj == null )
+            {
+                setEnabled(false);
+                return;
+            }
+            if ( obj instanceof ShareFile ||  obj instanceof File  )
+            {
+                setEnabled(true);
+            }
+            else
+            {
+                setEnabled(false);
+            }
+        }
+    }
+    
+    private class ViewBitziTicketAction extends FWAction
+    {
+        public ViewBitziTicketAction()
+        {
+            super( STLocalizer.getString( "ViewBitziTicket" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.ViewBitzi"),
+                STLocalizer.getString( "TTTViewBitziTicket" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            int row = sharedFilesTable.getSelectedRow();
+            row = sharedFilesTable.translateRowIndexToModel(row);
+            if ( row < 0 )
+            {
+                return;
+            }
+            
+            Object obj = sharedFilesModel.getValueAt(row, SharedFilesTableModel.FILE_MODEL_INDEX);
+            
+            if ( obj == null || !(obj instanceof ShareFile) )
+            {
+                return;
+            }
+            ShareFile sFile = (ShareFile)obj;
+            URN urn = sFile.getURN();
+            String url = URLUtil.buildBitziLookupURL( urn );
+            try
+            {
+                BrowserLauncher.openURL( url );
+            }
+            catch ( IOException exp )
+            {
+                NLogger.warn( STLibraryTab.class, exp);
+
+                Object[] dialogOptions = new Object[]
+                {
+                    STLocalizer.getString( "Yes" ),
+                    STLocalizer.getString( "No" )
+                };
+
+                int choice = JOptionPane.showOptionDialog( STLibraryTab.this,
+                    STLocalizer.getString( "FailedToLaunchBrowserURLInClipboard" ),
+                    STLocalizer.getString( "FailedToLaunchBrowser" ),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                    dialogOptions, STLocalizer.getString( "Yes" ) );
+                if ( choice == 0 )
+                {
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+                        new StringSelection( url ), null);
+                }
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void refreshActionState()
+        {
+            int row = sharedFilesTable.getSelectedRow();
+            row = sharedFilesTable.translateRowIndexToModel(row);
+            if ( row < 0 )
+            {
+                setEnabled( false );
+                return;
+            }
+            Object obj = sharedFilesModel.getValueAt(row, SharedFilesTableModel.FILE_MODEL_INDEX);
+            if ( obj == null || !(obj instanceof ShareFile) )
+            {
+                setEnabled( false );
+            }
+            else
+            {
+                setEnabled( true );
+            }            
+        }
+    }
+
+    private class FilterAction extends FWAction
+    {
+        public FilterAction()
+        {
+            super( STLocalizer.getString( "LibraryTab_Filter" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Library.Filter"),
+                STLocalizer.getString( "LibraryTab_TTTFilter" ) );
+        }
+        
+        public void actionPerformed(ActionEvent e)
+        {
+            FilterLibraryDialog dialog = new FilterLibraryDialog();
+            dialog.setVisible(true);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void refreshActionState()
+        {            
+        }
+    }
+    
+    
+    
+    
 
     //////////////////////////////////////////////////////////////////////////
     /// Listeners
     //////////////////////////////////////////////////////////////////////////
 
     private class SelectionHandler implements ListSelectionListener,
-        TreeSelectionListener
+            TreeSelectionListener
     {
         public void valueChanged(ListSelectionEvent e)
         {
@@ -547,7 +877,7 @@ public class STLibraryTab extends FWTab
 
             // run in separate thread.. not event thread to make sure tree selection
             // changes immediately while table needs a little more to update.
-            ThreadPool.getInstance().addJob( new Runnable()
+            Environment.getInstance().executeOnThreadPool( new Runnable()
             {
                 public void run()
                 {

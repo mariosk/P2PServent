@@ -46,12 +46,12 @@ public class STSearchActivityBox extends STBoxPanel
     public STSearchActivityBox( STSearchTab searchTab, final STSearchControlPanel cp )
     {
         super( STLocalizer.getString( "SearchTab_SearchActivity" ) );
-
+        
         CellConstraints cc = new CellConstraints();
         getContentPanel().setLayout( new BorderLayout() );
         
         newSearchActivityP = new JPanel();
-        newSearchActivityP.setOpaque(false);        
+        newSearchActivityP.setOpaque(false);
         
         getContentPanel().add( newSearchActivityP, BorderLayout.CENTER );
         FormLayout newSearchLayout = new FormLayout(
@@ -74,8 +74,21 @@ public class STSearchActivityBox extends STBoxPanel
                     cp.activateKeywordSearchBox( );
                 }
             });
-
-        browseHostBtn = new JToggleButton(
+/*
+        whatsNewBtn = new JToggleButton( 
+            Localizer.getString( "SearchTab_WhatsNew" ), 
+            GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.WhatsNewSearch" ) );
+        whatsNewBtn.setToolTipText( Localizer.getString( "SearchTab_TTTWhatsNew") );
+        updateActivityBtnProps( whatsNewBtn );
+        whatsNewBtn.addActionListener(new ActionListener()
+            {
+                public void actionPerformed( ActionEvent e )
+                {
+                    cp.activateWhatsNewBox( );
+                }
+            });
+*/
+        browseHostBtn = new JToggleButton( 
             Localizer.getString( "SearchTab_BrowseHost" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon( "Search.BrowseHost") );
         browseHostBtn.setToolTipText( STLocalizer.getString( "SearchTab_TTTBrowseHost") );
@@ -87,17 +100,18 @@ public class STSearchActivityBox extends STBoxPanel
                     cp.activateBrowseHostBox( );
                 }
             });
-
+        
         ButtonGroup group = new ButtonGroup();
         group.add(keywordSearchBtn);
+        //group.add(whatsNewBtn);
         group.add(browseHostBtn);
-
+        
         newSearchBuilder.add( keywordSearchBtn, cc.xy(2, 2) );
-        newSearchBuilder.add( browseHostBtn, cc.xy(2, 4) );
+        //newSearchBuilder.add( whatsNewBtn, cc.xy(2, 4) );
+        newSearchBuilder.add( browseHostBtn, cc.xy(2, 6) );
         
         runningSearchActivityP = new JPanel();
         runningSearchActivityP.setOpaque(false);
-        //runningSearchActivityP.setForeground(Color.GRAY);
         FormLayout runningLayout = new FormLayout(
             "6dlu, fill:p:grow, 6dlu", // columns
             "2dlu, p, 1dlu, p, 2dlu" ); // rows

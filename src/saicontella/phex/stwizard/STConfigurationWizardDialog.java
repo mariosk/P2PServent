@@ -16,8 +16,15 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
+import phex.common.bandwidth.BandwidthManager;
 import phex.common.log.NLogger;
+import phex.gui.common.DialogBanner;
+import phex.gui.common.GUIRegistry;
+import phex.gui.dialogs.options.OptionsDialog;
+import phex.gui.dialogs.configwizard.BandwidthPanel;
 import phex.gui.prefs.UpdatePrefs;
+import phex.servent.Servent;
+import phex.utils.Localizer;
 import phex.share.SharedFilesService;
 import phex.share.FileRescanRunner;
 
@@ -32,9 +39,9 @@ import saicontella.core.STLocalizer;
 public class STConfigurationWizardDialog extends JDialog
 {
     private static final int WELCOME_PAGE = 1;
-    //private static final int BANDWIDTH_PAGE = 2;
+    private static final int BANDWIDTH_PAGE = 2;
     private static final int DIRECTORY_PAGE = 3;
-    //private static final int CONTENTCOMMUNITY_PAGE = 4; 
+    private static final int CONTENTCOMMUNITY_PAGE = 4; 
     private static final int SHARING_PAGE = 5;
     
     private static final int GOODBYE_PAGE = 6;
@@ -42,6 +49,7 @@ public class STConfigurationWizardDialog extends JDialog
     private JPanel wizardContentPanel;
     
     private STWelcomePanel welcomePanel;
+    private BandwidthPanel bandwidthPanel;
     private STDirectoryPanel directoryPanel;
     private STSharingPanel sharingPanel;
     private STContentCommunityPanel contentCommunityPanel;
@@ -56,7 +64,7 @@ public class STConfigurationWizardDialog extends JDialog
     {
         super(parent);
         //super( GUIRegistry.getInstance().getMainFrame(),
-        //STResources.getStr( "ConfigWizard_DialogTitle" ), false );
+        //    Localizer.getString( "ConfigWizard_DialogTitle" ), false );
         this.setIconImage(STLibrary.getInstance().getAppIcon().getImage());
         currentPage = WELCOME_PAGE;
         prepareComponent();
@@ -77,7 +85,7 @@ public class STConfigurationWizardDialog extends JDialog
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout("4dlu, fill:d:grow, 4dlu", // columns
             "p, p, 4dlu, fill:p:grow, 8dlu," +  // rows
-            "p, 2dlu, p 4dlu" ); //btn rows
+            "p, 2dlu, p, 4dlu" ); //btn rows
         PanelBuilder contentPB = new PanelBuilder(layout, contentPanel);
         int columnCount = layout.getColumnCount();
         int rowCount = layout.getRowCount();
@@ -124,7 +132,7 @@ public class STConfigurationWizardDialog extends JDialog
         int height = Math.max( 400, getHeight() );
         setSize( height*5/4, height );
         
-        setLocationRelativeTo( null );
+        setLocationRelativeTo( getParent() );
     }
     
     public void setFinishBtnEnabled( boolean state )
@@ -154,17 +162,18 @@ public class STConfigurationWizardDialog extends JDialog
             backBtn.setEnabled(false);
             nextBtn.setEnabled(true);
             break;
-        /*
+/*
         case BANDWIDTH_PAGE:
             if ( bandwidthPanel == null )
             {
-                bandwidthPanel = new STBandwidthPanel(this);
+                BandwidthManager bandwidthService = Servent.getInstance().getBandwidthService();
+                bandwidthPanel = new BandwidthPanel(bandwidthService, this);
             }
             newPage = bandwidthPanel;
             backBtn.setEnabled(true);
             nextBtn.setEnabled(true);
             break;
-         */
+*/            
         case DIRECTORY_PAGE:
             if ( directoryPanel == null )
             {
@@ -175,6 +184,7 @@ public class STConfigurationWizardDialog extends JDialog
             nextBtn.setEnabled(true);
             break;
         case SHARING_PAGE:
+            this.directoryPanel.saveSettings();
             if ( sharingPanel == null )
             {
                 sharingPanel = new STSharingPanel(this);
@@ -219,7 +229,7 @@ public class STConfigurationWizardDialog extends JDialog
             int height = Math.max( prefSize.height, currSize.height );
             setSize( height*5/4, height );
             doLayout();
-        }
+        }        
 
         if (newPage == sharingPanel) {
             SharedFilesService sharedFilesService = STLibrary.getInstance().getGnutellaFramework().getServent().getSharedFilesService();
@@ -229,7 +239,7 @@ public class STConfigurationWizardDialog extends JDialog
                 Thread.sleep(5000);
             }
             catch (Exception ex) {
-            }
+            }            
             this.setCursor(Cursor.getDefaultCursor());
         }
     }

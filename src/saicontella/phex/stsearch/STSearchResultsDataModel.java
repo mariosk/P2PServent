@@ -37,7 +37,7 @@ import phex.gui.tabs.search.SearchResultElement;
 import phex.gui.tabs.search.SearchResultElementComparator;
 import saicontella.core.STLibrary;
 
-/**                                                                                                  .
+/**
  * This data model is doing the transition between the search result coming
  * from phex.query.Search and the data that is displayed through 
  * phex.gui.tabs.search.SearchResultsPanel.
@@ -51,7 +51,7 @@ public class STSearchResultsDataModel implements STISearchDataModel
      * To allow easy lookup this HashMap maps a search object to
      * its corresponding SearchResultDataModel. 
      */
-    private static final HashMap<Search, STSearchResultsDataModel> searchToDataModelMap =
+    private static final HashMap<Search, STSearchResultsDataModel> searchToDataModelMap = 
         new HashMap<Search, STSearchResultsDataModel>();
     
     /**
@@ -561,7 +561,7 @@ public class STSearchResultsDataModel implements STISearchDataModel
                 else
                 {
                     visualizationModel.fireTreeNodesInserted(
-                        STSearchResultsDataModel.this, path, indices, changes );
+                       STSearchResultsDataModel.this, path, indices, changes );
                 }
             }
         };
@@ -583,20 +583,22 @@ public class STSearchResultsDataModel implements STISearchDataModel
         {
             return;
         }
+        // copy ref
+        final STSearchTreeTableModel treeTableModel = visualizationModel;
         Runnable runnable = new Runnable()
         {
             public void run()
             {
                 Object[] path = new Object[]
                 {
-                    visualizationModel.getRoot(),
+                    treeTableModel.getRoot(),
                     resultElement
                 };
                 Object[] changes = new Object[]
                 {
                     remoteFile
                 };
-                visualizationModel.fireTreeNodesInserted(
+                treeTableModel.fireTreeNodesInserted(
                     STSearchResultsDataModel.this, path, null, changes );
             }
         };

@@ -46,7 +46,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
     public static final int RATE_MODEL_INDEX = 7;
     public static final int ETA_MODEL_INDEX = 8;
     public static final int STATUS_MODEL_INDEX = 9;
-
+    
     /**
      * The unique column id is not allowed to ever change over Phex releases. It
      * is used when serializing column information. The column id is containd in
@@ -131,7 +131,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
         super( COLUMN_IDS, tableColumns, tableClasses );
         Servent.getInstance().getEventService().processAnnotations( this );
     }
-
+    
     public void updateDownloadFile( SWDownloadFile file )
     {
         if ( downloadFile == file )
@@ -207,7 +207,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
             {
                 return "";
             }
-            return NumberFormatUtils.formatSignificantByteSize(
+            return NumberFormatUtils.formatSignificantByteSize( 
                 segment.getTransferSpeed() ) + STLocalizer.getString( "PerSec" );
         case ETA_MODEL_INDEX:
             segment = candidate.getDownloadSegment();
@@ -222,7 +222,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
             return "";
         }
     }
-
+    
     /**
      * Returns the most comparator that is used for sorting of the cell values
      * in the column. This is used by the FWSortedTableModel to perform the
@@ -246,7 +246,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
                 return null;
         }
     }
-
+    
     /**
      * Returns an attribute value that is used for comparing on sorting
      * for the cell at row and column. If not overwritten the call is forwarded
@@ -263,7 +263,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
         {
             return null;
         }
-
+        
         SWDownloadSegment segment;
         switch( column )
         {
@@ -302,15 +302,15 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
                 if ( status ==
                     CandidateStatus.REMOTLY_QUEUED )
                 {
-                    int queuePosition = candidate.getXQueueParameters().getPosition().intValue();
-                    Double doubObj = new Double( status.ordinal() + 1.0 -
+                    int queuePosition = candidate.getXQueueParameters().getPosition();
+                    Double doubObj = Double.valueOf( status.ordinal() + 1.0 -
                         Math.min( (double)queuePosition, (double)10000 ) / 10000.0 );
                     return doubObj;
                 }
                 else
                 {
                     long timeLeft = candidate.getStatusTimeLeft();
-                    return new Double( status.ordinal() +
+                    return Double.valueOf( status.ordinal() +
                         timeLeft / 1000000.0 );
                 }
             case RATE_MODEL_INDEX:
@@ -320,7 +320,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
                 {
                     return null;
                 }
-                return new Long( segment.getTransferSpeed() );
+                return Long.valueOf( segment.getTransferSpeed() );
             }
             case ETA_MODEL_INDEX:
             {
@@ -343,9 +343,9 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
         }
         return true;
     }
-
+    
     @EventTopicSubscriber(topic=PhexEventTopics.Download_Candidate)
-    public void onDownloadCandidateEvent( String topic,
+    public void onDownloadCandidateEvent( String topic, 
         final ContainerEvent event )
     {
         if ( downloadFile != ((SWDownloadCandidate)event.getSource()).getDownloadFile() )
@@ -366,7 +366,7 @@ public class STDownloadTransferTableModel extends FWSortableTableModel
                 {
                     fireTableChanged( new TableModelEvent(STDownloadTransferTableModel.this,
                         position, position, TableModelEvent.ALL_COLUMNS,
-                        TableModelEvent.DELETE ) );
+                        TableModelEvent.DELETE ) );            
                 }
             }
         });

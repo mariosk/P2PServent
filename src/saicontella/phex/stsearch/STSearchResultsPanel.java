@@ -32,7 +32,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 
-import phex.common.ThreadPool;
+import phex.common.Environment;
 import phex.common.address.DestAddress;
 import phex.common.log.NLogger;
 import phex.download.RemoteFile;
@@ -74,6 +74,8 @@ public class STSearchResultsPanel extends JPanel
     private static final String SEARCH_TREE_TABLE_IDENTIFIER = "SearchTreeTable";
     private static final RemoteFile[] EMPTY_REMOTE_FILE_ARRAY = new RemoteFile[0];
     
+    private final SwarmingManager downloadService;
+    
     private STSearchTab searchTab;
     private JPopupMenu searchResultPopup;
     
@@ -82,10 +84,21 @@ public class STSearchResultsPanel extends JPanel
     
     private JScrollPane searchTreeTableScrollPane;
     
-    public STSearchResultsPanel( STSearchTab tab )
+    
+    
+    public STSearchResultsPanel( STSearchTab searchTab, SwarmingManager downloadService )
     {
         super( );
-        searchTab = tab;
+        if ( searchTab == null )
+        {
+            throw new NullPointerException( "SearchTab missing" );
+        }
+        if ( downloadService == null )
+        {
+            throw new NullPointerException( "DownloadService missing" );
+        }
+        this.searchTab = searchTab;
+        this.downloadService = downloadService;
     }
     
     public void initializeComponent( DGuiSettings guiSettings )
@@ -111,12 +124,11 @@ public class STSearchResultsPanel extends JPanel
         searchTreeTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         searchTreeTable.getSelectionModel().addListSelectionListener(
             new SearchTreeTableSelectionListener() );
-        searchTreeTable.setTreeCellRenderer( new SearchTreeCellRenderer() );
+        searchTreeTable.setTreeCellRenderer( new SearchTreeCellRenderer( downloadService ) );
         
-        SharedFilesService sharedFilesService = STLibrary.getInstance().getGnutellaFramework().getServent().getSharedFilesService();
-        SwarmingManager swarmingMgr = SwarmingManager.getInstance();
+        SharedFilesService sharedFilesService = STLibrary.getInstance().getGnutellaFramework().getServent().getSharedFilesService();        
         SearchResultsRowRenderer resultRowRenderer = new SearchResultsRowRenderer(
-            sharedFilesService, swarmingMgr );
+            sharedFilesService, downloadService );
         List<TableColumn> colList = searchTreeTable.getColumns( true );
         for ( TableColumn column : colList )
         {
@@ -149,29 +161,50 @@ public class STSearchResultsPanel extends JPanel
         //addTabAction( ADD_AS_CANDIDATE_ACTION_KEY, action );
         //resultToolbar.addAction( action );
         //searchResultPopup.add( action );
-
+/*
+        action = new ViewBitziTicketAction();
+        searchTab.addTabAction( VIEW_BITZI_TICKET_ACTION_KEY, action );
+        resultToolbar.addAction( action );
+        searchResultPopup.add( action );
+        searchResultPopup.addSeparator();
+        
+        action = new AddToFavoritesAction();
+        searchTab.addTabAction( ADD_TO_FAVORITES_ACTION_KEY, action );
+        searchResultPopup.add( action );
+*/
         action = new BrowseHostAction();
         searchTab.addTabAction( BROWSE_HOST_ACTION_KEY, action );
         resultToolbar.addAction( action );
         searchResultPopup.add( action );
-        
+
         action = new ChatToHostAction();
         searchTab.addTabAction( CHAT_TO_HOST_ACTION_KEY, action );
         searchResultPopup.add( action );
-
+/*
+        BanHostActionProvider banHostActionProvider = new BanHostActionProvider();
+        BanHostActionUtils.BanHostActionMenu bhActionMenu = 
+            BanHostActionUtils.createActionMenu( 
+            banHostActionProvider );
+        
+        searchResultPopup.add( bhActionMenu.menu );
+        searchTab.addTabActions( bhActionMenu.actions );
+        action = BanHostActionUtils.createToolBarAction( banHostActionProvider );
+        resultToolbar.addAction( action );
+        searchTab.addTabAction( action );
+*/        
         searchResultPopup.addSeparator();
         
         searchResultPopup.add( searchTab.getTabAction(
-            SearchTab.CREATE_NEW_SEARCH_ACTION ) );
+            STSearchTab.CREATE_NEW_SEARCH_ACTION ) );
         searchResultPopup.add( searchTab.getTabAction(
-            SearchTab.CLEAR_SEARCH_RESULTS_ACTION ) );
+            STSearchTab.CLEAR_SEARCH_RESULTS_ACTION ) );
         searchResultPopup.add( searchTab.getTabAction(
-            SearchTab.CLOSE_SEARCH_ACTION ) );
+            STSearchTab.CLOSE_SEARCH_ACTION ) );
     }
     
-    public void setDisplayedSearch( STISearchDataModel searchResultsDataModel )
+    public void setDisplayedSearch( STSearchResultsDataModel searchResultsDataModel )
     {
-        searchTreeTableModel.setDisplayedSearch(searchResultsDataModel);
+        searchTreeTableModel.setDisplayedSearch( searchResultsDataModel );
     }
     
     /**
@@ -275,8 +308,6 @@ public class STSearchResultsPanel extends JPanel
         super.updateUI();
         if ( searchTreeTableScrollPane != null )
         {
-            searchTreeTable.updateUI();
-            int rows = searchTreeTable.getRowCount(); 
             FWTable.updateFWTableScrollPane( searchTreeTableScrollPane );
         }
     }
@@ -316,12 +347,11 @@ public class STSearchResultsPanel extends JPanel
                 {
                     try
                     {
-                        SwarmingManager swarmingMgr = SwarmingManager.getInstance();
                         for ( int i = 0; i < rfiles.length; i++ )
                         {
                             rfiles[i].setInDownloadQueue( true );
             
-                            SWDownloadFile downloadFile = swarmingMgr.getDownloadFile(
+                            SWDownloadFile downloadFile = downloadService.getDownloadFile(
                                 rfiles[i].getFileSize(), rfiles[i].getURN() );
             
                             if ( downloadFile != null )
@@ -332,7 +362,7 @@ public class STSearchResultsPanel extends JPanel
                             {
                                 RemoteFile dfile = new RemoteFile( rfiles[i] );
                                 String searchTerm = StringUtils.createNaturalSearchTerm( dfile.getFilename() );
-                                swarmingMgr.addFileToDownload( dfile,
+                                downloadService.addFileToDownload( dfile,
                                     dfile.getFilename(), searchTerm );
                             }
                         }
@@ -343,7 +373,7 @@ public class STSearchResultsPanel extends JPanel
                     }
                 }
             };
-            ThreadPool.getInstance().addJob(runner, "QuickDownloadAction" );
+            Environment.getInstance().executeOnThreadPool(runner, "QuickDownloadAction" );
         }
 
         @Override
@@ -372,12 +402,11 @@ public class STSearchResultsPanel extends JPanel
 
         public void actionPerformed( ActionEvent e )
         {
-            SwarmingManager swarmingMgr = SwarmingManager.getInstance();
             RemoteFile[] rfiles = getSelectedRemoteFiles( true );
             
             for ( int i = 0; i < rfiles.length; i++ )
             {
-                SWDownloadFile downloadFile = swarmingMgr.getDownloadFile(
+                SWDownloadFile downloadFile = downloadService.getDownloadFile(
                     rfiles[i].getFileSize(), rfiles[i].getURN() );
 
                 if ( downloadFile != null )

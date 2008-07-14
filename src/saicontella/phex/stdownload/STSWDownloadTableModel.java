@@ -35,20 +35,20 @@ import phex.servent.Servent;
 import saicontella.core.STLocalizer;
 
 public class STSWDownloadTableModel extends FWSortableTableModel
-{
+{   
     private static final int FILE_MODEL_INDEX = 0;
     private static final int PROGRESS_MODEL_INDEX = 1;
     private static final int SIZE_MODEL_INDEX = 2;
     private static final int RATE_MODEL_INDEX = 3;
     private static final int ETA_MODEL_INDEX = 4;
-//    private static final int CANDIDATE_COUNT_MODEL_INDEX = 5;
-    private static final int STATUS_MODEL_INDEX = 5;
-//    private static final int PRIORITY_MODEL_INDEX = 7;
-//    private static final int SEARCH_TERM_MODEL_INDEX = 6;
-    private static final int CREATED_TIME_MODEL_INDEX = 6;
-    private static final int DOWNLOADED_TIME_MODEL_INDEX = 7;
-    private static final int SHA1_MODEL_INDEX = 8;
-
+    private static final int CANDIDATE_COUNT_MODEL_INDEX = 5;
+    private static final int STATUS_MODEL_INDEX = 6;
+    private static final int PRIORITY_MODEL_INDEX = 7;
+    private static final int SEARCH_TERM_MODEL_INDEX = 8;
+    private static final int CREATED_TIME_MODEL_INDEX = 9;
+    private static final int DOWNLOADED_TIME_MODEL_INDEX = 10;
+    private static final int SHA1_MODEL_INDEX = 11;
+    
     /**
      * The unique column id is not allowed to ever change over Phex releases. It
      * is used when serializing column information. The column id is containd in
@@ -59,13 +59,13 @@ public class STSWDownloadTableModel extends FWSortableTableModel
     private static final Integer SIZE_COLUMN_ID = Integer.valueOf( 1003 );
     private static final Integer RATE_COLUMN_ID = Integer.valueOf( 1004 );
     private static final Integer STATUS_COLUMN_ID = Integer.valueOf( 1005 );
-//    private static final Integer CANDIDATE_COUNT_COLUMN_ID = Integer.valueOf( 1006 );
-//    private static final Integer SEARCH_TERM_COLUMN_ID = Integer.valueOf( 1006 );
-    private static final Integer SHA1_COLUMN_ID = Integer.valueOf( 1006 );
-//    private static final Integer PRIORITY_COLUMN_ID = Integer.valueOf( 1009 );
-    private static final Integer CREATED_TIME_COLUMN_ID = Integer.valueOf( 1007 );
-    private static final Integer DOWNLOADED_TIME_COLUMN_ID = Integer.valueOf( 1008 );
-    private static final Integer ETA_COLUMN_ID = Integer.valueOf( 1009 );
+    private static final Integer CANDIDATE_COUNT_COLUMN_ID = Integer.valueOf( 1006 );
+    private static final Integer SEARCH_TERM_COLUMN_ID = Integer.valueOf( 1007 );
+    private static final Integer SHA1_COLUMN_ID = Integer.valueOf( 1008 );
+    private static final Integer PRIORITY_COLUMN_ID = Integer.valueOf( 1009 );
+    private static final Integer CREATED_TIME_COLUMN_ID = Integer.valueOf( 1010 );
+    private static final Integer DOWNLOADED_TIME_COLUMN_ID = Integer.valueOf( 1011 );
+    private static final Integer ETA_COLUMN_ID = Integer.valueOf( 1012 );
 
     /**
      * Column ids orderd according to its corresponding model index
@@ -77,17 +77,17 @@ public class STSWDownloadTableModel extends FWSortableTableModel
         SIZE_COLUMN_ID,
         RATE_COLUMN_ID,
         ETA_COLUMN_ID,
-//        CANDIDATE_COUNT_COLUMN_ID,
+        CANDIDATE_COUNT_COLUMN_ID,
         STATUS_COLUMN_ID,
-//        PRIORITY_COLUMN_ID,
-//        SEARCH_TERM_COLUMN_ID,
+        PRIORITY_COLUMN_ID,
+        SEARCH_TERM_COLUMN_ID,
         CREATED_TIME_COLUMN_ID,
         DOWNLOADED_TIME_COLUMN_ID,
         SHA1_COLUMN_ID
     };
 
     private static String[] tableColumns;
-    private static Class[] tableClasses;
+    private static Class<?>[] tableClasses;
 
     /**
      * Initialize super tableColumns field
@@ -101,10 +101,10 @@ public class STSWDownloadTableModel extends FWSortableTableModel
             STLocalizer.getString( "Size" ),
             STLocalizer.getString( "Rate" ),
             STLocalizer.getString( "DownloadTable_ETA" ),
-//            STLocalizer.getString( "NumberOfCandidates" ),
+            STLocalizer.getString( "NumberOfCandidates" ),
             STLocalizer.getString( "Status" ),
-//            STLocalizer.getString( "Priority" ),
-//            STLocalizer.getString( "SearchTerm" ),
+            STLocalizer.getString( "Priority" ),
+            STLocalizer.getString( "SearchTerm" ),
             STLocalizer.getString( "Created" ),
             STLocalizer.getString( "Downloaded" ),
             STLocalizer.getString( "SHA1" )
@@ -127,23 +127,23 @@ public class STSWDownloadTableModel extends FWSortableTableModel
         };
     }
 
-    private SwarmingManager swarmingMgr;
+    private SwarmingManager downloadService;
 
-    public STSWDownloadTableModel()
+    public STSWDownloadTableModel( SwarmingManager downloadService )
     {
         super( COLUMN_IDS, tableColumns, tableClasses );
-        swarmingMgr = SwarmingManager.getInstance();
+        this.downloadService = downloadService;
         Servent.getInstance().getEventService().processAnnotations( this );
     }
 
     public int getRowCount()
     {
-        return swarmingMgr.getDownloadFileCount();
+        return downloadService.getDownloadFileCount();
     }
 
     public Object getValueAt( int row, int column )
     {
-        SWDownloadFile download = swarmingMgr.getDownloadFile( row );
+        SWDownloadFile download = downloadService.getDownloadFile( row );
         if ( download == null )
         {
             fireTableRowsDeleted( row, row );
@@ -169,27 +169,27 @@ public class STSWDownloadTableModel extends FWSortableTableModel
             }
             else
             {
-                maxRateStr = NumberFormatUtils.formatSignificantByteSize( maxRate)
+                maxRateStr = NumberFormatUtils.formatSignificantByteSize( maxRate) 
                     + STLocalizer.getString( "PerSec" );
             }
-            return NumberFormatUtils.formatSignificantByteSize(
+            return NumberFormatUtils.formatSignificantByteSize( 
                 download.getTransferSpeed() ) + STLocalizer.getString( "PerSec" )
                 + " (" + maxRateStr + ")";
         }
         case ETA_MODEL_INDEX:
             return download;
-//        case CANDIDATE_COUNT_MODEL_INDEX:
-//            return String.valueOf(download.getDownloadingCandidatesCount())
-//                + " / "
-//                + String.valueOf(download.getQueuedCandidatesCount())
-//                + " / " + String.valueOf(download.getCandidatesCount());
+        case CANDIDATE_COUNT_MODEL_INDEX:
+            return String.valueOf(download.getDownloadingCandidatesCount())
+                + " / "
+                + String.valueOf(download.getQueuedCandidatesCount())
+                + " / " + String.valueOf(download.getCandidatesCount());
         case STATUS_MODEL_INDEX:
             return SWDownloadInfo.getDownloadFileStatusString(download
                 .getStatus());
-//        case PRIORITY_MODEL_INDEX:
-//            return swarmingMgr.getDownloadPriority(download);
-//        case SEARCH_TERM_MODEL_INDEX:
-//            return download.getResearchSetting().getSearchTerm();
+        case PRIORITY_MODEL_INDEX:
+            return downloadService.getDownloadPriority(download);
+        case SEARCH_TERM_MODEL_INDEX:
+            return download.getResearchSetting().getSearchTerm();
         case CREATED_TIME_MODEL_INDEX:
             return download.getCreatedDate();
         case DOWNLOADED_TIME_MODEL_INDEX:
@@ -211,15 +211,15 @@ public class STSWDownloadTableModel extends FWSortableTableModel
      */
     public Object getComparableValueAt( int row, int column )
     {
-        SWDownloadFile download = swarmingMgr.getDownloadFile( row );
+        SWDownloadFile download = downloadService.getDownloadFile( row );
         if ( download == null )
         {
             return "";
         }
         switch ( column )
         {
-//            case CANDIDATE_COUNT_MODEL_INDEX:
-//                return Integer.valueOf( download.getCandidatesCount() );
+            case CANDIDATE_COUNT_MODEL_INDEX:
+                return Integer.valueOf( download.getCandidatesCount() );
             case RATE_MODEL_INDEX:
                 return Long.valueOf( download.getTransferSpeed() );
             case ETA_MODEL_INDEX:
@@ -240,8 +240,8 @@ public class STSWDownloadTableModel extends FWSortableTableModel
     {
         switch( column )
         {
-//            case CANDIDATE_COUNT_MODEL_INDEX:
-//            	return FWSortedTableModel.REVERSE_COMPARABLE_COMPARATOR;
+            case CANDIDATE_COUNT_MODEL_INDEX:
+            	return FWSortedTableModel.REVERSE_COMPARABLE_COMPARATOR;
             case PROGRESS_MODEL_INDEX:
                 return FWSortedTableModel.REVERSE_COMPARABLE_COMPARATOR;
             case RATE_MODEL_INDEX:
@@ -272,7 +272,7 @@ public class STSWDownloadTableModel extends FWSortableTableModel
         }
         return true;
     }
-
+    
     /**
      * Indicates if a column is visible by default.
      */
@@ -287,7 +287,7 @@ public class STSWDownloadTableModel extends FWSortableTableModel
         }
         return true;
     }
-
+    
     @EventTopicSubscriber(topic=PhexEventTopics.Download_File)
     public void onDownloadFileEvent( String topic, final ContainerEvent event )
     {
@@ -305,7 +305,7 @@ public class STSWDownloadTableModel extends FWSortableTableModel
                 {
                     fireTableChanged( new TableModelEvent(STSWDownloadTableModel.this,
                         position, position, TableModelEvent.ALL_COLUMNS,
-                        TableModelEvent.DELETE ) );
+                        TableModelEvent.DELETE ) );            
                 }
             }
         });

@@ -52,7 +52,7 @@ public class STSharingPanel extends JPanel
         builder.add( welcomeLines, cc.xywh( 2, 3, 4, 1 ) );
         
         STLibraryTreePane libraryTree = new STLibraryTreePane( this );
-        libraryTree.addShareFolder(new File(STLibrary.getInstance().getApplicationLocalPath() + "\\Complete"));
+        libraryTree.addShareFolder(new File(STLibrary.getInstance().getSTConfiguration().getCompleteFolder()));
         builder.add( libraryTree, cc.xywh(2, 5, 4, 1) );
     }
 }

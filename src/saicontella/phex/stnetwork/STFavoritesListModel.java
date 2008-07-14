@@ -46,7 +46,7 @@ public class STFavoritesListModel extends AbstractListModel
         }
         return host;
     }
-
+    
     @EventTopicSubscriber(topic=PhexEventTopics.Net_Favorites)
     public void onBookmarkedHostEventAdded( String topic, final ContainerEvent event )
     {

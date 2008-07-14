@@ -28,9 +28,9 @@ import com.jgoodies.forms.layout.FormLayout;
 public class STDownloadTransfersPanel extends JPanel
 {
     private static final String TRANSFER_TABLE_IDENTIFIER = "TransferTable";
-
+    
     private SWDownloadFile lastDownloadFile;
-
+    
     private FWTable transferTable;
     private JScrollPane transferTableScrollPane;
     private STDownloadTransferTableModel transferModel;
@@ -38,7 +38,7 @@ public class STDownloadTransfersPanel extends JPanel
     public STDownloadTransfersPanel()
     {
     }
-
+    
     public void initializeComponent( DGuiSettings guiSettings )
     {
         CellConstraints cc = new CellConstraints();
@@ -46,29 +46,29 @@ public class STDownloadTransfersPanel extends JPanel
             "fill:d:grow", // columns
             "fill:d:grow"); //rows
         PanelBuilder tabBuilder = new PanelBuilder( layout, this );
-
+        
         transferModel = new STDownloadTransferTableModel( );
         transferTable = new FWTable( new FWSortedTableModel( transferModel ) );
-        GUIUtils.updateTableFromDGuiSettings( guiSettings, transferTable,
+        GUIUtils.updateTableFromDGuiSettings( guiSettings, transferTable, 
             TRANSFER_TABLE_IDENTIFIER );
-
+        
         transferTable.activateAllHeaderActions();
         transferTable.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         transferTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         GUIRegistry.getInstance().getGuiUpdateTimer().addTable( transferTable );
         transferTableScrollPane = FWTable.createFWTableScrollPane( transferTable );
-
+        
         tabBuilder.add( transferTableScrollPane, cc.xy( 1, 1 ) );
-
+        
         GUIUtils.adjustTableProgresssBarHeight( transferTable );
     }
-
+    
     public void updateDownloadFile( SWDownloadFile file )
     {
         lastDownloadFile = file;
         transferModel.updateDownloadFile( file );
     }
-
+    
     /**
      * This is overloaded to update the table size for the progress bar on
      * every UI update. Like font size change!
@@ -87,12 +87,12 @@ public class STDownloadTransfersPanel extends JPanel
             FWTable.updateFWTableScrollPane( transferTableScrollPane );
         }
     }
-
-
+    
+    
     //////////////////////////////////////////////////////////////////////////
     /// XML serializing and deserializing
     //////////////////////////////////////////////////////////////////////////
-
+    
     public void appendDGuiSettings( DGuiSettings dSettings )
     {
         DTable dTable = GUIUtils.createDTable( transferTable, TRANSFER_TABLE_IDENTIFIER );

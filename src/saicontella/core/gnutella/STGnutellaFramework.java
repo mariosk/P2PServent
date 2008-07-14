@@ -11,7 +11,6 @@ package saicontella.core.gnutella;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import phex.common.ManagerController;
 import phex.common.ThreadTracking;
 import phex.common.Environment;
 import phex.common.EnvironmentConstants;
@@ -111,8 +110,7 @@ public class STGnutellaFramework {
                 ProxyPrefs.ForcedIp.set(sLibrary.getSTConfiguration().getListenAddress());
             }
 
-            this.servent.setOnlineStatus(OnlineStatus.ONLINE);
-            ManagerController.initializeManagers();
+            this.servent.setOnlineStatus(OnlineStatus.ONLINE);            
 
             if (sLibrary.isConnected()) {
                 if (restart)
@@ -130,7 +128,6 @@ public class STGnutellaFramework {
             {
                 ex.printStackTrace();
             }
-            ManagerController.startupCompletedNotify();
 
             logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " online status: " + this.servent.getOnlineStatus().isNetworkOnline());
             logger.debug("P2P network " + NetworkPrefs.CurrentNetwork.get() + " servent address: " + this.servent.getLocalAddress().getIpAddress() + ":" + servent.getLocalAddress().getPort());

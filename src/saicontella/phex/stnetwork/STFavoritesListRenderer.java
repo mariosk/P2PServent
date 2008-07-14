@@ -20,23 +20,23 @@ import phex.gui.common.IconPack;
 import phex.host.FavoriteHost;
 
 /**
- *
+ * 
  */
 public class STFavoritesListRenderer extends DefaultListCellRenderer
 {
     private IconPack iconFactory;
-
+    
     public STFavoritesListRenderer()
     {
         iconFactory = GUIRegistry.getInstance().getCountryIconPack();
     }
-
+    
     @Override
     public Component getListCellRendererComponent( JList list, Object value,
         int index, boolean isSelected, boolean cellHasFocus)
     {
         super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
+        
         if ( value instanceof FavoriteHost )
         {
             FavoriteHost host = (FavoriteHost)value;

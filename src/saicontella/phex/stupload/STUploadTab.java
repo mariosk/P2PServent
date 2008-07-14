@@ -9,13 +9,17 @@ package saicontella.phex.stupload;
  */
 
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.Collection;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -32,10 +36,7 @@ import phex.common.log.NLogger;
 import phex.gui.actions.BanHostActionUtils;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
-import phex.gui.common.FWToolBar;
-import phex.gui.common.GUIRegistry;
-import phex.gui.common.GUIUtils;
-import phex.gui.common.MainFrame;
+import phex.gui.common.*;
 import phex.gui.common.table.FWSortedTableModel;
 import phex.gui.common.table.FWTable;
 import phex.gui.dialogs.LogBufferDialog;
@@ -46,6 +47,7 @@ import phex.upload.UploadManager;
 import phex.upload.UploadState;
 import phex.xml.sax.gui.DGuiSettings;
 import phex.xml.sax.gui.DTable;
+import phex.utils.URLUtil;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -133,19 +135,39 @@ public class STUploadTab extends FWTab
         addTabAction( action );
         uploadToolbar.addAction( action );
         uploadPopup.add( action );
-
+/*
+        action = new ViewBitziTicketAction();
+        addTabAction( action );
+        uploadPopup.add( action );
+*/
         uploadToolbar.addSeparator();
         uploadPopup.addSeparator();
-        
-//        action = new AddToFavoritesAction();
-//        addTabAction( action );
-//        uploadPopup.add( action );
+/*        
+        action = new AddToFavoritesAction();
+        addTabAction( action );
+        uploadPopup.add( action );
+*/
+        action = new BrowseHostAction();
+        addTabAction( action );
+        uploadToolbar.addAction( action );
+        uploadPopup.add( action );
 
         action = new ChatToHostAction();
         addTabAction( action );
         uploadToolbar.addAction( action );
         uploadPopup.add( action );
-               
+/*        
+        BanHostActionProvider banHostActionProvider = new BanHostActionProvider();
+        BanHostActionUtils.BanHostActionMenu bhActionMenu = 
+            BanHostActionUtils.createActionMenu( 
+            banHostActionProvider );
+        
+        uploadPopup.add( bhActionMenu.menu );
+        addTabActions( bhActionMenu.actions );
+        action = BanHostActionUtils.createToolBarAction( banHostActionProvider );
+        uploadToolbar.addAction( action );
+        addTabAction( action );
+*/
         uploadToolbar.addSeparator();
         uploadPopup.addSeparator();
 
@@ -377,8 +399,7 @@ public class STUploadTab extends FWTab
             }
         }
     }
-
-/*
+    
     private class AddToFavoritesAction extends FWAction
     {
         public AddToFavoritesAction()
@@ -413,7 +434,102 @@ public class STUploadTab extends FWTab
             }
         }
     }
-*/
+
+
+    private class ViewBitziTicketAction extends FWAction
+    {
+        public ViewBitziTicketAction()
+        {
+            super( STLocalizer.getString( "ViewBitziTicket" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.ViewBitzi"),
+                STLocalizer.getString( "TTTViewBitziTicket" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            UploadState state = getSelectedUploadState();
+            if ( state == null )
+            {
+                return;
+            }
+            String url = URLUtil.buildBitziLookupURL(
+                state.getFileURN() );
+            try
+            {
+                BrowserLauncher.openURL( url );
+            }
+            catch ( IOException exp )
+            {
+                NLogger.warn( ViewBitziTicketAction.class, exp, exp);
+
+                Object[] dialogOptions = new Object[]
+                {
+                    STLocalizer.getString( "Yes" ),
+                    STLocalizer.getString( "No" )
+                };
+
+                int choice = JOptionPane.showOptionDialog( STUploadTab.this,
+                    STLocalizer.getString( "FailedToLaunchBrowserURLInClipboard" ),
+                    STLocalizer.getString( "FailedToLaunchBrowser" ),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                    dialogOptions, STLocalizer.getString( "Yes" ) );
+                if ( choice == 0 )
+                {
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+                        new StringSelection( url ), null);
+                }
+            }
+        }
+
+        @Override
+        public void refreshActionState()
+        {
+            if ( uploadTable.getSelectedRowCount() == 1 )
+            {
+                setEnabled( true );
+            }
+            else
+            {
+                setEnabled( false );
+            }
+        }
+    }
+
+    private class BrowseHostAction extends FWAction
+    {
+        public BrowseHostAction()
+        {
+            super( STLocalizer.getString( "BrowseHost" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Upload.BrowseHost"),
+                STLocalizer.getString( "TTTBrowseHost" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            UploadState state = getSelectedUploadState();
+            if ( state == null )
+            {
+                return;
+            }
+            GUIActionPerformer.browseHost( state.getHostAddress() );
+        }
+
+        @Override
+        public void refreshActionState()
+        {
+            if ( uploadTable.getSelectedRowCount() == 1 )
+            {
+                setEnabled( true );
+            }
+            else
+            {
+                setEnabled( false );
+            }
+        }
+    }
+
     class ClearUploadsAction extends FWAction
     {
         ClearUploadsAction()

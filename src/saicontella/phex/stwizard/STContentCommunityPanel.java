@@ -62,14 +62,14 @@ public class STContentCommunityPanel extends JPanel
     public void saveSettings()
     {
         boolean readoutMagmas = joinPolarSkulk.isSelected();
-        DownloadPrefs.AutoReadoutMagmaFiles.set( new Boolean( readoutMagmas ) );
+        DownloadPrefs.AutoReadoutMagmaFiles.set( Boolean.valueOf( readoutMagmas ) );
         
         boolean silentSubscriptions = joinPolarSkulk.isSelected();
-        SubscriptionPrefs.DownloadSilently.set( new Boolean( silentSubscriptions ) );
+        SubscriptionPrefs.DownloadSilently.set( Boolean.valueOf( silentSubscriptions ) );
         
         if (joinPolarSkulk.isSelected())
         {
-            String polarSkulkMagnet = new String("magnet:?xs=http://draketo.de/magma/polar-skulk/polar-skulk.magma&dn=polar-skulk.magma");
+            String polarSkulkMagnet = "magnet:?xs=http://polar-skulk.draketo.de/polar-skulk.magma&dn=polar-skulk.magma";
             
             
             SubscriptionPrefs.SubscriptionMagnets.get().add(polarSkulkMagnet); 

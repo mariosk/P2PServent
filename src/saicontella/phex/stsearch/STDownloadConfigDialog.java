@@ -43,8 +43,8 @@ public class STDownloadConfigDialog extends JDialog
     private JComboBox downloadStrategyCbx;
     private JRadioButton topPriority;
     private JRadioButton bottomPriority;
-
-
+    
+    
     /**
      * The remote file for a new download to be configured.
      * Either the remoteFile or the downloadFile is given for configuration
@@ -71,7 +71,7 @@ public class STDownloadConfigDialog extends JDialog
         prepareComponent();
         fillFields();
     }
-
+    
     /**
      * @throws java.awt.HeadlessException
      */
@@ -83,9 +83,9 @@ public class STDownloadConfigDialog extends JDialog
         prepareComponent();
         fillFields();
     }
-
+    
     /**
-     *
+     * 
      */
     private void prepareComponent()
     {
@@ -110,7 +110,7 @@ public class STDownloadConfigDialog extends JDialog
             "10dlu, p, 3dlu, p, 3dlu, p," + // 6 rows
             "10dlu, p, 3dlu, p, 6dlu" ); //row
         PanelBuilder builder = new PanelBuilder(layout, contentPanel);
-
+        
         int row = 1;
         STDialogBanner banner = new STDialogBanner( STLocalizer.getString("ConfigDownload_BannerHeader"),
             STLocalizer.getString("ConfigDownload_BannerSubHeader") );
@@ -141,7 +141,7 @@ public class STDownloadConfigDialog extends JDialog
         row += 2; //14
         builder.addLabel( STLocalizer.getString( "ConfigDownload_DownloadStrategy" ), cc.xy( 4, row, "left, center") );
         String[] strategyArr = new String[]
-        {
+        {            
             STLocalizer.getString( "DownloadTab_StrategyAvailability" ),
             STLocalizer.getString( "DownloadTab_StrategyBeginning" ),
             STLocalizer.getString( "DownloadTab_StrategyBeginningEnd" ),
@@ -170,7 +170,7 @@ public class STDownloadConfigDialog extends JDialog
             switchToDownloadTab = new JCheckBox( STLocalizer.getString( "ConfigDownload_SwitchToDownloadTab" ) );
             builder.add(switchToDownloadTab, cc.xywh(2, row, 5, 1));
         }
-
+        
         JButton cancelBtn = new JButton(STLocalizer.getString("Cancel"));
         cancelBtn.addActionListener(new CancelBtnListener());
         JButton okBtn = new JButton(STLocalizer.getString("OK"));
@@ -181,7 +181,7 @@ public class STDownloadConfigDialog extends JDialog
         pack();
         setLocationRelativeTo(getParent());
     }
-
+    
     private void fillFields()
     {
         if ( remoteFile != null )
@@ -196,8 +196,8 @@ public class STDownloadConfigDialog extends JDialog
         else if ( downloadFile != null )
         {
             fileNameTF.setText( downloadFile.getFileName() );
-
-            String destDirStr;
+            
+            String destDirStr; 
             File destDir = downloadFile.getDestinationDirectory();
             if ( destDir != null )
             {
@@ -209,7 +209,7 @@ public class STDownloadConfigDialog extends JDialog
             }
             destDirectoryTF.setText( destDirStr );
             searchTermTF.setText( downloadFile.getResearchSetting().getSearchTerm() );
-
+            
             ScopeSelectionStrategy strategy = downloadFile.getMemoryFile().getScopeSelectionStrategy();
             if ( strategy instanceof AvailBeginRandSelectionStrategy )
             {
@@ -233,17 +233,17 @@ public class STDownloadConfigDialog extends JDialog
                     "Unknown scope selection strategy: " + strategy.getClass().getName() );
             }
         }
-
+            
     }
-
+    
     private void closeDialog()
     {
         setVisible(false);
         dispose();
     }
-
+    
     /**
-     * Returns true if the dialog input is valid otherwise false.
+     * Returns true if the dialog input is valid otherwise false. 
      * This method causes error dialogs to be displayed in case of an input error.
      * @return
      */
@@ -257,7 +257,7 @@ public class STDownloadConfigDialog extends JDialog
             fileNameTF.requestFocus();
             return false;
         }
-
+        
         String directoryStr = destDirectoryTF.getText().trim();
         if ( filename.length() == 0 )
         {
@@ -292,25 +292,25 @@ public class STDownloadConfigDialog extends JDialog
             searchTermTF.requestFocus();
             return false;
         }
-
+        
         return true;
     }
-
+    
     private void performChanges()
     {
-        SwarmingManager swarmingMgr = SwarmingManager.getInstance();
+        SwarmingManager swarmingMgr = STLibrary.getInstance().getGnutellaFramework().getServent().getInstance().getDownloadService();
         String filename = fileNameTF.getText().trim();
         String directoryStr = destDirectoryTF.getText().trim();
         File destDir = new File( directoryStr );
         String researchTerm = searchTermTF.getText().trim();
-
+        
         SWDownloadFile downloadFileToChange = null;
         if ( remoteFile != null )
         {
             downloadFileToChange = swarmingMgr.addFileToDownload( remoteFile,
                 FileUtils.convertToLocalSystemFilename( filename ),
-                researchTerm );
-            remoteFile.setInDownloadQueue( true );
+                researchTerm );            
+            remoteFile.setInDownloadQueue( true );                    
         }
         else if ( downloadFile != null )
         {
@@ -345,7 +345,7 @@ public class STDownloadConfigDialog extends JDialog
             break;
         }
         downloadFileToChange.getMemoryFile().setScopeSelectionStrategy( strategy );
-
+        
         if ( remoteFile != null )
         {
             if ( topPriority.isSelected() )
@@ -358,7 +358,7 @@ public class STDownloadConfigDialog extends JDialog
             }
         }
     }
-
+    
     private final class OkBtnListener implements ActionListener
     {
         public void actionPerformed( ActionEvent e )
@@ -396,20 +396,23 @@ public class STDownloadConfigDialog extends JDialog
             }
         }
     }
-
+    
     private final class BrowseDestDirBtnListener implements ActionListener
     {
         public void actionPerformed( ActionEvent e )
         {
             try
             {
-                File file = FileDialogHandler.openSingleDirectoryChooser(
+                File file = FileDialogHandler.openSingleDirectoryChooser( 
                     STDownloadConfigDialog.this,
                     STLocalizer.getString( "ConfigDownload_SelectDestinationDirectory" ),
                     STLocalizer.getString( "ConfigDownload_Select" ),
                     STLocalizer.getChar( "ConfigDownload_SelectMnemonic" ),
                     new File( destDirectoryTF.getText() ) );
-                destDirectoryTF.setText( file.getAbsolutePath() );
+                if ( file != null )
+                {                    
+                    destDirectoryTF.setText( file.getAbsolutePath() );
+                }
             }
             catch ( Throwable th )
             {

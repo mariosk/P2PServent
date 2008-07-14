@@ -1,5 +1,7 @@
 package saicontella.phex.stsearch;
 
+import phex.gui.tabs.search.SearchResultElement;
+
 /**
  * SaiconTella project
  *
@@ -7,11 +9,9 @@ package saicontella.phex.stsearch;
  *
  * February 2008
  */
-
-import phex.gui.tabs.search.SearchResultElement;
-
+ 
 /**
- *
+ * 
  */
 public interface STISearchDataModel
 {

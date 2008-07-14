@@ -4,7 +4,7 @@ package saicontella.phex.stsearch;
  * SaiconTella project
  *
  * @author Marios Karagiannopoulos (mariosk@gmail.com)
- *
+ * 
  * February 2008
  */
 
@@ -93,16 +93,16 @@ public class STSearchListPanel extends JPanel
         // init popup menu
         searchListPopup = new JPopupMenu();
         searchListPopup.add( searchTab.getTabAction(
-            SearchTab.CREATE_NEW_SEARCH_ACTION ) );
+            STSearchTab.CREATE_NEW_SEARCH_ACTION ) );
         searchListPopup.add( searchTab.getTabAction(
-            SearchTab.CLEAR_SEARCH_RESULTS_ACTION ) );
+            STSearchTab.CLEAR_SEARCH_RESULTS_ACTION ) );
         
         FWAction closeSearchAction = searchTab.getTabAction(
-            SearchTab.CLOSE_SEARCH_ACTION );
+            STSearchTab.CLOSE_SEARCH_ACTION );
         searchListPopup.add( closeSearchAction );
-        searchListTable.getActionMap().put( SearchTab.CLOSE_SEARCH_ACTION, closeSearchAction);
+        searchListTable.getActionMap().put( STSearchTab.CLOSE_SEARCH_ACTION, closeSearchAction);
         searchListTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put( 
-            (KeyStroke)closeSearchAction.getValue(FWAction.ACCELERATOR_KEY), SearchTab.CLOSE_SEARCH_ACTION );
+            (KeyStroke)closeSearchAction.getValue(FWAction.ACCELERATOR_KEY), STSearchTab.CLOSE_SEARCH_ACTION );
     }
     
     public void setDisplayedSearch( STSearchResultsDataModel searchResultsDataModel )

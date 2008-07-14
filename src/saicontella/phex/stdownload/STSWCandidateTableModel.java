@@ -45,7 +45,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
     public static final int TOTAL_DOWNLOAD_MODEL_INDEX = 3;
     public static final int RATE_MODEL_INDEX = 4;
     public static final int STATUS_MODEL_INDEX = 5;
-
+    
     /**
      * The unique column id is not allowed to ever change over Phex releases. It
      * is used when serializing column information. The column id is contained in
@@ -70,7 +70,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
         RATE_COLUMN_ID,
         STATUS_COLUMN_ID
     };
-
+        
 
     private static String[] tableColumns;
     private static Class[] tableClasses;
@@ -101,7 +101,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
         };
     }
 
-    private SwarmingManager swarmingMgr;
+    private final SwarmingManager downloadService;
 
     /**
      * The currently displayed download file of the model.
@@ -114,10 +114,14 @@ public class STSWCandidateTableModel extends FWSortableTableModel
      * @param downloadTable The constructor takes the download JTable. This is
      * necessary to get informed of the selection changes of the download table.
      */
-    public STSWCandidateTableModel( FWTable aDownloadTable )
+    public STSWCandidateTableModel( FWTable aDownloadTable, SwarmingManager downloadService )
     {
         super( COLUMN_IDS, tableColumns, tableClasses );
-        swarmingMgr = SwarmingManager.getInstance();
+        if ( downloadService == null )
+        {
+            throw new NullPointerException( "DownloadService missing" );
+        }
+        this.downloadService = downloadService;
         downloadTable = aDownloadTable;
         downloadTable.getSelectionModel().addListSelectionListener(
             new DownloadSelectionChangeHandler() );
@@ -149,7 +153,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
             fireTableRowsDeleted( row, row );
             return null;
         }
-
+        
         switch( column )
         {
             case 0:
@@ -159,7 +163,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
             case PROGRESS_MODEL_INDEX:
                 return candidate;
             case TOTAL_DOWNLOAD_MODEL_INDEX:
-                return NumberFormatUtils.formatSignificantByteSize(
+                return NumberFormatUtils.formatSignificantByteSize( 
                     candidate.getTotalDownloadSize() );
             case RATE_MODEL_INDEX:
             {
@@ -168,7 +172,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 {
                     return null;
                 }
-                return NumberFormatUtils.formatSignificantByteSize(
+                return NumberFormatUtils.formatSignificantByteSize( 
                     segment.getTransferSpeed() ) + STLocalizer.getString( "PerSec" );
             }
             case STATUS_MODEL_INDEX:
@@ -201,7 +205,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 return null;
         }
     }
-
+    
     /**
      * Returns an attribute value that is used for comparing on sorting
      * for the cell at row and column. If not overwritten the call is forwarded
@@ -218,7 +222,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
         {
             return null;
         }
-
+        
         switch( column )
         {
             case PROGRESS_MODEL_INDEX:
@@ -228,17 +232,17 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 {
                     return null;
                 }
-                return new Long( availableScopeList.getAggregatedLength() );
+                return Long.valueOf( availableScopeList.getAggregatedLength() );
             }
             case TOTAL_DOWNLOAD_MODEL_INDEX:
-                return new Long( candidate.getTotalDownloadSize() );
+                return Long.valueOf( candidate.getTotalDownloadSize() );
             case STATUS_MODEL_INDEX:
                 CandidateStatus status = candidate.getStatus();
                 if ( status ==
                     CandidateStatus.REMOTLY_QUEUED )
                 {
-                    int queuePosition = candidate.getXQueueParameters().getPosition().intValue();
-                    Double doubObj = new Double( status.ordinal() + 1.0 -
+                    int queuePosition = candidate.getXQueueParameters().getPosition();
+                    Double doubObj = Double.valueOf( status.ordinal() + 1.0 -
                         Math.min( (double)queuePosition, (double)10000 ) / 10000.0 );
                     return doubObj;
                 }
@@ -252,10 +256,10 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                     }
                     else
                     {// timeLeft is not 0.. checked above..
-                        val = status.ordinal() - 1.0
+                        val = status.ordinal() - 1.0 
                             + 1 / (double)timeLeft;
                     }
-                    return new Double( val );
+                    return Double.valueOf( val );
                 }
             case RATE_MODEL_INDEX:
             {
@@ -264,7 +268,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 {
                     return null;
                 }
-                return new Long( segment.getTransferSpeed() );
+                return Long.valueOf( segment.getTransferSpeed() );
             }
         }
         return getValueAt( row, column );
@@ -292,8 +296,8 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 ListSelectionModel model = (ListSelectionModel) e.getSource();
                 int viewIdx = model.getMinSelectionIndex();
                 int modelIdx = downloadTable.translateRowIndexToModel( viewIdx );
-
-                SWDownloadFile tmpDownloadFile = swarmingMgr.getDownloadFile( modelIdx );
+                
+                SWDownloadFile tmpDownloadFile = downloadService.getDownloadFile( modelIdx );
                 if ( tmpDownloadFile != downloadFile )
                 {
                     downloadFile = tmpDownloadFile;
@@ -304,9 +308,9 @@ public class STSWCandidateTableModel extends FWSortableTableModel
             }
         }
     }
-
+    
     @EventTopicSubscriber(topic=PhexEventTopics.Download_Candidate)
-    public void onDownloadCandidateEvent( String topic,
+    public void onDownloadCandidateEvent( String topic, 
         final ContainerEvent event )
     {
         if ( downloadFile != ((SWDownloadCandidate)event.getSource()).getDownloadFile() )
@@ -327,7 +331,7 @@ public class STSWCandidateTableModel extends FWSortableTableModel
                 {
                     fireTableChanged( new TableModelEvent(STSWCandidateTableModel.this,
                         position, position, TableModelEvent.ALL_COLUMNS,
-                        TableModelEvent.DELETE ) );
+                        TableModelEvent.DELETE ) );            
                 }
             }
         });

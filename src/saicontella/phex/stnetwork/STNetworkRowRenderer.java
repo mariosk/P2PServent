@@ -19,7 +19,7 @@ import phex.gui.common.table.FWTable;
 import phex.host.*;
 
 /**
- *
+ * 
  */
 public class STNetworkRowRenderer implements TableCellRenderer
 {
@@ -28,20 +28,20 @@ public class STNetworkRowRenderer implements TableCellRenderer
     //private static final Color CONNECTING_COLOR_SELECTED = new Color( 0xFF, 0x7f, 0x7f );
     //private static final Color CONNECTED_COLOR = new Color( 0x00, 0x7F, 0x00 );
     //private static final Color CONNECTED_COLOR_SELECTED = new Color( 0x7f, 0xFF, 0x7f );
-
+    
     private NetworkHostsContainer hostsContainer;
-
+    
     private Color connectingColor;
     private Color selectionConnectingColor;
     private Color connectedColor;
     private Color selectionConnectedColor;
-
+    
     public STNetworkRowRenderer( NetworkHostsContainer hostsContainer )
-    {
+    { 
         this.hostsContainer = hostsContainer;
     }
-
-    /**
+    
+    /** 
      * @Override
      */
     public void updateUI()
@@ -51,7 +51,7 @@ public class STNetworkRowRenderer implements TableCellRenderer
         connectedColor = null;
         selectionConnectedColor = null;
     }
-
+    
     private Color getForegroundColorForStatus( HostStatus status, JTable table, boolean isSelected )
     {
         switch ( status )
@@ -67,13 +67,13 @@ public class STNetworkRowRenderer implements TableCellRenderer
             case ACCEPTING:
                 if ( isSelected )
                 {
-                    selectionConnectingColor = determineColor( selectionConnectingColor,
+                    selectionConnectingColor = determineColor( selectionConnectingColor, 
                         PhexColors.NETWORK_HOST_CONNECTING_COLORS, table, isSelected );
                     return selectionConnectingColor;
                 }
                 else
                 {
-                    connectingColor = determineColor( connectingColor,
+                    connectingColor = determineColor( connectingColor, 
                         PhexColors.NETWORK_HOST_CONNECTING_COLORS, table, isSelected );
                     return connectingColor;
                 }
@@ -81,20 +81,20 @@ public class STNetworkRowRenderer implements TableCellRenderer
             case CONNECTED:
                 if ( isSelected )
                 {
-                    selectionConnectedColor = determineColor( selectionConnectedColor,
+                    selectionConnectedColor = determineColor( selectionConnectedColor, 
                         PhexColors.NETWORK_HOST_CONNECTED_COLORS, table, isSelected );
                     return selectionConnectedColor;
                 }
                 else
                 {
-                    connectedColor = determineColor( connectedColor,
+                    connectedColor = determineColor( connectedColor, 
                         PhexColors.NETWORK_HOST_CONNECTED_COLORS, table, isSelected );
                     return connectedColor;
                 }
         }
         return null;
     }
-
+    
     private Color determineColor( Color cache, Color[] candidates, JTable table, boolean isSelected )
     {
         if ( cache != null )
@@ -121,11 +121,11 @@ public class STNetworkRowRenderer implements TableCellRenderer
         {
             comp.setForeground( table.getForeground() );
         }
-
+        
 
         if (row < hostsContainer.getNetworkHostCount() )
         {
-            int modelRow = fwTable.translateRowIndexToModel( row );
+            int modelRow = fwTable.translateRowIndexToModel( row );            
             Host host = hostsContainer.getNetworkHostAt( modelRow );
             if ( host == null )
             {
@@ -138,5 +138,5 @@ public class STNetworkRowRenderer implements TableCellRenderer
             }
         }
         return comp;
-    }
+    }    
 }

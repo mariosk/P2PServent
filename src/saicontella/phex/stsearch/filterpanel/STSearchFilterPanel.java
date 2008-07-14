@@ -129,12 +129,12 @@ public class STSearchFilterPanel extends JPanel
                     activateQuickFilterPanel( );
                 }
             });
-
+        
 /*
         filterListBtn = new JToggleButton( STLocalizer.getString( "SearchTab_FilterRules" ),
             GUIRegistry.getInstance().getPlafIconPack().getIcon("Search.FilterList") );
-        filterListBtn.setBorder( new CompoundBorder(
-            BorderFactory.createMatteBorder(1, 2, 2, 0, getBackground()),
+        filterListBtn.setBorder( new CompoundBorder( 
+            BorderFactory.createMatteBorder(1, 2, 2, 0, getBackground()), 
                 new EmptyBorder( 5, 7, 5, 11) ) );
         leftBtnGroup.add(filterListBtn);
         updateLeftBtnProps(filterListBtn);

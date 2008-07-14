@@ -49,7 +49,7 @@ public class STGoodbyePanel extends JPanel
         builder.add( welcomeLines, cc.xy( 2, 3 ) );
         
         openOptions = new JCheckBox( STLocalizer.getString( "ConfigWizard_OpenOptions" ) );
-        builder.add( openOptions, cc.xy( 2, 5 ) );       
+        builder.add( openOptions, cc.xy( 2, 5 ) );
     }
     
     public boolean isOpenOptionsSelected()

@@ -34,9 +34,11 @@ import org.jdesktop.jdic.desktop.DesktopException;
 import phex.common.address.DefaultDestAddress;
 import phex.common.address.DestAddress;
 import phex.common.address.MalformedDestAddressException;
+import phex.common.log.NLogger;
 import phex.connection.OutgoingConnectionDispatcher;
 import phex.event.ChangeEvent;
 import phex.event.PhexEventTopics;
+import phex.gui.actions.BanHostActionUtils;
 import phex.gui.actions.FWAction;
 import phex.gui.actions.GUIActionPerformer;
 import phex.gui.common.*;
@@ -79,7 +81,7 @@ public class STNetworkTab extends FWTab
     private NetworkHostsContainer hostsContainer;
 
     private FWTable networkTable;
-    private NetworkRowRenderer networkRowRenderer;
+    private STNetworkRowRenderer networkRowRenderer;
     private JScrollPane networkTableScrollPane;
     private STNetworkTableModel networkModel;
     private FWPopupMenu networkPopup;
@@ -90,6 +92,9 @@ public class STNetworkTab extends FWTab
 
     private JLabel catcherStatLabel;
     //private JLabel gWebCacheStatLabel;
+    
+    private UpdateAction updateAction;
+
 
     public STNetworkTab( )
     {
@@ -100,7 +105,7 @@ public class STNetworkTab extends FWTab
             "GnutellaNetAccelerator" ) ), MainFrame.NETWORK_TAB_INDEX );
         hostMgr = Servent.getInstance().getHostService();
         hostsContainer = hostMgr.getNetworkHostsContainer();
-
+        
         Servent.getInstance().getEventService().processAnnotations( this );
     }
 
@@ -112,15 +117,12 @@ public class STNetworkTab extends FWTab
     public void initComponent( DGuiSettings guiSettings )
     {
         CellConstraints cc = new CellConstraints();
-
         FormLayout layout = new FormLayout(
             "2dlu, fill:d:grow, 2dlu", // columns
             "2dlu, fill:d:grow, 4dlu, d, 2dlu"); //rows
-
-        PanelBuilder contentBuilder = new PanelBuilder( layout, this );
-
+        PanelBuilder contentBuilder = new PanelBuilder( layout, this );        
+        
         //JPanel upperPanel = new FormDebugPanel();
-
         JPanel upperPanel = new JPanel( );
         STFWElegantPanel upperElegantPanel = new STFWElegantPanel( STLocalizer.getString("Connections"), upperPanel );
         upperElegantPanel.setBackground(STLibrary.getInstance().getSTConfiguration().getBgColor());
@@ -134,12 +136,12 @@ public class STNetworkTab extends FWTab
 
         networkModel = new STNetworkTableModel( hostMgr.getNetworkHostsContainer() );
         networkTable = new FWTable( new FWSortedTableModel( networkModel ) );
-        GUIUtils.updateTableFromDGuiSettings( guiSettings, networkTable,
+        GUIUtils.updateTableFromDGuiSettings( guiSettings, networkTable, 
             NETWORK_TABLE_IDENTIFIER );
-
+        
         // TODO3 try for a improced table sorting strategy.
         //((FWSortedTableModel)networkTable.getModel()).setTable( networkTable );
-
+        
         networkTable.activateAllHeaderActions();
         networkTable.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         networkTable.getSelectionModel().addListSelectionListener(
@@ -149,9 +151,9 @@ public class STNetworkTab extends FWTab
         GUIRegistry.getInstance().getGuiUpdateTimer().addTable( networkTable );
         networkTableScrollPane = FWTable.createFWTableScrollPane( networkTable );
         networkTableScrollPane.addMouseListener( mouseHandler );
-
+        
         upperBuilder.add( networkTableScrollPane, cc.xywh( 2, 1, 9, 1 ) );
-
+        
         JLabel label = new JLabel( STLocalizer.getString( "NetworkTab_MyAddress" ) );
         upperBuilder.add( label, cc.xy( 2, 3 ) );
         myIPLabel = new JLabel( "" );
@@ -183,7 +185,7 @@ public class STNetworkTab extends FWTab
             }
             });
         upperBuilder.add( myIPLabel, cc.xy( 4, 3 ) );
-        
+
         label = new JLabel( STLocalizer.getString( "ConnectTo" )
             + STLocalizer.getChar( "ColonSign" ) );
         upperBuilder.add( label, cc.xy( 6, 3 ) );
@@ -192,7 +194,7 @@ public class STNetworkTab extends FWTab
 //       because it is not available from toolbar anymore...
 
         ConnectToHostHandler connectToHostHandler = new ConnectToHostHandler();
-
+                
         connectToComboModel = new DefaultComboBoxModel(
             NetworkTabPrefs.ConnectToHistory.get().toArray() );
         connectToComboBox = new JComboBox( connectToComboModel );
@@ -203,7 +205,7 @@ public class STNetworkTab extends FWTab
         keymap.addActionForKeyStroke( KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
             connectToHostHandler );
         GUIUtils.assignKeymapToComboBoxEditor( keymap, connectToComboBox );
-        connectToComboBox.setSelectedItem( "" );        
+        connectToComboBox.setSelectedItem( "" );
         connectToComboBox.setPrototypeDisplayValue("123.123.123.123:12345");
         upperBuilder.add( connectToComboBox, cc.xy( 8, 3 ) );
 
@@ -214,6 +216,7 @@ public class STNetworkTab extends FWTab
         /////////////////////////// Lower Panel ////////////////////////////////
 
         JPanel lowerPanel = new JPanel();
+        //JPanel lowerPanel = new FormDebugPanel();
         layout = new FormLayout(
             "d, fill:10dlu:grow, d", // columns
             "top:p"); //rows
@@ -222,12 +225,94 @@ public class STNetworkTab extends FWTab
 
         STButtonsPanel buttonsPanel = new STButtonsPanel();
         lowerBuilder.add( buttonsPanel, cc.xy( 3, 1 ) );
-       
+
+/*
+        STNetFavoritesPanel favoritesPanel = new STNetFavoritesPanel( 
+            hostMgr.getFavoritesContainer() );
+        lowerBuilder.add( favoritesPanel, cc.xy( 1, 1 ) );
+        
+                
+        JPanel cacheStatusPanel = new JPanel( );
+        //JPanel cacheStatusPanel = new FormDebugPanel();
+        layout = new FormLayout(
+            "8dlu, right:d, 2dlu, right:d, 2dlu, d, 2dlu:grow, 8dlu", // columns
+            "p, 3dlu, p, 3dlu, p, 3dlu, bottom:p:grow"); //rows
+        PanelBuilder cacheStatusBuilder = new PanelBuilder( layout, cacheStatusPanel );
+        lowerBuilder.add( cacheStatusPanel, cc.xy( 3, 1 ) );
+        
+        cacheStatusBuilder.addSeparator( STLocalizer.getString( "NetworkTab_ConnectionInfo" ),
+            cc.xywh( 1, 1, 8, 1 ) );
+            
+        cacheStatusBuilder.addLabel( STLocalizer.getString( "NetworkTab_HostCacheContains" ),
+            cc.xy( 2, 3 ) );
+        catcherStatLabel = new JLabel(  );
+        cacheStatusBuilder.add( catcherStatLabel, cc.xy( 4, 3 ) );
+        cacheStatusBuilder.addLabel( STLocalizer.getString( "NetworkTab_Hosts" ),
+            cc.xy( 6, 3 ) );
+
+        //cacheStatusBuilder.addLabel( Localizer.getString( "NetworkTab_GWebCacheContains" ), 
+        //    cc.xy( 2, 5 ) );
+        //gWebCacheStatLabel = new JLabel(  );
+        //cacheStatusBuilder.add( gWebCacheStatLabel, cc.xy( 4, 5 ) );
+        //cacheStatusBuilder.addLabel( Localizer.getString( "NetworkTab_Caches" ), 
+        //    cc.xy( 6, 5 ) );
+        
+        //final JButton queryWebCache = new JButton( Localizer.getString( "QueryGWebCache" ) );
+        //queryWebCache.setToolTipText( Localizer.getString( "TTTQueryGWebCache" ) );
+        //queryWebCache.addActionListener( new ActionListener()
+        //    {
+        //        public void actionPerformed( ActionEvent e )
+        //        {
+        //            queryWebCache.setEnabled( false );
+        //            Runnable runner = new Runnable()
+        //            {
+        //                public void run()
+        //                {
+        //                    try
+        //                    {
+        //                        gWebCacheCont.queryMoreHosts( false );
+        //                        gWebCacheCont.queryMoreGWebCaches( false );
+        //                    }
+        //                    catch ( Throwable th )
+        //                    {
+        //                        NLogger.error( NLoggerNames.GLOBAL, th, th );
+        //                    }
+        //                    finally
+        //                    {
+        //                        queryWebCache.setEnabled( true );
+        //                    }
+        //                }
+        //            };
+        //            Environment.getInstance().executeOnThreadPool( runner,
+        //                "UserGWebCacheQuery-" + Integer.toHexString(runner.hashCode()) );
+        //        }
+        //    } );
+        //cacheStatusBuilder.add( queryWebCache, cc.xywh( 2, 7, 5, 1 ) );
+
+        // Workaround for very strange j2se 1.4 split pane layout behaivor
+        /*Dimension nullDim = new Dimension( 0, 0 );
+        upperPanel.setMinimumSize( nullDim );
+        lowerPanel.setMinimumSize( nullDim );
+
+        Dimension dim = new Dimension( 400, 200 );
+        upperPanel.setPreferredSize( dim );
+        lowerPanel.setPreferredSize( dim );
+
+        JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, upperPanel,
+            lowerPanel );
+        splitPane.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4) );
+        splitPane.setDividerSize( 4 );
+        splitPane.setOneTouchExpandable( false );
+        splitPane.setResizeWeight( 0.5 );
+        splitPane.setDividerLocation( 0.25 );*/
+        
         contentBuilder.add( upperElegantPanel, cc.xy( 2, 2 ) );
         contentBuilder.add( lowerPanel, cc.xy( 2, 4 ) );
+        //add(BorderLayout.CENTER, upperPanel );
+        //add(BorderLayout.SOUTH, lowerPanel );
 
         // Set up cell renderer to provide the correct color based on connection.
-        networkRowRenderer = new NetworkRowRenderer(
+        networkRowRenderer = new STNetworkRowRenderer( 
             hostMgr.getNetworkHostsContainer() );
         List<TableColumn> colList = networkTable.getColumns( true );
         for ( TableColumn column : colList )
@@ -241,19 +326,51 @@ public class STNetworkTab extends FWTab
         FWAction action;
         action = new DisconnectHostAction();
         addTabAction( DISCONNECT_HOST_ACTION_KEY, action );
-
+        
         networkTable.getActionMap().put( DISCONNECT_HOST_ACTION_KEY, action);
-        networkTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+        networkTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put( 
             (KeyStroke)action.getValue(FWAction.ACCELERATOR_KEY), DISCONNECT_HOST_ACTION_KEY );
         networkPopup.addAction( action );
 
         networkPopup.addSeparator();
+/*        
+        action = new AddToFavoritesAction();
+        addTabAction( ADD_TO_FAVORITES_ACTION_KEY, action );
+        networkPopup.addAction( action );
+
+        action = new BrowseHostAction();
+        addTabAction( BROWSE_HOST_ACTION_KEY, action );
+        //networkToolbar.addAction( action );
+        networkPopup.addAction( action );
+*/
 
         action = new ChatToHostAction();
         addTabAction( CHAT_TO_HOST_ACTION_KEY, action );
+        //networkToolbar.addAction( action );
         networkPopup.addAction( action );
+/*        
+        BanHostActionProvider banHostActionProvider = new BanHostActionProvider();
+        BanHostActionUtils.BanHostActionMenu bhActionMenu = 
+            BanHostActionUtils.createActionMenu( 
+            banHostActionProvider );
+        networkPopup.add( bhActionMenu.menu );
+        addTabActions( bhActionMenu.actions );
+        networkPopup.addSeparator();
 
-        updateIpLabel( Servent.getInstance().getLocalAddress() );
+
+        JMenu netMenu = new JMenu( STLocalizer.getString( "Network" ) );
+        netMenu.add( GUIRegistry.getInstance().getGlobalAction(
+            GUIRegistry.CONNECT_NETWORK_ACTION ) );
+        netMenu.add( GUIRegistry.getInstance().getGlobalAction(
+            GUIRegistry.DISCONNECT_NETWORK_ACTION ) );
+        /*netMenu.add( GUIRegistry.getInstance().getGlobalAction(
+            GUIRegistry.JOIN_NETWORK_ACTION ) );*/
+/*
+        networkPopup.add( netMenu );
+        
+        updateAction = new UpdateAction();
+*/
+        updateIpLabel( Servent.getInstance().getLocalAddress() );        
     }
 
     /**
@@ -285,7 +402,7 @@ public class STNetworkTab extends FWTab
         {
             FWTable.updateFWTableScrollPane( networkTableScrollPane );
         }
-
+        
         if ( networkRowRenderer != null )
         {// since this is no component we need to call updateUI manually
             networkRowRenderer.updateUI();
@@ -302,8 +419,24 @@ public class STNetworkTab extends FWTab
         DTable dTable = GUIUtils.createDTable( networkTable, NETWORK_TABLE_IDENTIFIER );
         dSettings.getTableList().getTableList().add( dTable );
     }
+    
+    @Override
+    public void removeNotify()
+    {
+        super.removeNotify();
+        GUIRegistry.getInstance().getGuiUpdateTimer().removeActionListener( 
+            updateAction );
+    }
+    
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        GUIRegistry.getInstance().getGuiUpdateTimer().addActionListener( 
+            updateAction );
+    }
 
-    private void compactHostsEntries(Host[] hosts)
+    private void compactHostsEntries(Host[] hosts) 
     {
         if (hosts == null)
             return;
@@ -373,11 +506,16 @@ public class STNetworkTab extends FWTab
         Host hosts = hostsContainer.getNetworkHostAt( modelRow );
         return hosts;
     }
-
+    
     private void updateIpLabel( DestAddress localAddress )
-    {        
+    {
+        if ( myIPLabel == null )
+        {
+            // UI not initialized yet.
+            return;
+        }
         myIPLabel.setText( localAddress.getFullHostName() );
-        String countryCode = localAddress.getCountryCode();                
+        String countryCode = localAddress.getCountryCode();
         Icon icon = null;
         if ( countryCode != null && countryCode.length() > 0 )
         {
@@ -386,7 +524,7 @@ public class STNetworkTab extends FWTab
         }
         myIPLabel.setIcon( icon );
     }
-
+        
     /**
      * Reacts on ip changes.
      */
@@ -407,6 +545,8 @@ public class STNetworkTab extends FWTab
 
     private static final String DISCONNECT_HOST_ACTION_KEY = "DisconnectHostAction";
     private static final String CHAT_TO_HOST_ACTION_KEY = "ChatToHostAction";
+    private static final String BROWSE_HOST_ACTION_KEY = "BrowseHostAction";
+    private static final String ADD_TO_FAVORITES_ACTION_KEY = "AddToFavoritesAction";
 
     private class DisconnectHostAction extends FWAction
     {
@@ -423,6 +563,69 @@ public class STNetworkTab extends FWTab
         {
             Host[] hosts = getSelectedHosts();
             hostMgr.removeNetworkHosts( hosts );
+        }
+
+        @Override
+        public void refreshActionState()
+        {
+            if ( networkTable.getSelectedRowCount() > 0 )
+            {
+                setEnabled( true );
+            }
+            else
+            {
+                setEnabled( false );
+            }
+        }
+    }
+    
+    private final class BanHostActionProvider implements BanHostActionUtils.BanHostActionProvider
+    {
+        public DestAddress[] getBanHostAddresses()
+        {
+            Host[] hosts = getSelectedHosts();
+            hostMgr.removeNetworkHosts( hosts );
+            final DestAddress[] addresses = new DestAddress[hosts.length];
+            for (int i = 0; i < hosts.length; i++)
+            {
+                addresses[ i ] = hosts[i].getHostAddress();
+            }
+            return addresses;
+        }
+
+        public boolean isBanHostActionEnabled( boolean allowMultipleAddresses )
+        {
+            if ( networkTable.getSelectedRow() < 0 || 
+                 ( !allowMultipleAddresses && networkTable.getSelectedRowCount() > 1 ) )
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+    
+    private class AddToFavoritesAction extends FWAction
+    {
+        public AddToFavoritesAction()
+        {
+            super( STLocalizer.getString( "AddToFavorites" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon( "Network.FavoriteHost" ),
+                STLocalizer.getString( "TTTAddToFavorites" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            Host[] hosts = getSelectedHosts();
+            DestAddress[] addresses = new DestAddress[hosts.length];
+            for (int i = 0; i < hosts.length; i++)
+            {
+                addresses[ i ] = hosts[i].getHostAddress();
+            }
+            GUIActionPerformer.addHostsToFavorites( addresses );
         }
 
         @Override
@@ -475,8 +678,62 @@ public class STNetworkTab extends FWTab
         }
     }
 
+    private class BrowseHostAction extends FWAction
+    {
+        public BrowseHostAction()
+        {
+            super( STLocalizer.getString( "BrowseHost" ),
+                GUIRegistry.getInstance().getPlafIconPack().getIcon("Network.BrowseHost"),
+                STLocalizer.getString( "TTTBrowseHost" ) );
+            refreshActionState();
+        }
+
+        public void actionPerformed( ActionEvent e )
+        {
+            Host host = getSelectedHost();
+            if ( host == null )
+            {
+                return;
+            }
+            GUIActionPerformer.browseHost( host.getHostAddress() );
+        }
+
+        @Override
+        public void refreshActionState()
+        {
+            if ( networkTable.getSelectedRowCount() == 1 )
+            {
+                Host host = getSelectedHost();
+                if ( host != null )
+                {
+                    setEnabled( true );
+                    return;
+                }
+            }
+            setEnabled( false );
+        }
+    }
+
 
     /////////////////////// inner classes //////////////////////////////
+    
+    private final class UpdateAction implements ActionListener
+    {
+        public void actionPerformed( ActionEvent e )
+        {
+            try
+            {
+                // Refreshes the content of the catcherStatLabel and the gWebCacheStatLabel
+                catcherStatLabel.setText( String.valueOf( 
+                    hostMgr.getCaughtHostsContainer().getCaughtHostsCount() ) );
+                //gWebCacheStatLabel.setText( String.valueOf( gWebCacheCont.getGWebCacheCount() ) );
+            }
+            catch ( Throwable th )
+            {
+                NLogger.error( UpdateAction.class, th, th);
+            }
+        }
+    }
 
     private class SelectionHandler implements ListSelectionListener
     {
@@ -505,7 +762,7 @@ public class STNetworkTab extends FWTab
             }
         }
     }
-   
+
     private class ConnectToHostHandler extends AbstractAction implements ActionListener
     {
         public void actionPerformed( ActionEvent e )
@@ -554,7 +811,8 @@ public class STNetworkTab extends FWTab
             {
                 DestAddress address = PresentationManager.getInstance().createHostAddress(
                     firstHost, DefaultDestAddress.DEFAULT_PORT );
-                OutgoingConnectionDispatcher.dispatchConnectToHost( address, Servent.getInstance() );
+                OutgoingConnectionDispatcher.dispatchConnectToHost( address,
+                    Servent.getInstance() );
             }
             catch ( MalformedDestAddressException exp )
             {
@@ -573,7 +831,7 @@ public class STNetworkTab extends FWTab
                 }
                 catch (MalformedDestAddressException exp)
                 {
-                }
+                }                
             }
         }
 
@@ -620,7 +878,7 @@ public class STNetworkTab extends FWTab
             }
         }
     }
-
+    
     //////////////////////////////////////////////////////////////////////////
     /// Actions
     //////////////////////////////////////////////////////////////////////////
@@ -651,7 +909,7 @@ public class STNetworkTab extends FWTab
          */
         @Override
         public void refreshActionState()
-        {
+        {   
         }
     }
 }

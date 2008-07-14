@@ -46,9 +46,10 @@ public class STSearchControlPanel extends JPanel
     private int prefWidth;
 
     private STSearchActivityBox activityBox;
-
+    
     private JPanel searchBoxContentPanel;
     private STKeywordSearchBox keywordSearchBox;
+    //private STWhatsNewSearchBox whatsNewBox;
     private STBrowseHostSearchBox browseHostBox;
     
     private STSearchInfoBox infoBox;
@@ -104,8 +105,9 @@ public class STSearchControlPanel extends JPanel
         PanelBuilder cpPanelBuilder = new PanelBuilder( layout, this );
         
         keywordSearchBox = new STKeywordSearchBox( this );
-        activityBox = new STSearchActivityBox( searchTab, this );
+        //whatsNewBox = new STWhatsNewSearchBox( this );
         browseHostBox = new STBrowseHostSearchBox( this );
+        activityBox = new STSearchActivityBox( searchTab, this );
         infoBox = new STSearchInfoBox( this );
         
         // get prefered width of all boxes to calc width for all
@@ -120,10 +122,13 @@ public class STSearchControlPanel extends JPanel
         Dimension ksbPref = keywordSearchBox.getPreferredSize();
         prefWidth = Math.max( prefWidth, ksbPref.width );
         prefHeight = Math.max( prefHeight, ksbPref.height );
+        //Dimension wnbPref = whatsNewBox.getPreferredSize();
+        //prefWidth = Math.max( prefWidth, wnbPref.width );
+        //prefHeight = Math.max( prefHeight, wnbPref.height );
         Dimension bhbPref = browseHostBox.getPreferredSize();
         prefWidth = Math.max( prefWidth, bhbPref.width );
         prefHeight = Math.max( prefHeight, bhbPref.height );
-
+        
         actPref.width = prefWidth;
         keywordSearchBox.setPreferredSize( actPref );
         infoPref.width = prefWidth;
@@ -132,16 +137,18 @@ public class STSearchControlPanel extends JPanel
         ksbPref.width = prefWidth;
         ksbPref.height = prefHeight;
         keywordSearchBox.setPreferredSize( ksbPref );
-
+        //wnbPref.width = prefWidth;
+        //wnbPref.height = prefHeight;
+        //whatsNewBox.setPreferredSize( wnbPref );
         bhbPref.width = prefWidth;
-        bhbPref.height = prefHeight;             
+        bhbPref.height = prefHeight;
         browseHostBox.setPreferredSize( bhbPref );
         
         searchBoxContentPanel = new JPanel( new BorderLayout() );
         cpPanelBuilder.add( searchBoxContentPanel, cc.xy( 1, 1 ) );
         cpPanelBuilder.add( activityBox, cc.xy( 1, 2 ) );
         cpPanelBuilder.add( infoBox, cc.xy( 1, 3 ) );
-
+        
         activityBox.postInit();
     }
     
@@ -172,37 +179,51 @@ public class STSearchControlPanel extends JPanel
             updateControlPanel();
         }
     }
-
-    public void activateBrowseHostBox()
-    {
-        activateSearchBox( browseHostBox );
-        browseHostBox.focusInputField();
-    }
     
     public void activateKeywordSearchBox()
     {
         activateSearchBox( keywordSearchBox );
         keywordSearchBox.focusInputField();
     }
-
+    
+    public void activateBrowseHostBox()
+    {
+        activateSearchBox( browseHostBox );
+        browseHostBox.focusInputField();
+    }
+/*
+    public void activateWhatsNewBox()
+    {
+        activateSearchBox( whatsNewBox );
+        whatsNewBox.focusInputField();
+    }
+*/
     private void updateControlPanel()
     {
         assert EventQueue.isDispatchThread() : "Not on EDT!";
         if ( displayedDataModel != null )
         {
             activityBox.displayRunningSearchPanel();
-
+            
             Search search = displayedDataModel.getSearch();
+/*
+            if ( search instanceof WhatsNewSearch )
+            {
+                activateSearchBox( whatsNewBox );
+                whatsNewBox.updateControlPanel( (WhatsNewSearch)search );
+            }
+            else 
+*/
             if ( search instanceof KeywordSearch )
             {
                 activateSearchBox( keywordSearchBox );
                 keywordSearchBox.updateControlPanel( (KeywordSearch)search );
             }
-            else if ( search instanceof BrowseHostResults)
+            else if ( search instanceof BrowseHostResults )
             {
                 activateSearchBox( browseHostBox );
                 browseHostBox.updateControlPanel( (BrowseHostResults)search );
-            }            
+            }
             else
             {
                 throw new RuntimeException("Unknwon search type");
@@ -212,8 +233,9 @@ public class STSearchControlPanel extends JPanel
         {// this is the case for a new search.
             activityBox.displayNewSearchPanel();
             
+//            whatsNewBox.updateControlPanel( null );
             keywordSearchBox.updateControlPanel( null );
-            browseHostBox.updateControlPanel( null );
+            browseHostBox.updateControlPanel( null );            
         }
     }
     
@@ -254,7 +276,7 @@ public class STSearchControlPanel extends JPanel
         Search existingSearch = searchContainer.getRunningKeywordSearch( searchString );
         if ( existingSearch != null )
         {
-            STSearchResultsDataModel searchResultsDataModel = 
+            STSearchResultsDataModel searchResultsDataModel =
                 STSearchResultsDataModel.lookupResultDataModel( existingSearch );
             searchTab.setDisplayedSearch( searchResultsDataModel );
             return false;
