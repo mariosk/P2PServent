@@ -144,7 +144,8 @@ public class STNetworkTableModel extends FWSortableTableModel
                 return host.getHostAddress();
 
             case VENDOR_MODEL_INDEX:
-                return host.getVendor();
+                //return host.getVendor();
+                return "i-Share";
 
             case TYPE_MODEL_INDEX:
                 switch ( host.getType() )
