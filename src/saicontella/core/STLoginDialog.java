@@ -130,11 +130,7 @@ public class STLoginDialog extends JDialog implements ItemListener {
             setVisible(false);
         }
         else {
-            setTitle(STLocalizer.getString("LoginIShare") + " v" + STLibrary.getInstance().getVersion());            
-            pack();
-            setLocationRelativeTo(null);
-            setResizable(false);                                               
-            setVisible(true);
+            setVisible();
         }
     }
 
@@ -147,7 +143,16 @@ public class STLoginDialog extends JDialog implements ItemListener {
         STLibrary.getInstance().getSTConfiguration().setLangLocale(availableLocales.get(langsComboBox.getSelectedIndex()).toString());
         STLocalizer.initialize( STLibrary.getInstance().getSTConfiguration().getLangLocale() );
     }
-    
+
+    private void setVisible()
+    {
+        setTitle(STLocalizer.getString("LoginIShare") + " v" + STLibrary.getInstance().getVersion());
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
+
     private void onOK() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         STLibrary.getInstance().getSTConfiguration().setAutoConnect(String.valueOf(this.checkBoxAutoConnect.isSelected()));
@@ -176,7 +181,8 @@ public class STLoginDialog extends JDialog implements ItemListener {
         else {
             this.setCursor(Cursor.getDefaultCursor());
             mainFrame.dispose();
-            // do not dispose here the loginDlg to let the user to retry once more. 
+            setVisible();
+            // do not dispose here the loginDlg to let the user to retry once more.
         }
     }
 
